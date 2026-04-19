@@ -583,11 +583,27 @@ html[data-theme="dark"] .site-rail__step.is-active .site-rail__mark-inner {
     transform: scale(1.68);
     transform-origin: bottom center;
   }
+
+  /* Первый экран: кадр чуть компактнее — синяя шторка и нижний отступ влезают во вьюпорт */
+  .main-fold .hero__intro-card .hero__media-dual.hero__media-dual--video-poster,
+  .main-fold .hero__intro-card .hero__media-dual.hero__media-dual--swap-playing {
+    transform: scale(1.52);
+    transform-origin: bottom center;
+  }
+
+  .main-fold .hero__intro-card .hero__media-img {
+    max-height: min(56vh, 54rem);
+  }
 }
 
 @media (min-width: 901px) and (prefers-reduced-motion: reduce) {
   .hero__intro-card .hero__media-dual.hero__media-dual--video-poster,
   .hero__intro-card .hero__media-dual.hero__media-dual--swap-playing {
+    transform: none;
+  }
+
+  .main-fold .hero__intro-card .hero__media-dual.hero__media-dual--video-poster,
+  .main-fold .hero__intro-card .hero__media-dual.hero__media-dual--swap-playing {
     transform: none;
   }
 }
@@ -599,10 +615,6 @@ html[data-theme="dark"] .site-rail__step.is-active .site-rail__mark-inner {
   text-align: left;
   gap: clamp(0.45rem, 1.1vw, 0.75rem);
   min-width: 0;
-}
-
-.hero__intro-copy .hero__kicker {
-  text-align: left;
 }
 
 .hero__intro-copy .hero__persona {
@@ -631,7 +643,9 @@ html[data-theme="dark"] .site-rail__step.is-active .site-rail__mark-inner {
   max-width: 100%;
   min-height: 0;
   box-sizing: border-box;
-  padding-bottom: clamp(0.5rem, 1.25vw, 1.1rem);
+  padding-bottom: clamp(0.15rem, 0.5vw, 0.45rem);
+  /* Чуть вверх: меньше «воздуха» между кадром и синей шторкой */
+  transform: translateY(calc(-1 * clamp(0.35rem, 1vw, 0.65rem)));
   overflow: visible;
 }
 
@@ -639,19 +653,6 @@ html[data-theme="dark"] .site-rail__step.is-active .site-rail__mark-inner {
   .hero__intro-text {
     align-content: stretch;
   }
-}
-
-.hero__kicker {
-  margin: 0 0 0.25rem;
-  font-family: var(--font-ui);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  line-height: 1.3;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  text-align: left;
-  text-wrap: balance;
 }
 
 .hero__title.hero__title--lead .hero__title-em {
@@ -769,23 +770,49 @@ html[data-theme="dark"] .liquid-glass::after {
 
 /* Сегмент «все кейсы / стажировка» */
 .hero__persona {
+  position: relative;
   display: inline-flex;
   margin: 0 0 clamp(0.35rem, 1.2vw, 0.65rem);
   padding: 0.25rem;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--color-border-subtle);
-  background-color: rgba(255, 255, 255, 0.75);
+  border: none;
+  /* Лёгкая серая «дорожка» под обоими табами; активный сегмент — .hero__persona-thumb. */
+  background-color: rgba(0, 0, 0, 0.055);
   box-sizing: border-box;
 }
 
 html[data-theme="dark"] .hero__persona {
-  background-color: rgba(26, 26, 34, 0.65);
-  border-color: var(--color-border-subtle);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.hero__persona-thumb {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  box-sizing: border-box;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-primary);
+  box-shadow: 0 0.2rem 0.75rem rgba(45, 70, 255, 0.35);
+  pointer-events: none;
+  transform: translate(0, 0);
+  transition: transform 0.28s cubic-bezier(0.25, 0.1, 0.25, 1), width 0.28s cubic-bezier(0.25, 0.1, 0.25, 1),
+    height 0.28s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+html[data-theme="dark"] .hero__persona-thumb {
+  box-shadow: 0 0.25rem 0.9rem rgba(45, 70, 255, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__persona-thumb {
+    transition: none;
+  }
 }
 
 .hero__persona-tab {
   position: relative;
-  z-index: 0;
+  z-index: 1;
   min-height: 2.25rem;
   padding: 0.35rem 1rem;
   border-radius: var(--radius-pill);
@@ -796,8 +823,10 @@ html[data-theme="dark"] .hero__persona {
   line-height: 1.2;
   text-transform: uppercase;
   color: var(--color-text-muted);
-  transition: color var(--transition-fast), background-color var(--transition-fast),
-    box-shadow var(--transition-fast);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color var(--transition-fast);
 }
 
 .hero__persona-tab:hover {
@@ -810,14 +839,7 @@ html[data-theme="dark"] .hero__persona {
 }
 
 .hero__persona-tab[aria-selected="true"] {
-  z-index: 1;
-  background-color: var(--color-primary);
   color: #ffffff;
-  box-shadow: 0 0.2rem 0.75rem rgba(45, 70, 255, 0.35);
-}
-
-html[data-theme="dark"] .hero__persona-tab[aria-selected="true"] {
-  box-shadow: 0 0.25rem 0.9rem rgba(45, 70, 255, 0.4);
 }
 
 /* Заголовок hero (без «стекла» — только типографика) */
@@ -894,6 +916,31 @@ html[data-theme="dark"] .hero__title.hero__title--lead {
 .hero__intro-text [data-persona-copy][hidden],
 .hero__speaker-panel[hidden] {
   display: none !important;
+}
+
+/* Смена персоны: короткое появление блоков (см. site.js — persona-copy--in) */
+@keyframes persona-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.28rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-persona-copy].persona-copy--in:not([hidden]) {
+  animation: persona-copy-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--persona-copy-stagger, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-persona-copy].persona-copy--in:not([hidden]) {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .hero__title [data-persona-copy]:not([hidden]) {
@@ -1060,8 +1107,6 @@ html[data-theme="dark"] .hero__title.hero__title--lead {
   /* иначе flex-end не даёт растянуть <video> по высоте области портрета */
   align-items: stretch;
   justify-content: center;
-  /* полосы letterbox / альфа в ролике: не дефолтный цвет декодера */
-  background-color: var(--color-bg);
 }
 
 .hero__intro-card .hero__media-swap-video {
@@ -1072,7 +1117,6 @@ html[data-theme="dark"] .hero__title.hero__title--lead {
   min-height: 0;
   object-fit: contain;
   object-position: center bottom;
-  background-color: var(--color-bg);
 }
 
 /*
@@ -1372,6 +1416,16 @@ html[data-theme="dark"] .hero__intro-card .hero__speaker--inactive .hero__media-
     transform: scale(1.32);
     transform-origin: bottom center;
   }
+
+  .main-fold .hero__intro-card .hero__media-dual.hero__media-dual--video-poster,
+  .main-fold .hero__intro-card .hero__media-dual.hero__media-dual--swap-playing {
+    transform: scale(1.2);
+    transform-origin: bottom center;
+  }
+
+  .main-fold .hero__intro-card .hero__media-img {
+    max-height: min(46vh, 44rem);
+  }
 }
 
 @media (max-width: 900px) and (prefers-reduced-motion: reduce) {
@@ -1384,6 +1438,10 @@ html[data-theme="dark"] .hero__intro-card .hero__speaker--inactive .hero__media-
 @media (min-width: 1200px) {
   .hero__intro-card .hero__media-img {
     max-height: min(78vh, 64rem);
+  }
+
+  .main-fold .hero__intro-card .hero__media-img {
+    max-height: min(58vh, 60rem);
   }
 }
 

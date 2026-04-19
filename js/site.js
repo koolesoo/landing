@@ -312,9 +312,12 @@
   var HERO_SWAP_PLAYBACK_RATE = 1;
   /** Увеличивается при каждом старте смены; устаревшие ended/timeupdate не трогают DOM. */
   var heroSwapEpoch = 0;
-
   function detachHeroSwapMediaListeners() {
     if (!heroSwapVideo) return;
+    if (heroSwapVideo._swapManualRaf) {
+      window.cancelAnimationFrame(heroSwapVideo._swapManualRaf);
+      heroSwapVideo._swapManualRaf = null;
+    }
     if (heroSwapVideo._swapEnded) {
       heroSwapVideo.removeEventListener("ended", heroSwapVideo._swapEnded);
       heroSwapVideo._swapEnded = null;
@@ -336,6 +339,13 @@
       detachHeroSwapMediaListeners();
       heroSwapVideo.playbackRate = 1;
       heroSwapVideo.pause();
+    }
+    if (heroSwapVideo) {
+      try {
+        delete heroSwapVideo._swapIntentForward;
+      } catch (eDel) {
+        heroSwapVideo._swapIntentForward = undefined;
+      }
     }
     if (heroMediaDual) {
       heroMediaDual.classList.remove("hero__media-dual--swap-playing");
@@ -366,8 +376,8 @@
   }
 
   /**
-   * @param {string} targetPersona — «pro» = реверс к «Для всех», «intern» = вперёд к «Для студентов».
-   * @param {{ fromCurrent?: boolean }} [opts] — если true: не сбрасывать currentTime (прерывание анимации кликом — разворот от текущего кадра).
+   * @param {string} targetPersona — «pro» / «intern»
+   * @param {{ invert?: boolean }} [opts] — true: анимация уже шла — только инвертировать направление с текущего кадра
    */
   function playHeroPersonaSwapVideo(targetPersona, opts) {
     opts = opts || {};
@@ -377,17 +387,56 @@
     heroSwapEpoch++;
     var epoch = heroSwapEpoch;
 
+    function runWhenHeroSwapCanPlay(run) {
+      if (!heroSwapVideo) return;
+      if (heroSwapVideo.readyState >= 2) {
+        if (epoch !== heroSwapEpoch) return;
+        run();
+        return;
+      }
+      var ran = false;
+      function onReady() {
+        if (ran) return;
+        if (epoch !== heroSwapEpoch) {
+          heroSwapVideo.removeEventListener("canplay", onReady);
+          heroSwapVideo.removeEventListener("loadeddata", onReady);
+          return;
+        }
+        ran = true;
+        heroSwapVideo.removeEventListener("canplay", onReady);
+        heroSwapVideo.removeEventListener("loadeddata", onReady);
+        run();
+      }
+      heroSwapVideo.addEventListener("canplay", onReady);
+      heroSwapVideo.addEventListener("loadeddata", onReady);
+    }
+
+    var invert = !!opts.invert;
+    var wantForward;
+    if (invert) {
+      if (heroSwapVideo._swapIntentForward === true) {
+        wantForward = false;
+      } else if (heroSwapVideo._swapIntentForward === false) {
+        wantForward = true;
+      } else {
+        var dh = heroSwapVideo.duration;
+        wantForward =
+          isFinite(dh) && dh > 0 ? heroSwapVideo.currentTime < dh * 0.5 : true;
+      }
+    } else {
+      wantForward = targetPersona === "intern";
+    }
+    var reverse = !wantForward;
+    var fromCurrent = invert;
+
     detachHeroSwapMediaListeners();
     try {
       heroSwapVideo.pause();
     } catch (e) {}
 
-    var reverse = targetPersona === "pro";
-    var fromCurrent = !!opts.fromCurrent;
     heroMediaDual.classList.add("hero__media-dual--video-poster");
     heroMediaDual.classList.add("hero__media-dual--swap-playing");
 
-    /* После ended повторный play() часто «молчит», пока не сбросить currentTime (особенно Safari). */
     if (!fromCurrent) {
       try {
         if (heroSwapVideo.ended) {
@@ -402,16 +451,18 @@
     }
 
     function playForward() {
+      heroSwapVideo._swapIntentForward = true;
       heroSwapVideo.playbackRate = HERO_SWAP_PLAYBACK_RATE;
       if (!fromCurrent) {
         try {
           heroSwapVideo.currentTime = 0;
         } catch (e) {}
-      }
-      var d = heroSwapVideo.duration;
-      if (fromCurrent && isFinite(d) && d > 0 && heroSwapVideo.currentTime >= d - 0.12) {
-        endHeroPersonaSwapVideo(epoch);
-        return;
+      } else {
+        try {
+          if (heroSwapVideo.ended) {
+            heroSwapVideo.currentTime = 0;
+          }
+        } catch (e2) {}
       }
       function onSwapEnded() {
         heroSwapVideo.removeEventListener("ended", onSwapEnded);
@@ -420,21 +471,73 @@
       }
       heroSwapVideo._swapEnded = onSwapEnded;
       heroSwapVideo.addEventListener("ended", onSwapEnded);
-      var p = heroSwapVideo.play();
-      if (p && typeof p.catch === "function") {
-        p.catch(function () {
-          endHeroPersonaSwapVideo(epoch);
+      runWhenHeroSwapCanPlay(function () {
+        if (epoch !== heroSwapEpoch) return;
+        window.requestAnimationFrame(function () {
+          if (epoch !== heroSwapEpoch) return;
+          heroSwapVideo.muted = true;
+          var p = heroSwapVideo.play();
+          if (p && typeof p.catch === "function") {
+            p.catch(function () {
+              if (epoch !== heroSwapEpoch) return;
+              try {
+                heroSwapVideo.currentTime = 0;
+              } catch (eSeek) {}
+              var p2 = heroSwapVideo.play();
+              if (p2 && typeof p2.catch === "function") {
+                p2.catch(function () {
+                  endHeroPersonaSwapVideo(epoch);
+                });
+              }
+            });
+          }
         });
+      });
+    }
+
+    function runManualReverseFromCurrentTime() {
+      heroSwapVideo._swapIntentForward = false;
+      heroSwapVideo.playbackRate = 1;
+      var lastTs = performance.now();
+      function tick(ts) {
+        if (epoch !== heroSwapEpoch) return;
+        if (!heroSwapVideo) return;
+        var dur = heroSwapVideo.duration;
+        if (!isFinite(dur) || dur <= 0) {
+          endHeroPersonaSwapVideo(epoch);
+          return;
+        }
+        var now = ts !== undefined ? ts : performance.now();
+        var dtSec = (now - lastTs) / 1000;
+        lastTs = now;
+        /* 1× по времени: как обычный play() вперёд — ~длительность клипа по wall-clock, не «ускоренная перемотка» */
+        var step = Math.min(0.2, dtSec * HERO_SWAP_PLAYBACK_RATE);
+        try {
+          heroSwapVideo.currentTime = Math.max(0, heroSwapVideo.currentTime - step);
+        } catch (e) {}
+        if (heroSwapVideo.currentTime <= 0.08) {
+          endHeroPersonaSwapVideo(epoch);
+          return;
+        }
+        heroSwapVideo._swapManualRaf = window.requestAnimationFrame(tick);
+      }
+      heroSwapVideo._swapRevTick = function () {};
+      heroSwapVideo._swapManualRaf = window.requestAnimationFrame(tick);
+    }
+
+    function cancelManualReverse() {
+      if (heroSwapVideo._swapManualRaf) {
+        window.cancelAnimationFrame(heroSwapVideo._swapManualRaf);
+        heroSwapVideo._swapManualRaf = null;
       }
     }
 
     function playReverse() {
-      heroSwapVideo.playbackRate = -HERO_SWAP_PLAYBACK_RATE;
-      if (heroSwapVideo.playbackRate >= 0) {
-        playForward();
-        return;
-      }
-      function seekEndAndPlay() {
+      heroSwapVideo._swapIntentForward = false;
+      cancelManualReverse();
+      heroSwapVideo.playbackRate = 1;
+
+      function beginReverseFromFrame() {
         if (epoch !== heroSwapEpoch) return;
         var d = heroSwapVideo.duration;
         if (!isFinite(d) || d <= 0) {
@@ -443,46 +546,32 @@
         }
         if (!fromCurrent) {
           try {
-            heroSwapVideo.currentTime = Math.min(d, Math.max(d - 0.04, 0));
+            if (heroSwapVideo.currentTime < d - 0.1) {
+              heroSwapVideo.currentTime = Math.min(d, Math.max(d - 0.05, 0));
+            }
           } catch (err) {
             playForward();
             return;
           }
-        } else if (heroSwapVideo.currentTime <= 0.1) {
+        } else if (heroSwapVideo.currentTime <= 0.08) {
           endHeroPersonaSwapVideo(epoch);
           return;
         }
-        function onRevTick() {
-          if (epoch !== heroSwapEpoch) {
-            heroSwapVideo.removeEventListener("timeupdate", onRevTick);
-            heroSwapVideo._swapRevTick = null;
-            return;
-          }
-          if (!heroSwapVideo || heroSwapVideo.playbackRate >= 0) return;
-          if (heroSwapVideo.currentTime <= 0.08) {
-            heroSwapVideo.removeEventListener("timeupdate", onRevTick);
-            heroSwapVideo._swapRevTick = null;
-            endHeroPersonaSwapVideo(epoch);
-          }
-        }
-        heroSwapVideo._swapRevTick = onRevTick;
-        heroSwapVideo.addEventListener("timeupdate", onRevTick);
-        var p = heroSwapVideo.play();
-        if (p && typeof p.catch === "function") {
-          p.catch(function () {
-            endHeroPersonaSwapVideo(epoch);
-          });
-        }
+        window.requestAnimationFrame(function () {
+          if (epoch !== heroSwapEpoch) return;
+          runManualReverseFromCurrentTime();
+        });
       }
+
       if (heroSwapVideo.readyState >= 1 && isFinite(heroSwapVideo.duration) && heroSwapVideo.duration > 0) {
-        seekEndAndPlay();
+        beginReverseFromFrame();
       } else {
         heroSwapVideo.addEventListener(
           "loadedmetadata",
           function onMeta() {
             heroSwapVideo.removeEventListener("loadedmetadata", onMeta);
             if (epoch !== heroSwapEpoch) return;
-            seekEndAndPlay();
+            beginReverseFromFrame();
           },
           { once: true }
         );
@@ -492,6 +581,7 @@
     if (reverse) {
       playReverse();
     } else {
+      cancelManualReverse();
       playForward();
     }
   }
@@ -658,9 +748,64 @@
     scheduleApplyEndFrame();
   }
 
+  function cancelPersonaCopyAnimation() {
+    if (!personaCopyEls || !personaCopyEls.length) return;
+    personaCopyEls.forEach(function (el) {
+      el.classList.remove("persona-copy--in");
+      el.style.removeProperty("--persona-copy-stagger");
+    });
+  }
+
+  /** Короткое появление блоков с data-persona-copy при смене персоны. */
+  function triggerPersonaCopyEnterAnimation(persona) {
+    if (!personaCopyEls || !personaCopyEls.length) return;
+    var reduceMotion =
+      window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    personaCopyEls.forEach(function (el) {
+      el.classList.remove("persona-copy--in");
+      el.style.removeProperty("--persona-copy-stagger");
+    });
+    if (reduceMotion) {
+      personaCopyEls.forEach(function (el) {
+        if (el.getAttribute("data-persona-copy") !== persona || el.hasAttribute("hidden")) return;
+        if (el.hasAttribute("data-reveal")) {
+          el.classList.add("is-revealed");
+        }
+      });
+      return;
+    }
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        var stagger = 0;
+        var step = 40;
+        personaCopyEls.forEach(function (el) {
+          if (el.getAttribute("data-persona-copy") !== persona || el.hasAttribute("hidden")) return;
+          el.style.setProperty("--persona-copy-stagger", stagger + "ms");
+          stagger += step;
+          el.classList.add("persona-copy--in");
+        });
+      });
+    });
+  }
+
+  function syncHeroPersonaThumb() {
+    if (!hero) return;
+    var tablist = hero.querySelector(".hero__persona");
+    var thumb = tablist && tablist.querySelector(".hero__persona-thumb");
+    var active = tablist && tablist.querySelector('.hero__persona-tab[aria-selected="true"]');
+    if (!tablist || !thumb || !active) return;
+    var tr = tablist.getBoundingClientRect();
+    var ar = active.getBoundingClientRect();
+    thumb.style.width = ar.width + "px";
+    thumb.style.height = ar.height + "px";
+    thumb.style.transform =
+      "translate(" + (ar.left - tr.left) + "px, " + (ar.top - tr.top) + "px)";
+  }
+
   function setHeroPersona(persona, options) {
     options = options || {};
     if (!hero || (persona !== "pro" && persona !== "intern")) return;
+    cancelPersonaCopyAnimation();
     var previous = hero.getAttribute("data-hero-persona");
     hero.setAttribute("data-hero-persona", persona);
     if (speakerPro && speakerIntern) {
@@ -689,8 +834,19 @@
           el.removeAttribute("hidden");
         } else {
           el.setAttribute("hidden", "");
+          if (el.hasAttribute("data-reveal")) {
+            el.classList.remove("is-revealed");
+          }
         }
       });
+    }
+    if (
+      !options.skipCopyAnimation &&
+      previous &&
+      previous !== persona &&
+      (persona === "pro" || persona === "intern")
+    ) {
+      triggerPersonaCopyEnterAnimation(persona);
     }
     if (proSharp && internSharp) {
       if (persona === "intern") {
@@ -713,18 +869,22 @@
       localStorage.setItem("heroPersona", persona);
     } catch (e) {}
 
-    if (
-      !options.skipVideo &&
-      heroSwapVideo &&
-      heroMediaDual &&
-      previous &&
-      previous !== persona &&
-      (persona === "pro" || persona === "intern")
-    ) {
-      /* Сразу скрыть PNG под видео до старта ролика — меньше мигания при быстрых кликах */
-      heroMediaDual.classList.add("hero__media-dual--video-poster");
-      var midSwap = heroMediaDual.classList.contains("hero__media-dual--swap-playing");
-      playHeroPersonaSwapVideo(persona, midSwap ? { fromCurrent: true } : null);
+    window.requestAnimationFrame(function () {
+      syncHeroPersonaThumb();
+    });
+
+    if (!options.skipVideo && heroSwapVideo && heroMediaDual && (persona === "pro" || persona === "intern")) {
+      var animating =
+        heroMediaDual.classList.contains("hero__media-dual--swap-playing") &&
+        !heroSwapVideo.paused;
+      /* Пока ролик идёт — любой клик по табу инвертирует направление. Иначе — при смене выбранной персоны (previous !== persona). */
+      if (animating) {
+        heroMediaDual.classList.add("hero__media-dual--video-poster");
+        playHeroPersonaSwapVideo(persona, { invert: true });
+      } else if (previous !== persona) {
+        heroMediaDual.classList.add("hero__media-dual--video-poster");
+        playHeroPersonaSwapVideo(persona, null);
+      }
     }
   }
 
@@ -738,7 +898,7 @@
         initial = "intern";
       }
     } catch (e) {}
-    setHeroPersona(initial, { skipVideo: true });
+    setHeroPersona(initial, { skipVideo: true, skipCopyAnimation: true });
 
     if (initial === "intern") {
       initHeroVideoEndFrame();
@@ -748,7 +908,7 @@
 
     if (heroSwapVideo) {
       heroSwapVideo.addEventListener("error", function () {
-        heroSwapEpoch++;
+        /* Не трогаем heroSwapEpoch — иначе endHeroPersonaSwapVideo(epoch) из onended отвергается и залипает swap-playing. */
         detachHeroSwapMediaListeners();
         if (heroMediaDual) {
           heroMediaDual.classList.remove("hero__media-dual--video-poster");
@@ -765,6 +925,14 @@
 
     var tablist = hero.querySelector(".hero__persona");
     if (tablist) {
+      if (typeof ResizeObserver !== "undefined") {
+        var ro = new ResizeObserver(function () {
+          syncHeroPersonaThumb();
+        });
+        ro.observe(tablist);
+      } else {
+        window.addEventListener("resize", syncHeroPersonaThumb);
+      }
       tablist.addEventListener("keydown", function (e) {
         if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
         e.preventDefault();
@@ -818,6 +986,29 @@
     });
 
   }
+
+  // -----------------------------------------------------------
+  // Первый экран: синий «хвост» до низа вьюпорта → при скролле схлопывается
+  // -----------------------------------------------------------
+  (function initMainFoldBleed() {
+    var fold = document.querySelector(".main-fold");
+    var bleed = document.querySelector(".main-fold__blue-bleed");
+    if (!fold || !bleed) return;
+    var cls = "main-fold--content-revealed";
+    try {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        fold.classList.add(cls);
+        return;
+      }
+    } catch (e) {}
+    function sync() {
+      /* Порог выше — меньше случайных срабатываний; анимация в CSS ~1.15s */
+      fold.classList.toggle(cls, window.scrollY > 56);
+    }
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync, { passive: true });
+  })();
 
   // -----------------------------------------------------------
   // Reveal-on-scroll микроанимации (IntersectionObserver)

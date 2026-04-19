@@ -8,15 +8,23 @@
 }
 
 /*
- * Первый экран: hero + блок «Об эксперте». Без min-height: 100vh — иначе hero растягивался,
- * оставляя белую полосу над шторкой, а подгонка фото под vh обрезала текст спикера.
+ * Стартовый экран: hero + синяя шторка + гибкий синий «хвост» (.main-fold__blue-bleed) до низа вьюпорта.
+ * При скролле класс .main-fold--content-revealed схлопывает хвост — виден обычный фон и блок «Обо мне».
  */
 .main-fold {
+  --fold-curtain-radius: clamp(2rem, 5vw, 3.75rem);
   display: flex;
   flex-direction: column;
   gap: 0;
   box-sizing: border-box;
   overflow: visible;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+}
+
+.main-fold.main-fold--content-revealed {
+  min-height: unset;
 }
 
 .main-fold > .hero {
@@ -28,20 +36,68 @@
   flex: 0 0 auto;
   position: relative;
   z-index: 1;
-  margin-top: clamp(-0.85rem, -2vw, -0.35rem);
+  margin-top: clamp(-1.45rem, -3.2vw, -0.55rem);
+  margin-bottom: 0;
 }
 
-/* Верхняя часть синей шторки (только под блоком спикера у низа первого экрана) */
+/* Заполняет пространство до низа экрана; заходит под скругление шторки — без белых «ушек» снизу */
+.main-fold > .main-fold__blue-bleed {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  margin-top: calc(-1 * var(--fold-curtain-radius) - 3px);
+  padding: 0;
+  padding-top: calc(var(--fold-curtain-radius) + 3px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  border: none;
+  box-sizing: border-box;
+  background-color: var(--color-primary);
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.06) 0%, transparent 38%);
+  pointer-events: none;
+  z-index: 0;
+  transform: translateZ(0);
+  transition:
+    flex-grow 1.15s cubic-bezier(0.25, 0.82, 0.28, 1),
+    flex-basis 1.15s cubic-bezier(0.25, 0.82, 0.28, 1),
+    padding-top 1.15s cubic-bezier(0.25, 0.82, 0.28, 1),
+    margin-top 1.15s cubic-bezier(0.25, 0.82, 0.28, 1),
+    max-height 1.15s cubic-bezier(0.25, 0.82, 0.28, 1);
+}
+
+.main-fold.main-fold--content-revealed > .main-fold__blue-bleed {
+  flex: 0 0 0;
+  min-height: 0;
+  max-height: 0;
+  margin-top: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main-fold {
+    min-height: unset;
+  }
+
+  .main-fold > .main-fold__blue-bleed {
+    display: none;
+  }
+}
+
+/* Синяя шторка под hero: отдельная плашка, скругление сверху и снизу */
 .about__curtain.about__curtain--fold.guide__curtain {
-  border-radius: clamp(2rem, 5vw, 3.75rem) clamp(2rem, 5vw, 3.75rem) 0 0;
-  padding-top: clamp(1rem, 2.5vw, 2rem);
+  border-radius: var(--fold-curtain-radius);
+  padding-top: clamp(0.75rem, 2vw, 1.5rem);
   padding-bottom: clamp(0.65rem, 1.6vw, 1.1rem);
   box-shadow: 0 0.35rem 1.25rem rgba(45, 70, 255, 0.18);
+  isolation: isolate;
 }
 
 .about__curtain--fold .about__expert-top {
-  margin-bottom: clamp(0.5rem, 1.5vw, 1rem);
-  padding-bottom: clamp(0.5rem, 1.2vw, 0.85rem);
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .about__curtain--fold .guide__lead.hero__speaker-tagline {
@@ -82,10 +138,12 @@
   }
 }
 
-/* Продолжение шторки с контентом «обо мне» — без верхнего скругления */
+/* Контент «обо мне» — на фоне страницы, не продолжение синей шторки */
 .about__curtain.about__curtain--rest.guide__curtain {
-  border-radius: 0 0 clamp(2rem, 5vw, 3.75rem) clamp(2rem, 5vw, 3.75rem);
-  padding-top: 0;
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
   margin-top: 0;
 }
 
@@ -233,9 +291,8 @@
 .section--about {
   position: relative;
   z-index: 2;
-  /* Лёгкий стык к нижнему блоку первого экрана (шторка уже не перекрывает hero) */
-  margin-top: clamp(-0.75rem, -1.5vw, -0.2rem);
-  padding-top: 0;
+  margin-top: 0;
+  padding-top: clamp(1.75rem, 4vw, 3rem);
   padding-left: 0;
   padding-right: 0;
   background-color: transparent;
@@ -245,7 +302,7 @@
   display: block;
 }
 
-/* Вся секция — в той же синей «шторке», что и гайд (.guide__curtain) */
+/* Обёртки about: общая ширина; синий фон только у .about__curtain--fold (см. выше) */
 .about__curtain.guide__curtain {
   width: 100%;
   box-sizing: border-box;
@@ -254,9 +311,9 @@
 /* Единая шторка: лид «Об эксперте» (имя + теглайн) сразу под hero, затем контент */
 .about__expert-top {
   width: 100%;
-  margin-bottom: clamp(1.25rem, 3vw, 2rem);
-  padding-bottom: clamp(1rem, 2.5vw, 1.75rem);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
   box-sizing: border-box;
 }
 
@@ -279,67 +336,6 @@
 
 .about__curtain .hero__speaker-tagline {
   max-width: 38rem;
-}
-
-/* Типографика и карточки на фоне primary */
-.about__curtain .about__career-role {
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.about__curtain .about__career-at {
-  color: rgba(255, 255, 255, 0.65);
-}
-
-.about__curtain .about__career-place {
-  color: #ffffff;
-}
-
-.about__curtain .about__career-past {
-  color: rgba(255, 255, 255, 0.78);
-}
-
-.about__curtain .about__lead {
-  color: rgba(255, 255, 255, 0.96);
-}
-
-.about__curtain .about__p {
-  color: rgba(255, 255, 255, 0.82);
-}
-
-.about__curtain .about__achievements {
-  border-top-color: rgba(255, 255, 255, 0.28);
-}
-
-.about__curtain .about__achievements-title {
-  color: rgba(255, 255, 255, 0.72);
-}
-
-.about__curtain .about__achievements-item {
-  background-color: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.28);
-  box-shadow: 0 0.35rem 1.25rem rgba(0, 0, 0, 0.12);
-}
-
-.about__curtain .about__achievements-year {
-  color: #e8ecff;
-}
-
-.about__curtain .about__achievements-text {
-  color: rgba(255, 255, 255, 0.95);
-}
-
-.about__curtain .about__why-item {
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.about__curtain .about__why-mark {
-  background-color: #ffffff;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
-}
-
-.about__curtain .about__photo {
-  border-color: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
 }
 
 .about__grid {

@@ -13,9 +13,9 @@
       href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair+Display:ital,wght@0,500;1,500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/hero.css?v=13" />
-    <link rel="stylesheet" href="css/sections.css" />
-    <script src="js/site.js?v=13" defer></script>
+    <link rel="stylesheet" href="css/hero.css?v=29" />
+    <link rel="stylesheet" href="css/sections.css?v=5" />
+    <script src="js/site.js?v=29" defer></script>
   </head>
   <body id="top">
     <!-- Liquid Glass (iOS 26) — общий SVG-фильтр рефракции. Используется в backdrop-filter на Chromium. -->
@@ -78,11 +78,8 @@
         <div class="hero__intro">
           <div class="hero__intro-text">
             <div class="hero__intro-copy">
-              <p class="hero__kicker" data-persona-copy="pro">Product management · карьера в IT</p>
-              <p class="hero__kicker" data-persona-copy="intern" hidden>
-                Старт в продукте · стажировка и первые шаги
-              </p>
               <div class="hero__persona" role="tablist" aria-label="Кому адресован первый экран">
+                <span class="hero__persona-thumb" aria-hidden="true"></span>
                 <button
                   type="button"
                   class="hero__persona-tab"
@@ -111,15 +108,15 @@
               <h1 class="hero__title hero__title--lead">
                 <span data-persona-copy="pro">Вход в IT и продуктовый менеджмент <span class="hero__title-em">с нуля</span></span>
                 <span data-persona-copy="intern" hidden
-                  >Как <span class="hero__title-em">студенту</span> стать продактом</span>
+                  >Как стать продактом <span class="hero__title-em">студенту</span></span>
               </h1>
               <p class="hero__lead" data-persona-copy="pro">
                 Разберём ваш опыт, упакуем истории для собеседований и соберём понятный план шагов —
                 без лишней теории.
               </p>
               <p class="hero__lead" data-persona-copy="intern" hidden>
-                Для студентов и начинающих продактов: CV, сопровод, отклики и разбор типовых вопросов —
-                без воды, с упором на стажировку.
+                Для студентов и начинающих продактов: резюме, отклики и разбор типовых вопросов —
+                реальный практический опыт в 2026
               </p>
             </div>
             <div class="hero__intro-card">
@@ -130,13 +127,12 @@
                 aria-labelledby="hero-persona-tab-pro"
               >
                 <div class="hero__media-dual">
-                  <!-- PNG ниже скрыты в hero.css; картинка только из стоп-кадров test.mov. -->
-                  <!-- Сценарий «Для всех»: смена / стоп-кадр — assets/test.mov -->
+                  <!-- PNG ниже скрыты в hero.css; картинка из стоп-кадров hero-persona-swap.mp4 -->
                   <div class="hero__media-swap-wrap" aria-hidden="true">
                     <video
                       id="hero-persona-swap-video"
                       class="hero__media-swap-video"
-                      src="assets/test.mov"
+                      src="assets/hero-persona-swap.mp4"
                       width="1850"
                       height="2300"
                       muted
@@ -217,19 +213,21 @@
               <article class="hero__speaker-panel" data-persona-copy="pro">
                 <h2 class="guide__title hero__speaker-name">Настя Нерадовских</h2>
                 <p class="guide__lead hero__speaker-tagline">
-                  Ведёт сценарий «Все кейсы»: опыт в продукте, разбор карьеры и ответы на интервью.
+                  CPO @ Альфа-Банк
                 </p>
               </article>
               <article class="hero__speaker-panel" data-persona-copy="intern" hidden>
                 <h2 class="guide__title hero__speaker-name">Даня Колесниченко</h2>
                 <p class="guide__lead hero__speaker-tagline">
-                  Ведёт сценарий «Стажировка»: CV, сопровод, отклики и типовые вопросы на интервью.
+                  Product Manager @ Альфа-Банк
                 </p>
               </article>
             </div>
           </header>
         </div>
       </div>
+      <!-- Синее заполнение до низа экрана; при скролле схлопывается (см. .main-fold--content-revealed) -->
+      <div class="main-fold__blue-bleed" aria-hidden="true"></div>
     </div>
 
     <nav class="site-rail" data-site-rail aria-label="Навигация по странице">
@@ -290,7 +288,7 @@
         <div class="about__curtain guide__curtain about__curtain--rest">
           <div class="section__inner">
             <header class="section__head" data-reveal>
-              <h2 id="about-title" class="section__title section__title--on-dark">
+              <h2 id="about-title" class="section__title">
                 <span data-persona-copy="pro">
                   <span class="section__title-sans">В продукте и в найме</span>
                   <span class="section__title-serif">опыт банка, телека и FMCG</span>
