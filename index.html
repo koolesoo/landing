@@ -10,8 +10,14 @@
 <style>
         html {
             scroll-behavior: smooth;
-            /* Фиксированная шапка (top-8 + высота nav): якоря не прячутся под таббаром */
+            /* Десктоп: якоря под фиксированной шапкой; мобилка — шапки нет */
             scroll-padding-top: 5.75rem;
+        }
+
+        @media (max-width: 767.98px) {
+            html {
+                scroll-padding-top: 1rem;
+            }
         }
 
         body {
@@ -102,6 +108,104 @@
             will-change: transform;
         }
 
+        /* Мобилка: без линий-прогресса между пунктами и без «залитых» ссылок по скроллу */
+        @media (max-width: 767.98px) {
+            #site-header .nav-connector {
+                display: none !important;
+                width: 0 !important;
+                min-width: 0 !important;
+                flex: 0 0 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden !important;
+                visibility: hidden !important;
+                pointer-events: none !important;
+            }
+
+            #site-header .nav-connector-fill {
+                transform: scaleX(0) !important;
+                opacity: 0 !important;
+            }
+
+            #site-header .nav-link.nav-filled {
+                color: rgba(255, 255, 255, 0.5) !important;
+                text-shadow: none !important;
+            }
+        }
+
+        /* Подсказка про мобилку — только когда по высоте окна есть место */
+        .hero-mobile-hint {
+            display: none;
+            margin-top: 0.75rem;
+            max-width: 28rem;
+            font-size: 0.875rem;
+            line-height: 1.45;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: rgba(255, 255, 255, 0.42);
+        }
+
+        @media (min-height: 46rem) {
+            .hero-mobile-hint {
+                display: block;
+            }
+        }
+
+        /* Hero: мобилка — колонка видео → табы → текст → CTA; десктоп — сетка как раньше */
+        @media (max-width: 767.98px) {
+            #hero-mid {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #hero-mid .hero-tabs-wrap {
+                order: 1;
+            }
+
+            #hero-mid .hero-copy {
+                order: 2;
+            }
+
+            #hero-mid .hero-cta-wrap {
+                order: 3;
+            }
+        }
+
+        @media (min-width: 768px) {
+            #hero-mid {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                grid-template-rows: 1fr auto;
+                align-items: end;
+                column-gap: 1.5rem;
+                row-gap: 0.5rem;
+                padding-top: 0.5rem;
+                min-height: 0;
+            }
+
+            #hero-mid .hero-copy {
+                grid-column: 1 / -1;
+                grid-row: 1;
+                align-self: end;
+                justify-self: start;
+            }
+
+            #hero-mid .hero-cta-wrap {
+                grid-column: 1;
+                grid-row: 2;
+                justify-self: start;
+                align-self: end;
+            }
+
+            #hero-mid .hero-tabs-wrap {
+                grid-column: 2;
+                grid-row: 2;
+                justify-self: end;
+                align-self: end;
+            }
+        }
+
     </style>
 <script id="tailwind-config">
         tailwind.config = {
@@ -155,24 +259,24 @@
 <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black"></div>
 </div>
 <!-- Sticky nav + scroll progress (original markup) -->
-<header id="site-header" class="fixed top-8 left-1/2 z-50 w-full max-w-[min(96vw,46rem)] -translate-x-1/2 px-3">
+<header id="site-header" class="fixed top-8 left-1/2 z-50 hidden w-full max-w-[min(96vw,46rem)] -translate-x-1/2 px-3 md:block">
 <nav class="relative flex w-full max-w-full flex-nowrap items-stretch gap-8 overflow-hidden rounded-full border border-white/10 bg-[#1b1b1b]/80 py-1 pl-3 pr-3 shadow-[0px_20px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl">
 <div class="relative flex min-w-0 flex-1 items-center pl-1 pr-0">
-<div class="relative z-10 flex min-h-0 min-w-0 flex-1 flex-nowrap items-center gap-0 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:overflow-hidden">
+<div class="relative z-10 flex min-h-0 min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:gap-0 md:overflow-hidden">
 <a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5 active" href="#hero">Начало</a>
-<div class="nav-connector relative h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10" aria-hidden="true">
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
 <a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#curriculum">Треки</a>
-<div class="nav-connector relative h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10" aria-hidden="true">
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
 <a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#guide">Гайд</a>
-<div class="nav-connector relative h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10" aria-hidden="true">
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
 <a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#pricing">Тарифы</a>
-<div class="nav-connector relative h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10" aria-hidden="true">
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
 <a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#contacts">Контакты</a>
@@ -185,41 +289,44 @@
 </div>
 </nav>
 </header>
-<!-- Hero: fills first screen; CTA + chips pinned to bottom of viewport -->
-<main class="relative z-10 flex min-h-screen flex-col overflow-x-hidden bg-black/40 px-6 pt-32 pb-8 backdrop-blur-xl md:pb-16" id="hero">
-<div class="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(0,0,0,0.78)_0%,rgba(0,0,0,0.38)_14%,rgba(0,0,0,0.1)_30%,transparent_42%)]" aria-hidden="true"></div>
-<!-- Speaker video: viewport right; ролик opacity 100%, фейд только внутри блока (overflow-hidden) -->
-<div class="pointer-events-none absolute bottom-8 right-0 top-32 z-0 w-full translate-x-4 overflow-hidden will-change-transform md:w-[70%] md:translate-x-14 lg:w-[66%] lg:translate-x-24" id="hero-speaker-area">
-<video class="absolute inset-0 z-0 h-full w-full object-contain object-right opacity-100" id="hero-video" muted playsinline preload="metadata" disablePictureInPicture>
+<!-- Hero: мобилка — видео по центру, табы, заголовок, CTA; десктоп — прежняя компоновка -->
+<main class="relative z-10 flex min-h-screen flex-col overflow-x-hidden bg-black/40 px-6 pb-8 pt-8 backdrop-blur-xl md:pb-16 md:pt-32" id="hero">
+<div class="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(0,0,0,0.78)_0%,rgba(0,0,0,0.38)_14%,rgba(0,0,0,0.1)_30%,transparent_42%)] max-md:bg-[linear-gradient(180deg,rgba(0,0,0,0.5)_0%,rgba(0,0,0,0.25)_35%,transparent_55%)]" aria-hidden="true"></div>
+<!-- Speaker video -->
+<div class="pointer-events-none relative z-0 mx-auto mt-2 h-[min(38vh,19rem)] w-full max-w-[16.5rem] shrink-0 translate-x-0 overflow-hidden md:absolute md:bottom-8 md:right-0 md:top-32 md:mt-0 md:mx-0 md:h-auto md:max-w-none md:w-[70%] md:translate-x-14 lg:w-[66%] lg:translate-x-24" id="hero-speaker-area">
+<video class="absolute inset-0 z-0 h-full w-full object-contain object-center opacity-100 md:object-right" id="hero-video" muted playsinline preload="metadata" disablePictureInPicture>
 <source src="assets/test.mov" type="video/quicktime"/>
                     Your browser does not support the video tag.
                 </video>
-<div class="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(to_bottom,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_58%,rgba(0,0,0,0.72)_76%,rgba(0,0,0,0.96)_90%,#000000_98%,#000000_100%)]" aria-hidden="true"></div>
+<div class="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(to_bottom,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_58%,rgba(0,0,0,0.72)_76%,rgba(0,0,0,0.96)_90%,#000000_98%,#000000_100%)] max-md:bg-[linear-gradient(to_bottom,transparent_0%,transparent_55%,rgba(0,0,0,0.35)_78%,rgba(0,0,0,0.65)_100%)]" aria-hidden="true"></div>
 </div>
-<div class="relative z-10 mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col">
-<div class="relative z-10 flex min-h-0 flex-1 flex-col items-start justify-end gap-6 pt-6 text-left md:gap-8">
-<div class="max-w-lg space-y-3 md:space-y-4">
-<h1 class="line-height-tight flex flex-col items-start text-6xl font-black tracking-tighter md:text-[6rem]">
-<span class="text-white/90">Стань</span>
-<span class="shiny-text">Продакт</span>
-<span class="shiny-text">Менеджером</span>
-</h1>
-<p class="text-lg font-medium tracking-tight text-white/60 md:text-xl">
-                            Освой востребованную профессию под руководством практикующих экспертов из топовых IT-компаний.
-                        </p>
-</div>
-</div>
-</div>
-<div class="relative z-20 mx-auto mt-8 flex w-full max-w-7xl shrink-0 flex-col items-center gap-4 pb-2 md:mt-10 md:flex-row md:items-end md:justify-between md:gap-6 md:pb-4" aria-label="Запись и режим видео">
-<a href="#pricing" class="hero-cta-pricing cta-hover-arrow group relative z-20 inline-flex w-fit shrink-0 items-center gap-4 self-start rounded-full px-10 py-6 shadow-[0px_20px_60px_rgba(255,255,255,0.1)] transition-all duration-300 hover:shadow-[0px_24px_64px_rgba(255,255,255,0.14)] no-underline">
-<span class="text-lg font-extrabold uppercase tracking-tight">За консультацией</span>
-<span class="material-symbols-outlined arrow-icon rounded-full bg-black p-1 text-white transition-transform duration-300" data-icon="arrow_outward" aria-hidden="true">arrow_outward</span>
-</a>
-<div class="flex w-full min-w-0 justify-center px-2 md:flex-1" role="group" aria-label="Режим видео">
+<div id="hero-mid" class="relative z-10 mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col gap-4 pt-3 md:min-h-0 md:gap-0 md:pt-6" aria-label="Заголовок и запись">
+<div class="hero-tabs-wrap flex w-full min-w-0 shrink-0 justify-center px-2 md:px-0" role="group" aria-label="Режим видео">
 <div class="inline-flex shrink-0 rounded-full border border-white/10 bg-black/40 p-1 backdrop-blur-md">
 <button class="chip-active rounded-full px-6 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300" id="toggle-all" type="button">Для всех</button>
 <button class="rounded-full px-6 py-2 text-xs font-bold uppercase tracking-wider text-white/40 transition-all duration-300 hover:text-white" id="toggle-students" type="button">Для студентов</button>
 </div>
+</div>
+<div class="hero-copy flex min-h-0 flex-1 flex-col items-center justify-center gap-4 text-center md:items-start md:justify-end md:gap-6 md:text-left">
+<div class="max-w-lg space-y-3 md:space-y-4">
+<h1 class="line-height-tight flex flex-col items-center text-5xl font-black tracking-tighter sm:text-6xl md:items-start md:text-[6rem]">
+<span class="text-white/90">Стань</span>
+<span class="shiny-text">Продакт</span>
+<span class="shiny-text">Менеджером</span>
+</h1>
+<p class="text-base font-medium tracking-tight text-white/60 sm:text-lg md:text-xl">
+                            Освой востребованную профессию под руководством практикующих экспертов из топовых IT-компаний.
+                        </p>
+<p class="hero-mobile-hint mx-auto max-md:text-balance">
+                            Видео на первом экране удобнее смотреть с мобильного — откройте эту же страницу в смартфоне.
+                        </p>
+</div>
+</div>
+<div class="hero-cta-wrap flex shrink-0 justify-center pb-1 md:justify-start md:pb-4">
+<a href="#pricing" class="hero-cta-pricing cta-hover-arrow group relative z-20 inline-flex w-fit shrink-0 items-center gap-4 rounded-full px-10 py-6 shadow-[0px_20px_60px_rgba(255,255,255,0.1)] transition-all duration-300 hover:shadow-[0px_24px_64px_rgba(255,255,255,0.14)] no-underline md:self-start" aria-label="За консультацией">
+<span class="text-lg font-extrabold uppercase tracking-tight">За консультацией</span>
+<span class="material-symbols-outlined arrow-icon rounded-full bg-black p-1 text-white transition-transform duration-300" data-icon="arrow_outward" aria-hidden="true">arrow_outward</span>
+</a>
 </div>
 </div>
 </main>
@@ -495,6 +602,10 @@
             return el.getBoundingClientRect().top + window.scrollY;
         }
 
+        function navProgressEnabled() {
+            return window.matchMedia('(min-width: 768px)').matches;
+        }
+
         function updateNavProgress() {
             const els = navIds.map((id) => document.getElementById(id)).filter(Boolean);
             if (els.length !== 5) return;
@@ -502,14 +613,19 @@
             /* Без смещения по высоте окна: иначе при scrollY=0 линии уже частично «заполнены». */
             const scrollY = window.scrollY;
             const tops = els.map(docTop);
+            const progressOn = navProgressEnabled();
 
-            if (connectorFills.length === 4) {
+            if (progressOn && connectorFills.length === 4) {
                 connectorFills.forEach((fill, k) => {
                     const a = tops[k];
                     const b = tops[k + 1];
                     const span = Math.max(1, b - a);
                     const t = Math.max(0, Math.min(1, (scrollY - a) / span));
                     fill.style.transform = `scaleX(${t})`;
+                });
+            } else if (connectorFills.length) {
+                connectorFills.forEach((fill) => {
+                    fill.style.transform = 'scaleX(0)';
                 });
             }
 
@@ -518,6 +634,7 @@
 
             navLinks.forEach((link, i) => {
                 link.classList.remove('nav-filled');
+                if (!progressOn) return;
                 if (i < 4 && scrollY >= tops[i + 1]) {
                     link.classList.add('nav-filled');
                 }
