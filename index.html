@@ -284,6 +284,10 @@
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#expert">Эксперт</a>
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
+<div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
+</div>
 <a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#curriculum">Треки</a>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
@@ -516,11 +520,10 @@
         const video = document.getElementById('hero-video');
         const btnAll = document.getElementById('toggle-all');
         const btnStudents = document.getElementById('toggle-students');
-        const navIds = ['hero', 'curriculum', 'pricing', 'guide', 'contacts'];
-        /** Порядок блоков на странице: expert без пункта в меню — подсветка «Начало» до входа в «Треки». */
+        const navIds = ['hero', 'expert', 'curriculum', 'pricing', 'guide', 'contacts'];
         const scrollSpyChain = [
             { id: 'hero', href: '#hero' },
-            { id: 'expert', href: '#hero' },
+            { id: 'expert', href: '#expert' },
             { id: 'curriculum', href: '#curriculum' },
             { id: 'pricing', href: '#pricing' },
             { id: 'guide', href: '#guide' },
@@ -612,14 +615,14 @@
 
         function updateNavProgress() {
             const els = navIds.map((id) => document.getElementById(id)).filter(Boolean);
-            if (els.length !== 5) return;
+            if (els.length !== 6) return;
 
             /* Без смещения по высоте окна: иначе при scrollY=0 линии уже частично «заполнены». */
             const scrollY = window.scrollY;
             const tops = els.map(docTop);
             const progressOn = navProgressEnabled();
 
-            if (progressOn && connectorFills.length === 4) {
+            if (progressOn && connectorFills.length === 5) {
                 connectorFills.forEach((fill, k) => {
                     const a = tops[k];
                     const b = tops[k + 1];
@@ -639,10 +642,10 @@
             navLinks.forEach((link, i) => {
                 link.classList.remove('nav-filled');
                 if (!progressOn) return;
-                if (i < 4 && scrollY >= tops[i + 1]) {
+                if (i < 5 && scrollY >= tops[i + 1]) {
                     link.classList.add('nav-filled');
                 }
-                if (i === 4 && nearEnd) {
+                if (i === 5 && nearEnd) {
                     link.classList.add('nav-filled');
                 }
             });
