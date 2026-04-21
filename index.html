@@ -70,11 +70,22 @@
             line-height: 0.85;
         }
 
-        /* Активный сегмент таба — серый, не как голубые CTA */
+        /* Активный сегмент таба — светло-серое матовое стекло */
         .chip-active {
-            background-color: #52525b;
             color: #fafafa;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), 0 0 12px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(
+                165deg,
+                rgba(255, 255, 255, 0.32) 0%,
+                rgba(228, 228, 231, 0.16) 48%,
+                rgba(161, 161, 170, 0.12) 100%
+            );
+            -webkit-backdrop-filter: blur(14px) saturate(1.15);
+            backdrop-filter: blur(14px) saturate(1.15);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+                0 2px 12px rgba(0, 0, 0, 0.12),
+                0 6px 22px rgba(0, 0, 0, 0.16);
         }
 
         .nav-link.active {
@@ -168,7 +179,7 @@
 </div>
 </div>
 <div class="flex shrink-0 items-center self-center">
-<a href="#pricing" class="shrink-0 rounded-full bg-white px-4 py-2 text-[9px] font-extrabold uppercase tracking-widest text-black shadow-[0_8px_28px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-zinc-200 hover:shadow-[0_10px_32px_rgba(255,255,255,0.18)] sm:px-5 sm:text-[10px] inline-flex items-center justify-center no-underline">
+<a href="#pricing" class="shrink-0 rounded-full bg-[#64cefb] px-4 py-2 text-[9px] font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_8px_28px_rgba(100,206,251,0.35)] transition-all duration-300 hover:bg-[#4cb8e5] hover:shadow-[0_10px_32px_rgba(100,206,251,0.45)] sm:px-5 sm:text-[10px] inline-flex items-center justify-center no-underline">
                 За консультацией
             </a>
 </div>
@@ -180,7 +191,7 @@
 <!-- Speaker video: viewport right; ролик opacity 100%, фейд только внутри блока (overflow-hidden) -->
 <div class="pointer-events-none absolute bottom-8 right-0 top-32 z-0 w-full translate-x-4 overflow-hidden will-change-transform md:w-[70%] md:translate-x-14 lg:w-[66%] lg:translate-x-24" id="hero-speaker-area">
 <video class="absolute inset-0 z-0 h-full w-full object-contain object-right opacity-100" id="hero-video" muted playsinline preload="metadata" disablePictureInPicture>
-<source src="https://github.com/koolesoo/landing/raw/refs/heads/main/assets/test.mov" type="video/quicktime"/>
+<source src="assets/test.mov" type="video/quicktime"/>
                     Your browser does not support the video tag.
                 </video>
 <div class="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(to_bottom,transparent_0%,transparent_40%,rgba(0,0,0,0.28)_58%,rgba(0,0,0,0.72)_76%,rgba(0,0,0,0.96)_90%,#000000_98%,#000000_100%)]" aria-hidden="true"></div>
@@ -292,7 +303,7 @@
 <span>Согласен(-на) с обработкой персональных данных. <a class="font-medium text-[#64cefb] underline decoration-[#64cefb]/50 underline-offset-2 transition-colors hover:text-[#8ddcf9]" href="#">Политика конфиденциальности</a></span>
 </label>
 <div class="flex justify-center pt-2">
-<button type="submit" class="rounded-full bg-[#64cefb] px-12 py-4 text-sm font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_12px_40px_rgba(100,206,251,0.35)] transition-colors hover:bg-[#4cb8e5] hover:shadow-[0_14px_44px_rgba(100,206,251,0.45)]">Получить гайд</button>
+<button type="submit" class="rounded-full bg-white px-12 py-4 text-sm font-extrabold uppercase tracking-widest text-black shadow-[0_8px_28px_rgba(255,255,255,0.12)] transition-colors hover:bg-zinc-200 hover:shadow-[0_10px_32px_rgba(255,255,255,0.18)]">Получить гайд</button>
 </div>
 </form>
 </div>
@@ -305,7 +316,7 @@
 <span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Лалала</span>
 <div class="mt-4 text-6xl font-bold">2500₽</div>
 <p class="mx-auto mt-4 max-w-md text-sm text-white/50">Все модули, разборы и гайд в одном пакете.</p>
-<button type="button" id="pricing-cta" class="mt-8 w-full rounded-full bg-white py-4 font-extrabold uppercase tracking-widest text-black shadow-[0_8px_28px_rgba(255,255,255,0.12)] transition-all duration-300 hover:bg-zinc-200 hover:shadow-[0_10px_32px_rgba(255,255,255,0.18)]">Получить консультацию</button>
+<button type="button" id="pricing-cta" class="mt-8 w-full rounded-full bg-[#64cefb] py-4 font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_8px_28px_rgba(100,206,251,0.35)] transition-all duration-300 hover:bg-[#4cb8e5] hover:shadow-[0_10px_32px_rgba(100,206,251,0.45)]">Получить консультацию</button>
 </div>
 </div>
 </section>
