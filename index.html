@@ -108,6 +108,12 @@
             will-change: transform;
         }
 
+        .pricing-option-active {
+            border-color: rgba(100, 206, 251, 0.6) !important;
+            box-shadow: 0 0 0 1px rgba(100, 206, 251, 0.35), 0 12px 28px rgba(100, 206, 251, 0.15);
+            background: linear-gradient(180deg, rgba(100, 206, 251, 0.08), rgba(27, 27, 27, 0.7));
+        }
+
         /* Мобилка: без линий-прогресса между пунктами и без «залитых» ссылок по скроллу */
         @media (max-width: 767.98px) {
             #site-header .nav-connector {
@@ -355,6 +361,7 @@
 <!-- Об эксперте -->
 <section class="relative px-6 py-20 md:py-28" id="expert" aria-labelledby="expert-heading">
 <div class="mx-auto max-w-7xl">
+<h2 class="mb-8 text-5xl font-black tracking-tighter md:text-7xl" id="expert-heading">Об эксперте</h2>
 <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 <div class="group flex min-h-[400px] flex-col justify-between rounded-xl border border-white/5 bg-surface-container-low p-12 backdrop-blur-xl transition-colors duration-500 hover:bg-surface-container-high lg:col-span-2">
 <div class="space-y-6">
@@ -381,7 +388,7 @@
 </div>
 </section>
 <section class="relative px-6 py-20 md:py-28" id="curriculum">
-<div class="mx-auto max-w-7xl text-center">
+<div class="mx-auto max-w-7xl">
 <h2 class="mb-8 text-5xl font-black tracking-tighter md:text-7xl">Треки</h2>
 <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 <div class="rounded-xl border border-white/5 bg-surface-container-low p-8 text-left backdrop-blur-md">
@@ -403,20 +410,34 @@
 </div>
 </section>
 <section class="relative px-6 py-20 md:py-28" id="pricing">
-<div class="mx-auto max-w-7xl text-center">
+<div class="mx-auto max-w-7xl">
 <h2 class="mb-8 text-5xl font-black tracking-tighter md:text-7xl">Тарифы</h2>
-<div class="mx-auto max-w-lg rounded-xl border border-white/10 bg-surface-container-low p-12 backdrop-blur-xl">
-<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Лалала</span>
-<div class="mt-4 text-6xl font-bold">2500₽</div>
-<p class="mx-auto mt-4 max-w-md text-sm text-white/50">Все модули, разборы и гайд в одном пакете.</p>
-<button type="button" id="pricing-cta" class="mt-8 w-full rounded-full bg-[#64cefb] py-4 font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_8px_28px_rgba(100,206,251,0.35)] transition-all duration-300 hover:bg-[#4cb8e5] hover:shadow-[0_10px_32px_rgba(100,206,251,0.45)]">Получить консультацию</button>
+<div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3" role="radiogroup" aria-label="Выбор тарифа">
+<button type="button" class="pricing-option rounded-xl border border-white/10 bg-surface-container-low p-8 text-left backdrop-blur-xl transition-all duration-300 hover:border-white/25" data-pricing-option="consultation" aria-pressed="false">
+<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Консультация</span>
+<div class="mt-4 text-5xl font-bold tracking-tight">2500₽</div>
+<p class="mt-3 text-sm text-white/60">Разбор вашего кейса, трека развития и ближайших шагов.</p>
+</button>
+<button type="button" class="pricing-option rounded-xl border border-white/10 bg-surface-container-low p-8 text-left backdrop-blur-xl transition-all duration-300 hover:border-white/25" data-pricing-option="intensive" aria-pressed="false">
+<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Интенсив</span>
+<div class="mt-4 text-5xl font-bold tracking-tight">7900₽</div>
+<p class="mt-3 text-sm text-white/60">Серия практических сессий и фидбэк по вашему прогрессу.</p>
+</button>
+<button type="button" class="pricing-option pricing-option-active rounded-xl border border-white/10 bg-surface-container-low p-8 text-left backdrop-blur-xl transition-all duration-300 hover:border-white/25" data-pricing-option="support" aria-pressed="true">
+<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Сопровождение</span>
+<div class="mt-4 text-5xl font-bold tracking-tight">14900₽</div>
+<p class="mt-3 text-sm text-white/60">Личный трек, подготовка к интервью и поддержка до оффера.</p>
+</button>
+</div>
+<div class="mt-8 flex justify-center">
+<button type="button" id="pricing-cta" class="rounded-full bg-[#64cefb] px-8 py-3 font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_8px_24px_rgba(100,206,251,0.32)] transition-all duration-300 hover:bg-[#4cb8e5] hover:shadow-[0_10px_28px_rgba(100,206,251,0.42)]">Получить консультацию</button>
 </div>
 </div>
 </section>
 <section class="relative px-6 py-20 md:py-28" id="guide">
 <div class="mx-auto max-w-7xl w-full">
-<h2 class="mb-8 text-center text-5xl font-black tracking-tighter md:text-7xl">Гайд</h2>
-<div class="mx-auto max-w-3xl rounded-xl border border-white/10 bg-surface-container-low p-10 shadow-[0_0_0_1px_rgba(100,206,251,0.06)] backdrop-blur-xl md:p-14">
+<h2 class="mb-8 text-5xl font-black tracking-tighter md:text-7xl">Гайд</h2>
+<div class="w-full rounded-xl border border-white/10 bg-surface-container-low p-10 shadow-[0_0_0_1px_rgba(100,206,251,0.06)] backdrop-blur-xl md:p-14">
 <h2 class="max-w-md text-4xl font-bold leading-tight tracking-tighter text-white md:text-5xl">Получить бесплатный гайд по собеседованиям</h2>
 <p class="mt-5 text-pretty text-base leading-relaxed text-white/60 md:text-lg">Чек-лист по подготовке к продуктовым и поведенческим вопросам — отправлю в Telegram.</p>
 <form class="mt-10 space-y-8" action="#" method="post">
@@ -437,8 +458,7 @@
 </section>
 <section class="relative px-6 py-20 md:py-28" id="contacts">
 <div class="mx-auto max-w-7xl">
-<h2 class="mb-4 text-center text-5xl font-black tracking-tighter md:text-7xl">Контакты</h2>
-<p class="mx-auto mb-12 max-w-2xl text-center text-lg text-white/60">Напишите, если нужен разбор вашей ситуации или вопросы по формату.</p>
+<h2 class="mb-4 text-5xl font-black tracking-tighter md:text-7xl">Контакты</h2>
 <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 <div class="rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-xl">
 <h3 class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Telegram</h3>
@@ -531,6 +551,7 @@
         ];
         const navLinks = document.querySelectorAll('.nav-link');
         const connectorFills = document.querySelectorAll('.nav-connector-fill');
+        const pricingOptions = document.querySelectorAll('.pricing-option');
         let rafId = null;
         let navSyncRaf = null;
 
@@ -588,6 +609,19 @@
             btnStudents.addEventListener('click', () => {
                 setChipStudents();
                 playForward();
+            });
+        }
+
+        if (pricingOptions.length) {
+            pricingOptions.forEach((option) => {
+                option.addEventListener('click', () => {
+                    pricingOptions.forEach((item) => {
+                        item.classList.remove('pricing-option-active');
+                        item.setAttribute('aria-pressed', 'false');
+                    });
+                    option.classList.add('pricing-option-active');
+                    option.setAttribute('aria-pressed', 'true');
+                });
             });
         }
 
