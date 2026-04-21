@@ -133,38 +133,55 @@
             }
         }
 
-        /* Подсказка про мобилку — только когда по высоте окна есть место */
-        .hero-mobile-hint {
-            display: none;
-            margin-top: 0.75rem;
-            max-width: 28rem;
-            font-size: 0.875rem;
-            line-height: 1.45;
-            font-weight: 500;
-            letter-spacing: -0.01em;
-            color: rgba(255, 255, 255, 0.42);
-        }
-
-        @media (min-height: 46rem) {
-            .hero-mobile-hint {
-                display: block;
-            }
-        }
-
         /* Hero: мобилка — колонка видео → табы → текст → CTA; десктоп — сетка как раньше */
         @media (max-width: 767.98px) {
+            #hero {
+                overflow: hidden;
+                min-height: 100svh;
+                padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+            }
+
+            #hero-speaker-area {
+                position: absolute;
+                top: 0.75rem;
+                bottom: 0;
+                left: 50%;
+                z-index: 0;
+                width: min(94vw, 32rem);
+                max-width: none;
+                height: auto;
+                margin: 0;
+                transform: translateX(-50%);
+                -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 72%, transparent 100%);
+                mask-image: linear-gradient(to bottom, transparent 0%, black 16%, black 72%, transparent 100%);
+            }
+
+            #hero-mid {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: max(0.25rem, env(safe-area-inset-bottom));
+                z-index: 10;
+                margin-top: 0;
+                padding-top: min(30vh, 15rem);
+                padding-bottom: 0;
+            }
+
             #hero-mid {
                 display: flex;
                 flex-direction: column;
                 align-items: stretch;
+                gap: 0.75rem;
             }
 
             #hero-mid .hero-tabs-wrap {
-                order: 1;
+                order: 2;
             }
 
             #hero-mid .hero-copy {
-                order: 2;
+                order: 1;
+                flex: 0 0 auto;
+                justify-content: flex-end;
             }
 
             #hero-mid .hero-cta-wrap {
@@ -179,7 +196,7 @@
                 grid-template-rows: 1fr auto;
                 align-items: end;
                 column-gap: 1.5rem;
-                row-gap: 0.5rem;
+                row-gap: 1.5rem;
                 padding-top: 0.5rem;
                 min-height: 0;
             }
@@ -271,11 +288,11 @@
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#guide">Гайд</a>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#pricing">Тарифы</a>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#pricing">Тарифы</a>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#guide">Гайд</a>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
@@ -317,9 +334,6 @@
 <p class="text-base font-medium tracking-tight text-white/60 sm:text-lg md:text-xl">
                             Освой востребованную профессию под руководством практикующих экспертов из топовых IT-компаний.
                         </p>
-<p class="hero-mobile-hint mx-auto max-md:text-balance">
-                            Видео на первом экране удобнее смотреть с мобильного — откройте эту же страницу в смартфоне.
-                        </p>
 </div>
 </div>
 <div class="hero-cta-wrap flex shrink-0 justify-center pb-1 md:justify-start md:pb-4">
@@ -337,10 +351,6 @@
 <!-- Об эксперте -->
 <section class="relative px-6 py-20 md:py-28" id="expert" aria-labelledby="expert-heading">
 <div class="mx-auto max-w-7xl">
-<div class="mb-10 md:mb-12">
-<h2 class="text-3xl font-black tracking-tighter text-white md:text-4xl" id="expert-heading">Об эксперте</h2>
-<p class="mt-2 max-w-2xl text-sm text-white/50 md:text-base">Трек для студентов, опыт в продукте и менторство.</p>
-</div>
 <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
 <div class="group flex min-h-[400px] flex-col justify-between rounded-xl border border-white/5 bg-surface-container-low p-12 backdrop-blur-xl transition-colors duration-500 hover:bg-surface-container-high lg:col-span-2">
 <div class="space-y-6">
@@ -388,22 +398,27 @@
 </div>
 </div>
 </section>
+<section class="relative px-6 py-20 md:py-28" id="pricing">
+<div class="mx-auto max-w-7xl text-center">
+<h2 class="mb-8 text-5xl font-black tracking-tighter md:text-7xl">Тарифы</h2>
+<div class="mx-auto max-w-lg rounded-xl border border-white/10 bg-surface-container-low p-12 backdrop-blur-xl">
+<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Лалала</span>
+<div class="mt-4 text-6xl font-bold">2500₽</div>
+<p class="mx-auto mt-4 max-w-md text-sm text-white/50">Все модули, разборы и гайд в одном пакете.</p>
+<button type="button" id="pricing-cta" class="mt-8 w-full rounded-full bg-[#64cefb] py-4 font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_8px_28px_rgba(100,206,251,0.35)] transition-all duration-300 hover:bg-[#4cb8e5] hover:shadow-[0_10px_32px_rgba(100,206,251,0.45)]">Получить консультацию</button>
+</div>
+</div>
+</section>
 <section class="relative px-6 py-20 md:py-28" id="guide">
 <div class="mx-auto max-w-7xl w-full">
+<h2 class="mb-8 text-center text-5xl font-black tracking-tighter md:text-7xl">Гайд</h2>
 <div class="mx-auto max-w-3xl rounded-xl border border-white/10 bg-surface-container-low p-10 shadow-[0_0_0_1px_rgba(100,206,251,0.06)] backdrop-blur-xl md:p-14">
-<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Гайд</span>
-<h2 class="mt-4 text-balance text-3xl font-black leading-tight tracking-tighter text-white md:text-4xl lg:text-[2.35rem]">Получить бесплатный гайд по собеседованиям</h2>
+<h2 class="max-w-md text-4xl font-bold leading-tight tracking-tighter text-white md:text-5xl">Получить бесплатный гайд по собеседованиям</h2>
 <p class="mt-5 text-pretty text-base leading-relaxed text-white/60 md:text-lg">Чек-лист по подготовке к продуктовым и поведенческим вопросам — отправлю в Telegram.</p>
 <form class="mt-10 space-y-8" action="#" method="post">
-<div class="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
-<div>
-<label class="block text-xs font-bold uppercase tracking-wider text-white/45" for="guide-name">Как вас зовут?</label>
-<input id="guide-name" name="name" type="text" autocomplete="name" required class="mt-2 w-full border-0 border-b border-white/20 bg-transparent py-2.5 text-base text-white outline-none ring-0 placeholder:text-white/30 focus:border-[#64cefb]" placeholder="Имя"/>
-</div>
 <div>
 <label class="block text-xs font-bold uppercase tracking-wider text-white/45" for="guide-telegram">Ник в Telegram</label>
 <input id="guide-telegram" name="telegram" type="text" autocomplete="username" inputmode="text" required class="mt-2 w-full border-0 border-b border-white/20 bg-transparent py-2.5 text-base text-white outline-none ring-0 placeholder:text-white/30 focus:border-[#64cefb]" placeholder="@username"/>
-</div>
 </div>
 <label class="flex cursor-pointer items-start gap-3 text-left text-sm leading-snug text-white/55">
 <input id="guide-consent" name="consent" type="checkbox" required class="mt-1 h-4 w-4 shrink-0 rounded border-white/25 bg-black/40 text-[#64cefb] accent-[#64cefb] focus:ring-2 focus:ring-[#64cefb]/30"/>
@@ -413,17 +428,6 @@
 <button type="submit" class="rounded-full bg-white px-12 py-4 text-sm font-extrabold uppercase tracking-widest text-black shadow-[0_8px_28px_rgba(255,255,255,0.12)] transition-colors hover:bg-zinc-200 hover:shadow-[0_10px_32px_rgba(255,255,255,0.18)]">Получить гайд</button>
 </div>
 </form>
-</div>
-</div>
-</section>
-<section class="relative px-6 py-20 md:py-28" id="pricing">
-<div class="mx-auto max-w-7xl text-center">
-<h2 class="mb-8 text-5xl font-black tracking-tighter md:text-7xl">Тарифы</h2>
-<div class="mx-auto max-w-lg rounded-xl border border-white/10 bg-surface-container-low p-12 backdrop-blur-xl">
-<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Лалала</span>
-<div class="mt-4 text-6xl font-bold">2500₽</div>
-<p class="mx-auto mt-4 max-w-md text-sm text-white/50">Все модули, разборы и гайд в одном пакете.</p>
-<button type="button" id="pricing-cta" class="mt-8 w-full rounded-full bg-[#64cefb] py-4 font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_8px_28px_rgba(100,206,251,0.35)] transition-all duration-300 hover:bg-[#4cb8e5] hover:shadow-[0_10px_32px_rgba(100,206,251,0.45)]">Получить консультацию</button>
 </div>
 </div>
 </section>
@@ -512,14 +516,14 @@
         const video = document.getElementById('hero-video');
         const btnAll = document.getElementById('toggle-all');
         const btnStudents = document.getElementById('toggle-students');
-        const navIds = ['hero', 'curriculum', 'guide', 'pricing', 'contacts'];
+        const navIds = ['hero', 'curriculum', 'pricing', 'guide', 'contacts'];
         /** Порядок блоков на странице: expert без пункта в меню — подсветка «Начало» до входа в «Треки». */
         const scrollSpyChain = [
             { id: 'hero', href: '#hero' },
             { id: 'expert', href: '#hero' },
             { id: 'curriculum', href: '#curriculum' },
-            { id: 'guide', href: '#guide' },
             { id: 'pricing', href: '#pricing' },
+            { id: 'guide', href: '#guide' },
             { id: 'contacts', href: '#contacts' },
         ];
         const navLinks = document.querySelectorAll('.nav-link');
