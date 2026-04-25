@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DesignPro | The Illuminated Scholar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        html {
+            scroll-behavior: smooth;
+            /* Десктоп: якоря под фиксированной шапкой; мобилка — шапки нет */
+            scroll-padding-top: 5.75rem;
+        }
+
+        @media (max-width: 767.98px) {
+            html {
+                scroll-padding-top: 1rem;
+            }
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        @font-face {
+            font-family: 'Styrene A LC';
+            src: url('fonts/styrenealc-light.otf') format('opentype');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Styrene A LC';
+            src: url('fonts/styrenealc-regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Styrene A LC';
+            src: url('fonts/styrenealc-medium.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Styrene A LC';
+            src: url('fonts/styrenealc-bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Styrene A LC';
+            src: url('fonts/styrenealc-black.otf') format('opentype');
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Styrene A LC', 'Inter', sans-serif;
+        }
+
+        #hero h1 {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .shiny-text {
+            background: linear-gradient(
+                100deg,
+                #64cefb 0%,
+                #64cefb 40%,
+                #ffffff 50%,
+                #64cefb 60%,
+                #64cefb 100%
+            );
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .cta-hover-arrow:hover .arrow-icon {
+            transform: translateX(4px);
+        }
+
+        .hero-cta-pricing {
+            background-color: #ffffff !important;
+            color: #0a0a0a !important;
+        }
+
+        .hero-cta-pricing:hover {
+            background-color: #e4e4e7 !important;
+        }
+
+        .hero-cta-pricing .arrow-icon {
+            background-color: #0a0a0a !important;
+            color: #ffffff !important;
+        }
+
+        .line-height-tight {
+            line-height: 0.85;
+        }
+
+        .hero-h1 {
+            line-height: 1.12;
+        }
+
+        /* Активный сегмент таба — светло-серое матовое стекло */
+        .chip-active {
+            color: #ffffff;
+            background: linear-gradient(
+                165deg,
+                rgba(255, 255, 255, 0.32) 0%,
+                rgba(228, 228, 231, 0.16) 48%,
+                rgba(161, 161, 170, 0.12) 100%
+            );
+            -webkit-backdrop-filter: blur(14px) saturate(1.15);
+            backdrop-filter: blur(14px) saturate(1.15);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+                0 2px 12px rgba(0, 0, 0, 0.12),
+                0 6px 22px rgba(0, 0, 0, 0.16);
+        }
+
+        .nav-link.active {
+            color: #64cefb !important;
+        }
+
+        .nav-link.nav-filled {
+            color: #64cefb !important;
+            text-shadow: 0 0 12px rgba(100, 206, 251, 0.35);
+        }
+
+        .nav-connector-fill {
+            transform-origin: left center;
+            will-change: transform;
+        }
+
+        .pricing-option-active {
+            border-color: rgba(100, 206, 251, 0.6) !important;
+            box-shadow: 0 0 0 1px rgba(100, 206, 251, 0.35), 0 12px 28px rgba(100, 206, 251, 0.15);
+            background: linear-gradient(180deg, rgba(100, 206, 251, 0.08), rgba(27, 27, 27, 0.7));
+        }
+
+        /* Мобилка: без линий-прогресса между пунктами и без «залитых» ссылок по скроллу */
+        @media (max-width: 767.98px) {
+            #site-header .nav-connector {
+                display: none !important;
+                width: 0 !important;
+                min-width: 0 !important;
+                flex: 0 0 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden !important;
+                visibility: hidden !important;
+                pointer-events: none !important;
+            }
+
+            #site-header .nav-connector-fill {
+                transform: scaleX(0) !important;
+                opacity: 0 !important;
+            }
+
+            #site-header .nav-link.nav-filled {
+                color: rgba(255, 255, 255, 0.5) !important;
+                text-shadow: none !important;
+            }
+        }
+
+        .hero-video-layer {
+            background: transparent !important;
+            transition: opacity 0.18s ease;
+            will-change: opacity;
+            mix-blend-mode: screen;
+            transform: scale(1.1);
+            transform-origin: center bottom;
+        }
+
+        #hero-speaker-area {
+            background: transparent !important;
+            isolation: isolate;
+        }
+
+        .hero-video-layer.is-hidden {
+            opacity: 0;
+        }
+
+        .hero-freeze-frame {
+            display: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: none;
+        }
+
+        .hero-freeze-frame.is-visible {
+            display: block;
+        }
+
+        .review-video-shell {
+            position: relative;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1.25rem;
+            height: 15rem;
+            width: 15rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .review-video {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .review-video-toggle {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 2;
+            display: inline-flex;
+            height: 2.75rem;
+            width: 2.75rem;
+            transform: translate(-50%, -50%);
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(0, 0, 0, 0.38);
+            color: #ffffff;
+            transition: opacity 0.2s ease, background-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .review-video-shell.is-playing .review-video-toggle {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .review-video-shell:hover .review-video-toggle,
+        .review-video-shell:focus-within .review-video-toggle,
+        .review-video-shell.is-paused .review-video-toggle {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .doc-preview-btn {
+            display: block;
+            width: 100%;
+            border: 0;
+            padding: 0;
+            background: transparent;
+            cursor: zoom-in;
+            text-align: left;
+        }
+
+        .doc-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 120;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.88);
+            padding: 1rem;
+        }
+
+        .doc-lightbox.is-open {
+            display: flex;
+        }
+
+        .doc-lightbox-image {
+            max-height: min(92vh, 64rem);
+            max-width: min(92vw, 52rem);
+            border-radius: 0.75rem;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: none;
+        }
+
+        .doc-lightbox-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            height: 2.25rem;
+            width: 2.25rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            background: rgba(0, 0, 0, 0.45);
+            color: #fff;
+            font-size: 1.25rem;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        /* Hero: мобилка — колонка видео → табы → текст → CTA; десктоп — сетка как раньше */
+        @media (max-width: 767.98px) {
+            #hero {
+                overflow: hidden;
+                min-height: 100svh;
+                padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+            }
+
+            #hero-speaker-area {
+                position: absolute;
+                top: 0.1rem;
+                bottom: 0;
+                left: 50%;
+                z-index: 0;
+                width: min(108vw, 40rem);
+                max-width: none;
+                height: auto;
+                margin: 0;
+                transform: translateX(-50%);
+            }
+
+            #hero-mid {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: max(0.25rem, env(safe-area-inset-bottom));
+                z-index: 10;
+                margin-top: 0;
+                padding-top: min(30vh, 15rem);
+                padding-bottom: 0;
+            }
+
+            #hero-mid {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.75rem;
+            }
+
+            #hero-mid .hero-tabs-wrap {
+                order: 2;
+            }
+
+            #hero-mid .hero-copy {
+                order: 1;
+                flex: 0 0 auto;
+                justify-content: flex-end;
+            }
+
+            #hero-mid .hero-cta-wrap {
+                order: 3;
+            }
+        }
+
+        @media (min-width: 768px) {
+            #hero {
+                min-height: 100svh;
+                padding-bottom: 0;
+                position: relative;
+            }
+
+            #hero-speaker-area {
+                top: auto !important;
+                bottom: 0 !important;
+                height: min(88svh, 56rem) !important;
+            }
+
+            #hero-speaker-area .hero-video-layer {
+                bottom: 0;
+                transform: scale(1.12);
+                object-position: center bottom;
+            }
+
+            #hero-mid {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                grid-template-rows: 1fr auto;
+                align-items: end;
+                column-gap: 1.5rem;
+                row-gap: 1.5rem;
+                padding-top: 0.5rem;
+                min-height: 0;
+            }
+
+            #hero-mid .hero-copy {
+                grid-column: 1 / -1;
+                grid-row: 1;
+                align-self: end;
+                justify-self: start;
+            }
+
+            #hero-mid .hero-cta-wrap {
+                grid-column: 1;
+                grid-row: 2;
+                justify-self: start;
+                align-self: end;
+            }
+
+            #hero-mid .hero-tabs-wrap {
+                grid-column: 2;
+                grid-row: 2;
+                justify-self: end;
+                align-self: end;
+            }
+        }
+
+        .faq-icon-btn {
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-trigger[aria-expanded="true"] .faq-icon-btn {
+            transform: rotate(45deg);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .faq-icon-btn {
+                transition-duration: 0.01ms;
+            }
+        }
+
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "rgba(19, 19, 19, 0.6)",
+                        "surface-container-low": "rgba(27, 27, 27, 0.6)",
+                        "surface-container-high": "rgba(42, 42, 42, 0.7)",
+                        "primary": "#b3e5ff",
+                        "primary-container": "#64cefb",
+                        "on-primary-container": "#005671",
+                        "outline-variant": "rgba(255, 255, 255, 0.15)",
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["Styrene A LC", "Inter", "sans-serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<script>
+
+        const LUMINOUS_EDITORIAL_LIGHT_THEME = {
+            name: "Luminous Editorial",
+            mode: "light",
+            colors: {
+                surface: "#f6fafd",
+                onSurface: "#171c1f",
+                primary: "#006685",
+                primaryContainer: "#64cefb",
+                outlineVariant: "#bdc8cf"
+            }
+        };
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        (function () {
+            if (location.hash) return;
+            try {
+                window.scrollTo(0, 0);
+            } catch (e) {}
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        })();
+    </script>
+</head>
+<body class="bg-black">
+<!-- Global fullscreen video background -->
+<div class="pointer-events-none fixed inset-0 z-[-10] overflow-hidden bg-black">
+<video id="bg-video" autoplay class="absolute inset-0 h-full w-full object-cover opacity-45" loop muted playsinline preload="metadata" fetchpriority="low" disablePictureInPicture>
+<source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" type="video/mp4"/>
+</video>
+<div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black"></div>
+</div>
+<!-- Sticky nav + scroll progress (original markup) -->
+<header id="site-header" class="fixed top-8 left-1/2 z-50 hidden w-full max-w-[min(98vw,56rem)] -translate-x-1/2 px-3 md:block">
+<nav class="relative flex w-full max-w-full flex-nowrap items-stretch gap-8 overflow-hidden rounded-full border border-white/10 bg-black/10 py-1 pl-3 pr-3 shadow-[0px_20px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+<div class="relative flex min-w-0 flex-1 items-center pl-1 pr-0">
+<div class="relative z-10 flex min-h-0 min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:gap-0 md:overflow-hidden">
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5 active" href="#expert">Эксперт</a>
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
+<div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
+</div>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#curriculum">Треки</a>
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
+<div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
+</div>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#pricing">Тарифы</a>
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
+<div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
+</div>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#guide">Гайд</a>
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
+<div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
+</div>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#reviews">Отзывы</a>
+</div>
+</div>
+<div class="flex shrink-0 items-center self-center">
+<a href="#pricing" class="shrink-0 rounded-full bg-[#64cefb] px-4 py-2 text-[9px] font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_8px_28px_rgba(100,206,251,0.35)] transition-all duration-300 hover:bg-[#4cb8e5] hover:shadow-[0_10px_32px_rgba(100,206,251,0.45)] sm:px-5 sm:text-[10px] inline-flex items-center justify-center no-underline">
+                За консультацией
+            </a>
+</div>
+</nav>
+</header>
+<!-- Hero: мобилка — видео по центру, табы, заголовок, CTA; десктоп — прежняя компоновка -->
+<main class="relative z-10 flex min-h-screen flex-col overflow-x-hidden px-6 pb-8 pt-8 md:pb-16 md:pt-32" id="hero">
+<!-- Speaker video -->
+<div class="pointer-events-none relative z-0 mx-auto mt-2 h-[min(38vh,19rem)] w-full max-w-[16.5rem] shrink-0 translate-x-0 overflow-hidden md:absolute md:bottom-8 md:right-0 md:top-32 md:mt-0 md:mx-0 md:h-auto md:max-w-none md:w-[70%] md:translate-x-14 lg:w-[66%] lg:translate-x-24" id="hero-speaker-area">
+<video class="hero-video-layer absolute inset-0 z-0 h-full w-full object-contain object-center opacity-100 md:object-right" id="hero-video" muted playsinline preload="auto" disablePictureInPicture>
+<source src="assets/test.mov" type="video/quicktime"/>
+                    Your browser does not support the video tag.
+                </video>
+<img id="hero-freeze-frame" class="hero-freeze-frame absolute inset-0 z-10 h-full w-full object-contain object-center md:object-right" src="assets/test-final-frame.png" alt="" draggable="false"/>
+</div>
+<div id="hero-mid" class="relative z-10 mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col gap-4 pt-3 md:min-h-0 md:gap-0 md:pt-6" aria-label="Заголовок и запись">
+<div class="hero-copy flex min-h-0 flex-1 flex-col items-center justify-center gap-4 text-center md:items-start md:justify-end md:gap-6 md:pl-8 md:text-left md:-translate-y-10 lg:-translate-y-14">
+<div class="max-w-lg space-y-3 md:space-y-4">
+<h1 class="line-height-tight flex flex-col items-center text-4xl font-black tracking-tighter sm:text-5xl md:items-start md:text-[5.2rem]">
+<span class="text-white/90">Стань</span>
+<span class="shiny-text">Продакт</span>
+<span class="shiny-text">Менеджером</span>
+</h1>
+<p class="text-base font-medium tracking-tight text-white/75 sm:text-lg md:text-xl">
+                            Освой востребованную профессию под руководством практикующих экспертов из топовых IT-компаний.
+                        </p>
+<div class="hero-tabs-wrap flex w-full min-w-0 shrink-0 justify-center px-2 md:justify-start md:px-0" role="group" aria-label="Режим видео">
+<div class="inline-flex shrink-0 rounded-full border border-white/10 bg-black/10 p-1 backdrop-blur-md">
+<button class="chip-active rounded-full px-6 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300" id="toggle-all" type="button">Для всех</button>
+<button class="rounded-full px-6 py-2 text-xs font-bold uppercase tracking-wider text-white/40 transition-all duration-300 hover:text-white" id="toggle-students" type="button">Для студентов</button>
+</div>
+</div>
+</div>
+</div>
+<div class="hero-cta-wrap flex shrink-0 justify-center pb-1 md:justify-start md:pb-4 md:pl-8 md:-translate-y-10 lg:-translate-y-14">
+<a href="#pricing" class="hero-cta-pricing cta-hover-arrow group relative z-20 inline-flex w-fit shrink-0 items-center gap-4 rounded-full px-10 py-6 shadow-[0px_20px_60px_rgba(255,255,255,0.1)] transition-all duration-300 hover:shadow-[0px_24px_64px_rgba(255,255,255,0.14)] no-underline md:self-start" aria-label="За консультацией">
+<span class="text-lg font-extrabold uppercase tracking-tight">За консультацией</span>
+<span class="material-symbols-outlined arrow-icon rounded-full bg-black p-1 text-white transition-transform duration-300" data-icon="arrow_outward" aria-hidden="true">arrow_outward</span>
+</a>
+</div>
+</div>
+</main>
+<!-- Единый слой затемнения + blur под всем контентом после hero (без швов между секциями) -->
+<div class="relative z-10">
+<div class="pointer-events-none absolute -top-16 left-0 right-0 z-0 h-16 bg-gradient-to-b from-transparent to-black/40 md:-top-24 md:h-24" aria-hidden="true"></div>
+<div class="relative bg-black/40 backdrop-blur-xl">
+<!-- Об эксперте -->
+<section class="relative px-6 py-20 md:py-28" id="expert" aria-labelledby="expert-heading">
+<h2 class="mx-auto mb-8 w-full max-w-7xl text-4xl font-black tracking-tighter md:text-5xl" id="expert-heading">Об эксперте</h2>
+<div class="mx-auto max-w-7xl lg:grid lg:grid-cols-[minmax(220px,0.9fr)_minmax(0,2.1fr)] lg:gap-8">
+<div class="mb-8 lg:mb-0">
+<div class="lg:sticky lg:top-28">
+<div class="mt-6 overflow-hidden rounded-xl border border-white/10 bg-black/20">
+<img src="assets/6b4da35649ccdbb39aafdcc2b4190cc1.JPG" alt="Даня Колесниченко" class="h-auto w-full object-cover" loading="lazy" decoding="async"/>
+</div>
+<h3 class="mt-3 text-center text-2xl font-black tracking-tight md:text-3xl">Даня Колесниченко</h3>
+<div class="mt-3 text-center">
+<p class="text-base text-white/65">Product Manager @ Альфа-Банк</p>
+</div>
+<div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1">
+<div class="rounded-lg border border-white/10 bg-black/20 p-4">
+<div class="text-2xl font-black text-[#64cefb]">2 года</div>
+<div class="mt-1 text-base text-white/75">в продукте и цифровых сервисах</div>
+</div>
+<div class="rounded-lg border border-white/10 bg-black/20 p-4">
+<div class="text-2xl font-black text-[#64cefb]">100+</div>
+<div class="mt-1 text-base text-white/75">менти и участников программ</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<div class="mt-6 px-1 py-1">
+<div class="space-y-6">
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-6 backdrop-blur-xl md:p-8">
+<article>
+<p class="max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">Веду продуктовые направления в финтехе: от гипотез и исследований до запуска и масштабирования. В менторстве фокус на практических карьерных результатах: сильное резюме, продуктовые кейсы, уверенное интервью и понятная стратегия перехода.</p>
+</article>
+<aside class="mt-6 border-t border-white/10 pt-6">
+<h4 class="text-xl font-bold tracking-tight">Ключевые достижения</h4>
+<ul class="mt-5 space-y-3 text-base leading-relaxed text-white/75">
+<li>— Развитие продуктовых инициатив в банковском контуре.</li>
+<li>— Подготовка кандидатов к case/panel-интервью в продукт.</li>
+<li>— Системные карьерные треки: от стажировки до junior/middle.</li>
+</ul>
+</aside>
+</div>
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-6 backdrop-blur-xl md:p-8">
+<div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+<article>
+<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Карьерный опыт</p>
+<h4 class="mt-3 text-2xl font-bold tracking-tight">Опыт в продукте и бизнесе</h4>
+<div class="mt-5 space-y-4 text-base leading-relaxed text-white/75">
+<p><span class="font-semibold text-white">Discovery + Delivery:</span> исследования пользователей, формулировка гипотез, постановка задач в кросс-функциональную команду.</p>
+<p><span class="font-semibold text-white">Метрики и рост:</span> приоритизация по эффекту, анализ воронок, оценка результатов запуска на продуктовые KPI.</p>
+<p><span class="font-semibold text-white">Коммуникации:</span> синхронизация бизнеса, разработки и дизайна под общий результат.</p>
+</div>
+</article>
+<article>
+<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Менторство и преподавание</p>
+<h4 class="mt-3 text-2xl font-bold tracking-tight">Как проходит обучение</h4>
+<div class="mt-5 space-y-4 text-base leading-relaxed text-white/75">
+<p><span class="font-semibold text-white">Индивидуально:</span> карьерная диагностика, план роста, резюме/портфолио, репетиции интервью.</p>
+<p><span class="font-semibold text-white">Групповые форматы:</span> интенсивы, практикумы по продуктовым кейсам, обратная связь по тестовым.</p>
+<p><span class="font-semibold text-white">Фокус:</span> не теория ради теории, а конкретные результаты в откликах и собеседованиях.</p>
+</div>
+</article>
+</div>
+</div>
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-6 backdrop-blur-xl md:p-8">
+<article>
+<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Образование</p>
+<h4 class="mt-3 text-2xl font-bold tracking-tight">Академический и профессиональный трек</h4>
+<div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
+<div class="rounded-lg border border-white/10 bg-black/20 p-4">
+<p class="text-base font-semibold text-white">НИУ ВШЭ</p>
+<p class="mt-1 text-sm text-white/60">Экономика / управление продуктом</p>
+</div>
+<div class="rounded-lg border border-white/10 bg-black/20 p-4">
+<p class="text-base font-semibold text-white">Дополнительные курсы</p>
+<p class="mt-1 text-sm text-white/60">Product analytics, discovery, growth</p>
+</div>
+<div class="rounded-lg border border-dashed border-white/20 bg-black/30 p-4">
+<p class="text-base font-semibold text-white/80">Добавить диплом</p>
+<p class="mt-1 text-sm text-white/55">Можно вставить скан/ссылку на документ</p>
+</div>
+</div>
+</article>
+</div>
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-6 backdrop-blur-xl md:p-8">
+<article>
+<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Сертификаты и дипломы</p>
+<h4 class="mt-3 text-2xl font-bold tracking-tight">Подтверждение экспертизы</h4>
+<div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
+<div class="rounded-lg border border-white/10 bg-black/20 p-4">
+<p class="text-base font-semibold text-white">Product Management Certificate</p>
+<p class="mt-1 text-sm text-white/60">Coursera / 2024</p>
+</div>
+<div class="rounded-lg border border-white/10 bg-black/20 p-4">
+<p class="text-base font-semibold text-white">Data-Driven Product Strategy</p>
+<p class="mt-1 text-sm text-white/60">Практический курс / 2025</p>
+</div>
+<div class="rounded-lg border border-white/10 bg-black/20 p-3">
+<button type="button" class="doc-preview-btn" data-doc-preview="assets/Колесниченко Данил (1).png" aria-label="Открыть благодарственное письмо">
+<img src="assets/Колесниченко Данил (1).png" alt="Благодарственное письмо Changellenge Cup Russia 2026" class="h-28 w-full rounded-md object-cover object-top" loading="lazy" decoding="async" draggable="false"/>
+</button>
+<p class="mt-2 text-xs text-white/70">Благодарственное письмо Changellenge Cup Russia 2026</p>
+</div>
+</div>
+</article>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="relative px-6 py-20 md:py-28" id="audience" aria-labelledby="audience-heading">
+<div class="mx-auto max-w-7xl">
+<h2 class="mb-4 text-4xl font-black tracking-tighter md:mb-6 md:text-5xl" id="audience-heading">Для кого эта программа</h2>
+<p class="max-w-2xl text-pretty text-base text-white/55 md:text-lg">Если тебе откликается мысль вести продукт, переговоры и метрики — вот типичные точки входа, с которыми чаще всего приходят в менторство.</p>
+<div class="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
+<div class="flex h-11 w-11 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb]" data-icon="swap_horiz" aria-hidden="true">swap_horiz</span>
+</div>
+<h3 class="mt-5 text-lg font-bold tracking-tight">Смена фокуса</h3>
+<p class="mt-2 text-sm leading-relaxed text-white/55">Из смежных ролей — аналитик, дизайнер, маркетинг, проекты, поддержка. Хотите влияние на продукт, а не только в рамках своей воронки.</p>
+</div>
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
+<div class="flex h-11 w-11 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb]" data-icon="school" aria-hidden="true">school</span>
+</div>
+<h3 class="mt-5 text-lg font-bold tracking-tight">Студенты и недавние выпускники</h3>
+<p class="mt-2 text-sm leading-relaxed text-white/55">Нужен понятный трек, кейсы, подгрузка в реалистичные вакансии и соревнования, а не только лекции.</p>
+</div>
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
+<div class="flex h-11 w-11 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb]" data-icon="trending_up" aria-hidden="true">trending_up</span>
+</div>
+<h3 class="mt-5 text-lg font-bold tracking-tight">Junior, который хочет роста</h3>
+<p class="mt-2 text-sm leading-relaxed text-white/55">Первый опыт в продукте есть, но нет сильных артефактов, сценариев интервью и системной обратной связи от практиков банкинга/финтеха.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="relative px-6 py-20 md:py-28" id="curriculum">
+<div class="mx-auto max-w-7xl">
+<h2 class="mb-8 text-4xl font-black tracking-tighter md:text-5xl">Треки</h2>
+<div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-8 text-left backdrop-blur-md">
+<span class="font-bold text-[#64cefb]">01</span>
+<h3 class="mt-4 text-2xl font-bold">Консультация</h3>
+<p class="mt-2 text-sm text-white/55">Лалала</p>
+</div>
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-8 text-left backdrop-blur-md">
+<span class="font-bold text-[#64cefb]">02</span>
+<h3 class="mt-4 text-2xl font-bold">Интенсив</h3>
+<p class="mt-2 text-sm text-white/55">Лалала</p>
+</div>
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-8 text-left backdrop-blur-md">
+<span class="font-bold text-[#64cefb]">03</span>
+<h3 class="mt-4 text-2xl font-bold">Сопровождение</h3>
+<p class="mt-2 text-sm text-white/55">Лалала</p>
+</div>
+</div>
+</div>
+</section>
+<section class="relative px-6 py-20 md:py-28" id="outcomes" aria-labelledby="outcomes-heading">
+<div class="mx-auto max-w-7xl">
+<h2 class="mb-4 text-4xl font-black tracking-tighter md:mb-6 md:text-5xl" id="outcomes-heading">Что ты получишь от менторства</h2>
+<p class="max-w-2xl text-pretty text-base text-white/55 md:text-lg">Фокус на твоей ситуации, а не на абстрактной теории. Ниже — ось того, с чем обычно уходят по итогам работы в форматах сопровождения и интенсива.</p>
+<div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+<div class="flex gap-4 rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
+<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="route" aria-hidden="true">route</span>
+</div>
+<div>
+<h3 class="text-lg font-bold tracking-tight">Дорожная карта</h3>
+<p class="mt-2 text-sm leading-relaxed text-white/55">Согласуем вектор на 2–3 месяца: навыки, артефакты, воронку откликов, что в приоритете в твоей нише (финтех, b2b, b2c).</p>
+</div>
+</div>
+<div class="flex gap-4 rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
+<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="edit_document" aria-hidden="true">edit_document</span>
+</div>
+<div>
+<h3 class="text-lg font-bold tracking-tight">Резюме и портфолио под продукт</h3>
+<p class="mt-2 text-sm leading-relaxed text-white/55">Формулировка достижений, кейсно-логичная история, take-home / продуктовые тесты — с разбором и доработкой.</p>
+</div>
+</div>
+<div class="flex gap-4 rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
+<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="forum" aria-hidden="true">forum</span>
+</div>
+<div>
+<h3 class="text-lg font-bold tracking-tight">Разбор вопросов с повтором</h3>
+<p class="mt-2 text-sm leading-relaxed text-white/55">Продуктовая глубина, оценка компетенций, поведенка — в формате близко к тому, как крутят в больших банковских/продуктовых средах.</p>
+</div>
+</div>
+<div class="flex gap-4 rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
+<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="support_agent" aria-hidden="true">support_agent</span>
+</div>
+<div>
+<h3 class="text-lg font-bold tracking-tight">Сопровождение до сильного решения</h3>
+<p class="mt-2 text-sm leading-relaxed text-white/55">Созвоны, ответы между сессиями, помощь в переговорах о компенсации и в выборе оффера, когда доходишь до этого этапа.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="relative px-6 py-20 md:py-28" id="pricing">
+<div class="mx-auto max-w-7xl">
+<h2 class="mb-8 text-4xl font-black tracking-tighter md:text-5xl">Тарифы</h2>
+<div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3" role="radiogroup" aria-label="Выбор тарифа">
+<button type="button" class="pricing-option rounded-xl border border-white/10 bg-surface-container-low p-8 text-left backdrop-blur-xl transition-all duration-300 hover:border-white/25" data-pricing-option="consultation" aria-pressed="false">
+<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Консультация</span>
+<div class="mt-4 text-5xl font-bold tracking-tight">2500₽</div>
+<p class="mt-3 text-sm text-white/75">Разбор вашего кейса, трека развития и ближайших шагов.</p>
+</button>
+<button type="button" class="pricing-option rounded-xl border border-white/10 bg-surface-container-low p-8 text-left backdrop-blur-xl transition-all duration-300 hover:border-white/25" data-pricing-option="intensive" aria-pressed="false">
+<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Интенсив</span>
+<div class="mt-4 text-5xl font-bold tracking-tight">7900₽</div>
+<p class="mt-3 text-sm text-white/75">Серия практических сессий и фидбэк по вашему прогрессу.</p>
+</button>
+<button type="button" class="pricing-option pricing-option-active rounded-xl border border-white/10 bg-surface-container-low p-8 text-left backdrop-blur-xl transition-all duration-300 hover:border-white/25" data-pricing-option="support" aria-pressed="true">
+<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Сопровождение</span>
+<div class="mt-4 text-5xl font-bold tracking-tight">14900₽</div>
+<p class="mt-3 text-sm text-white/75">Личный трек, подготовка к интервью и поддержка до оффера.</p>
+</button>
+</div>
+<div class="mt-8 flex justify-center">
+<button type="button" id="pricing-cta" class="rounded-full bg-[#64cefb] px-8 py-3 font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_8px_24px_rgba(100,206,251,0.32)] transition-all duration-300 hover:bg-[#4cb8e5] hover:shadow-[0_10px_28px_rgba(100,206,251,0.42)]">Получить консультацию</button>
+</div>
+</div>
+</section>
+<section class="relative px-6 py-20 md:py-28" id="guide">
+<div class="mx-auto max-w-7xl w-full">
+<h2 class="mb-8 text-4xl font-black tracking-tighter md:text-5xl">Гайд</h2>
+<div class="w-full rounded-xl border border-white/10 bg-surface-container-low p-10 shadow-[0_0_0_1px_rgba(100,206,251,0.06)] backdrop-blur-xl md:p-14">
+<h2 class="w-full text-4xl font-bold leading-tight tracking-tighter text-white md:text-5xl">Получить бесплатный гайд по собеседованиям</h2>
+<p class="mt-5 text-pretty text-base leading-relaxed text-white/75 md:text-lg">Чек-лист по подготовке к продуктовым и поведенческим вопросам — отправлю в Telegram.</p>
+<form class="mt-10 space-y-8" action="#" method="post">
+<div>
+<label class="block text-xs font-bold uppercase tracking-wider text-white/55" for="guide-telegram">Ник в Telegram</label>
+<input id="guide-telegram" name="telegram" type="text" autocomplete="username" inputmode="text" required class="mt-2 w-full border-0 border-b border-white/20 bg-transparent py-2.5 text-base text-white outline-none ring-0 placeholder:text-white/55 focus:border-[#64cefb]" placeholder="@username"/>
+</div>
+<label class="flex cursor-pointer items-start gap-3 text-left text-sm leading-snug text-white/55">
+<input id="guide-consent" name="consent" type="checkbox" required class="mt-1 h-4 w-4 shrink-0 rounded border-white/25 bg-black/40 text-[#64cefb] accent-[#64cefb] focus:ring-2 focus:ring-[#64cefb]/30"/>
+<span>Согласен(-на) с обработкой персональных данных. <a class="font-medium text-[#64cefb] underline decoration-[#64cefb]/50 underline-offset-2 transition-colors hover:text-[#8ddcf9]" href="#">Политика конфиденциальности</a></span>
+</label>
+<div class="flex justify-center pt-2">
+<button type="submit" class="rounded-full bg-[#64cefb] px-12 py-4 text-sm font-extrabold uppercase tracking-widest text-black shadow-[0_8px_28px_rgba(255,255,255,0.12)] transition-colors hover:bg-zinc-200 hover:shadow-[0_10px_32px_rgba(255,255,255,0.18)]">Получить гайд</button>
+</div>
+</form>
+</div>
+</div>
+</section>
+<section class="relative px-6 py-20 md:py-28" id="reviews" aria-labelledby="reviews-heading">
+<div class="mx-auto max-w-7xl">
+<h2 class="mb-4 text-4xl font-black tracking-tighter md:mb-6 md:text-5xl" id="reviews-heading">Отзывы</h2>
+<p class="max-w-2xl text-pretty text-base text-white/55 md:text-lg">Коротко о разных траекториях: менти приходили и из учёбы, и из смены компании, и в первую продуктовую роль внутри банка и финтеха.</p>
+<div class="mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:overflow-visible md:pb-0 lg:grid-cols-3" data-reviews-carousel>
+<figure class="flex h-full min-w-full snap-start flex-col items-center py-2 md:min-w-0">
+<div class="review-video-shell is-paused">
+<video class="review-video" preload="metadata" playsinline>
+<source src="assets/otzyv.mp4" type="video/mp4"/>
+                            Ваш браузер не поддерживает видео.
+                        </video>
+<button type="button" class="review-video-toggle" aria-label="Play review video" aria-pressed="false">
+<span class="material-symbols-outlined" data-icon="play_arrow" aria-hidden="true">play_arrow</span>
+</button>
+</div>
+<figcaption class="mt-2 text-center">
+<span class="text-sm font-bold text-white">А. М.</span>
+</figcaption>
+</figure>
+<figure class="flex h-full min-w-full snap-start flex-col items-center py-2 md:min-w-0">
+<div class="review-video-shell is-paused">
+<video class="review-video" preload="metadata" playsinline>
+<source src="assets/otzyv.mp4" type="video/mp4"/>
+                            Ваш браузер не поддерживает видео.
+                        </video>
+<button type="button" class="review-video-toggle" aria-label="Play review video" aria-pressed="false">
+<span class="material-symbols-outlined" data-icon="play_arrow" aria-hidden="true">play_arrow</span>
+</button>
+</div>
+<figcaption class="mt-2 text-center">
+<span class="text-sm font-bold text-white">Курсант интенсива</span>
+</figcaption>
+</figure>
+<figure class="flex h-full min-w-full snap-start flex-col items-center py-2 md:min-w-0">
+<div class="review-video-shell is-paused">
+<video class="review-video" preload="metadata" playsinline>
+<source src="assets/otzyv.mp4" type="video/mp4"/>
+                            Ваш браузер не поддерживает видео.
+                        </video>
+<button type="button" class="review-video-toggle" aria-label="Play review video" aria-pressed="false">
+<span class="material-symbols-outlined" data-icon="play_arrow" aria-hidden="true">play_arrow</span>
+</button>
+</div>
+<figcaption class="mt-2 text-center">
+<span class="text-sm font-bold text-white">Роль в продукте</span>
+</figcaption>
+</figure>
+</div>
+<div class="mt-5 flex items-center justify-center gap-3 md:hidden" aria-label="Управление каруселью отзывов">
+<button type="button" class="reviews-nav-btn inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white/85 transition-colors hover:text-white" data-reviews-nav="prev" aria-label="Предыдущий отзыв">
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_left" aria-hidden="true">chevron_left</span>
+</button>
+<button type="button" class="reviews-nav-btn inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white/85 transition-colors hover:text-white" data-reviews-nav="next" aria-label="Следующий отзыв">
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_right" aria-hidden="true">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<section class="relative px-6 py-20 md:py-28" id="faq" aria-labelledby="faq-heading">
+<div class="mx-auto max-w-7xl">
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:text-5xl" id="faq-heading">Ответы на частые вопросы</h2>
+<div class="space-y-3 w-full">
+<div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
+<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-5 py-4 text-left md:px-6 md:py-5" aria-expanded="false" id="faq-q-1" aria-controls="faq-a-1">
+<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Кому подойдёт менторство, если у меня нет опыта в продукте?</span>
+<span class="faq-icon-btn inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-full border border-white/20 bg-black/30 text-2xl font-light leading-none text-[#64cefb]" aria-hidden="true">+</span>
+</button>
+<div class="faq-panel hidden border-t border-white/10 px-5 pb-5 pt-0 md:px-6" id="faq-a-1" role="region" aria-labelledby="faq-q-1">
+<p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">Подойдёт тем, кто делает первые шаги: смена профессии, стажировки, кейсы с учёбы. На разборе посмотрим ваш бэкграунд, цели и составим реалистичный план — от навыков до портфолио и откликов.</p>
+</div>
+</div>
+<div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
+<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-5 py-4 text-left md:px-6 md:py-5" aria-expanded="false" id="faq-q-2" aria-controls="faq-a-2">
+<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Чем отличаются консультация, интенсив и сопровождение?</span>
+<span class="faq-icon-btn inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-full border border-white/20 bg-black/30 text-2xl font-light leading-none text-[#64cefb]" aria-hidden="true">+</span>
+</button>
+<div class="faq-panel hidden border-t border-white/10 px-5 pb-5 pt-0 md:px-6" id="faq-a-2" role="region" aria-labelledby="faq-q-2">
+<p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">Консультация — разовая сессия с разбором кейса и планом. Интенсив — плотные практические встречи с фидбэком. Сопровождение — длительная работа: регулярные созвоны, подготовка к собесам и сопровождение до сильного оффера в рамках договорённостей.</p>
+</div>
+</div>
+<div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
+<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-5 py-4 text-left md:px-6 md:py-5" aria-expanded="false" id="faq-q-3" aria-controls="faq-a-3">
+<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Помогаете с резюме, портфолио и продуктовыми тестовыми?</span>
+<span class="faq-icon-btn inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-full border border-white/20 bg-black/30 text-2xl font-light leading-none text-[#64cefb]" aria-hidden="true">+</span>
+</button>
+<div class="faq-panel hidden border-t border-white/10 px-5 pb-5 pt-0 md:px-6" id="faq-a-3" role="region" aria-labelledby="faq-q-3">
+<p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">Да: структура резюме, формулировки достижений, портфолио-кейсы, разбор take-home и продуктовых заданий, разбор вопросов с собесов — в зависимости от выбранного формата.</p>
+</div>
+</div>
+<div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
+<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-5 py-4 text-left md:px-6 md:py-5" aria-expanded="false" id="faq-q-4" aria-controls="faq-a-4">
+<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Можно ли учиться, если я уже работаю не в IT?</span>
+<span class="faq-icon-btn inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-full border border-white/20 bg-black/30 text-2xl font-light leading-none text-[#64cefb]" aria-hidden="true">+</span>
+</button>
+<div class="faq-panel hidden border-t border-white/10 px-5 pb-5 pt-0 md:px-6" id="faq-a-4" role="region" aria-labelledby="faq-q-4">
+<p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">Можно. PM — про аналитику, коммуникации и поставку ценности пользователю. Опыт из банка, e-commerce, маркетинга, консалтинга часто усиливают картину — важно его правильно упаковать в историю и артефакты.</p>
+</div>
+</div>
+<div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
+<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-5 py-4 text-left md:px-6 md:py-5" aria-expanded="false" id="faq-q-5" aria-controls="faq-a-5">
+<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Как проходят встречи — онлайн и в каком формате?</span>
+<span class="faq-icon-btn inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-full border border-white/20 bg-black/30 text-2xl font-light leading-none text-[#64cefb]" aria-hidden="true">+</span>
+</button>
+<div class="faq-panel hidden border-t border-white/10 px-5 pb-5 pt-0 md:px-6" id="faq-a-5" role="region" aria-labelledby="faq-q-5">
+<p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">По согласованию — в основном онлайн (созвоны, шаринг экрана, разбор в Miro/Notion). Продолжительность и ритм фиксируем до старта, чтобы укладываться в ваши дедлайны и учёбу.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="relative px-6 py-20 md:py-28" id="contacts">
+<div class="mx-auto max-w-7xl">
+<h2 class="mb-4 text-4xl font-black tracking-tighter md:text-5xl">Контакты</h2>
+<div class="flex flex-col gap-4">
+<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 text-white no-underline transition-opacity hover:opacity-80">
+<img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="Telegram" class="h-24 w-24 object-contain" loading="lazy"/>
+<span class="text-lg font-semibold tracking-tight">@koolesoo</span>
+</a>
+<a href="https://www.linkedin.com/in/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 text-white no-underline transition-opacity hover:opacity-80">
+<img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="LinkedIn" class="h-24 w-24 object-contain" loading="lazy"/>
+<span class="text-lg font-semibold tracking-tight">/in/koolesoo</span>
+</a>
+</div>
+</div>
+</section>
+</div>
+</div>
+<div class="doc-lightbox" id="doc-lightbox" aria-hidden="true">
+<button type="button" class="doc-lightbox-close" id="doc-lightbox-close" aria-label="Закрыть">×</button>
+<img class="doc-lightbox-image" id="doc-lightbox-image" alt="Просмотр документа" draggable="false"/>
+</div>
+<script>
+        function scrollToTopOnLoad() {
+            document.documentElement.style.scrollBehavior = 'auto';
+            document.body.style.scrollBehavior = 'auto';
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+            requestAnimationFrame(() => {
+                window.scrollTo(0, 0);
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
+                requestAnimationFrame(() => {
+                    document.documentElement.style.removeProperty('scroll-behavior');
+                    document.body.style.removeProperty('scroll-behavior');
+                });
+            });
+        }
+        function headerScrollOffset() {
+            const header = document.getElementById('site-header');
+            if (!header) return 92;
+            return Math.ceil(header.getBoundingClientRect().height) + 12;
+        }
+
+        function scrollToHashTarget() {
+            const id = location.hash && location.hash.slice(1);
+            if (!id) return;
+            const el = document.getElementById(id);
+            if (!el) return;
+            const pad = headerScrollOffset();
+            const y = el.getBoundingClientRect().top + window.scrollY - pad;
+            window.scrollTo({ top: Math.max(0, y), behavior: 'instant' });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!location.hash) {
+                scrollToTopOnLoad();
+            }
+        });
+        window.addEventListener('load', () => {
+            const navEntry = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+            const isReload = !!(navEntry && navEntry.type === 'reload');
+            const hash = location.hash;
+
+            if (isReload && hash && hash !== '#pricing') {
+                history.replaceState(null, '', location.href.split('#')[0]);
+                scrollToTopOnLoad();
+                return;
+            }
+
+            if (location.hash) {
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(scrollToHashTarget);
+                });
+                return;
+            }
+            scrollToTopOnLoad();
+            [0, 50, 150, 300].forEach((ms) => {
+                setTimeout(() => {
+                    window.scrollTo(0, 0);
+                    document.documentElement.scrollTop = 0;
+                    document.body.scrollTop = 0;
+                }, ms);
+            });
+        });
+        window.addEventListener('pageshow', (e) => {
+            if (e.persisted) scrollToTopOnLoad();
+        });
+
+        const heroVideo = document.getElementById('hero-video');
+        const heroFreezeFrame = document.getElementById('hero-freeze-frame');
+        const btnAll = document.getElementById('toggle-all');
+        const btnStudents = document.getElementById('toggle-students');
+        const navIds = ['expert', 'curriculum', 'pricing', 'guide', 'reviews'];
+        const scrollSpyChain = [
+            { id: 'expert', href: '#expert' },
+            { id: 'curriculum', href: '#curriculum' },
+            { id: 'pricing', href: '#pricing' },
+            { id: 'guide', href: '#guide' },
+            { id: 'reviews', href: '#reviews' },
+        ];
+        const navLinks = document.querySelectorAll('.nav-link');
+        const connectorFills = document.querySelectorAll('.nav-connector-fill');
+        const pricingOptions = document.querySelectorAll('.pricing-option');
+        let navSyncRaf = null;
+        let heroVideoMode = 'all';
+        let reverseRafId = null;
+        let reverseLastTs = 0;
+        let forwardRafId = null;
+        const HERO_END_HOLD_OFFSET = 1.2;
+
+        function stopReversePlayback() {
+            if (!reverseRafId) return;
+            cancelAnimationFrame(reverseRafId);
+            reverseRafId = null;
+            reverseLastTs = 0;
+        }
+
+        function stopForwardMonitor() {
+            if (!forwardRafId) return;
+            cancelAnimationFrame(forwardRafId);
+            forwardRafId = null;
+        }
+
+        function showFreezeFrame() {
+            if (!heroFreezeFrame) return;
+            heroFreezeFrame.classList.add('is-visible');
+        }
+
+        function hideFreezeFrame() {
+            if (!heroFreezeFrame) return;
+            heroFreezeFrame.classList.remove('is-visible');
+        }
+
+        function heroHoldTime() {
+            if (!heroVideo || !Number.isFinite(heroVideo.duration) || heroVideo.duration <= 0) return 0;
+            return Math.max(0, heroVideo.duration - HERO_END_HOLD_OFFSET);
+        }
+
+        function holdHeroOnStudentsFrame() {
+            if (!heroVideo) return;
+            const holdTime = heroHoldTime();
+            heroVideo.pause();
+            heroVideo.currentTime = holdTime;
+            showFreezeFrame();
+            heroVideo.classList.add('is-hidden');
+        }
+
+        function playForward() {
+            if (!heroVideo) return;
+            stopReversePlayback();
+            stopForwardMonitor();
+            hideFreezeFrame();
+            heroVideo.classList.remove('is-hidden');
+            if (Number.isFinite(heroVideo.duration) && heroVideo.duration > 0) {
+                const endFrame = heroHoldTime();
+                if (heroVideo.currentTime >= endFrame - 0.02) {
+                    heroVideo.currentTime = 0;
+                }
+            }
+            const p = heroVideo.play();
+            if (p && typeof p.catch === 'function') p.catch(() => {});
+
+            const monitorForward = () => {
+                if (!heroVideo || heroVideoMode !== 'students') {
+                    stopForwardMonitor();
+                    return;
+                }
+                const holdTime = heroHoldTime();
+                if (holdTime && heroVideo.currentTime >= holdTime) {
+                    holdHeroOnStudentsFrame();
+                    stopForwardMonitor();
+                    return;
+                }
+                forwardRafId = requestAnimationFrame(monitorForward);
+            };
+            forwardRafId = requestAnimationFrame(monitorForward);
+        }
+
+        function playReverse() {
+            if (!heroVideo) return;
+            stopReversePlayback();
+            stopForwardMonitor();
+            hideFreezeFrame();
+            heroVideo.classList.remove('is-hidden');
+            heroVideo.pause();
+
+            const step = (ts) => {
+                if (!heroVideo) return;
+                if (!reverseLastTs) reverseLastTs = ts;
+                const dt = Math.min(0.05, (ts - reverseLastTs) / 1000);
+                reverseLastTs = ts;
+                const next = Math.max(0, heroVideo.currentTime - dt * 1.2);
+                heroVideo.currentTime = next;
+                if (next > 0.001) {
+                    reverseRafId = requestAnimationFrame(step);
+                } else {
+                    stopReversePlayback();
+                }
+            };
+
+            reverseRafId = requestAnimationFrame(step);
+        }
+
+        function setChipAll() {
+            btnAll.classList.add('chip-active');
+            btnAll.classList.remove('text-white/55', 'hover:text-white');
+            btnStudents.classList.remove('chip-active');
+            btnStudents.classList.add('text-white/55', 'hover:text-white');
+        }
+
+        function setChipStudents() {
+            btnStudents.classList.add('chip-active');
+            btnStudents.classList.remove('text-white/55', 'hover:text-white');
+            btnAll.classList.remove('chip-active');
+            btnAll.classList.add('text-white/55', 'hover:text-white');
+        }
+
+        if (btnAll && btnStudents) {
+            btnAll.addEventListener('click', () => {
+                setChipAll();
+                heroVideoMode = 'all';
+                playReverse();
+            });
+
+            btnStudents.addEventListener('click', () => {
+                setChipStudents();
+                heroVideoMode = 'students';
+                playForward();
+            });
+        }
+
+        if (pricingOptions.length) {
+            pricingOptions.forEach((option) => {
+                option.addEventListener('click', () => {
+                    pricingOptions.forEach((item) => {
+                        item.classList.remove('pricing-option-active');
+                        item.setAttribute('aria-pressed', 'false');
+                    });
+                    option.classList.add('pricing-option-active');
+                    option.setAttribute('aria-pressed', 'true');
+                });
+            });
+        }
+
+        if (heroVideo) {
+            heroVideo.load();
+            heroVideo.addEventListener('ended', () => {
+                if (heroVideoMode === 'students') {
+                    holdHeroOnStudentsFrame();
+                    return;
+                }
+                heroVideo.pause();
+            });
+        }
+
+        function docTop(el) {
+            return el.getBoundingClientRect().top + window.scrollY;
+        }
+
+        function navProgressEnabled() {
+            return window.matchMedia('(min-width: 768px)').matches;
+        }
+
+        function updateNavProgress() {
+            const els = navIds.map((id) => document.getElementById(id)).filter(Boolean);
+            if (els.length !== 5) return;
+
+            /* Без смещения по высоте окна: иначе при scrollY=0 линии уже частично «заполнены». */
+            const scrollY = window.scrollY;
+            const tops = els.map(docTop);
+            const progressOn = navProgressEnabled();
+
+            if (progressOn && connectorFills.length === 4) {
+                connectorFills.forEach((fill, k) => {
+                    const a = tops[k];
+                    const b = tops[k + 1];
+                    const span = Math.max(1, b - a);
+                    const t = Math.max(0, Math.min(1, (scrollY - a) / span));
+                    fill.style.transform = `scaleX(${t})`;
+                });
+            } else if (connectorFills.length) {
+                connectorFills.forEach((fill) => {
+                    fill.style.transform = 'scaleX(0)';
+                });
+            }
+
+            const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+            const nearEnd = scrollY >= maxScroll * 0.92;
+
+            navLinks.forEach((link, i) => {
+                link.classList.remove('nav-filled');
+                if (!progressOn) return;
+                if (i < 4 && scrollY >= tops[i + 1]) {
+                    link.classList.add('nav-filled');
+                }
+                if (i === 4 && nearEnd) {
+                    link.classList.add('nav-filled');
+                }
+            });
+        }
+
+        function syncNavFromScroll() {
+            /* Только реальный скролл — активный пункт не «убегает» вперёд от нуля. */
+            const probe = window.scrollY;
+            let activeHref = '#expert';
+            for (const row of scrollSpyChain) {
+                const el = document.getElementById(row.id);
+                if (el && docTop(el) <= probe) {
+                    activeHref = row.href;
+                }
+            }
+            navLinks.forEach((link) => {
+                const h = link.getAttribute('href');
+                link.classList.remove('active', 'text-white');
+                link.classList.add('text-white/55');
+                if (h === activeHref) {
+                    link.classList.add('active', 'text-white');
+                    link.classList.remove('text-white/55');
+                }
+            });
+            updateNavProgress();
+        }
+
+        function requestNavSync() {
+            if (navSyncRaf) return;
+            navSyncRaf = requestAnimationFrame(() => {
+                navSyncRaf = null;
+                syncNavFromScroll();
+            });
+        }
+
+        window.addEventListener('scroll', requestNavSync, { passive: true });
+        window.addEventListener('resize', syncNavFromScroll);
+        syncNavFromScroll();
+
+        const bgVideo = document.getElementById('bg-video');
+
+        function syncBgVideoPlayback() {
+            if (!bgVideo) return;
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const saveData = 'connection' in navigator && navigator.connection && navigator.connection.saveData;
+            if (reduce || saveData) {
+                bgVideo.pause();
+                bgVideo.removeAttribute('autoplay');
+                return;
+            }
+            if (document.hidden) {
+                bgVideo.pause();
+            } else {
+                bgVideo.play().catch(() => {});
+            }
+        }
+
+        document.addEventListener('visibilitychange', syncBgVideoPlayback);
+        window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', syncBgVideoPlayback);
+        if ('connection' in navigator && navigator.connection) {
+            navigator.connection.addEventListener('change', syncBgVideoPlayback);
+        }
+        syncBgVideoPlayback();
+
+        (function initReviewVideoControls() {
+            const shells = document.querySelectorAll('.review-video-shell');
+            if (!shells.length) return;
+
+            shells.forEach((shell) => {
+                const video = shell.querySelector('.review-video');
+                const button = shell.querySelector('.review-video-toggle');
+                const icon = button ? button.querySelector('.material-symbols-outlined') : null;
+                if (!video || !button || !icon) return;
+
+                function setState(isPlaying) {
+                    shell.classList.toggle('is-playing', isPlaying);
+                    shell.classList.toggle('is-paused', !isPlaying);
+                    icon.textContent = isPlaying ? 'pause' : 'play_arrow';
+                    button.setAttribute('aria-label', isPlaying ? 'Pause review video' : 'Play review video');
+                    button.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
+                }
+
+                function togglePlayback() {
+                    if (video.paused || video.ended) {
+                        video.play().catch(() => {});
+                        return;
+                    }
+                    video.pause();
+                }
+
+                button.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    togglePlayback();
+                });
+                video.addEventListener('click', togglePlayback);
+                video.addEventListener('play', () => setState(true));
+                video.addEventListener('pause', () => setState(false));
+                video.addEventListener('ended', () => setState(false));
+                video.addEventListener(
+                    'loadeddata',
+                    () => {
+                        // Keep a visible first frame as default "stop-camera" state.
+                        video.pause();
+                        try {
+                            const frameTime = Number.isFinite(video.duration) && video.duration > 0 ? Math.min(0.04, video.duration) : 0;
+                            video.currentTime = frameTime;
+                        } catch (e) {}
+                        setState(false);
+                    },
+                    { once: true }
+                );
+                video.load();
+                setState(false);
+            });
+        })();
+
+        (function initReviewsCarouselNav() {
+            const sections = document.querySelectorAll('#reviews');
+            if (!sections.length) return;
+
+            sections.forEach((section) => {
+                const carousel = section.querySelector('[data-reviews-carousel]');
+                const prevBtn = section.querySelector('[data-reviews-nav="prev"]');
+                const nextBtn = section.querySelector('[data-reviews-nav="next"]');
+                if (!carousel || !prevBtn || !nextBtn) return;
+
+                function scrollByCard(direction) {
+                    const firstCard = carousel.querySelector('figure');
+                    if (!firstCard) return;
+                    const cardWidth = firstCard.getBoundingClientRect().width;
+                    const gap = 24; // Tailwind gap-6
+                    const delta = cardWidth + gap;
+                    carousel.scrollBy({ left: direction * delta, behavior: 'smooth' });
+                }
+
+                prevBtn.addEventListener('click', () => scrollByCard(-1));
+                nextBtn.addEventListener('click', () => scrollByCard(1));
+            });
+        })();
+
+        (function initDocPreview() {
+            const modal = document.getElementById('doc-lightbox');
+            const modalImg = document.getElementById('doc-lightbox-image');
+            const closeBtn = document.getElementById('doc-lightbox-close');
+            const triggers = document.querySelectorAll('[data-doc-preview]');
+            if (!modal || !modalImg || !closeBtn || !triggers.length) return;
+
+            function closeModal() {
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.style.removeProperty('overflow');
+            }
+
+            function openModal(src) {
+                modalImg.src = src;
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+
+            triggers.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const src = btn.getAttribute('data-doc-preview');
+                    if (!src) return;
+                    openModal(src);
+                });
+                btn.addEventListener('contextmenu', (event) => event.preventDefault());
+                btn.addEventListener('dragstart', (event) => event.preventDefault());
+            });
+
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) closeModal();
+            });
+            closeBtn.addEventListener('click', closeModal);
+            modalImg.addEventListener('contextmenu', (event) => event.preventDefault());
+            modalImg.addEventListener('dragstart', (event) => event.preventDefault());
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+                if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's' && modal.classList.contains('is-open')) {
+                    event.preventDefault();
+                }
+            });
+        })();
+
+        (function initFaq() {
+            const triggers = document.querySelectorAll('.faq-trigger');
+            if (!triggers.length) return;
+
+            function setOpen(btn, open) {
+                const panel = document.getElementById(btn.getAttribute('aria-controls') || '');
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                if (panel) {
+                    panel.classList.toggle('hidden', !open);
+                }
+            }
+
+            triggers.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const isOpen = btn.getAttribute('aria-expanded') === 'true';
+                    triggers.forEach((b) => setOpen(b, false));
+                    if (!isOpen) setOpen(btn, true);
+                });
+            });
+        })();
+    </script>
+</body></html>
