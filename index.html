@@ -1,9 +1,49 @@
 <!DOCTYPE html>
 
-<html class="dark" lang="en"><head>
+<html class="dark" lang="ru"><head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" name="viewport"/>
 <title>DesignPro | The Illuminated Scholar</title>
+<script>
+        /* Early zoom lock — must run before first gesture (iOS) */
+        (function lockMobileZoom() {
+            const VIEWPORT =
+                'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no';
+            const meta = document.querySelector('meta[name="viewport"]');
+            const applyViewport = () => {
+                if (meta) meta.setAttribute('content', VIEWPORT);
+            };
+            applyViewport();
+
+            const block = (event) => event.preventDefault();
+            document.addEventListener('gesturestart', block, { passive: false });
+            document.addEventListener('gesturechange', block, { passive: false });
+            document.addEventListener('gestureend', block, { passive: false });
+            document.addEventListener(
+                'touchmove',
+                (event) => {
+                    if (event.touches.length > 1) event.preventDefault();
+                },
+                { passive: false }
+            );
+
+            /* If Safari still zooms, snap scale back via viewport meta bounce */
+            const resetScale = () => {
+                const scale = window.visualViewport ? window.visualViewport.scale : 1;
+                if (!meta || scale === 1) return;
+                meta.setAttribute('content', VIEWPORT.replace('maximum-scale=1', 'maximum-scale=1.0001'));
+                requestAnimationFrame(applyViewport);
+            };
+            if (window.visualViewport) {
+                window.visualViewport.addEventListener('resize', resetScale);
+                window.visualViewport.addEventListener('scroll', resetScale);
+            }
+            window.addEventListener('orientationchange', () => {
+                applyViewport();
+                setTimeout(resetScale, 300);
+            });
+        })();
+</script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -12,6 +52,8 @@
             scroll-behavior: smooth;
             /* Десктоп: якоря под фиксированной шапкой; мобилка — шапки нет */
             scroll-padding-top: 5.75rem;
+            touch-action: manipulation;
+            -ms-touch-action: manipulation;
         }
 
         @media (max-width: 767.98px) {
@@ -26,6 +68,49 @@
             color: #ffffff;
             margin: 0;
             overflow-x: hidden;
+            touch-action: manipulation;
+            -ms-touch-action: manipulation;
+        }
+
+        /* Единые боковые отступы лендинга */
+        :root {
+            --page-inline: max(2rem, env(safe-area-inset-left, 0px));
+            --page-inline-right: max(2rem, env(safe-area-inset-right, 0px));
+        }
+
+        @media (max-width: 767.98px) {
+            :root {
+                --page-inline: max(2rem, env(safe-area-inset-left, 0px));
+                --page-inline-right: max(2rem, env(safe-area-inset-right, 0px));
+            }
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                --page-inline: max(2.5rem, env(safe-area-inset-left, 0px));
+                --page-inline-right: max(2.5rem, env(safe-area-inset-right, 0px));
+            }
+        }
+
+        @media (min-width: 1280px) {
+            :root {
+                --page-inline: max(3rem, env(safe-area-inset-left, 0px));
+                --page-inline-right: max(3rem, env(safe-area-inset-right, 0px));
+            }
+        }
+
+        #hero,
+        .page-gutter {
+            padding-left: var(--page-inline) !important;
+            padding-right: var(--page-inline-right) !important;
+            box-sizing: border-box;
+        }
+
+        /* iOS: focus zoom if input font-size < 16px */
+        input,
+        select,
+        textarea {
+            font-size: 16px;
         }
 
         @font-face {
@@ -107,30 +192,104 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
-        .cta-hover-arrow:hover .arrow-icon {
-            transform: translateX(4px);
-        }
-
-        .hero-cta-pricing {
-            background-color: #ffffff !important;
-            color: #0a0a0a !important;
-        }
-
-        .hero-cta-pricing:hover {
-            background-color: #e4e4e7 !important;
-        }
-
-        .hero-cta-pricing .arrow-icon {
-            background-color: #0a0a0a !important;
-            color: #ffffff !important;
-        }
-
         .line-height-tight {
             line-height: 0.85;
         }
 
+        /* Заголовок «для студентов» шире контейнера — буллеты остаются в max-w-lg */
+        @media (max-width: 767.98px) {
+            #hero-mode-students {
+                overflow: visible;
+            }
+
+            #hero-mode-students .hero-students-title {
+                width: 100vw;
+                max-width: 100vw;
+                margin-left: calc(50% - 50vw);
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+                box-sizing: border-box;
+            }
+        }
+
         .hero-h1 {
             line-height: 1.12;
+        }
+
+        /* USP cards (value section) */
+        .hero-usps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .hero-usp-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 0;
+            padding: 0.9rem 3.1rem 0.9rem 1.05rem;
+            border-radius: 1.15rem;
+            background: rgba(255, 255, 255, 0.1);
+            text-align: left;
+        }
+
+        .hero-usp-title {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            color: #fff;
+        }
+
+        .hero-usp-text {
+            margin: 0.28rem 0 0;
+            font-size: 0.75rem;
+            font-weight: 400;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .hero-usp-icon {
+            position: absolute;
+            right: 0.85rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.35rem !important;
+            color: rgba(255, 255, 255, 0.92);
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        @media (min-width: 768px) {
+            .hero-usps {
+                gap: 0.65rem;
+                max-width: 28rem;
+            }
+
+            .hero-usp-card {
+                padding: 1rem 3.4rem 1rem 1.2rem;
+                border-radius: 1.25rem;
+            }
+
+            .hero-usp-title {
+                font-size: 1.05rem;
+            }
+
+            .hero-usp-text {
+                font-size: 0.8125rem;
+            }
+
+            .hero-usp-icon {
+                right: 1rem;
+                font-size: 1.45rem !important;
+            }
         }
 
         /* Активный сегмент таба — светло-серое матовое стекло */
@@ -201,13 +360,53 @@
             transition: opacity 0.18s ease;
             will-change: opacity;
             mix-blend-mode: screen;
-            transform: scale(1.1);
+            transform: scale(0.73);
             transform-origin: center bottom;
+        }
+
+        /* Скрыть нативную кнопку Play у фонового видео (Safari/Chrome) */
+        #bg-video.is-inactive {
+            opacity: 0 !important;
+            visibility: hidden;
+        }
+
+        #bg-video::-webkit-media-controls,
+        #bg-video::-webkit-media-controls-enclosure,
+        #bg-video::-webkit-media-controls-panel,
+        #bg-video::-webkit-media-controls-start-playback-button,
+        #bg-video::-webkit-media-controls-overlay-play-button {
+            display: none !important;
+            -webkit-appearance: none !important;
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+            pointer-events: none !important;
         }
 
         #hero-speaker-area {
             background: transparent !important;
             isolation: isolate;
+        }
+
+        #hero-speaker-area .hero-freeze-frame {
+            object-fit: cover;
+            object-position: center 18%;
+            -webkit-mask-image: linear-gradient(
+                to bottom,
+                #000 0%,
+                #000 42%,
+                rgba(0, 0, 0, 0.7) 62%,
+                rgba(0, 0, 0, 0.28) 78%,
+                transparent 100%
+            );
+            mask-image: linear-gradient(
+                to bottom,
+                #000 0%,
+                #000 42%,
+                rgba(0, 0, 0, 0.7) 62%,
+                rgba(0, 0, 0, 0.28) 78%,
+                transparent 100%
+            );
         }
 
         .hero-video-layer.is-hidden {
@@ -320,8 +519,8 @@
             height: 2.25rem;
             width: 2.25rem;
             border-radius: 9999px;
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: rgba(0, 0, 0, 0.55);
             color: #fff;
             font-size: 1.25rem;
             line-height: 1;
@@ -338,26 +537,32 @@
 
             #hero-speaker-area {
                 position: absolute;
-                top: 0.1rem;
+                inset: 0;
+                left: 0;
+                right: 0;
+                top: 0;
                 bottom: 0;
-                left: 50%;
                 z-index: 0;
-                width: min(108vw, 40rem);
+                width: 100%;
                 max-width: none;
                 height: auto;
                 margin: 0;
-                transform: translateX(-50%);
+                transform: none;
             }
 
             #hero-mid {
                 position: absolute;
                 left: 0;
                 right: 0;
+                width: auto;
                 bottom: max(0.25rem, env(safe-area-inset-bottom));
                 z-index: 10;
                 margin-top: 0;
-                padding-top: min(30vh, 15rem);
+                padding-top: 0;
                 padding-bottom: 0;
+                padding-left: var(--page-inline);
+                padding-right: var(--page-inline-right);
+                box-sizing: border-box;
             }
 
             #hero-mid {
@@ -367,18 +572,17 @@
                 gap: 0.75rem;
             }
 
-            #hero-mid .hero-tabs-wrap {
-                order: 2;
-            }
-
             #hero-mid .hero-copy {
-                order: 1;
                 flex: 0 0 auto;
                 justify-content: flex-end;
+                width: 100%;
+                max-width: 100%;
             }
 
-            #hero-mid .hero-cta-wrap {
-                order: 3;
+            #hero > .hero-tabs-wrap {
+                margin-top: 0.15rem;
+                margin-bottom: 0.35rem;
+                justify-content: center;
             }
         }
 
@@ -390,47 +594,80 @@
             }
 
             #hero-speaker-area {
-                top: auto !important;
+                inset: 0 !important;
+                top: 0 !important;
+                right: 0 !important;
                 bottom: 0 !important;
-                height: min(88svh, 56rem) !important;
+                left: auto !important;
+                width: 58% !important;
+                max-width: none !important;
+                height: auto !important;
+                transform: none !important;
             }
 
             #hero-speaker-area .hero-video-layer {
                 bottom: 0;
-                transform: scale(1.12);
-                object-position: center bottom;
+                transform: none;
+                object-fit: cover;
+                object-position: center 15%;
+            }
+
+            #hero-speaker-area .hero-freeze-frame {
+                object-fit: cover;
+                object-position: center 15%;
+                -webkit-mask-image: linear-gradient(
+                    to left,
+                    #000 0%,
+                    #000 55%,
+                    rgba(0, 0, 0, 0.55) 78%,
+                    transparent 100%
+                ),
+                linear-gradient(
+                    to bottom,
+                    #000 0%,
+                    #000 70%,
+                    rgba(0, 0, 0, 0.4) 88%,
+                    transparent 100%
+                );
+                mask-image: linear-gradient(
+                    to left,
+                    #000 0%,
+                    #000 55%,
+                    rgba(0, 0, 0, 0.55) 78%,
+                    transparent 100%
+                ),
+                linear-gradient(
+                    to bottom,
+                    #000 0%,
+                    #000 70%,
+                    rgba(0, 0, 0, 0.4) 88%,
+                    transparent 100%
+                );
+                -webkit-mask-composite: source-in;
+                mask-composite: intersect;
             }
 
             #hero-mid {
-                display: grid;
-                grid-template-columns: 1fr auto;
-                grid-template-rows: 1fr auto;
-                align-items: end;
-                column-gap: 1.5rem;
-                row-gap: 1.5rem;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
                 padding-top: 0.5rem;
                 min-height: 0;
             }
 
             #hero-mid .hero-copy {
-                grid-column: 1 / -1;
-                grid-row: 1;
                 align-self: end;
                 justify-self: start;
+                margin-top: auto;
             }
 
-            #hero-mid .hero-cta-wrap {
-                grid-column: 1;
-                grid-row: 2;
-                justify-self: start;
-                align-self: end;
-            }
-
-            #hero-mid .hero-tabs-wrap {
-                grid-column: 2;
-                grid-row: 2;
-                justify-self: end;
-                align-self: end;
+            #hero > .hero-tabs-wrap {
+                position: relative;
+                z-index: 30;
+                max-width: 80rem;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
             }
         }
 
@@ -439,12 +676,1344 @@
         }
 
         .faq-trigger[aria-expanded="true"] .faq-icon-btn {
-            transform: rotate(45deg);
+            transform: rotate(180deg);
         }
 
         @media (prefers-reduced-motion: reduce) {
             .faq-icon-btn {
                 transition-duration: 0.01ms;
+            }
+
+            .sections-overlay,
+            .sections-overlay-panel {
+                transition: none;
+            }
+        }
+
+        /* —— Audience swipe stack (horizontal only) —— */
+        /* —— Audience stack: полупрозрачная диагональная колода + горизонтальный свайп —— */
+        .audience-stack {
+            position: relative;
+            width: min(100%, 34rem);
+            height: var(--audience-card-h, 16rem);
+            margin-inline: auto;
+            perspective: 900px;
+            touch-action: pan-y;
+            outline: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .audience-stack {
+                margin-inline: 0;
+            }
+        }
+
+        .audience-card {
+            position: absolute;
+            inset: 0;
+            height: fit-content;
+            --stack-i: 0;
+            transform:
+                translate3d(calc(var(--stack-i) * 14px), calc(var(--stack-i) * 16px), 0)
+                rotate(calc(var(--stack-i) * 1.8deg));
+            opacity: calc(1 - var(--stack-i) * 0.18);
+            transform-origin: center center;
+            transition:
+                transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.4s ease;
+            will-change: transform, opacity;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+            cursor: grab;
+        }
+
+        .audience-card:active {
+            cursor: grabbing;
+        }
+
+        .audience-card.is-dismissed {
+            transform: translate3d(-118%, 8%, 0) rotate(-10deg);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .audience-nav-btn {
+            display: inline-flex;
+            height: 2.25rem;
+            width: 2.25rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(0, 0, 0, 0.3);
+            color: rgba(255, 255, 255, 0.85);
+            cursor: pointer;
+        }
+
+        .audience-nav-btn:disabled {
+            opacity: 0.35;
+            cursor: default;
+        }
+
+        .audience-stack-dot {
+            width: 0.4rem;
+            height: 0.4rem;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.25);
+            transition: background 0.25s ease, transform 0.25s ease;
+        }
+
+        .audience-stack-dot.is-active {
+            background: #64cefb;
+            transform: scale(1.35);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .audience-stack {
+                display: grid;
+                height: auto;
+                gap: 1rem;
+                perspective: none;
+            }
+
+            .audience-card {
+                position: relative;
+                inset: auto;
+                transform: none !important;
+                opacity: 1 !important;
+                cursor: default;
+                transition: none;
+            }
+
+            .audience-stack-controls {
+                display: none;
+            }
+        }
+
+        /* —— Mobile chrome: menu, sticky CTA, overlays —— */
+        body.has-overlay-open {
+            overflow: hidden;
+        }
+
+        .mobile-chrome {
+            display: none;
+        }
+
+        .page-with-sticky-cta.has-sticky-cta {
+            padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+        }
+
+        @media (max-width: 767.98px) {
+            html {
+                scroll-padding-top: 4.5rem;
+            }
+
+            .mobile-chrome {
+                display: block;
+            }
+
+            #hero {
+                padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+            }
+
+            #hero-mid {
+                bottom: max(1rem, env(safe-area-inset-bottom));
+            }
+        }
+
+        #mobile-menu-btn,
+        #sticky-consult-cta {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #mobile-menu-btn {
+            position: fixed;
+            top: max(0.75rem, env(safe-area-inset-top));
+            right: max(0.75rem, env(safe-area-inset-right));
+            z-index: 60;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(0, 0, 0, 0.45);
+            -webkit-backdrop-filter: blur(16px) saturate(1.2);
+            backdrop-filter: blur(16px) saturate(1.2);
+            color: #fff;
+            padding: 0;
+            cursor: pointer;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+        }
+
+        #sticky-consult-cta {
+            position: fixed;
+            left: 50%;
+            bottom: max(0.85rem, env(safe-area-inset-bottom));
+            z-index: 60;
+            transform: translateX(-50%) translateY(0.75rem);
+            width: min(calc(100vw - (var(--page-inline) + var(--page-inline-right))), 22rem);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            border: 0;
+            background: #64cefb;
+            color: #001f2a;
+            padding: 0.95rem 1.25rem;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 10px 32px rgba(100, 206, 251, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+        }
+
+        #sticky-consult-cta.is-visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        #sticky-consult-cta.is-visible:active {
+            transform: translateX(-50%) scale(0.98);
+        }
+
+        body.has-cookie-banner #sticky-consult-cta {
+            bottom: calc(0.85rem + var(--cookie-banner-lift, 0px) + env(safe-area-inset-bottom));
+        }
+
+        @media (max-width: 767.98px) {
+            body.has-cookie-banner.has-sticky-cta {
+                padding-bottom: calc(5.5rem + var(--cookie-banner-lift, 0px) + env(safe-area-inset-bottom));
+            }
+        }
+
+        #cookie-banner {
+            position: fixed;
+            left: 50%;
+            bottom: max(0.85rem, env(safe-area-inset-bottom));
+            z-index: 70;
+            transform: translateX(-50%) translateY(0.75rem);
+            width: min(calc(100vw - (var(--page-inline) + var(--page-inline-right))), 36rem);
+            padding: 1rem 1.1rem;
+            border-radius: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(8, 12, 16, 0.88);
+            -webkit-backdrop-filter: blur(18px) saturate(1.2);
+            backdrop-filter: blur(18px) saturate(1.2);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 16px 40px rgba(0, 0, 0, 0.45);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.28s ease, transform 0.28s ease, visibility 0.28s ease;
+        }
+
+        #cookie-banner.is-visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        #cookie-banner.is-leaving {
+            opacity: 0;
+            transform: translateX(-50%) translateY(0.75rem);
+            pointer-events: none;
+        }
+
+        .cookie-banner-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .cookie-banner-text {
+            margin: 0;
+            font-size: 0.8125rem;
+            line-height: 1.45;
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        .cookie-banner-text a {
+            color: #64cefb;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            text-decoration-color: rgba(100, 206, 251, 0.4);
+            transition: color 0.15s ease;
+        }
+
+        .cookie-banner-text a:hover {
+            color: #8ddcf9;
+        }
+
+        .cookie-banner-actions {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 0.55rem;
+        }
+
+        .cookie-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1 1 0;
+            min-width: 0;
+            border-radius: 9999px;
+            padding: 0.72rem 1rem;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+        }
+
+        .cookie-btn:active {
+            transform: scale(0.98);
+        }
+
+        .cookie-btn-accept {
+            border: 0;
+            background: #64cefb;
+            color: #001f2a;
+            box-shadow: 0 8px 22px rgba(100, 206, 251, 0.28);
+        }
+
+        .cookie-btn-accept:hover {
+            background: #4cb8e5;
+        }
+
+        .cookie-btn-decline {
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+        }
+
+        .cookie-btn-decline:hover {
+            border-color: rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (min-width: 480px) {
+            #cookie-banner {
+                padding: 1.1rem 1.25rem;
+            }
+
+            .cookie-banner-inner {
+                flex-direction: row;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .cookie-banner-text {
+                flex: 1 1 auto;
+                font-size: 0.875rem;
+            }
+
+            .cookie-banner-actions {
+                flex: 0 0 auto;
+            }
+
+            .cookie-btn {
+                flex: 0 0 auto;
+                padding-left: 1.15rem;
+                padding-right: 1.15rem;
+            }
+        }
+
+        .hero-cta-row {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 0.65rem;
+            width: 100%;
+            margin-top: 1.15rem;
+        }
+
+        .hero-cta-primary,
+        .hero-cta-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            padding: 0.9rem 1.1rem;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .hero-cta-primary {
+            flex: 1 1 auto;
+            min-width: 0;
+            border: 0;
+            background: #64cefb;
+            color: #001f2a;
+            box-shadow: 0 8px 24px rgba(100, 206, 251, 0.32);
+        }
+
+        .hero-cta-primary:hover {
+            background: #4cb8e5;
+        }
+
+        .hero-cta-secondary {
+            flex: 0 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            padding-left: 1.15rem;
+            padding-right: 1.15rem;
+        }
+
+        .hero-cta-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-cta-primary:active,
+        .hero-cta-secondary:active {
+            transform: scale(0.98);
+        }
+
+        @media (min-width: 768px) {
+            .hero-cta-row {
+                width: auto;
+                max-width: 28rem;
+                margin-top: 1.35rem;
+            }
+
+            .hero-cta-primary,
+            .hero-cta-secondary {
+                padding: 0.95rem 1.35rem;
+            }
+        }
+
+        .sections-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 80;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: stretch;
+            padding: 0;
+            background: rgba(0, 0, 0, 0.72);
+            -webkit-backdrop-filter: blur(18px) saturate(1.15);
+            backdrop-filter: blur(18px) saturate(1.15);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+
+        .sections-overlay.is-open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .sections-overlay-panel {
+            width: 100%;
+            height: 100%;
+            max-height: none;
+            overflow: auto;
+            border-radius: 0;
+            border: 0;
+            background:
+                radial-gradient(ellipse 70% 45% at 15% 0%, rgba(100, 206, 251, 0.12), transparent 55%),
+                radial-gradient(ellipse 50% 40% at 90% 100%, rgba(100, 206, 251, 0.08), transparent 50%),
+                #050505;
+            padding:
+                max(1.25rem, env(safe-area-inset-top))
+                max(1.5rem, env(safe-area-inset-right))
+                max(2rem, env(safe-area-inset-bottom))
+                max(1.5rem, env(safe-area-inset-left));
+            box-shadow: none;
+            transform: translate3d(0, 0.75rem, 0);
+            transform-origin: center center;
+            opacity: 0;
+            transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .sections-overlay.is-open .sections-overlay-panel {
+            transform: translate3d(0, 0, 0);
+            opacity: 1;
+        }
+
+        .sections-overlay-close {
+            position: absolute;
+            top: max(1rem, env(safe-area-inset-top));
+            right: max(1rem, env(safe-area-inset-right));
+            z-index: 2;
+        }
+
+        .sections-overlay-panel nav {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            max-width: 36rem;
+            margin: 0;
+            width: 100%;
+            padding-top: 0.25rem;
+            padding-right: 3.25rem;
+            gap: 0;
+        }
+
+        .menu-wip-crane {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.85rem;
+            line-height: 1;
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+        }
+
+        .sections-overlay-link-sub .menu-wip-crane {
+            font-size: 0.75rem;
+        }
+
+        .sections-overlay-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 0.95rem 0.15rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.92);
+            font-size: clamp(1.35rem, 4.5vw, 2rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .sections-overlay-link:hover {
+            color: #64cefb;
+        }
+
+        .sections-overlay-link-sub {
+            padding: 0.55rem 0.15rem 0.55rem 0.35rem;
+            font-size: clamp(1rem, 3.2vw, 1.25rem);
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.92);
+            border-bottom-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .menu-wip-chip {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.22rem 0.45rem;
+            border-radius: 0.25rem;
+            background: #f5c518;
+            color: #111;
+            font-size: 0.625rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            line-height: 1;
+            transform: rotate(-6deg);
+        }
+
+        .sections-overlay-link:last-child {
+            border-bottom: 0;
+        }
+
+        /* —— Section chips (mobile tab panels) —— */
+        .section-chip-tabs {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            overscroll-behavior-x: contain;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 0.15rem;
+            margin-bottom: 1rem;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .section-chip-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Мобилка: скролл чипсов до края экрана, не обрезается padding секции */
+        @media (max-width: 767.98px) {
+            .section-chip-tabs {
+                width: 100vw;
+                max-width: 100vw;
+                margin-left: calc(50% - 50vw);
+                padding-left: var(--page-inline);
+                padding-right: var(--page-inline-right);
+                box-sizing: border-box;
+            }
+        }
+
+        .section-chip {
+            flex: 0 0 auto;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.45);
+            padding: 0.5rem 1rem;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+
+        .section-chip:hover {
+            color: #fff;
+        }
+
+        .section-chip.chip-active {
+            color: #fff;
+            border-color: transparent;
+        }
+
+        @media (max-width: 767.98px) {
+            .section-chip-panels > [data-chip-panel]:not(.is-active) {
+                display: none !important;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .section-chip-tabs {
+                display: none !important;
+            }
+
+            /* Выбор эксперта — чипсы всегда видны */
+            [data-expert-people] > .section-chip-tabs {
+                display: flex !important;
+            }
+        }
+
+        [data-expert-people] > .section-chip-panels > [data-chip-panel]:not(.is-active) {
+            display: none !important;
+        }
+
+        [data-expert-people] > .section-chip-tabs {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Ветки треков — чипсы всегда видны */
+        @media (min-width: 768px) {
+            [data-track-branches] > .section-chip-tabs {
+                display: flex !important;
+            }
+        }
+
+        [data-track-branches] > .section-chip-panels > [data-chip-panel]:not(.is-active) {
+            display: none !important;
+        }
+
+        [data-track-branches] > .section-chip-tabs {
+            margin-bottom: 1.5rem;
+        }
+
+        .track-cards {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .track-cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1.25rem;
+            }
+
+            .track-cards[data-cols="3"] {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        .track-card {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            text-align: left;
+            min-width: 0;
+            max-width: 100%;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(27, 27, 27, 0.55);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            padding: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .track-card {
+                padding: 2rem;
+            }
+        }
+
+        .track-card-num {
+            font-weight: 700;
+            color: #64cefb;
+        }
+
+        .track-card-title {
+            margin: 1rem 0 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #fff;
+        }
+
+        .track-card-text {
+            margin: 0.5rem 0 0;
+            font-size: 0.875rem;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .track-more {
+            margin-top: 1.25rem;
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            padding: 0.55rem 1.1rem;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .track-more:hover {
+            border-color: rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .track-detail {
+            display: none;
+            width: 100%;
+            min-width: 0;
+            max-width: 100%;
+            margin-top: 1.15rem;
+            padding-top: 1.15rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .track-detail.is-open {
+            display: block;
+        }
+
+        .track-detail p {
+            margin: 0;
+            font-size: 0.875rem;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .track-price {
+            margin: 0 0 0.85rem;
+            font-family: 'Styrene A LC', 'Inter', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: #fff;
+        }
+
+        @media (min-width: 768px) {
+            .track-price {
+                font-size: 3rem;
+            }
+        }
+
+        .track-price span {
+            color: #64cefb;
+        }
+
+        .track-cjm-scroll {
+            width: calc(100% + 3rem);
+            max-width: none;
+            min-width: 0;
+            margin: 0.85rem -1.5rem -1.5rem;
+            padding: 0.25rem 0 0.5rem;
+            overflow-x: auto;
+            overflow-y: hidden;
+            overscroll-behavior-x: contain;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-x;
+            scroll-snap-type: x proximity;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(100, 206, 251, 0.45) transparent;
+            border: 0;
+            border-radius: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            background:
+                radial-gradient(ellipse 70% 80% at 12% 20%, rgba(100, 206, 251, 0.07), transparent 55%),
+                radial-gradient(ellipse 50% 60% at 88% 70%, rgba(100, 206, 251, 0.05), transparent 50%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 45%),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 23px,
+                    rgba(255, 255, 255, 0.025) 23px,
+                    rgba(255, 255, 255, 0.025) 24px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 23px,
+                    rgba(255, 255, 255, 0.025) 23px,
+                    rgba(255, 255, 255, 0.025) 24px
+                ),
+                transparent;
+        }
+
+        @media (min-width: 768px) {
+            .track-cjm-scroll {
+                width: calc(100% + 4rem);
+                margin-left: -2rem;
+                margin-right: -2rem;
+                margin-bottom: -2rem;
+            }
+        }
+
+        .track-cjm-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .track-cjm-scroll::-webkit-scrollbar-thumb {
+            background: rgba(100, 206, 251, 0.45);
+            border-radius: 9999px;
+        }
+
+        .track-flow {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: center;
+            width: max-content;
+            min-width: 100%;
+            min-height: 13.5rem;
+            margin: 0;
+            padding: 1.35rem 1.5rem 1.75rem;
+            list-style: none;
+            gap: 0;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 768px) {
+            .track-flow {
+                padding-left: 2rem;
+                padding-right: 2rem;
+                padding-bottom: 2rem;
+            }
+        }
+
+        .track-flow > li {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+            scroll-snap-align: center;
+            position: relative;
+        }
+
+        .track-flow-edge {
+            align-self: center;
+            width: 2.1rem;
+            height: 1.6rem;
+            margin: 0 0.15rem;
+            flex: 0 0 2.1rem;
+            position: relative;
+        }
+
+        .track-flow-edge::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0.35rem;
+            top: 50%;
+            height: 1.5px;
+            background: linear-gradient(90deg, rgba(100, 206, 251, 0.15), rgba(100, 206, 251, 0.7));
+            transform: translateY(-50%);
+        }
+
+        .track-flow-edge::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            border-left: 7px solid rgba(100, 206, 251, 0.75);
+        }
+
+        .track-flow-edge[data-label]::before {
+            top: calc(50% + 0.35rem);
+        }
+
+        .track-flow-edge[data-label]::after {
+            top: calc(50% + 0.35rem);
+        }
+
+        .track-flow-edge[data-label] > span {
+            position: absolute;
+            left: 50%;
+            top: -0.15rem;
+            transform: translateX(-50%);
+            padding: 0.08rem 0.35rem;
+            border-radius: 9999px;
+            font-size: 0.5625rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
+            color: rgba(100, 206, 251, 0.9);
+            background: rgba(0, 20, 28, 0.85);
+            border: 1px solid rgba(100, 206, 251, 0.25);
+            z-index: 1;
+        }
+
+        .track-flow-edge.is-soft::before {
+            height: 0;
+            border-top: 1.5px dashed rgba(100, 206, 251, 0.5);
+            background: transparent;
+        }
+
+        .track-flow-edge.is-soft::after {
+            border-left-color: rgba(100, 206, 251, 0.45);
+        }
+
+        .track-flow-node {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            text-align: left;
+            width: 8.25rem;
+            padding: 0.7rem 0.8rem 0.75rem;
+            color: #fff;
+        }
+
+        .track-flow-node .track-flow-who {
+            margin: 0 0 0.35rem;
+            font-size: 0.5625rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(100, 206, 251, 0.75);
+        }
+
+        .track-flow-node.is-start .track-flow-who,
+        .track-flow-node.is-end .track-flow-who {
+            color: rgba(0, 31, 42, 0.55);
+        }
+
+        .track-flow-title {
+            margin: 0;
+            font-size: 0.875rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            color: inherit;
+        }
+
+        .track-flow-text {
+            margin: 0.3rem 0 0;
+            font-size: 0.6875rem;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.48);
+        }
+
+        .track-flow-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-top: 0.45rem;
+        }
+
+        .track-flow-chips span {
+            padding: 0.12rem 0.38rem;
+            border-radius: 0.35rem;
+            font-size: 0.5625rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            color: rgba(100, 206, 251, 0.95);
+            background: rgba(100, 206, 251, 0.12);
+            border: 1px solid rgba(100, 206, 251, 0.22);
+        }
+
+        .track-flow-node.is-start {
+            width: auto;
+            min-width: 5.75rem;
+            align-items: center;
+            text-align: center;
+            padding: 0.55rem 1.15rem 0.6rem;
+            border-radius: 9999px;
+            background: #64cefb;
+            color: #001f2a;
+            box-shadow: 0 10px 28px rgba(100, 206, 251, 0.28);
+            transform: translateY(0.15rem);
+        }
+
+        .track-flow-node.is-start .track-flow-text {
+            color: rgba(0, 31, 42, 0.62);
+        }
+
+        .track-flow-node.is-screen {
+            width: 9.1rem;
+            padding: 0;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(8, 18, 24, 0.92);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+            overflow: hidden;
+            transform: translateY(-0.55rem);
+        }
+
+        .track-flow-node.is-screen .track-flow-chrome {
+            display: flex;
+            align-items: center;
+            gap: 0.28rem;
+            padding: 0.35rem 0.55rem;
+            background: rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .track-flow-node.is-screen .track-flow-chrome i {
+            width: 0.35rem;
+            height: 0.35rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        .track-flow-node.is-screen .track-flow-chrome i:nth-child(1) { background: #ff5f57; }
+        .track-flow-node.is-screen .track-flow-chrome i:nth-child(2) { background: #febc2e; }
+        .track-flow-node.is-screen .track-flow-chrome i:nth-child(3) { background: #28c840; }
+
+        .track-flow-node.is-screen .track-flow-body {
+            padding: 0.55rem 0.7rem 0.7rem;
+        }
+
+        .track-flow-node.is-screen .track-flow-who {
+            margin-bottom: 0.2rem;
+        }
+
+        .track-flow-node.is-action {
+            width: 7.6rem;
+            border-radius: 0.55rem;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.045);
+            transform: translateY(0.85rem);
+        }
+
+        .track-flow-node.is-artifact {
+            width: 9.6rem;
+            padding: 0.75rem 0.8rem 0.8rem;
+            border-radius: 0.35rem 1.1rem 0.35rem 0.35rem;
+            border: 1px solid rgba(100, 206, 251, 0.42);
+            background:
+                linear-gradient(135deg, transparent 68%, rgba(100, 206, 251, 0.18) 68.5%),
+                rgba(100, 206, 251, 0.09);
+            box-shadow:
+                4px 4px 0 rgba(100, 206, 251, 0.12),
+                8px 8px 0 rgba(0, 0, 0, 0.18);
+            transform: translateY(-0.15rem) rotate(-1.5deg);
+        }
+
+        .track-flow-node.is-artifact .track-flow-text {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .track-flow-node.is-decision {
+            width: 7.25rem;
+            height: 7.25rem;
+            padding: 0 0.85rem;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: none;
+            background: transparent;
+            transform: translateY(0.2rem);
+        }
+
+        .track-flow-node.is-decision::before {
+            content: '';
+            position: absolute;
+            inset: 0.55rem;
+            border: 1.5px solid rgba(100, 206, 251, 0.65);
+            background: rgba(100, 206, 251, 0.08);
+            transform: rotate(45deg);
+            border-radius: 0.35rem;
+            z-index: 0;
+        }
+
+        .track-flow-node.is-decision > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .track-flow-node.is-decision .track-flow-title {
+            font-size: 0.8125rem;
+        }
+
+        .track-flow-node.is-decision .track-flow-text {
+            margin-top: 0.2rem;
+            font-size: 0.625rem;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .track-flow-loop {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.45rem;
+            width: 10.5rem;
+            padding: 0.7rem 0.7rem 0.75rem;
+            border-radius: 1rem;
+            border: 1.5px dashed rgba(100, 206, 251, 0.45);
+            background: rgba(100, 206, 251, 0.04);
+            transform: translateY(-0.35rem);
+        }
+
+        .track-flow-loop-tag {
+            position: absolute;
+            top: -0.55rem;
+            left: 0.75rem;
+            padding: 0.1rem 0.45rem;
+            border-radius: 9999px;
+            font-size: 0.5625rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #001f2a;
+            background: #64cefb;
+        }
+
+        .track-flow-loop-row {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.55rem;
+            border-radius: 0.55rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.28);
+        }
+
+        .track-flow-loop-row .material-symbols-outlined {
+            font-size: 1.05rem !important;
+            color: #64cefb;
+            flex-shrink: 0;
+        }
+
+        .track-flow-loop-row strong {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+        }
+
+        .track-flow-loop-row span {
+            display: block;
+            margin-top: 0.1rem;
+            font-size: 0.625rem;
+            color: rgba(255, 255, 255, 0.45);
+            line-height: 1.25;
+        }
+
+        .track-flow-loop-cycle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+            font-size: 0.625rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: rgba(100, 206, 251, 0.85);
+        }
+
+        .track-flow-loop-cycle .material-symbols-outlined {
+            font-size: 0.95rem !important;
+        }
+
+        .track-flow-node.is-end {
+            width: 8.1rem;
+            align-items: center;
+            text-align: center;
+            padding: 0.85rem 0.75rem 0.9rem;
+            border-radius: 1.5rem;
+            border: none;
+            background: linear-gradient(160deg, #8adcff 0%, #64cefb 42%, #2ea8d4 100%);
+            color: #001f2a;
+            box-shadow:
+                0 0 0 4px rgba(100, 206, 251, 0.18),
+                0 14px 32px rgba(100, 206, 251, 0.32);
+            transform: translateY(0.1rem);
+        }
+
+        .track-flow-node.is-end .track-flow-text {
+            color: rgba(0, 31, 42, 0.65);
+        }
+
+        .track-flow-node.is-end .material-symbols-outlined {
+            font-size: 1.35rem !important;
+            margin-bottom: 0.2rem;
+            color: #001f2a;
+        }
+
+        @media (min-width: 900px) {
+            .track-card-wide {
+                grid-column: 1 / -1;
+            }
+        }
+
+        .expert-marquee-label {
+            margin: 2rem 0 0.75rem;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        /* —— Shared logos marquee (expert + placements) —— */
+        #expert,
+        #placements {
+            overflow: hidden;
+        }
+
+        .logo-marquee {
+            margin-top: 0.75rem;
+            width: 100vw;
+            max-width: 100vw;
+            margin-left: calc(50% - 50vw);
+            padding: 0.25rem 0;
+        }
+
+        #placements .logo-marquee {
+            margin-top: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .expert-marquee-label {
+                margin-top: 2.25rem;
+            }
+
+            #placements .logo-marquee {
+                margin-top: 1.75rem;
+            }
+        }
+
+        .logo-marquee-viewport {
+            overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+        }
+
+        .logo-marquee-track {
+            display: flex;
+            width: max-content;
+            gap: 3.25rem;
+            align-items: center;
+            animation: logo-marquee-scroll var(--logo-marquee-duration, 28s) linear infinite;
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .logo-marquee-item {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 2.75rem;
+            opacity: 0.92;
+        }
+
+        .logo-marquee-item img {
+            display: block;
+            height: 100%;
+            width: auto;
+            max-width: 9.5rem;
+            object-fit: contain;
+        }
+
+        .logo-marquee-item.is-wide img {
+            max-width: 12rem;
+        }
+
+        .logo-marquee-item.is-invert img {
+            filter: invert(1) brightness(1.05);
+        }
+
+        @keyframes logo-marquee-scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        @media (min-width: 768px) {
+            .logo-marquee-track {
+                gap: 4.5rem;
+            }
+
+            .logo-marquee-item {
+                height: 3.25rem;
+            }
+
+            .logo-marquee-item img {
+                max-width: 11rem;
+            }
+
+            .logo-marquee-item.is-wide img {
+                max-width: 14rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .logo-marquee-track {
+                animation: none;
+                flex-wrap: wrap;
+                width: 100%;
+                max-width: 72rem;
+                margin-inline: auto;
+                justify-content: center;
+                gap: 2rem 2.5rem;
+                padding-inline: var(--page-inline);
             }
         }
 
@@ -504,28 +2073,56 @@
         })();
     </script>
 </head>
-<body class="bg-black">
+<body class="bg-black page-with-sticky-cta">
+<!-- Mobile menu (visible &lt; md via CSS) -->
+<div class="mobile-chrome">
+<button type="button" id="mobile-menu-btn" aria-haspopup="dialog" aria-controls="sections-overlay" aria-expanded="false" aria-label="Меню">
+<span class="material-symbols-outlined text-[18px]" data-icon="menu" aria-hidden="true">menu</span>
+</button>
+</div>
+<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" id="sticky-consult-cta">Связаться</a>
+<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Согласие на использование cookie" aria-hidden="true">
+<div class="cookie-banner-inner">
+<p class="cookie-banner-text">Мы используем cookie, чтобы сайт работал стабильнее и удобнее. Вы можете принять или отклонить необязательные cookie. <a href="#">Подробнее</a></p>
+<div class="cookie-banner-actions">
+<button type="button" class="cookie-btn cookie-btn-decline" id="cookie-decline">Отклонить</button>
+<button type="button" class="cookie-btn cookie-btn-accept" id="cookie-accept">Принять</button>
+</div>
+</div>
+</div>
+<div id="sections-overlay" class="sections-overlay" role="dialog" aria-modal="true" aria-label="Меню треков" aria-hidden="true">
+<div class="sections-overlay-panel" role="document">
+<button type="button" id="sections-overlay-close" class="sections-overlay-close inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white" aria-label="Закрыть меню">
+<span class="material-symbols-outlined text-[22px]" data-icon="close" aria-hidden="true">close</span>
+</button>
+<nav class="flex flex-col" aria-label="Треки">
+<a class="sections-overlay-link" href="tracks/career/">Карьерный трек <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="tracks/career/consult.html">Консультация <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="tracks/career/support.html">Сопровождение <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="tracks/career/mentor.html">Менторство <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<a class="sections-overlay-link" href="tracks/product/">Продуктовый трек <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="tracks/product/consult.html">Консультация <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="tracks/product/mentor.html">Менторство <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+</nav>
+</div>
+</div>
 <!-- Global fullscreen video background -->
 <div class="pointer-events-none fixed inset-0 z-[-10] overflow-hidden bg-black">
-<video id="bg-video" autoplay class="absolute inset-0 h-full w-full object-cover opacity-45" loop muted playsinline preload="metadata" fetchpriority="low" disablePictureInPicture>
+<video id="bg-video" autoplay class="absolute inset-0 h-full w-full object-cover opacity-45 is-inactive" loop muted playsinline preload="metadata" fetchpriority="low" disablePictureInPicture controlslist="nodownload nofullscreen noremoteplayback">
 <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" type="video/mp4"/>
 </video>
-<div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-black"></div>
 </div>
 <!-- Sticky nav + scroll progress (original markup) -->
 <header id="site-header" class="fixed top-8 left-1/2 z-50 hidden w-full max-w-[min(98vw,56rem)] -translate-x-1/2 px-3 md:block">
-<nav class="relative flex w-full max-w-full flex-nowrap items-stretch gap-8 overflow-hidden rounded-full border border-white/10 bg-black/10 py-1 pl-3 pr-3 shadow-[0px_20px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+<nav class="relative flex w-full max-w-full flex-nowrap items-stretch gap-8 overflow-hidden rounded-full border border-white/10 bg-white/5 py-1 pl-3 pr-3 shadow-[0px_20px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl">
 <div class="relative flex min-w-0 flex-1 items-center pl-1 pr-0">
 <div class="relative z-10 flex min-h-0 min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:gap-0 md:overflow-hidden">
 <a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5 active" href="#expert">Эксперт</a>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#curriculum">Треки</a>
-<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
-<div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
-</div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#pricing">Тарифы</a>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#curriculum">Услуги</a>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
@@ -536,291 +2133,297 @@
 <a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#reviews">Отзывы</a>
 </div>
 </div>
-<div class="flex shrink-0 items-center self-center">
-<a href="#pricing" class="shrink-0 rounded-full bg-[#64cefb] px-4 py-2 text-[9px] font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_8px_28px_rgba(100,206,251,0.35)] transition-all duration-300 hover:bg-[#4cb8e5] hover:shadow-[0_10px_32px_rgba(100,206,251,0.45)] sm:px-5 sm:text-[10px] inline-flex items-center justify-center no-underline">
-                За консультацией
-            </a>
-</div>
 </nav>
 </header>
-<!-- Hero: мобилка — видео по центру, табы, заголовок, CTA; десктоп — прежняя компоновка -->
-<main class="relative z-10 flex min-h-screen flex-col overflow-x-hidden px-6 pb-8 pt-8 md:pb-16 md:pt-32" id="hero">
-<!-- Speaker video -->
-<div class="pointer-events-none relative z-0 mx-auto mt-2 h-[min(38vh,19rem)] w-full max-w-[16.5rem] shrink-0 translate-x-0 overflow-hidden md:absolute md:bottom-8 md:right-0 md:top-32 md:mt-0 md:mx-0 md:h-auto md:max-w-none md:w-[70%] md:translate-x-14 lg:w-[66%] lg:translate-x-24" id="hero-speaker-area">
-<video class="hero-video-layer absolute inset-0 z-0 h-full w-full object-contain object-center opacity-100 md:object-right" id="hero-video" muted playsinline preload="auto" disablePictureInPicture>
+<!-- Hero: креатив, заголовок -->
+<main class="relative z-10 flex min-h-screen flex-col overflow-x-hidden bg-black/40 pb-8 pt-8 backdrop-blur-xl md:pb-16 md:pt-32" id="hero">
+<!-- Speaker creative (временно статичный PNG вместо видео) -->
+<div class="pointer-events-none absolute inset-0 z-0 overflow-hidden" id="hero-speaker-area">
+<video class="hero-video-layer is-hidden absolute inset-0 z-0 h-full w-full object-cover object-center opacity-100" id="hero-video" muted playsinline preload="none" disablePictureInPicture hidden>
 <source src="assets/test.webm" type="video/webm"/>
 <source src="assets/test.mov" type="video/quicktime"/>
                     Your browser does not support the video tag.
                 </video>
-<img id="hero-freeze-frame" class="hero-freeze-frame absolute inset-0 z-10 h-full w-full object-contain object-center md:object-right" src="assets/test-final-frame.png" alt="" draggable="false"/>
+<img id="hero-freeze-frame" class="hero-freeze-frame is-visible absolute inset-0 z-10 h-full w-full object-cover object-[center_20%]" src="assets/nastya.jpg" alt="Настя Нерадовских" draggable="false"/>
 </div>
 <div id="hero-mid" class="relative z-10 mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col gap-4 pt-3 md:min-h-0 md:gap-0 md:pt-6" aria-label="Заголовок и запись">
 <div class="hero-copy flex min-h-0 flex-1 flex-col items-center justify-center gap-4 text-center md:items-start md:justify-end md:gap-6 md:pl-8 md:text-left md:-translate-y-10 lg:-translate-y-14">
-<div class="max-w-lg space-y-3 md:space-y-4">
-<h1 class="line-height-tight flex flex-col items-center text-4xl font-black tracking-tighter sm:text-5xl md:items-start md:text-[5.2rem]">
-<span class="text-white/90">Стань</span>
-<span class="shiny-text">Продакт</span>
-<span class="shiny-text">Менеджером</span>
+<div class="w-full max-w-lg space-y-3 md:space-y-4">
+<h1 class="line-height-tight text-balance text-center text-4xl font-black tracking-tighter sm:text-5xl md:text-left md:text-[5.2rem]">
+<span class="text-white/90">Начни карьеру </span><span class="shiny-text">в IT</span>
 </h1>
-<p class="text-base font-medium tracking-tight text-white/75 sm:text-lg md:text-xl">
-                            Освой востребованную профессию под руководством практикующих экспертов из топовых IT-компаний.
+<p class="mt-3 text-base font-medium tracking-tight text-white/75 sm:text-lg md:mt-4 md:text-xl">
+                            Поможем выбрать направление, упаковать свой опыт и подготовиться к выходу на рынок IT
                         </p>
-<div class="hero-tabs-wrap flex w-full min-w-0 shrink-0 justify-center px-2 md:justify-start md:px-0" role="group" aria-label="Режим видео">
-<div class="inline-flex shrink-0 rounded-full border border-white/10 bg-black/10 p-1 backdrop-blur-md">
-<button class="chip-active rounded-full px-6 py-2 text-xs font-bold uppercase tracking-wider transition-all duration-300" id="toggle-all" type="button">Для всех</button>
-<button class="rounded-full px-6 py-2 text-xs font-bold uppercase tracking-wider text-white/40 transition-all duration-300 hover:text-white" id="toggle-students" type="button">Для студентов</button>
 </div>
+<div class="hero-cta-row">
+<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="hero-cta-primary">Связаться</a>
+<a href="#expert" class="hero-cta-secondary">О нас</a>
 </div>
-</div>
-</div>
-<div class="hero-cta-wrap flex shrink-0 justify-center pb-1 md:justify-start md:pb-4 md:pl-8 md:-translate-y-10 lg:-translate-y-14">
-<a href="#pricing" class="hero-cta-pricing cta-hover-arrow group relative z-20 inline-flex w-fit shrink-0 items-center gap-4 rounded-full px-10 py-6 shadow-[0px_20px_60px_rgba(255,255,255,0.1)] transition-all duration-300 hover:shadow-[0px_24px_64px_rgba(255,255,255,0.14)] no-underline md:self-start" aria-label="За консультацией">
-<span class="text-lg font-extrabold uppercase tracking-tight">За консультацией</span>
-<span class="material-symbols-outlined arrow-icon rounded-full bg-black p-1 text-white transition-transform duration-300" data-icon="arrow_outward" aria-hidden="true">arrow_outward</span>
-</a>
 </div>
 </div>
 </main>
+<!-- Audience stack: вне backdrop-blur, иначе sticky ломается -->
+<div class="relative z-10 bg-black/40">
+<section class="page-gutter relative py-12 md:py-16" id="audience" aria-labelledby="audience-heading" data-audience-stack>
+<div class="mx-auto max-w-7xl">
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="audience-heading">Ты точно в нужном месте, если…</h2>
+<div class="audience-stack" aria-live="polite" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации — свайп влево или вправо">
+<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="school" aria-hidden="true">school</span>
+</div>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь зайти в Product — со студенческой скамьи или со сменой сферы</h3>
+<p class="mt-2 text-sm leading-relaxed text-white/55">Учишься в университете или работаешь не в IT и понимаешь, что хочешь строить карьеру в Product Management — но не знаешь, с чего начать и как сделать первые шаги.</p>
+</article>
+<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="description" aria-hidden="true">description</span>
+</div>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Кажется, что у тебя слишком мало опыта</h3>
+<p class="mt-2 text-sm leading-relaxed text-white/55">Смотришь вакансии и думаешь, что нечего показать. Учебные проекты, кейс-чемпионаты, стажировки, внеучебная деятельность — или опыт из другой сферы — могут стать сильной частью резюме, если правильно их упаковать.</p>
+</article>
+<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="forum" aria-hidden="true">forum</span>
+</div>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Не понимаешь, как проходят продуктовые интервью</h3>
+<p class="mt-2 text-sm leading-relaxed text-white/55">Не знаешь, какие вопросы задают, как решать кейсы, что ждут от начинающего Product Manager или кандидата со сменой трека — и как подготовиться к процессу отбора.</p>
+</article>
+<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="explore" aria-hidden="true">explore</span>
+</div>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Не хочешь тратить месяцы на хаотичный поиск</h3>
+<p class="mt-2 text-sm leading-relaxed text-white/55">Вместо бесконечных видео, статей и случайных советов хочешь понятный план действий и понимать, что именно приблизит тебя к первой стажировке, работе или переходу в Product.</p>
+</article>
+</div>
+<div class="audience-stack-controls mt-5 flex items-center justify-between gap-3 sm:justify-start sm:gap-4">
+<button type="button" class="audience-nav-btn" data-audience-prev aria-label="Предыдущая карточка">
+<span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_left</span>
+</button>
+<div class="audience-stack-dots flex items-center gap-2" aria-hidden="true"></div>
+<button type="button" class="audience-nav-btn" data-audience-next aria-label="Следующая карточка">
+<span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<section class="page-gutter relative pb-12 md:pb-16" id="value" aria-labelledby="value-heading">
+<div class="mx-auto max-w-7xl">
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="value-heading">Что ты получишь</h2>
+<div class="hero-usps w-full md:max-w-xl">
+<article class="hero-usp-card">
+<h3 class="hero-usp-title">Поймёшь, куда двигаться</h3>
+<p class="hero-usp-text">Выберешь направление и понятный путь развития под свою ситуацию</p>
+<span class="material-symbols-outlined hero-usp-icon" data-icon="explore" aria-hidden="true">explore</span>
+</article>
+<article class="hero-usp-card">
+<h3 class="hero-usp-title">Упакуешь себя для рынка</h3>
+<p class="hero-usp-text">Разберём опыт, резюме и проекты — даже если кажется, что тебе нечего показать</p>
+<span class="material-symbols-outlined hero-usp-icon" data-icon="badge" aria-hidden="true">badge</span>
+</article>
+<article class="hero-usp-card">
+<h3 class="hero-usp-title">Подготовишься к отбору</h3>
+<p class="hero-usp-text">Кейсы, собеседования и вопросы, которые ждут начинающих специалистов</p>
+<span class="material-symbols-outlined hero-usp-icon" data-icon="record_voice_over" aria-hidden="true">record_voice_over</span>
+</article>
+</div>
+</div>
+</section>
+</div>
 <!-- Единый слой затемнения + blur под всем контентом после hero (без швов между секциями) -->
 <div class="relative z-10">
 <div class="pointer-events-none absolute -top-16 left-0 right-0 z-0 h-16 bg-gradient-to-b from-transparent to-black/40 md:-top-24 md:h-24" aria-hidden="true"></div>
 <div class="relative bg-black/40 backdrop-blur-xl">
+
 <!-- Об эксперте -->
-<section class="relative px-6 py-20 md:py-28" id="expert" aria-labelledby="expert-heading">
-<h2 class="mx-auto mb-8 w-full max-w-7xl text-4xl font-black tracking-tighter md:text-5xl" id="expert-heading">Об эксперте</h2>
-<div class="mx-auto max-w-7xl lg:grid lg:grid-cols-[minmax(220px,0.9fr)_minmax(0,2.1fr)] lg:gap-8">
-<div class="mb-8 lg:mb-0">
-<div class="lg:sticky lg:top-28">
-<div class="mt-6 overflow-hidden rounded-xl border border-white/10 bg-black/20">
-<img src="assets/6b4da35649ccdbb39aafdcc2b4190cc1.JPG" alt="Даня Колесниченко" class="h-auto w-full object-cover" loading="lazy" decoding="async"/>
-</div>
-<h3 class="mt-3 text-center text-2xl font-black tracking-tight md:text-3xl">Даня Колесниченко</h3>
-<div class="mt-3 text-center">
-<p class="text-base text-white/65">Product Manager @ Альфа-Банк</p>
-</div>
-<div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1">
-<div class="rounded-lg border border-white/10 bg-black/20 p-4">
-<div class="text-2xl font-black text-[#64cefb]">2 года</div>
-<div class="mt-1 text-base text-white/75">в продукте и цифровых сервисах</div>
-</div>
-<div class="rounded-lg border border-white/10 bg-black/20 p-4">
-<div class="text-2xl font-black text-[#64cefb]">100+</div>
-<div class="mt-1 text-base text-white/75">менти и участников программ</div>
-</div>
-</div>
-</div>
-</div>
-<div>
-<div class="mt-6 px-1 py-1">
-<div class="space-y-6">
-<div class="rounded-xl border border-white/5 bg-surface-container-low p-6 backdrop-blur-xl md:p-8">
+<section class="page-gutter relative py-12 md:py-16" id="expert" aria-labelledby="expert-heading">
+<div class="mx-auto max-w-7xl">
 <article>
-<p class="max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">Веду продуктовые направления в финтехе: от гипотез и исследований до запуска и масштабирования. В менторстве фокус на практических карьерных результатах: сильное резюме, продуктовые кейсы, уверенное интервью и понятная стратегия перехода.</p>
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="expert-heading">Об эксперте</h2>
+<div class="flex items-start gap-4 md:gap-5">
+<div class="h-20 w-20 shrink-0 overflow-hidden rounded-full border border-white/10 bg-white/5 sm:h-24 sm:w-24 md:h-28 md:w-28">
+<img src="assets/nastya.jpg" alt="Настя Нерадовских" class="h-full w-full object-cover" loading="lazy" decoding="async"/>
+</div>
+<div class="min-w-0 flex-1 pt-0.5">
+<h3 class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">Настя Нерадовских</h3>
+<p class="mt-1 text-sm text-white/65 sm:text-base">CPO @ Альфа-Банк</p>
+<div id="contacts" class="mt-3 flex w-full flex-row flex-wrap items-center gap-x-4 gap-y-2">
+<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
+<img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="" class="h-4 w-4 shrink-0 object-contain" loading="lazy"/>
+<span class="text-[11px] font-semibold tracking-tight">Telegram</span>
+</a>
+<a href="https://www.linkedin.com/in/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
+<img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="" class="h-4 w-4 shrink-0 object-contain" loading="lazy"/>
+<span class="text-[11px] font-semibold tracking-tight">LinkedIn</span>
+</a>
+</div>
+</div>
+</div>
+<div class="mt-6 max-w-3xl md:mt-8">
+<ol class="space-y-4">
+<li class="flex items-baseline gap-4">
+<span class="shrink-0 font-headline text-[2rem] font-black leading-none tracking-tighter text-[#64cefb]">01</span>
+<p class="text-base leading-relaxed text-white/75">Перешла из другой сферы</p>
+</li>
+<li class="flex items-baseline gap-4">
+<span class="shrink-0 font-headline text-[2rem] font-black leading-none tracking-tighter text-[#64cefb]">02</span>
+<p class="text-base leading-relaxed text-white/75">За 3 года доросла до CPO</p>
+</li>
+<li class="flex items-baseline gap-4">
+<span class="shrink-0 font-headline text-[2rem] font-black leading-none tracking-tighter text-[#64cefb]">03</span>
+<p class="text-base leading-relaxed text-white/75">Основала стартап WID с 20+ сотрудниками</p>
+</li>
+<li class="flex items-baseline gap-4">
+<span class="shrink-0 font-headline text-[2rem] font-black leading-none tracking-tighter text-[#64cefb]">04</span>
+<p class="text-base leading-relaxed text-white/75">Теперь помогаю тем, кто хочет попасть в IT</p>
+</li>
+</ol>
+</div>
+<div class="mt-6 md:mt-8" data-section-chips>
+<div class="section-chip-tabs" role="tablist" aria-label="Об эксперте">
+<button type="button" class="section-chip chip-active" role="tab" id="expert-tab-about" aria-selected="true" aria-controls="expert-panel-about" data-chip-tab="about">О себе</button>
+<button type="button" class="section-chip" role="tab" id="expert-tab-expertise" aria-selected="false" aria-controls="expert-panel-expertise" data-chip-tab="expertise">Экспертиза</button>
+<button type="button" class="section-chip" role="tab" id="expert-tab-achievements" aria-selected="false" aria-controls="expert-panel-achievements" data-chip-tab="achievements">Достижения</button>
+<button type="button" class="section-chip" role="tab" id="expert-tab-education" aria-selected="false" aria-controls="expert-panel-education" data-chip-tab="education">Образование</button>
+</div>
+<div class="section-chip-panels space-y-6">
+<div class="is-active rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-xl md:p-7" role="tabpanel" id="expert-panel-about" aria-labelledby="expert-tab-about" data-chip-panel="about">
+<article>
+<p class="max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">CPO в Альфа-Банке. Пришла в IT из другой сферы, за три года выросла до CPO и основала стартап WID. В менторстве помогаю упаковать опыт и выстроить понятный путь в продукт и IT.</p>
 </article>
-<aside class="mt-6 border-t border-white/10 pt-6">
-<h4 class="text-xl font-bold tracking-tight">Ключевые достижения</h4>
-<ul class="mt-5 space-y-3 text-base leading-relaxed text-white/75">
-<li>— Развитие продуктовых инициатив в банковском контуре.</li>
-<li>— Подготовка кандидатов к case/panel-интервью в продукт.</li>
-<li>— Системные карьерные треки: от стажировки до junior/middle.</li>
+</div>
+<div class="grid grid-cols-1 gap-3 sm:grid-cols-3" role="tabpanel" id="expert-panel-expertise" aria-labelledby="expert-tab-expertise" data-chip-panel="expertise">
+<article class="rounded-lg border border-white/10 bg-white/5 p-4">
+<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Product leadership</p>
+<p class="mt-3 text-sm leading-relaxed text-white/75">Управление продуктом на уровне CPO: стратегия, приоритеты, команда и результат.</p>
+</article>
+<article class="rounded-lg border border-white/10 bg-white/5 p-4">
+<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Карьерный переход</p>
+<p class="mt-3 text-sm leading-relaxed text-white/75">Как зайти в IT без «идеального» бэкграунда и превратить опыт в сильную историю.</p>
+</article>
+<article class="rounded-lg border border-white/10 bg-white/5 p-4">
+<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Стартап и рост</p>
+<p class="mt-3 text-sm leading-relaxed text-white/75">Основала WID и выстроила команду 20+ человек — от идеи до работающего бизнеса.</p>
+</article>
+</div>
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-xl md:p-7" role="tabpanel" id="expert-panel-achievements" aria-labelledby="expert-tab-achievements" data-chip-panel="achievements">
+<ul class="space-y-3 text-base leading-relaxed text-white/75">
+<li>— Перешла в IT из другой сферы и за 3 года доросла до CPO.</li>
+<li>— CPO @ Альфа-Банк.</li>
+<li>— Основала стартап WID с командой 20+ человек.</li>
+<li>— Менторю тех, кто хочет попасть в IT и продукт.</li>
 </ul>
-</aside>
 </div>
-<div class="rounded-xl border border-white/5 bg-surface-container-low p-6 backdrop-blur-xl md:p-8">
-<div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
-<article>
-<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Карьерный опыт</p>
-<h4 class="mt-3 text-2xl font-bold tracking-tight">Опыт в продукте и бизнесе</h4>
-<div class="mt-5 space-y-4 text-base leading-relaxed text-white/75">
-<p><span class="font-semibold text-white">Discovery + Delivery:</span> исследования пользователей, формулировка гипотез, постановка задач в кросс-функциональную команду.</p>
-<p><span class="font-semibold text-white">Метрики и рост:</span> приоритизация по эффекту, анализ воронок, оценка результатов запуска на продуктовые KPI.</p>
-<p><span class="font-semibold text-white">Коммуникации:</span> синхронизация бизнеса, разработки и дизайна под общий результат.</p>
+<div class="grid grid-cols-1 gap-3 sm:grid-cols-2" role="tabpanel" id="expert-panel-education" aria-labelledby="expert-tab-education" data-chip-panel="education">
+<div class="rounded-lg border border-white/10 bg-white/5 p-4">
+<p class="text-base font-semibold text-white">Практика в продукте</p>
+<p class="mt-1 text-sm text-white/60">Рост до CPO в крупном финтехе</p>
 </div>
-</article>
-<article>
-<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Менторство и преподавание</p>
-<h4 class="mt-3 text-2xl font-bold tracking-tight">Как проходит обучение</h4>
-<div class="mt-5 space-y-4 text-base leading-relaxed text-white/75">
-<p><span class="font-semibold text-white">Индивидуально:</span> карьерная диагностика, план роста, резюме/портфолио, репетиции интервью.</p>
-<p><span class="font-semibold text-white">Групповые форматы:</span> интенсивы, практикумы по продуктовым кейсам, обратная связь по тестовым.</p>
-<p><span class="font-semibold text-white">Фокус:</span> не теория ради теории, а конкретные результаты в откликах и собеседованиях.</p>
-</div>
-</article>
+<div class="rounded-lg border border-white/10 bg-white/5 p-4">
+<p class="text-base font-semibold text-white">Предпринимательство</p>
+<p class="mt-1 text-sm text-white/60">Запуск и развитие стартапа WID</p>
 </div>
 </div>
-<div class="rounded-xl border border-white/5 bg-surface-container-low p-6 backdrop-blur-xl md:p-8">
-<article>
-<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Образование</p>
-<h4 class="mt-3 text-2xl font-bold tracking-tight">Академический и профессиональный трек</h4>
-<div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
-<div class="rounded-lg border border-white/10 bg-black/20 p-4">
-<p class="text-base font-semibold text-white">НИУ ВШЭ</p>
-<p class="mt-1 text-sm text-white/60">Экономика / управление продуктом</p>
-</div>
-<div class="rounded-lg border border-white/10 bg-black/20 p-4">
-<p class="text-base font-semibold text-white">Дополнительные курсы</p>
-<p class="mt-1 text-sm text-white/60">Product analytics, discovery, growth</p>
-</div>
-<div class="rounded-lg border border-dashed border-white/20 bg-black/30 p-4">
-<p class="text-base font-semibold text-white/80">Добавить диплом</p>
-<p class="mt-1 text-sm text-white/55">Можно вставить скан/ссылку на документ</p>
 </div>
 </div>
-</article>
+<!-- Даня временно в архиве — вернуть: убрать hidden и чипсы выбора -->
+<div id="expert-danya-archived" hidden>
+<div class="flex items-center gap-4 md:gap-5">
+<div class="h-24 w-24 shrink-0 overflow-hidden rounded-full border border-white/10 bg-white/5 sm:h-28 sm:w-28 md:h-32 md:w-32">
+<img src="assets/6b4da35649ccdbb39aafdcc2b4190cc1.JPG" alt="Даня Колесниченко" class="h-full w-full object-cover" loading="lazy" decoding="async"/>
 </div>
-<div class="rounded-xl border border-white/5 bg-surface-container-low p-6 backdrop-blur-xl md:p-8">
-<article>
-<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Сертификаты и дипломы</p>
-<h4 class="mt-3 text-2xl font-bold tracking-tight">Подтверждение экспертизы</h4>
-<div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
-<div class="rounded-lg border border-white/10 bg-black/20 p-4">
-<p class="text-base font-semibold text-white">Product Management Certificate</p>
-<p class="mt-1 text-sm text-white/60">Coursera / 2024</p>
+<div class="min-w-0">
+<h3 class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">Даня Колесниченко</h3>
+<p class="mt-0.5 text-sm text-white/65 sm:text-base">Product Manager @ Альфа-Банк</p>
 </div>
-<div class="rounded-lg border border-white/10 bg-black/20 p-4">
-<p class="text-base font-semibold text-white">Data-Driven Product Strategy</p>
-<p class="mt-1 text-sm text-white/60">Практический курс / 2025</p>
 </div>
-<div class="rounded-lg border border-white/10 bg-black/20 p-3">
-<button type="button" class="doc-preview-btn" data-doc-preview="assets/Колесниченко Данил (1).png" aria-label="Открыть благодарственное письмо">
-<img src="assets/Колесниченко Данил (1).png" alt="Благодарственное письмо Changellenge Cup Russia 2026" class="h-28 w-full rounded-md object-cover object-top" loading="lazy" decoding="async" draggable="false"/>
-</button>
-<p class="mt-2 text-xs text-white/70">Благодарственное письмо Changellenge Cup Russia 2026</p>
+<div class="mt-5 flex flex-wrap gap-3 sm:gap-4">
+<div class="min-w-[9rem] flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3">
+<div class="text-xl font-black text-[#64cefb] sm:text-2xl">2+ года</div>
+<div class="mt-0.5 text-sm text-white/75">опыта продакта в крупнейшем финтехе</div>
+</div>
+<div class="min-w-[9rem] flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3">
+<div class="text-xl font-black text-[#64cefb] sm:text-2xl">100+</div>
+<div class="mt-0.5 text-sm text-white/75">менти · выступления в ВШЭ, Альфа-Банке, Changellenge</div>
+</div>
+</div>
+<div class="mt-8 max-w-3xl md:mt-10">
+<p class="text-xl font-bold tracking-tight text-white md:text-2xl">Я тоже думал, что у меня недостаточно опыта…</p>
+<ol class="mt-6 space-y-4">
+<li class="flex gap-4"><span class="shrink-0 font-bold text-[#64cefb]">01</span><p class="text-base leading-relaxed text-white/75">Казалось, что у меня нет релевантного опыта для стажировки</p></li>
+<li class="flex gap-4"><span class="shrink-0 font-bold text-[#64cefb]">02</span><p class="text-base leading-relaxed text-white/75">Получил 4 оффера после стажировки в Альфа-Банке</p></li>
+<li class="flex gap-4"><span class="shrink-0 font-bold text-[#64cefb]">03</span><p class="text-base leading-relaxed text-white/75">В 21 год стал Product Owner в Альфа-Банке</p></li>
+<li class="flex gap-4"><span class="shrink-0 font-bold text-[#64cefb]">04</span><p class="text-base leading-relaxed text-white/75">За год вырос до Middle Product Manager</p></li>
+</ol>
+<p class="mt-8 text-base leading-relaxed text-white md:text-lg">Теперь помогаю студентам превратить свой опыт в сильный старт карьеры в Product.</p>
 </div>
 </div>
 </article>
+<p class="expert-marquee-label">Эксперт в</p>
+</div>
+<div class="logo-marquee" aria-label="Эксперт в компаниях и проектах">
+<div class="logo-marquee-viewport">
+<div class="logo-marquee-track" data-expert-marquee-track></div>
+</div>
+</div>
+</section>
+<section class="page-gutter relative py-12 md:py-16" id="curriculum">
+<div class="mx-auto max-w-7xl" data-section-chips data-track-branches>
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl">Услуги</h2>
+<div class="section-chip-tabs" role="tablist" aria-label="Ветки треков">
+<button type="button" class="section-chip chip-active" role="tab" id="curriculum-tab-career" aria-selected="true" aria-controls="curriculum-panel-career" data-chip-tab="career">Карьерный трек</button>
+<button type="button" class="section-chip" role="tab" id="curriculum-tab-product" aria-selected="false" aria-controls="curriculum-panel-product" data-chip-tab="product">Продуктовый трек</button>
+</div>
+<div class="section-chip-panels">
+<div class="is-active" role="tabpanel" id="curriculum-panel-career" aria-labelledby="curriculum-tab-career" data-chip-panel="career">
+<div class="track-cards" data-cols="2">
+<article class="track-card">
+<span class="track-card-num">01</span>
+<h3 class="track-card-title"><a href="tracks/career/consult.html" class="text-inherit no-underline hover:text-[#64cefb] transition-colors">Консультация</a></h3>
+<p class="track-card-text">Разовый разбор ситуации: куда двигаться, как упаковать опыт и какие шаги дать максимальный эффект.</p>
+<a class="track-more" href="tracks/career/consult.html">Подробнее</a>
+</article>
+<article class="track-card track-card-wide">
+<span class="track-card-num">02</span>
+<h3 class="track-card-title"><a href="tracks/career/support.html" class="text-inherit no-underline hover:text-[#64cefb] transition-colors">Сопровождение</a></h3>
+<p class="track-card-text">Ведение от первого запроса до оффера: стратегия поиска, упаковка, отклики, интервью и переговоры.</p>
+<a class="track-more" href="tracks/career/support.html">Подробнее</a>
+</article>
+<article class="track-card">
+<span class="track-card-num">03</span>
+<h3 class="track-card-title"><a href="tracks/career/mentor.html" class="text-inherit no-underline hover:text-[#64cefb] transition-colors">Менторство</a></h3>
+<p class="track-card-text">Регулярные сессии с фокусом на карьерный трек: навыки, решения на развилках и устойчивый прогресс.</p>
+<a class="track-more" href="tracks/career/mentor.html">Подробнее</a>
+</article>
+</div>
+</div>
+<div role="tabpanel" id="curriculum-panel-product" aria-labelledby="curriculum-tab-product" data-chip-panel="product">
+<div class="track-cards" data-cols="2">
+<article class="track-card">
+<span class="track-card-num">01</span>
+<h3 class="track-card-title"><a href="tracks/product/consult.html" class="text-inherit no-underline hover:text-[#64cefb] transition-colors">Консультация</a></h3>
+<p class="track-card-text">Разбор продуктовой задачи, гипотезы или кейса — с практическими рекомендациями под вашу роль.</p>
+<a class="track-more" href="tracks/product/consult.html">Подробнее</a>
+</article>
+<article class="track-card">
+<span class="track-card-num">02</span>
+<h3 class="track-card-title"><a href="tracks/product/mentor.html" class="text-inherit no-underline hover:text-[#64cefb] transition-colors">Менторство</a></h3>
+<p class="track-card-text">Сопровождение в продуктовой роли: гипотезы, метрики, командная работа и рост как PM.</p>
+<a class="track-more" href="tracks/product/mentor.html">Подробнее</a>
+</article>
 </div>
 </div>
 </div>
 </div>
 </section>
-<section class="relative px-6 py-20 md:py-28" id="audience" aria-labelledby="audience-heading">
-<div class="mx-auto max-w-7xl">
-<h2 class="mb-4 text-4xl font-black tracking-tighter md:mb-6 md:text-5xl" id="audience-heading">Для кого эта программа</h2>
-<p class="max-w-2xl text-pretty text-base text-white/55 md:text-lg">Если тебе откликается мысль вести продукт, переговоры и метрики — вот типичные точки входа, с которыми чаще всего приходят в менторство.</p>
-<div class="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-<div class="rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
-<div class="flex h-11 w-11 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb]" data-icon="swap_horiz" aria-hidden="true">swap_horiz</span>
-</div>
-<h3 class="mt-5 text-lg font-bold tracking-tight">Смена фокуса</h3>
-<p class="mt-2 text-sm leading-relaxed text-white/55">Из смежных ролей — аналитик, дизайнер, маркетинг, проекты, поддержка. Хотите влияние на продукт, а не только в рамках своей воронки.</p>
-</div>
-<div class="rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
-<div class="flex h-11 w-11 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb]" data-icon="school" aria-hidden="true">school</span>
-</div>
-<h3 class="mt-5 text-lg font-bold tracking-tight">Студенты и недавние выпускники</h3>
-<p class="mt-2 text-sm leading-relaxed text-white/55">Нужен понятный трек, кейсы, подгрузка в реалистичные вакансии и соревнования, а не только лекции.</p>
-</div>
-<div class="rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
-<div class="flex h-11 w-11 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb]" data-icon="trending_up" aria-hidden="true">trending_up</span>
-</div>
-<h3 class="mt-5 text-lg font-bold tracking-tight">Junior, который хочет роста</h3>
-<p class="mt-2 text-sm leading-relaxed text-white/55">Первый опыт в продукте есть, но нет сильных артефактов, сценариев интервью и системной обратной связи от практиков банкинга/финтеха.</p>
-</div>
-</div>
-</div>
-</section>
-<section class="relative px-6 py-20 md:py-28" id="curriculum">
-<div class="mx-auto max-w-7xl">
-<h2 class="mb-8 text-4xl font-black tracking-tighter md:text-5xl">Треки</h2>
-<div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-<div class="rounded-xl border border-white/5 bg-surface-container-low p-8 text-left backdrop-blur-md">
-<span class="font-bold text-[#64cefb]">01</span>
-<h3 class="mt-4 text-2xl font-bold">Консультация</h3>
-<p class="mt-2 text-sm text-white/55">Лалала</p>
-</div>
-<div class="rounded-xl border border-white/5 bg-surface-container-low p-8 text-left backdrop-blur-md">
-<span class="font-bold text-[#64cefb]">02</span>
-<h3 class="mt-4 text-2xl font-bold">Интенсив</h3>
-<p class="mt-2 text-sm text-white/55">Лалала</p>
-</div>
-<div class="rounded-xl border border-white/5 bg-surface-container-low p-8 text-left backdrop-blur-md">
-<span class="font-bold text-[#64cefb]">03</span>
-<h3 class="mt-4 text-2xl font-bold">Сопровождение</h3>
-<p class="mt-2 text-sm text-white/55">Лалала</p>
-</div>
-</div>
-</div>
-</section>
-<section class="relative px-6 py-20 md:py-28" id="outcomes" aria-labelledby="outcomes-heading">
-<div class="mx-auto max-w-7xl">
-<h2 class="mb-4 text-4xl font-black tracking-tighter md:mb-6 md:text-5xl" id="outcomes-heading">Что ты получишь от менторства</h2>
-<p class="max-w-2xl text-pretty text-base text-white/55 md:text-lg">Фокус на твоей ситуации, а не на абстрактной теории. Ниже — ось того, с чем обычно уходят по итогам работы в форматах сопровождения и интенсива.</p>
-<div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
-<div class="flex gap-4 rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
-<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="route" aria-hidden="true">route</span>
-</div>
-<div>
-<h3 class="text-lg font-bold tracking-tight">Дорожная карта</h3>
-<p class="mt-2 text-sm leading-relaxed text-white/55">Согласуем вектор на 2–3 месяца: навыки, артефакты, воронку откликов, что в приоритете в твоей нише (финтех, b2b, b2c).</p>
-</div>
-</div>
-<div class="flex gap-4 rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
-<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="edit_document" aria-hidden="true">edit_document</span>
-</div>
-<div>
-<h3 class="text-lg font-bold tracking-tight">Резюме и портфолио под продукт</h3>
-<p class="mt-2 text-sm leading-relaxed text-white/55">Формулировка достижений, кейсно-логичная история, take-home / продуктовые тесты — с разбором и доработкой.</p>
-</div>
-</div>
-<div class="flex gap-4 rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
-<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="forum" aria-hidden="true">forum</span>
-</div>
-<div>
-<h3 class="text-lg font-bold tracking-tight">Разбор вопросов с повтором</h3>
-<p class="mt-2 text-sm leading-relaxed text-white/55">Продуктовая глубина, оценка компетенций, поведенка — в формате близко к тому, как крутят в больших банковских/продуктовых средах.</p>
-</div>
-</div>
-<div class="flex gap-4 rounded-xl border border-white/5 bg-surface-container-low p-8 backdrop-blur-md">
-<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="support_agent" aria-hidden="true">support_agent</span>
-</div>
-<div>
-<h3 class="text-lg font-bold tracking-tight">Сопровождение до сильного решения</h3>
-<p class="mt-2 text-sm leading-relaxed text-white/55">Созвоны, ответы между сессиями, помощь в переговорах о компенсации и в выборе оффера, когда доходишь до этого этапа.</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section class="relative px-6 py-20 md:py-28" id="pricing">
-<div class="mx-auto max-w-7xl">
-<h2 class="mb-8 text-4xl font-black tracking-tighter md:text-5xl">Тарифы</h2>
-<div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3" role="radiogroup" aria-label="Выбор тарифа">
-<button type="button" class="pricing-option rounded-xl border border-white/10 bg-surface-container-low p-8 text-left backdrop-blur-xl transition-all duration-300 hover:border-white/25" data-pricing-option="consultation" aria-pressed="false">
-<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Консультация</span>
-<div class="mt-4 text-5xl font-bold tracking-tight">2500₽</div>
-<p class="mt-3 text-sm text-white/75">Разбор вашего кейса, трека развития и ближайших шагов.</p>
-</button>
-<button type="button" class="pricing-option rounded-xl border border-white/10 bg-surface-container-low p-8 text-left backdrop-blur-xl transition-all duration-300 hover:border-white/25" data-pricing-option="intensive" aria-pressed="false">
-<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Интенсив</span>
-<div class="mt-4 text-5xl font-bold tracking-tight">7900₽</div>
-<p class="mt-3 text-sm text-white/75">Серия практических сессий и фидбэк по вашему прогрессу.</p>
-</button>
-<button type="button" class="pricing-option pricing-option-active rounded-xl border border-white/10 bg-surface-container-low p-8 text-left backdrop-blur-xl transition-all duration-300 hover:border-white/25" data-pricing-option="support" aria-pressed="true">
-<span class="text-sm font-bold uppercase tracking-widest text-[#64cefb]">Сопровождение</span>
-<div class="mt-4 text-5xl font-bold tracking-tight">14900₽</div>
-<p class="mt-3 text-sm text-white/75">Личный трек, подготовка к интервью и поддержка до оффера.</p>
-</button>
-</div>
-<div class="mt-8 flex justify-center">
-<button type="button" id="pricing-cta" class="rounded-full bg-[#64cefb] px-8 py-3 font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_8px_24px_rgba(100,206,251,0.32)] transition-all duration-300 hover:bg-[#4cb8e5] hover:shadow-[0_10px_28px_rgba(100,206,251,0.42)]">Получить консультацию</button>
-</div>
-</div>
-</section>
-<section class="relative px-6 py-20 md:py-28" id="guide">
+<section class="page-gutter relative py-12 md:py-16" id="guide">
 <div class="mx-auto max-w-7xl w-full">
-<h2 class="mb-8 text-4xl font-black tracking-tighter md:text-5xl">Гайд</h2>
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl">Гайд по входу в IT</h2>
 <div class="w-full rounded-xl border border-white/10 bg-surface-container-low p-10 shadow-[0_0_0_1px_rgba(100,206,251,0.06)] backdrop-blur-xl md:p-14">
-<h2 class="w-full text-4xl font-bold leading-tight tracking-tighter text-white md:text-5xl">Получить бесплатный гайд по собеседованиям</h2>
-<p class="mt-5 text-pretty text-base leading-relaxed text-white/75 md:text-lg">Чек-лист по подготовке к продуктовым и поведенческим вопросам — отправлю в Telegram.</p>
-<form class="mt-10 space-y-8" action="#" method="post">
+<p class="text-pretty text-base leading-relaxed text-white/75 md:text-lg">Короткий гайд: как выбрать направление, упаковать опыт и сделать первые шаги к стажировке или junior-роли — отправлю в Telegram.</p>
+<form class="mt-8 space-y-6" action="#" method="post">
 <div>
 <label class="block text-xs font-bold uppercase tracking-wider text-white/55" for="guide-telegram">Ник в Telegram</label>
 <input id="guide-telegram" name="telegram" type="text" autocomplete="username" inputmode="text" required class="mt-2 w-full border-0 border-b border-white/20 bg-transparent py-2.5 text-base text-white outline-none ring-0 placeholder:text-white/55 focus:border-[#64cefb]" placeholder="@username"/>
@@ -830,17 +2433,29 @@
 <span>Согласен(-на) с обработкой персональных данных. <a class="font-medium text-[#64cefb] underline decoration-[#64cefb]/50 underline-offset-2 transition-colors hover:text-[#8ddcf9]" href="#">Политика конфиденциальности</a></span>
 </label>
 <div class="flex justify-center pt-2">
-<button type="submit" class="rounded-full bg-[#64cefb] px-12 py-4 text-sm font-extrabold uppercase tracking-widest text-black shadow-[0_8px_28px_rgba(255,255,255,0.12)] transition-colors hover:bg-zinc-200 hover:shadow-[0_10px_32px_rgba(255,255,255,0.18)]">Получить гайд</button>
+<button type="submit" class="rounded-full bg-[#64cefb] px-7 py-2.5 text-xs font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_6px_18px_rgba(100,206,251,0.28)] transition-colors hover:bg-[#4cb8e5]">Получить гайд</button>
 </div>
 </form>
 </div>
 </div>
 </section>
-<section class="relative px-6 py-20 md:py-28" id="reviews" aria-labelledby="reviews-heading">
+<section class="page-gutter relative py-12 md:py-16" id="placements" aria-labelledby="placements-heading">
 <div class="mx-auto max-w-7xl">
-<h2 class="mb-4 text-4xl font-black tracking-tighter md:mb-6 md:text-5xl" id="reviews-heading">Отзывы</h2>
-<p class="max-w-2xl text-pretty text-base text-white/55 md:text-lg">Коротко о разных траекториях: менти приходили и из учёбы, и из смены компании, и в первую продуктовую роль внутри банка и финтеха.</p>
-<div class="mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:overflow-visible md:pb-0 lg:grid-cols-3" data-reviews-carousel>
+<h2 class="text-4xl font-black tracking-tighter md:text-5xl" id="placements-heading">Наши менти трудоустроились в&nbsp;компании</h2>
+</div>
+<div class="logo-marquee" aria-label="Компании, куда трудоустроились менти">
+<div class="logo-marquee-viewport">
+<div class="logo-marquee-track" data-placements-marquee-track></div>
+</div>
+</div>
+</section>
+<section class="page-gutter relative py-12 md:py-16" id="reviews" aria-labelledby="reviews-heading">
+<div class="mx-auto max-w-7xl">
+<div class="mb-6 flex items-baseline justify-between gap-4 md:mb-8">
+<h2 class="text-4xl font-black tracking-tighter md:text-5xl" id="reviews-heading">Отзывы</h2>
+<p class="shrink-0 text-xs font-medium tracking-tight text-white/45 md:text-sm">4.87 средняя оценка</p>
+</div>
+<div class="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:overflow-visible md:pb-0 lg:grid-cols-3" data-reviews-carousel>
 <figure class="flex h-full min-w-full snap-start flex-col items-center py-2 md:min-w-0">
 <div class="review-video-shell is-paused">
 <video class="review-video" preload="metadata" playsinline>
@@ -851,8 +2466,9 @@
 <span class="material-symbols-outlined" data-icon="play_arrow" aria-hidden="true">play_arrow</span>
 </button>
 </div>
-<figcaption class="mt-2 text-center">
-<span class="text-sm font-bold text-white">А. М.</span>
+<figcaption class="mt-3 max-w-xs text-center">
+<span class="block text-sm font-bold text-white">Мария Соколова</span>
+<p class="mt-1 text-xs leading-relaxed text-white/55">Студентка → стажировка в финтехе. Упаковали учебные проекты и прошли 3 этапа отбора.</p>
 </figcaption>
 </figure>
 <figure class="flex h-full min-w-full snap-start flex-col items-center py-2 md:min-w-0">
@@ -865,8 +2481,9 @@
 <span class="material-symbols-outlined" data-icon="play_arrow" aria-hidden="true">play_arrow</span>
 </button>
 </div>
-<figcaption class="mt-2 text-center">
-<span class="text-sm font-bold text-white">Курсант интенсива</span>
+<figcaption class="mt-3 max-w-xs text-center">
+<span class="block text-sm font-bold text-white">Илья Орлов</span>
+<p class="mt-1 text-xs leading-relaxed text-white/55">Смена сферы из маркетинга. За 2 месяца собрал воронку откликов и получил оффер junior PM.</p>
 </figcaption>
 </figure>
 <figure class="flex h-full min-w-full snap-start flex-col items-center py-2 md:min-w-0">
@@ -879,85 +2496,77 @@
 <span class="material-symbols-outlined" data-icon="play_arrow" aria-hidden="true">play_arrow</span>
 </button>
 </div>
-<figcaption class="mt-2 text-center">
-<span class="text-sm font-bold text-white">Роль в продукте</span>
+<figcaption class="mt-3 max-w-xs text-center">
+<span class="block text-sm font-bold text-white">Анна Ким</span>
+<p class="mt-1 text-xs leading-relaxed text-white/55">Внутренний переход в продукт. Подтянули кейсы, метрики и прошли продуктовые интервью.</p>
 </figcaption>
 </figure>
 </div>
 <div class="mt-5 flex items-center justify-center gap-3 md:hidden" aria-label="Управление каруселью отзывов">
-<button type="button" class="reviews-nav-btn inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white/85 transition-colors hover:text-white" data-reviews-nav="prev" aria-label="Предыдущий отзыв">
+<button type="button" class="reviews-nav-btn inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/85 transition-colors hover:text-white" data-reviews-nav="prev" aria-label="Предыдущий отзыв">
 <span class="material-symbols-outlined text-[20px]" data-icon="chevron_left" aria-hidden="true">chevron_left</span>
 </button>
-<button type="button" class="reviews-nav-btn inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white/85 transition-colors hover:text-white" data-reviews-nav="next" aria-label="Следующий отзыв">
+<button type="button" class="reviews-nav-btn inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/85 transition-colors hover:text-white" data-reviews-nav="next" aria-label="Следующий отзыв">
 <span class="material-symbols-outlined text-[20px]" data-icon="chevron_right" aria-hidden="true">chevron_right</span>
 </button>
 </div>
 </div>
 </section>
-<section class="relative px-6 py-20 md:py-28" id="faq" aria-labelledby="faq-heading">
+<section class="page-gutter relative py-12 md:py-16" id="faq" aria-labelledby="faq-heading">
 <div class="mx-auto max-w-7xl">
-<h2 class="mb-6 text-4xl font-black tracking-tighter md:text-5xl" id="faq-heading">Ответы на частые вопросы</h2>
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="faq-heading">Ответы на вопросы</h2>
 <div class="space-y-3 w-full">
 <div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
-<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-5 py-4 text-left md:px-6 md:py-5" aria-expanded="false" id="faq-q-1" aria-controls="faq-a-1">
+<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-1" aria-controls="faq-a-1">
 <span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Кому подойдёт менторство, если у меня нет опыта в продукте?</span>
-<span class="faq-icon-btn inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-full border border-white/20 bg-black/30 text-2xl font-light leading-none text-[#64cefb]" aria-hidden="true">+</span>
+<span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
-<div class="faq-panel hidden border-t border-white/10 px-5 pb-5 pt-0 md:px-6" id="faq-a-1" role="region" aria-labelledby="faq-q-1">
+<div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-1" role="region" aria-labelledby="faq-q-1">
 <p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">Подойдёт тем, кто делает первые шаги: смена профессии, стажировки, кейсы с учёбы. На разборе посмотрим ваш бэкграунд, цели и составим реалистичный план — от навыков до портфолио и откликов.</p>
 </div>
 </div>
 <div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
-<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-5 py-4 text-left md:px-6 md:py-5" aria-expanded="false" id="faq-q-2" aria-controls="faq-a-2">
+<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-2" aria-controls="faq-a-2">
 <span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Чем отличаются консультация, интенсив и сопровождение?</span>
-<span class="faq-icon-btn inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-full border border-white/20 bg-black/30 text-2xl font-light leading-none text-[#64cefb]" aria-hidden="true">+</span>
+<span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
-<div class="faq-panel hidden border-t border-white/10 px-5 pb-5 pt-0 md:px-6" id="faq-a-2" role="region" aria-labelledby="faq-q-2">
+<div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-2" role="region" aria-labelledby="faq-q-2">
 <p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">Консультация — разовая сессия с разбором кейса и планом. Интенсив — плотные практические встречи с фидбэком. Сопровождение — длительная работа: регулярные созвоны, подготовка к собесам и сопровождение до сильного оффера в рамках договорённостей.</p>
 </div>
 </div>
 <div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
-<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-5 py-4 text-left md:px-6 md:py-5" aria-expanded="false" id="faq-q-3" aria-controls="faq-a-3">
+<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-3" aria-controls="faq-a-3">
 <span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Помогаете с резюме, портфолио и продуктовыми тестовыми?</span>
-<span class="faq-icon-btn inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-full border border-white/20 bg-black/30 text-2xl font-light leading-none text-[#64cefb]" aria-hidden="true">+</span>
+<span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
-<div class="faq-panel hidden border-t border-white/10 px-5 pb-5 pt-0 md:px-6" id="faq-a-3" role="region" aria-labelledby="faq-q-3">
+<div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-3" role="region" aria-labelledby="faq-q-3">
 <p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">Да: структура резюме, формулировки достижений, портфолио-кейсы, разбор take-home и продуктовых заданий, разбор вопросов с собесов — в зависимости от выбранного формата.</p>
 </div>
 </div>
 <div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
-<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-5 py-4 text-left md:px-6 md:py-5" aria-expanded="false" id="faq-q-4" aria-controls="faq-a-4">
+<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-4" aria-controls="faq-a-4">
 <span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Можно ли учиться, если я уже работаю не в IT?</span>
-<span class="faq-icon-btn inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-full border border-white/20 bg-black/30 text-2xl font-light leading-none text-[#64cefb]" aria-hidden="true">+</span>
+<span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
-<div class="faq-panel hidden border-t border-white/10 px-5 pb-5 pt-0 md:px-6" id="faq-a-4" role="region" aria-labelledby="faq-q-4">
+<div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-4" role="region" aria-labelledby="faq-q-4">
 <p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">Можно. PM — про аналитику, коммуникации и поставку ценности пользователю. Опыт из банка, e-commerce, маркетинга, консалтинга часто усиливают картину — важно его правильно упаковать в историю и артефакты.</p>
 </div>
 </div>
 <div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
-<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-5 py-4 text-left md:px-6 md:py-5" aria-expanded="false" id="faq-q-5" aria-controls="faq-a-5">
+<button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-5" aria-controls="faq-a-5">
 <span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Как проходят встречи — онлайн и в каком формате?</span>
-<span class="faq-icon-btn inline-flex h-10 w-10 shrink-0 self-center items-center justify-center rounded-full border border-white/20 bg-black/30 text-2xl font-light leading-none text-[#64cefb]" aria-hidden="true">+</span>
+<span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
-<div class="faq-panel hidden border-t border-white/10 px-5 pb-5 pt-0 md:px-6" id="faq-a-5" role="region" aria-labelledby="faq-q-5">
+<div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-5" role="region" aria-labelledby="faq-q-5">
 <p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">По согласованию — в основном онлайн (созвоны, шаринг экрана, разбор в Miro/Notion). Продолжительность и ритм фиксируем до старта, чтобы укладываться в ваши дедлайны и учёбу.</p>
 </div>
 </div>
 </div>
-</div>
-</section>
-<section class="relative px-6 py-20 md:py-28" id="contacts">
-<div class="mx-auto max-w-7xl">
-<h2 class="mb-4 text-4xl font-black tracking-tighter md:text-5xl">Контакты</h2>
-<div class="flex flex-col gap-4">
-<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 text-white no-underline transition-opacity hover:opacity-80">
-<img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="Telegram" class="h-24 w-24 object-contain" loading="lazy"/>
-<span class="text-lg font-semibold tracking-tight">@koolesoo</span>
-</a>
-<a href="https://www.linkedin.com/in/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 text-white no-underline transition-opacity hover:opacity-80">
-<img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="LinkedIn" class="h-24 w-24 object-contain" loading="lazy"/>
-<span class="text-lg font-semibold tracking-tight">/in/koolesoo</span>
-</a>
+<div class="mt-10 flex justify-center md:mt-12">
+<button type="button" id="back-to-top" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 py-3.5 text-xs font-extrabold uppercase tracking-widest text-white transition-colors hover:bg-white/10 hover:border-white/35">
+<span class="material-symbols-outlined text-[18px]" data-icon="arrow_upward" aria-hidden="true">arrow_upward</span>
+Наверх
+</button>
 </div>
 </div>
 </section>
@@ -1010,7 +2619,7 @@
             const isReload = !!(navEntry && navEntry.type === 'reload');
             const hash = location.hash;
 
-            if (isReload && hash && hash !== '#pricing') {
+            if (isReload && hash) {
                 history.replaceState(null, '', location.href.split('#')[0]);
                 scrollToTopOnLoad();
                 return;
@@ -1037,19 +2646,19 @@
 
         const heroVideo = document.getElementById('hero-video');
         const heroFreezeFrame = document.getElementById('hero-freeze-frame');
+        /* TEMP: статичный креатив в hero — выключить, когда вернём видео */
+        const HERO_STATIC_CREATIVE = true;
         const btnAll = document.getElementById('toggle-all');
         const btnStudents = document.getElementById('toggle-students');
-        const navIds = ['expert', 'curriculum', 'pricing', 'guide', 'reviews'];
+        const navIds = ['expert', 'curriculum', 'guide', 'reviews'];
         const scrollSpyChain = [
             { id: 'expert', href: '#expert' },
             { id: 'curriculum', href: '#curriculum' },
-            { id: 'pricing', href: '#pricing' },
             { id: 'guide', href: '#guide' },
             { id: 'reviews', href: '#reviews' },
         ];
         const navLinks = document.querySelectorAll('.nav-link');
         const connectorFills = document.querySelectorAll('.nav-connector-fill');
-        const pricingOptions = document.querySelectorAll('.pricing-option');
         let navSyncRaf = null;
         let heroVideoMode = 'all';
         let reverseRafId = null;
@@ -1076,6 +2685,7 @@
         }
 
         function hideFreezeFrame() {
+            if (HERO_STATIC_CREATIVE) return;
             if (!heroFreezeFrame) return;
             heroFreezeFrame.classList.remove('is-visible');
         }
@@ -1086,6 +2696,11 @@
         }
 
         function holdHeroOnStudentsFrame() {
+            if (HERO_STATIC_CREATIVE) {
+                showFreezeFrame();
+                if (heroVideo) heroVideo.classList.add('is-hidden');
+                return;
+            }
             if (!heroVideo) return;
             const holdTime = heroHoldTime();
             heroVideo.pause();
@@ -1095,6 +2710,11 @@
         }
 
         function playForward() {
+            if (HERO_STATIC_CREATIVE) {
+                showFreezeFrame();
+                if (heroVideo) heroVideo.classList.add('is-hidden');
+                return;
+            }
             if (!heroVideo) return;
             stopReversePlayback();
             stopForwardMonitor();
@@ -1126,6 +2746,11 @@
         }
 
         function playReverse() {
+            if (HERO_STATIC_CREATIVE) {
+                showFreezeFrame();
+                if (heroVideo) heroVideo.classList.add('is-hidden');
+                return;
+            }
             if (!heroVideo) return;
             stopReversePlayback();
             stopForwardMonitor();
@@ -1152,16 +2777,27 @@
 
         function setChipAll() {
             btnAll.classList.add('chip-active');
-            btnAll.classList.remove('text-white/55', 'hover:text-white');
+            btnAll.classList.remove('text-white/40', 'text-white/55', 'hover:text-white');
             btnStudents.classList.remove('chip-active');
-            btnStudents.classList.add('text-white/55', 'hover:text-white');
+            btnStudents.classList.add('text-white/40', 'hover:text-white');
+            setHeroCopyMode('all');
         }
 
         function setChipStudents() {
             btnStudents.classList.add('chip-active');
-            btnStudents.classList.remove('text-white/55', 'hover:text-white');
+            btnStudents.classList.remove('text-white/40', 'text-white/55', 'hover:text-white');
             btnAll.classList.remove('chip-active');
-            btnAll.classList.add('text-white/55', 'hover:text-white');
+            btnAll.classList.add('text-white/40', 'hover:text-white');
+            setHeroCopyMode('students');
+        }
+
+        function setHeroCopyMode(mode) {
+            const allBlock = document.getElementById('hero-mode-all');
+            const studentsBlock = document.getElementById('hero-mode-students');
+            if (!allBlock || !studentsBlock) return;
+            const isStudents = mode === 'students';
+            allBlock.hidden = isStudents;
+            studentsBlock.hidden = !isStudents;
         }
 
         if (btnAll && btnStudents) {
@@ -1178,20 +2814,7 @@
             });
         }
 
-        if (pricingOptions.length) {
-            pricingOptions.forEach((option) => {
-                option.addEventListener('click', () => {
-                    pricingOptions.forEach((item) => {
-                        item.classList.remove('pricing-option-active');
-                        item.setAttribute('aria-pressed', 'false');
-                    });
-                    option.classList.add('pricing-option-active');
-                    option.setAttribute('aria-pressed', 'true');
-                });
-            });
-        }
-
-        if (heroVideo) {
+        if (heroVideo && !HERO_STATIC_CREATIVE) {
             heroVideo.load();
             heroVideo.addEventListener('ended', () => {
                 if (heroVideoMode === 'students') {
@@ -1291,13 +2914,32 @@
             if (reduce || saveData) {
                 bgVideo.pause();
                 bgVideo.removeAttribute('autoplay');
+                bgVideo.classList.add('is-inactive');
                 return;
             }
             if (document.hidden) {
                 bgVideo.pause();
-            } else {
-                bgVideo.play().catch(() => {});
+                return;
             }
+            const playAttempt = bgVideo.play();
+            if (playAttempt && typeof playAttempt.then === 'function') {
+                playAttempt
+                    .then(() => bgVideo.classList.remove('is-inactive'))
+                    .catch(() => bgVideo.classList.add('is-inactive'));
+            } else if (bgVideo.paused) {
+                bgVideo.classList.add('is-inactive');
+            } else {
+                bgVideo.classList.remove('is-inactive');
+            }
+        }
+
+        if (bgVideo) {
+            bgVideo.addEventListener('playing', () => bgVideo.classList.remove('is-inactive'));
+            bgVideo.addEventListener('pause', () => {
+                if (document.hidden) return;
+                /* Без автоплея браузер рисует системную Play — прячем видео */
+                if (bgVideo.paused) bgVideo.classList.add('is-inactive');
+            });
         }
 
         document.addEventListener('visibilitychange', syncBgVideoPlayback);
@@ -1306,6 +2948,56 @@
             navigator.connection.addEventListener('change', syncBgVideoPlayback);
         }
         syncBgVideoPlayback();
+
+        (function initLogoMarquees() {
+            const LOGO_PX_PER_SEC = 55;
+
+            /* Одинаковый набор и правила отрисовки для обеих каруселей */
+            const SHARED_LOGOS = [
+                { file: 'logo-alfa.png', alt: 'Альфа-Банк' },
+                { file: 'logo-mars.png', alt: 'Mars' },
+                { file: 'logo-t2.png', alt: 't2' },
+                { file: 'changellenge-logo.png', alt: 'Changellenge' },
+                { file: 'hse-logo.png', alt: 'ВШЭ' },
+                { file: 'cu-logo.png', alt: 'Центральный университет', wide: true, invert: true },
+                { file: 'logo-ranepa.png', alt: 'РАНХиГС' },
+            ];
+
+            function makeItem(logo) {
+                const item = document.createElement('span');
+                item.className = 'logo-marquee-item';
+                if (logo.wide) item.classList.add('is-wide');
+                if (logo.invert) item.classList.add('is-invert');
+                const img = document.createElement('img');
+                img.src = `assets/marquee/${logo.file}`;
+                img.alt = logo.alt;
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                img.draggable = false;
+                img.onerror = () => item.remove();
+                item.appendChild(img);
+                return item;
+            }
+
+            function fillTrack(track) {
+                if (!track) return;
+                track.replaceChildren();
+                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const copies = reduce ? 1 : 4;
+                for (let c = 0; c < copies; c += 1) {
+                    SHARED_LOGOS.forEach((logo) => track.appendChild(makeItem(logo)));
+                }
+                if (reduce) return;
+                requestAnimationFrame(() => {
+                    const half = track.scrollWidth / 2;
+                    if (!half) return;
+                    track.style.setProperty('--logo-marquee-duration', `${Math.max(12, half / LOGO_PX_PER_SEC)}s`);
+                });
+            }
+
+            fillTrack(document.querySelector('[data-expert-marquee-track]'));
+            fillTrack(document.querySelector('[data-placements-marquee-track]'));
+        })();
 
         (function initReviewVideoControls() {
             const shells = document.querySelectorAll('.review-video-shell');
@@ -1445,6 +3137,402 @@
                     triggers.forEach((b) => setOpen(b, false));
                     if (!isOpen) setOpen(btn, true);
                 });
+            });
+        })();
+
+        (function initBackToTop() {
+            const btn = document.getElementById('back-to-top');
+            if (!btn) return;
+            btn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        })();
+
+        (function initAudienceStack() {
+            const section = document.querySelector('[data-audience-stack]');
+            if (!section) return;
+
+            const stack = section.querySelector('.audience-stack');
+            const cards = Array.from(section.querySelectorAll('[data-audience-card]'));
+            const dotsWrap = section.querySelector('.audience-stack-dots');
+            const prevBtn = section.querySelector('[data-audience-prev]');
+            const nextBtn = section.querySelector('[data-audience-next]');
+            if (!stack || cards.length < 2) return;
+
+            const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let active = 0;
+            let dragX = 0;
+            let startX = 0;
+            let dragging = false;
+
+            if (dotsWrap) {
+                dotsWrap.innerHTML = cards
+                    .map((_, i) => `<span class="audience-stack-dot${i === 0 ? ' is-active' : ''}"></span>`)
+                    .join('');
+            }
+            const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
+
+            function measureCardHeight() {
+                if (reduceMotion()) return;
+                const width = stack.clientWidth || stack.offsetWidth;
+                if (!width) return;
+                let maxH = 0;
+                cards.forEach((card) => {
+                    const clone = card.cloneNode(true);
+                    clone.classList.remove('is-dismissed');
+                    clone.style.cssText = [
+                        'position:static',
+                        'inset:auto',
+                        'transform:none',
+                        'opacity:1',
+                        'visibility:hidden',
+                        'pointer-events:none',
+                        `width:${width}px`,
+                        'height:auto',
+                    ].join(';');
+                    stack.appendChild(clone);
+                    maxH = Math.max(maxH, clone.offsetHeight);
+                    clone.remove();
+                });
+                if (maxH > 0) {
+                    const stackPad = Math.min(cards.length - 1, 3) * 16;
+                    section.style.setProperty('--audience-card-h', `${Math.ceil(maxH + stackPad + 8)}px`);
+                }
+            }
+
+            function setActive(index) {
+                active = Math.max(0, Math.min(cards.length - 1, index));
+                cards.forEach((card, i) => {
+                    const dismissed = i < active;
+                    const stackI = dismissed ? 0 : i - active;
+                    card.classList.remove('is-behind');
+                    card.classList.toggle('is-dismissed', dismissed);
+                    card.style.setProperty('--stack-i', String(Math.max(0, stackI)));
+                    card.style.zIndex = String(cards.length - i);
+                    card.style.transform = '';
+                    card.style.opacity = '';
+                    card.setAttribute('aria-hidden', i === active ? 'false' : 'true');
+                });
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('is-active', i === active);
+                });
+                if (prevBtn) prevBtn.disabled = active <= 0;
+                if (nextBtn) nextBtn.disabled = active >= cards.length - 1;
+            }
+
+            function go(delta) {
+                if (reduceMotion()) return;
+                setActive(active + delta);
+            }
+
+            if (prevBtn) prevBtn.addEventListener('click', () => go(-1));
+            if (nextBtn) nextBtn.addEventListener('click', () => go(1));
+
+            dots.forEach((dot, i) => {
+                dot.style.cursor = 'pointer';
+                dot.addEventListener('click', () => setActive(i));
+            });
+
+            stack.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowLeft') {
+                    event.preventDefault();
+                    go(-1);
+                } else if (event.key === 'ArrowRight') {
+                    event.preventDefault();
+                    go(1);
+                }
+            });
+
+            function onPointerDown(event) {
+                if (reduceMotion()) return;
+                if (event.pointerType === 'mouse' && event.button !== 0) return;
+                dragging = true;
+                dragX = 0;
+                startX = event.clientX;
+                stack.setPointerCapture(event.pointerId);
+            }
+
+            function onPointerMove(event) {
+                if (!dragging) return;
+                dragX = event.clientX - startX;
+                const front = cards[active];
+                if (!front) return;
+                const rot = dragX / 40;
+                front.style.transform = `translate3d(${dragX}px, 0, 0) rotate(${rot}deg)`;
+                front.style.opacity = String(Math.max(0.35, 1 - Math.abs(dragX) / 280));
+            }
+
+            function onPointerUp(event) {
+                if (!dragging) return;
+                dragging = false;
+                try {
+                    stack.releasePointerCapture(event.pointerId);
+                } catch (e) {}
+                const front = cards[active];
+                if (front) {
+                    front.style.transform = '';
+                    front.style.opacity = '';
+                }
+                if (dragX < -64) go(1);
+                else if (dragX > 64) go(-1);
+                dragX = 0;
+            }
+
+            stack.addEventListener('pointerdown', onPointerDown);
+            stack.addEventListener('pointermove', onPointerMove);
+            stack.addEventListener('pointerup', onPointerUp);
+            stack.addEventListener('pointercancel', onPointerUp);
+
+            measureCardHeight();
+            setActive(0);
+            window.addEventListener('resize', () => {
+                measureCardHeight();
+                setActive(active);
+            });
+        })();
+
+        (function initSectionChips() {
+            const roots = document.querySelectorAll('[data-section-chips]');
+            if (!roots.length) return;
+
+            function rootTabs(root) {
+                return Array.from(root.querySelectorAll(':scope > .section-chip-tabs [data-chip-tab]'));
+            }
+
+            function rootPanels(root) {
+                return Array.from(root.querySelectorAll(':scope > .section-chip-panels > [data-chip-panel]'));
+            }
+
+            function activate(root, key) {
+                const tabs = rootTabs(root);
+                const panels = rootPanels(root);
+                tabs.forEach((tab) => {
+                    const on = tab.getAttribute('data-chip-tab') === key;
+                    tab.classList.toggle('chip-active', on);
+                    tab.setAttribute('aria-selected', on ? 'true' : 'false');
+                    tab.tabIndex = on ? 0 : -1;
+                });
+                panels.forEach((panel) => {
+                    const on = panel.getAttribute('data-chip-panel') === key;
+                    panel.classList.toggle('is-active', on);
+                });
+            }
+
+            roots.forEach((root) => {
+                const tabs = rootTabs(root);
+                if (!tabs.length) return;
+
+                tabs.forEach((tab, index) => {
+                    tab.addEventListener('click', () => {
+                        activate(root, tab.getAttribute('data-chip-tab'));
+                    });
+                    tab.addEventListener('keydown', (event) => {
+                        if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft' && event.key !== 'Home' && event.key !== 'End') return;
+                        event.preventDefault();
+                        let next = index;
+                        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+                        if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
+                        if (event.key === 'Home') next = 0;
+                        if (event.key === 'End') next = tabs.length - 1;
+                        tabs[next].focus();
+                        activate(root, tabs[next].getAttribute('data-chip-tab'));
+                    });
+                });
+
+                const activeTab = root.querySelector(':scope > .section-chip-tabs [data-chip-tab].chip-active') || tabs[0];
+                if (activeTab) activate(root, activeTab.getAttribute('data-chip-tab'));
+            });
+        })();
+
+        (function initTrackMore() {
+            document.querySelectorAll('[data-track-more]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('aria-controls');
+                    const detail = id ? document.getElementById(id) : null;
+                    if (!detail) return;
+                    const open = !detail.classList.contains('is-open');
+                    detail.classList.toggle('is-open', open);
+                    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                    btn.textContent = open ? 'Скрыть' : 'Подробнее';
+                });
+            });
+        })();
+
+        (function initOverlaysAndConsult() {
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const sectionsOverlay = document.getElementById('sections-overlay');
+            const sectionsClose = document.getElementById('sections-overlay-close');
+            let lastFocus = null;
+            let overlayCount = 0;
+
+            function focusableIn(container) {
+                return Array.from(
+                    container.querySelectorAll(
+                        'a[href], button:not([disabled]), textarea, input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                    )
+                ).filter((el) => {
+                    if (el.hasAttribute('disabled') || el.getAttribute('aria-hidden') === 'true') return false;
+                    const style = window.getComputedStyle(el);
+                    if (style.display === 'none' || style.visibility === 'hidden') return false;
+                    return true;
+                });
+            }
+
+            function lockScroll() {
+                overlayCount += 1;
+                document.body.classList.add('has-overlay-open');
+            }
+
+            function unlockScroll() {
+                overlayCount = Math.max(0, overlayCount - 1);
+                if (overlayCount === 0) {
+                    document.body.classList.remove('has-overlay-open');
+                }
+            }
+
+            function openOverlay(overlay, focusTarget) {
+                if (!overlay || overlay.classList.contains('is-open')) return;
+                lastFocus = document.activeElement;
+                overlay.classList.add('is-open');
+                overlay.setAttribute('aria-hidden', 'false');
+                lockScroll();
+                if (menuBtn && overlay === sectionsOverlay) {
+                    menuBtn.setAttribute('aria-expanded', 'true');
+                }
+                const focusEl = focusTarget || focusableIn(overlay)[0];
+                if (focusEl) {
+                    requestAnimationFrame(() => focusEl.focus());
+                }
+            }
+
+            function closeOverlay(overlay) {
+                if (!overlay || !overlay.classList.contains('is-open')) return;
+                overlay.classList.remove('is-open');
+                overlay.setAttribute('aria-hidden', 'true');
+                unlockScroll();
+                if (menuBtn && overlay === sectionsOverlay) {
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                }
+                if (lastFocus && typeof lastFocus.focus === 'function') {
+                    lastFocus.focus();
+                }
+            }
+
+            if (menuBtn && sectionsOverlay) {
+                menuBtn.addEventListener('click', () => openOverlay(sectionsOverlay, sectionsClose));
+            }
+            if (sectionsClose) {
+                sectionsClose.addEventListener('click', () => closeOverlay(sectionsOverlay));
+            }
+            if (sectionsOverlay) {
+                sectionsOverlay.addEventListener('click', (event) => {
+                    if (event.target === sectionsOverlay) closeOverlay(sectionsOverlay);
+                });
+                sectionsOverlay.querySelectorAll('.sections-overlay-link').forEach((link) => {
+                    link.addEventListener('click', () => closeOverlay(sectionsOverlay));
+                });
+            }
+
+            (function initStickyConsultCta() {
+                const hero = document.getElementById('hero');
+                const sticky = document.getElementById('sticky-consult-cta');
+                if (!hero || !sticky) return;
+
+                const sync = (show) => {
+                    sticky.classList.toggle('is-visible', show);
+                    document.body.classList.toggle('has-sticky-cta', show);
+                };
+
+                if (!('IntersectionObserver' in window)) {
+                    const onScroll = () => {
+                        sync(hero.getBoundingClientRect().bottom <= 8);
+                    };
+                    window.addEventListener('scroll', onScroll, { passive: true });
+                    onScroll();
+                    return;
+                }
+
+                const io = new IntersectionObserver(
+                    ([entry]) => {
+                        sync(!entry.isIntersecting);
+                    },
+                    { root: null, threshold: 0, rootMargin: '0px' }
+                );
+                io.observe(hero);
+            })();
+
+            (function initCookieBanner() {
+                const STORAGE_KEY = 'cookie-consent';
+                const banner = document.getElementById('cookie-banner');
+                const acceptBtn = document.getElementById('cookie-accept');
+                const declineBtn = document.getElementById('cookie-decline');
+                if (!banner || !acceptBtn || !declineBtn) return;
+
+                let saved = null;
+                try {
+                    saved = localStorage.getItem(STORAGE_KEY);
+                } catch (e) {}
+
+                if (saved === 'accepted' || saved === 'declined') return;
+
+                const syncLift = () => {
+                    const h = banner.classList.contains('is-visible')
+                        ? Math.ceil(banner.getBoundingClientRect().height) + 12
+                        : 0;
+                    document.documentElement.style.setProperty('--cookie-banner-lift', h + 'px');
+                };
+
+                const hideBanner = (value) => {
+                    try {
+                        localStorage.setItem(STORAGE_KEY, value);
+                    } catch (e) {}
+                    banner.classList.add('is-leaving');
+                    banner.classList.remove('is-visible');
+                    banner.setAttribute('aria-hidden', 'true');
+                    document.body.classList.remove('has-cookie-banner');
+                    const done = () => {
+                        banner.hidden = true;
+                        document.documentElement.style.setProperty('--cookie-banner-lift', '0px');
+                        banner.removeEventListener('transitionend', done);
+                    };
+                    banner.addEventListener('transitionend', done);
+                    setTimeout(done, 320);
+                };
+
+                requestAnimationFrame(() => {
+                    document.body.classList.add('has-cookie-banner');
+                    banner.classList.add('is-visible');
+                    banner.setAttribute('aria-hidden', 'false');
+                    syncLift();
+                });
+
+                window.addEventListener('resize', syncLift, { passive: true });
+                acceptBtn.addEventListener('click', () => hideBanner('accepted'));
+                declineBtn.addEventListener('click', () => hideBanner('declined'));
+            })();
+
+            document.addEventListener('keydown', (event) => {
+                const openMenu = sectionsOverlay && sectionsOverlay.classList.contains('is-open') ? sectionsOverlay : null;
+                if (!openMenu) return;
+
+                if (event.key === 'Escape') {
+                    event.preventDefault();
+                    closeOverlay(sectionsOverlay);
+                    return;
+                }
+
+                if (event.key !== 'Tab') return;
+                const nodes = focusableIn(openMenu);
+                if (!nodes.length) return;
+                const first = nodes[0];
+                const last = nodes[nodes.length - 1];
+                if (event.shiftKey && document.activeElement === first) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                    event.preventDefault();
+                    first.focus();
+                }
             });
         })();
     </script>

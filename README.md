@@ -57,6 +57,10 @@ Then open `http://localhost:8080`.
 - Document preview modal for certificate image
 - FAQ accordion behavior
 - Mobile reviews carousel controls (left/right arrows)
+- Mobile section menu overlay («Разделы сайта»)
+- Sticky mobile CTA «За консультацией» → consult sheet (name + Telegram, success state)
+- Section chip/tab panels on mobile for expert, audience, curriculum, outcomes, pricing
+- Consult form open from hero CTA, sticky CTA, header CTA, and pricing CTA
 
 ## Asset Policy
 
