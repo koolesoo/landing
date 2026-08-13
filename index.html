@@ -54,6 +54,15 @@
             scroll-padding-top: 5.75rem;
             touch-action: manipulation;
             -ms-touch-action: manipulation;
+            overflow-x: clip;
+            max-width: 100%;
+            overscroll-behavior-x: none;
+        }
+
+        @supports not (overflow-x: clip) {
+            html {
+                overflow-x: hidden;
+            }
         }
 
         @media (max-width: 767.98px) {
@@ -67,9 +76,19 @@
             background-color: #000000;
             color: #ffffff;
             margin: 0;
-            overflow-x: hidden;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: clip;
+            position: relative;
             touch-action: manipulation;
             -ms-touch-action: manipulation;
+            overscroll-behavior-x: none;
+        }
+
+        @supports not (overflow-x: clip) {
+            body {
+                overflow-x: hidden;
+            }
         }
 
         /* Единые боковые отступы лендинга */
@@ -104,6 +123,20 @@
             padding-left: var(--page-inline) !important;
             padding-right: var(--page-inline-right) !important;
             box-sizing: border-box;
+        }
+
+        /* Не даём внутренним горизонтальным скроллам раздувать страницу (iOS Safari) */
+        #hero,
+        body > .relative.z-10 {
+            max-width: 100%;
+            overflow-x: clip;
+        }
+
+        @supports not (overflow-x: clip) {
+            #hero,
+            body > .relative.z-10 {
+                overflow-x: hidden;
+            }
         }
 
         /* iOS: focus zoom if input font-size < 16px */
@@ -203,11 +236,12 @@
             }
 
             #hero-mode-students .hero-students-title {
-                width: 100vw;
-                max-width: 100vw;
-                margin-left: calc(50% - 50vw);
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
+                width: auto;
+                max-width: none;
+                margin-left: calc(-1 * var(--page-inline));
+                margin-right: calc(-1 * var(--page-inline-right));
+                padding-left: var(--page-inline);
+                padding-right: var(--page-inline-right);
                 box-sizing: border-box;
             }
         }
@@ -251,10 +285,10 @@
 
         .hero-usp-text {
             margin: 0.28rem 0 0;
-            font-size: 0.75rem;
+            font-size: var(--copy-size);
             font-weight: 400;
-            line-height: 1.35;
-            color: rgba(255, 255, 255, 0.72);
+            line-height: var(--copy-leading);
+            color: var(--copy-color);
         }
 
         .hero-usp-icon {
@@ -280,10 +314,6 @@
 
             .hero-usp-title {
                 font-size: 1.05rem;
-            }
-
-            .hero-usp-text {
-                font-size: 0.8125rem;
             }
 
             .hero-usp-icon {
@@ -854,7 +884,7 @@
             bottom: max(0.85rem, env(safe-area-inset-bottom));
             z-index: 60;
             transform: translateX(-50%) translateY(0.75rem);
-            width: min(calc(100vw - (var(--page-inline) + var(--page-inline-right))), 22rem);
+            width: min(calc(100% - (var(--page-inline) + var(--page-inline-right))), 22rem);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -903,7 +933,7 @@
             bottom: max(0.85rem, env(safe-area-inset-bottom));
             z-index: 70;
             transform: translateX(-50%) translateY(0.75rem);
-            width: min(calc(100vw - (var(--page-inline) + var(--page-inline-right))), 36rem);
+            width: min(calc(100% - (var(--page-inline) + var(--page-inline-right))), 36rem);
             padding: 1rem 1.1rem;
             border-radius: 1.25rem;
             border: 1px solid rgba(255, 255, 255, 0.14);
@@ -1253,6 +1283,7 @@
             margin-bottom: 1rem;
             -ms-overflow-style: none;
             scrollbar-width: none;
+            max-width: 100%;
         }
 
         .section-chip-tabs::-webkit-scrollbar {
@@ -1262,9 +1293,10 @@
         /* Мобилка: скролл чипсов до края экрана, не обрезается padding секции */
         @media (max-width: 767.98px) {
             .section-chip-tabs {
-                width: 100vw;
-                max-width: 100vw;
-                margin-left: calc(50% - 50vw);
+                width: auto;
+                max-width: none;
+                margin-left: calc(-1 * var(--page-inline));
+                margin-right: calc(-1 * var(--page-inline-right));
                 padding-left: var(--page-inline);
                 padding-right: var(--page-inline-right);
                 box-sizing: border-box;
@@ -1389,9 +1421,18 @@
 
         .track-card-text {
             margin: 0.5rem 0 0;
-            font-size: 0.875rem;
-            line-height: 1.55;
-            color: rgba(255, 255, 255, 0.55);
+            font-size: var(--copy-size);
+            line-height: var(--copy-leading);
+            color: var(--copy-color);
+        }
+
+        .track-flow-label {
+            margin: 1.1rem 0 0;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.45);
         }
 
         .track-more {
@@ -1466,7 +1507,7 @@
             width: calc(100% + 3rem);
             max-width: none;
             min-width: 0;
-            margin: 0.85rem -1.5rem -1.5rem;
+            margin: 0.75rem -1.5rem 0;
             padding: 0.25rem 0 0.5rem;
             overflow-x: auto;
             overflow-y: hidden;
@@ -1505,7 +1546,6 @@
                 width: calc(100% + 4rem);
                 margin-left: -2rem;
                 margin-right: -2rem;
-                margin-bottom: -2rem;
             }
         }
 
@@ -1915,15 +1955,24 @@
         /* —— Shared logos marquee (expert + placements) —— */
         #expert,
         #placements {
-            overflow: hidden;
+            overflow-x: clip;
+        }
+
+        @supports not (overflow-x: clip) {
+            #expert,
+            #placements {
+                overflow-x: hidden;
+            }
         }
 
         .logo-marquee {
             margin-top: 0.75rem;
-            width: 100vw;
-            max-width: 100vw;
-            margin-left: calc(50% - 50vw);
+            margin-left: calc(-1 * var(--page-inline));
+            margin-right: calc(-1 * var(--page-inline-right));
+            width: auto;
+            max-width: none;
             padding: 0.25rem 0;
+            overflow: hidden;
         }
 
         #placements .logo-marquee {
@@ -2152,7 +2201,7 @@
 <h1 class="line-height-tight text-balance text-center text-4xl font-black tracking-tighter sm:text-5xl md:text-left md:text-[5.2rem]">
 <span class="text-white/90">Начни карьеру </span><span class="shiny-text">в IT</span>
 </h1>
-<p class="mt-3 text-base font-medium tracking-tight text-white/75 sm:text-lg md:mt-4 md:text-xl">
+<p class="mt-3 text-base leading-relaxed text-white/75 md:mt-4">
                             Поможем выбрать направление, упаковать свой опыт и подготовиться к выходу на рынок IT
                         </p>
 </div>
@@ -2174,28 +2223,28 @@
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="school" aria-hidden="true">school</span>
 </div>
 <h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь зайти в Product — со студенческой скамьи или со сменой сферы</h3>
-<p class="mt-2 text-sm leading-relaxed text-white/55">Учишься в университете или работаешь не в IT и понимаешь, что хочешь строить карьеру в Product Management — но не знаешь, с чего начать и как сделать первые шаги.</p>
+<p class="mt-2 text-base leading-relaxed text-white/75">Учишься в университете или работаешь не в IT и понимаешь, что хочешь строить карьеру в Product Management — но не знаешь, с чего начать и как сделать первые шаги.</p>
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="description" aria-hidden="true">description</span>
 </div>
 <h3 class="mt-4 text-lg font-bold tracking-tight">Кажется, что у тебя слишком мало опыта</h3>
-<p class="mt-2 text-sm leading-relaxed text-white/55">Смотришь вакансии и думаешь, что нечего показать. Учебные проекты, кейс-чемпионаты, стажировки, внеучебная деятельность — или опыт из другой сферы — могут стать сильной частью резюме, если правильно их упаковать.</p>
+<p class="mt-2 text-base leading-relaxed text-white/75">Смотришь вакансии и думаешь, что нечего показать. Учебные проекты, кейс-чемпионаты, стажировки, внеучебная деятельность — или опыт из другой сферы — могут стать сильной частью резюме, если правильно их упаковать.</p>
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="forum" aria-hidden="true">forum</span>
 </div>
 <h3 class="mt-4 text-lg font-bold tracking-tight">Не понимаешь, как проходят продуктовые интервью</h3>
-<p class="mt-2 text-sm leading-relaxed text-white/55">Не знаешь, какие вопросы задают, как решать кейсы, что ждут от начинающего Product Manager или кандидата со сменой трека — и как подготовиться к процессу отбора.</p>
+<p class="mt-2 text-base leading-relaxed text-white/75">Не знаешь, какие вопросы задают, как решать кейсы, что ждут от начинающего Product Manager или кандидата со сменой трека — и как подготовиться к процессу отбора.</p>
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="explore" aria-hidden="true">explore</span>
 </div>
 <h3 class="mt-4 text-lg font-bold tracking-tight">Не хочешь тратить месяцы на хаотичный поиск</h3>
-<p class="mt-2 text-sm leading-relaxed text-white/55">Вместо бесконечных видео, статей и случайных советов хочешь понятный план действий и понимать, что именно приблизит тебя к первой стажировке, работе или переходу в Product.</p>
+<p class="mt-2 text-base leading-relaxed text-white/75">Вместо бесконечных видео, статей и случайных советов хочешь понятный план действий и понимать, что именно приблизит тебя к первой стажировке, работе или переходу в Product.</p>
 </article>
 </div>
 <div class="audience-stack-controls mt-5 flex items-center justify-between gap-3 sm:justify-start sm:gap-4">
@@ -2248,7 +2297,7 @@
 </div>
 <div class="min-w-0 flex-1 pt-0.5">
 <h3 class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">Настя Нерадовских</h3>
-<p class="mt-1 text-sm text-white/65 sm:text-base">CPO @ Альфа-Банк</p>
+<p class="mt-1 text-base leading-relaxed text-white/65">CPO @ Альфа-Банк</p>
 <div id="contacts" class="mt-3 flex w-full flex-row flex-wrap items-center gap-x-4 gap-y-2">
 <a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
 <img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="" class="h-4 w-4 shrink-0 object-contain" loading="lazy"/>
@@ -2291,21 +2340,21 @@
 <div class="section-chip-panels space-y-6">
 <div class="is-active rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-xl md:p-7" role="tabpanel" id="expert-panel-about" aria-labelledby="expert-tab-about" data-chip-panel="about">
 <article>
-<p class="max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">CPO в Альфа-Банке. Пришла в IT из другой сферы, за три года выросла до CPO и основала стартап WID. В менторстве помогаю упаковать опыт и выстроить понятный путь в продукт и IT.</p>
+<p class="max-w-3xl text-base leading-relaxed text-white/75">CPO в Альфа-Банке. Пришла в IT из другой сферы, за три года выросла до CPO и основала стартап WID. В менторстве помогаю упаковать опыт и выстроить понятный путь в продукт и IT.</p>
 </article>
 </div>
 <div class="grid grid-cols-1 gap-3 sm:grid-cols-3" role="tabpanel" id="expert-panel-expertise" aria-labelledby="expert-tab-expertise" data-chip-panel="expertise">
 <article class="rounded-lg border border-white/10 bg-white/5 p-4">
 <p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Product leadership</p>
-<p class="mt-3 text-sm leading-relaxed text-white/75">Управление продуктом на уровне CPO: стратегия, приоритеты, команда и результат.</p>
+<p class="mt-3 text-base leading-relaxed text-white/75">Управление продуктом на уровне CPO: стратегия, приоритеты, команда и результат.</p>
 </article>
 <article class="rounded-lg border border-white/10 bg-white/5 p-4">
 <p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Карьерный переход</p>
-<p class="mt-3 text-sm leading-relaxed text-white/75">Как зайти в IT без «идеального» бэкграунда и превратить опыт в сильную историю.</p>
+<p class="mt-3 text-base leading-relaxed text-white/75">Как зайти в IT без «идеального» бэкграунда и превратить опыт в сильную историю.</p>
 </article>
 <article class="rounded-lg border border-white/10 bg-white/5 p-4">
 <p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Стартап и рост</p>
-<p class="mt-3 text-sm leading-relaxed text-white/75">Основала WID и выстроила команду 20+ человек — от идеи до работающего бизнеса.</p>
+<p class="mt-3 text-base leading-relaxed text-white/75">Основала WID и выстроила команду 20+ человек — от идеи до работающего бизнеса.</p>
 </article>
 </div>
 <div class="rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-xl md:p-7" role="tabpanel" id="expert-panel-achievements" aria-labelledby="expert-tab-achievements" data-chip-panel="achievements">
@@ -2319,11 +2368,11 @@
 <div class="grid grid-cols-1 gap-3 sm:grid-cols-2" role="tabpanel" id="expert-panel-education" aria-labelledby="expert-tab-education" data-chip-panel="education">
 <div class="rounded-lg border border-white/10 bg-white/5 p-4">
 <p class="text-base font-semibold text-white">Практика в продукте</p>
-<p class="mt-1 text-sm text-white/60">Рост до CPO в крупном финтехе</p>
+<p class="mt-1 text-base leading-relaxed text-white/75">Рост до CPO в крупном финтехе</p>
 </div>
 <div class="rounded-lg border border-white/10 bg-white/5 p-4">
 <p class="text-base font-semibold text-white">Предпринимательство</p>
-<p class="mt-1 text-sm text-white/60">Запуск и развитие стартапа WID</p>
+<p class="mt-1 text-base leading-relaxed text-white/75">Запуск и развитие стартапа WID</p>
 </div>
 </div>
 </div>
@@ -2336,17 +2385,17 @@
 </div>
 <div class="min-w-0">
 <h3 class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">Даня Колесниченко</h3>
-<p class="mt-0.5 text-sm text-white/65 sm:text-base">Product Manager @ Альфа-Банк</p>
+<p class="mt-0.5 text-base leading-relaxed text-white/65">Product Manager @ Альфа-Банк</p>
 </div>
 </div>
 <div class="mt-5 flex flex-wrap gap-3 sm:gap-4">
 <div class="min-w-[9rem] flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3">
 <div class="text-xl font-black text-[#64cefb] sm:text-2xl">2+ года</div>
-<div class="mt-0.5 text-sm text-white/75">опыта продакта в крупнейшем финтехе</div>
+<div class="mt-0.5 text-base leading-relaxed text-white/75">опыта продакта в крупнейшем финтехе</div>
 </div>
 <div class="min-w-[9rem] flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3">
 <div class="text-xl font-black text-[#64cefb] sm:text-2xl">100+</div>
-<div class="mt-0.5 text-sm text-white/75">менти · выступления в ВШЭ, Альфа-Банке, Changellenge</div>
+<div class="mt-0.5 text-base leading-relaxed text-white/75">менти · выступления в ВШЭ, Альфа-Банке, Changellenge</div>
 </div>
 </div>
 <div class="mt-8 max-w-3xl md:mt-10">
@@ -2357,7 +2406,7 @@
 <li class="flex gap-4"><span class="shrink-0 font-bold text-[#64cefb]">03</span><p class="text-base leading-relaxed text-white/75">В 21 год стал Product Owner в Альфа-Банке</p></li>
 <li class="flex gap-4"><span class="shrink-0 font-bold text-[#64cefb]">04</span><p class="text-base leading-relaxed text-white/75">За год вырос до Middle Product Manager</p></li>
 </ol>
-<p class="mt-8 text-base leading-relaxed text-white md:text-lg">Теперь помогаю студентам превратить свой опыт в сильный старт карьеры в Product.</p>
+<p class="mt-8 text-base leading-relaxed text-white/75">Теперь помогаю студентам превратить свой опыт в сильный старт карьеры в Product.</p>
 </div>
 </div>
 </article>
@@ -2389,6 +2438,99 @@
 <span class="track-card-num">02</span>
 <h3 class="track-card-title"><a href="tracks/career/support.html" class="text-inherit no-underline hover:text-[#64cefb] transition-colors">Сопровождение</a></h3>
 <p class="track-card-text">Ведение от первого запроса до оффера: стратегия поиска, упаковка, отклики, интервью и переговоры.</p>
+<p class="track-flow-label">Как устроен путь</p>
+<div class="track-cjm-scroll">
+<ol class="track-flow" aria-label="Путь сопровождения">
+<li>
+<div class="track-flow-node is-start">
+<p class="track-flow-who">ты</p>
+<p class="track-flow-title">Заявка</p>
+<p class="track-flow-text">бриф и цели</p>
+</div>
+</li>
+<li class="track-flow-edge" aria-hidden="true" data-label><span>старт</span></li>
+<li>
+<div class="track-flow-node is-screen">
+<div class="track-flow-chrome" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="track-flow-body">
+<p class="track-flow-who">сессия</p>
+<p class="track-flow-title">Диагностика</p>
+<p class="track-flow-text">профиль, рынок, пробелы</p>
+</div>
+</div>
+</li>
+<li class="track-flow-edge is-soft" aria-hidden="true"></li>
+<li>
+<div class="track-flow-node is-action">
+<p class="track-flow-who">план</p>
+<p class="track-flow-title">Дорожная карта</p>
+<p class="track-flow-text">4–8 недель, приоритеты</p>
+</div>
+</li>
+<li class="track-flow-edge" aria-hidden="true" data-label><span>выход</span></li>
+<li>
+<div class="track-flow-node is-artifact">
+<p class="track-flow-who">артефакты</p>
+<p class="track-flow-title">Упаковка</p>
+<p class="track-flow-text">готовые материалы под рынок</p>
+<div class="track-flow-chips">
+<span>резюме</span>
+<span>LinkedIn</span>
+<span>кейсы</span>
+</div>
+</div>
+</li>
+<li class="track-flow-edge" aria-hidden="true" data-label><span>на рынок</span></li>
+<li>
+<div class="track-flow-node is-action">
+<p class="track-flow-who">поиск</p>
+<p class="track-flow-title">Воронка</p>
+<p class="track-flow-text">отклики и приоритеты</p>
+</div>
+</li>
+<li class="track-flow-edge is-soft" aria-hidden="true" data-label><span>в цикл</span></li>
+<li>
+<div class="track-flow-loop">
+<span class="track-flow-loop-tag">цикл</span>
+<div class="track-flow-loop-row">
+<span class="material-symbols-outlined" aria-hidden="true">record_voice_over</span>
+<div>
+<strong>Интервью</strong>
+<span>подготовка к компании</span>
+</div>
+</div>
+<div class="track-flow-loop-cycle">
+<span class="material-symbols-outlined" aria-hidden="true">replay</span>
+разбор → правки → снова
+</div>
+<div class="track-flow-loop-row">
+<span class="material-symbols-outlined" aria-hidden="true">rate_review</span>
+<div>
+<strong>Разбор</strong>
+<span>что сработало / что нет</span>
+</div>
+</div>
+</div>
+</li>
+<li class="track-flow-edge" aria-hidden="true" data-label><span>есть?</span></li>
+<li>
+<div class="track-flow-node is-decision">
+<p class="track-flow-who">развилка</p>
+<p class="track-flow-title">Оффер?</p>
+<p class="track-flow-text">выбор и переговоры</p>
+</div>
+</li>
+<li class="track-flow-edge" aria-hidden="true" data-label><span>да</span></li>
+<li>
+<div class="track-flow-node is-end">
+<span class="material-symbols-outlined" aria-hidden="true">verified</span>
+<p class="track-flow-who">результат</p>
+<p class="track-flow-title">Оффер</p>
+<p class="track-flow-text">закрываем поиск</p>
+</div>
+</li>
+</ol>
+</div>
 <a class="track-more" href="tracks/career/support.html">Подробнее</a>
 </article>
 <article class="track-card">
@@ -2422,13 +2564,13 @@
 <div class="mx-auto max-w-7xl w-full">
 <h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl">Гайд по входу в IT</h2>
 <div class="w-full rounded-xl border border-white/10 bg-surface-container-low p-10 shadow-[0_0_0_1px_rgba(100,206,251,0.06)] backdrop-blur-xl md:p-14">
-<p class="text-pretty text-base leading-relaxed text-white/75 md:text-lg">Короткий гайд: как выбрать направление, упаковать опыт и сделать первые шаги к стажировке или junior-роли — отправлю в Telegram.</p>
+<p class="text-pretty text-base leading-relaxed text-white/75">Короткий гайд: как выбрать направление, упаковать опыт и сделать первые шаги к стажировке или junior-роли — отправлю в Telegram.</p>
 <form class="mt-8 space-y-6" action="#" method="post">
 <div>
 <label class="block text-xs font-bold uppercase tracking-wider text-white/55" for="guide-telegram">Ник в Telegram</label>
 <input id="guide-telegram" name="telegram" type="text" autocomplete="username" inputmode="text" required class="mt-2 w-full border-0 border-b border-white/20 bg-transparent py-2.5 text-base text-white outline-none ring-0 placeholder:text-white/55 focus:border-[#64cefb]" placeholder="@username"/>
 </div>
-<label class="flex cursor-pointer items-start gap-3 text-left text-sm leading-snug text-white/55">
+<label class="flex cursor-pointer items-start gap-3 text-left text-base leading-relaxed text-white/75">
 <input id="guide-consent" name="consent" type="checkbox" required class="mt-1 h-4 w-4 shrink-0 rounded border-white/25 bg-black/40 text-[#64cefb] accent-[#64cefb] focus:ring-2 focus:ring-[#64cefb]/30"/>
 <span>Согласен(-на) с обработкой персональных данных. <a class="font-medium text-[#64cefb] underline decoration-[#64cefb]/50 underline-offset-2 transition-colors hover:text-[#8ddcf9]" href="#">Политика конфиденциальности</a></span>
 </label>
@@ -2453,9 +2595,12 @@
 <div class="mx-auto max-w-7xl">
 <div class="mb-6 flex items-baseline justify-between gap-4 md:mb-8">
 <h2 class="text-4xl font-black tracking-tighter md:text-5xl" id="reviews-heading">Отзывы</h2>
-<p class="shrink-0 text-xs font-medium tracking-tight text-white/45 md:text-sm">4.87 средняя оценка</p>
+<p class="shrink-0 inline-flex items-center gap-1.5 text-xs font-medium tracking-tight text-white/45 md:text-sm">
+<span class="material-symbols-outlined text-[16px] text-[#f5c518] md:text-[18px]" style="font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;" aria-hidden="true">star</span>
+4.87 средняя оценка
+</p>
 </div>
-<div class="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:overflow-visible md:pb-0 lg:grid-cols-3" data-reviews-carousel>
+<div class="flex max-w-full snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:overflow-visible md:pb-0 lg:grid-cols-3" data-reviews-carousel>
 <figure class="flex h-full min-w-full snap-start flex-col items-center py-2 md:min-w-0">
 <div class="review-video-shell is-paused">
 <video class="review-video" preload="metadata" playsinline>
@@ -2468,7 +2613,7 @@
 </div>
 <figcaption class="mt-3 max-w-xs text-center">
 <span class="block text-sm font-bold text-white">Мария Соколова</span>
-<p class="mt-1 text-xs leading-relaxed text-white/55">Студентка → стажировка в финтехе. Упаковали учебные проекты и прошли 3 этапа отбора.</p>
+<p class="mt-1 text-base leading-relaxed text-white/75">Студентка → стажировка в финтехе. Упаковали учебные проекты и прошли 3 этапа отбора.</p>
 </figcaption>
 </figure>
 <figure class="flex h-full min-w-full snap-start flex-col items-center py-2 md:min-w-0">
@@ -2483,7 +2628,7 @@
 </div>
 <figcaption class="mt-3 max-w-xs text-center">
 <span class="block text-sm font-bold text-white">Илья Орлов</span>
-<p class="mt-1 text-xs leading-relaxed text-white/55">Смена сферы из маркетинга. За 2 месяца собрал воронку откликов и получил оффер junior PM.</p>
+<p class="mt-1 text-base leading-relaxed text-white/75">Смена сферы из маркетинга. За 2 месяца собрал воронку откликов и получил оффер junior PM.</p>
 </figcaption>
 </figure>
 <figure class="flex h-full min-w-full snap-start flex-col items-center py-2 md:min-w-0">
@@ -2498,16 +2643,17 @@
 </div>
 <figcaption class="mt-3 max-w-xs text-center">
 <span class="block text-sm font-bold text-white">Анна Ким</span>
-<p class="mt-1 text-xs leading-relaxed text-white/55">Внутренний переход в продукт. Подтянули кейсы, метрики и прошли продуктовые интервью.</p>
+<p class="mt-1 text-base leading-relaxed text-white/75">Внутренний переход в продукт. Подтянули кейсы, метрики и прошли продуктовые интервью.</p>
 </figcaption>
 </figure>
 </div>
-<div class="mt-5 flex items-center justify-center gap-3 md:hidden" aria-label="Управление каруселью отзывов">
-<button type="button" class="reviews-nav-btn inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/85 transition-colors hover:text-white" data-reviews-nav="prev" aria-label="Предыдущий отзыв">
-<span class="material-symbols-outlined text-[20px]" data-icon="chevron_left" aria-hidden="true">chevron_left</span>
+<div class="audience-stack-controls mt-5 flex items-center justify-between gap-3 sm:justify-start sm:gap-4 md:hidden" aria-label="Управление каруселью отзывов">
+<button type="button" class="audience-nav-btn" data-reviews-nav="prev" aria-label="Предыдущий отзыв">
+<span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_left</span>
 </button>
-<button type="button" class="reviews-nav-btn inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white/85 transition-colors hover:text-white" data-reviews-nav="next" aria-label="Следующий отзыв">
-<span class="material-symbols-outlined text-[20px]" data-icon="chevron_right" aria-hidden="true">chevron_right</span>
+<div class="audience-stack-dots flex items-center gap-2" data-reviews-dots aria-hidden="true"></div>
+<button type="button" class="audience-nav-btn" data-reviews-nav="next" aria-label="Следующий отзыв">
+<span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_right</span>
 </button>
 </div>
 </div>
@@ -2522,7 +2668,7 @@
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-1" role="region" aria-labelledby="faq-q-1">
-<p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">Подойдёт тем, кто делает первые шаги: смена профессии, стажировки, кейсы с учёбы. На разборе посмотрим ваш бэкграунд, цели и составим реалистичный план — от навыков до портфолио и откликов.</p>
+<p class="pt-4 text-base leading-relaxed text-white/75">Подойдёт тем, кто делает первые шаги: смена профессии, стажировки, кейсы с учёбы. На разборе посмотрим ваш бэкграунд, цели и составим реалистичный план — от навыков до портфолио и откликов.</p>
 </div>
 </div>
 <div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
@@ -2531,7 +2677,7 @@
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-2" role="region" aria-labelledby="faq-q-2">
-<p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">Консультация — разовая сессия с разбором кейса и планом. Интенсив — плотные практические встречи с фидбэком. Сопровождение — длительная работа: регулярные созвоны, подготовка к собесам и сопровождение до сильного оффера в рамках договорённостей.</p>
+<p class="pt-4 text-base leading-relaxed text-white/75">Консультация — разовая сессия с разбором кейса и планом. Интенсив — плотные практические встречи с фидбэком. Сопровождение — длительная работа: регулярные созвоны, подготовка к собесам и сопровождение до сильного оффера в рамках договорённостей.</p>
 </div>
 </div>
 <div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
@@ -2540,7 +2686,7 @@
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-3" role="region" aria-labelledby="faq-q-3">
-<p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">Да: структура резюме, формулировки достижений, портфолио-кейсы, разбор take-home и продуктовых заданий, разбор вопросов с собесов — в зависимости от выбранного формата.</p>
+<p class="pt-4 text-base leading-relaxed text-white/75">Да: структура резюме, формулировки достижений, портфолио-кейсы, разбор take-home и продуктовых заданий, разбор вопросов с собесов — в зависимости от выбранного формата.</p>
 </div>
 </div>
 <div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
@@ -2549,7 +2695,7 @@
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-4" role="region" aria-labelledby="faq-q-4">
-<p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">Можно. PM — про аналитику, коммуникации и поставку ценности пользователю. Опыт из банка, e-commerce, маркетинга, консалтинга часто усиливают картину — важно его правильно упаковать в историю и артефакты.</p>
+<p class="pt-4 text-base leading-relaxed text-white/75">Можно. PM — про аналитику, коммуникации и поставку ценности пользователю. Опыт из банка, e-commerce, маркетинга, консалтинга часто усиливают картину — важно его правильно упаковать в историю и артефакты.</p>
 </div>
 </div>
 <div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
@@ -2558,7 +2704,7 @@
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-5" role="region" aria-labelledby="faq-q-5">
-<p class="pt-4 text-sm leading-relaxed text-white/75 md:text-base">По согласованию — в основном онлайн (созвоны, шаринг экрана, разбор в Miro/Notion). Продолжительность и ритм фиксируем до старта, чтобы укладываться в ваши дедлайны и учёбу.</p>
+<p class="pt-4 text-base leading-relaxed text-white/75">По согласованию — в основном онлайн (созвоны, шаринг экрана, разбор в Miro/Notion). Продолжительность и ритм фиксируем до старта, чтобы укладываться в ваши дедлайны и учёбу.</p>
 </div>
 </div>
 </div>
@@ -2950,7 +3096,7 @@
         syncBgVideoPlayback();
 
         (function initLogoMarquees() {
-            const LOGO_PX_PER_SEC = 55;
+            const LOGO_PX_PER_SEC = 40;
 
             /* Одинаковый набор и правила отрисовки для обеих каруселей */
             const SHARED_LOGOS = [
@@ -3059,19 +3205,57 @@
                 const carousel = section.querySelector('[data-reviews-carousel]');
                 const prevBtn = section.querySelector('[data-reviews-nav="prev"]');
                 const nextBtn = section.querySelector('[data-reviews-nav="next"]');
+                const dotsRoot = section.querySelector('[data-reviews-dots]');
                 if (!carousel || !prevBtn || !nextBtn) return;
 
-                function scrollByCard(direction) {
-                    const firstCard = carousel.querySelector('figure');
-                    if (!firstCard) return;
-                    const cardWidth = firstCard.getBoundingClientRect().width;
-                    const gap = 24; // Tailwind gap-6
-                    const delta = cardWidth + gap;
-                    carousel.scrollBy({ left: direction * delta, behavior: 'smooth' });
+                const cards = Array.from(carousel.querySelectorAll('figure'));
+                if (!cards.length) return;
+
+                let index = 0;
+                const dots = cards.map((_, i) => {
+                    const dot = document.createElement('span');
+                    dot.className = 'audience-stack-dot';
+                    if (dotsRoot) {
+                        dotsRoot.appendChild(dot);
+                        dot.addEventListener('click', () => goTo(i));
+                    }
+                    return dot;
+                });
+
+                function goTo(i) {
+                    index = Math.max(0, Math.min(cards.length - 1, i));
+                    const left = cards[index].offsetLeft - carousel.offsetLeft;
+                    carousel.scrollTo({ left, behavior: 'smooth' });
+                    sync();
                 }
 
-                prevBtn.addEventListener('click', () => scrollByCard(-1));
-                nextBtn.addEventListener('click', () => scrollByCard(1));
+                function sync() {
+                    const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+                    const atStart = carousel.scrollLeft <= 4;
+                    const atEnd = carousel.scrollLeft >= maxScroll - 4;
+                    prevBtn.disabled = atStart;
+                    nextBtn.disabled = atEnd;
+
+                    let nearest = 0;
+                    let best = Infinity;
+                    cards.forEach((card, i) => {
+                        const d = Math.abs(card.offsetLeft - carousel.offsetLeft - carousel.scrollLeft);
+                        if (d < best) {
+                            best = d;
+                            nearest = i;
+                        }
+                    });
+                    index = nearest;
+                    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+                }
+
+                prevBtn.addEventListener('click', () => goTo(index - 1));
+                nextBtn.addEventListener('click', () => goTo(index + 1));
+                carousel.addEventListener('scroll', () => {
+                    window.requestAnimationFrame(sync);
+                }, { passive: true });
+                window.addEventListener('resize', sync);
+                sync();
             });
         })();
 

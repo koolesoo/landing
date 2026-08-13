@@ -11,9 +11,28 @@
 </head>
 <body>
 <div class="page-bg" aria-hidden="true"></div>
+<button type="button" class="page-menu-btn" id="page-menu-btn" aria-haspopup="dialog" aria-controls="sections-overlay" aria-expanded="false" aria-label="Меню">
+<span class="material-symbols-outlined" aria-hidden="true">menu</span>
+</button>
+<div id="sections-overlay" class="sections-overlay" role="dialog" aria-modal="true" aria-label="Меню треков" aria-hidden="true">
+<div class="sections-overlay-panel" role="document">
+<button type="button" id="sections-overlay-close" class="sections-overlay-close" aria-label="Закрыть меню">
+<span class="material-symbols-outlined text-[22px]" aria-hidden="true">close</span>
+</button>
+<nav aria-label="Треки">
+<a class="sections-overlay-link" href="../career/index.html">Карьерный трек <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="../career/consult.html">Консультация <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="../career/support.html">Сопровождение <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="../career/mentor.html">Менторство <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<a class="sections-overlay-link" href="../product/index.html">Продуктовый трек <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="../product/consult.html">Консультация <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="../product/mentor.html">Менторство <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+</nav>
+</div>
+</div>
 <div class="page-shell">
 <header class="page-top">
-<a class="page-back" href="../../index.html"><span class="material-symbols-outlined text-[18px]" aria-hidden="true">arrow_back</span>На главную</a>
+<a class="page-back" href="../../index.html" aria-label="На главную"><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span></a>
 <nav class="page-nav" aria-label="Направления">
 <a href="../career/index.html" class="">Карьерный</a>
 <a href="../product/index.html" class="is-active">Продуктовый</a>
@@ -46,5 +65,6 @@
 
 </main>
 </div>
+<script src="../page.js"></script>
 </body>
 </html>
