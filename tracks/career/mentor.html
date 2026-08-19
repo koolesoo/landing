@@ -3,7 +3,15 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>Менторство — Карьерный трек</title>
+<title>Менторство</title>
+<meta name="description" content="Менторство по карьере и входу в IT: резюме, стратегия, интервью и поддержка в чате. От 20 000 ₽/месяц."/>
+<meta name="theme-color" content="#000000"/>
+<link rel="canonical" href="https://koolesoo.github.io/landing/tracks/career/mentor.html"/>
+<meta property="og:title" content="Менторство"/>
+<meta property="og:description" content="Стартовая встреча, аудит резюме, стратегия перехода, подготовка к интервью и поддержка в чате."/>
+<meta property="og:url" content="https://koolesoo.github.io/landing/tracks/career/mentor.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:locale" content="ru_RU"/>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -25,93 +33,107 @@ tailwind.config = {
 <button type="button" class="page-menu-btn" id="page-menu-btn" aria-haspopup="dialog" aria-controls="sections-overlay" aria-expanded="false" aria-label="Меню">
 <span class="material-symbols-outlined" aria-hidden="true">menu</span>
 </button>
-<div id="sections-overlay" class="sections-overlay" role="dialog" aria-modal="true" aria-label="Меню треков" aria-hidden="true">
+<div id="sections-overlay" class="sections-overlay" role="dialog" aria-modal="true" aria-label="Меню" aria-hidden="true">
 <div class="sections-overlay-panel" role="document">
 <button type="button" id="sections-overlay-close" class="sections-overlay-close" aria-label="Закрыть меню">
 <span class="material-symbols-outlined text-[22px]" aria-hidden="true">close</span>
 </button>
-<nav aria-label="Треки">
-<a class="sections-overlay-link" href="../career/index.html">Карьерный трек <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="../career/consult.html">Консультация <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="../career/support.html">Сопровождение <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="../career/mentor.html">Менторство <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link" href="../product/index.html">Продуктовый трек <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="../product/consult.html">Консультация <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="../product/mentor.html">Менторство <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<nav aria-label="Услуги">
+<a class="sections-overlay-link" href="consult.html">Консультация</a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="consult.html#qa">· Q&amp;A</a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="consult.html#strategy">· Стратегия и план</a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="consult.html#resume">· Разбор резюме</a>
+<a class="sections-overlay-link" href="mentor.html">Менторство</a>
 </nav>
 </div>
 </div>
 <div class="page-shell">
 <header class="page-top">
-<a class="page-back" href="../../index.html" aria-label="На главную"><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span></a>
-<nav class="page-nav" aria-label="Направления">
-<a href="../career/index.html" class="is-active">Карьерный</a>
-<a href="../product/index.html" class="">Продуктовый</a>
+<a class="page-back" href="../../index.html" aria-label="На главную"><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span><span>На главную</span></a>
+<nav class="page-nav" aria-label="Услуги">
+<a href="consult.html" class="">Консультация</a>
+<a href="mentor.html" class="is-active">Менторство</a>
 </nav>
 </header>
 <main>
-<p class="page-eyebrow">Карьерный трек · 03</p>
+<p class="page-eyebrow">Услуги</p>
 <h1 class="page-title">Менторство</h1>
-<p class="page-lead">Регулярные сессии с фокусом на карьерный трек: навыки, решения на развилках и устойчивый прогресс.</p>
-<nav class="subnav" aria-label="Форматы трека">
+<p class="page-lead">Работа на 1–3 месяца: от разбора текущей ситуации до подготовки к интервью и поддержки в чате.</p>
+<nav class="subnav" aria-label="Форматы">
 <a href="index.html" class="">Обзор</a>
 <a href="consult.html" class="">Консультация</a>
-<a href="support.html" class="">Сопровождение</a>
 <a href="mentor.html" class="is-active">Менторство</a>
 </nav>
 
-<p class="page-price">7900₽</p>
-<p class="page-meta">Серии встреч 1:1</p>
+<p class="page-price">20 000 ₽ / месяц</p>
+<p class="page-meta">или 30 000 ₽ / 2 месяца · пакеты на 3 месяца — по запросу</p>
+
 <section class="page-block">
 <h2>Что входит</h2>
 <ul class="page-list">
-<li><strong>Регулярный ритм</strong>Созвоны с понятной повесткой под твою ситуацию.</li>
-<li><strong>Домашние задания</strong>Практика между встречами и обратная связь по артефактам.</li>
-<li><strong>Следующий шаг</strong>Помощь в выборе: стажировка, junior-роль или смена трека.</li>
+<li><strong>Стартовая встреча</strong>Разбор текущей ситуации, целей и составление плана.</li>
+<li><strong>Аудит резюме и LinkedIn</strong>Доработка под целевые роли.</li>
+<li><strong>Стратегия перехода и поиска</strong>Какие компании, как заходить, что подтянуть.</li>
+<li><strong>Подготовка к интервью</strong>Разбор вопросов, кейсов и форматов отбора.</li>
+<li><strong>Поддержка в чате</strong>Ответы между сессиями по ходу работы.</li>
+</ul>
+</section>
+
+<section class="page-block">
+<h2>Дополнительно для менти</h2>
+<ul class="page-list">
+<li><strong>Стратегическая консультация</strong>Со скидкой 50% — 4 000 ₽.</li>
+<li><strong>Мок-интервью</strong>5 000 ₽.</li>
 </ul>
 </section>
 
 <section class="page-block" aria-labelledby="outcomes-heading">
-<h2 id="outcomes-heading">Что ты получишь от менторства</h2>
-<p class="page-lead" style="margin-top: 0.5rem">Фокус на твоей ситуации, а не на абстрактной теории. Ниже — ось того, с чем обычно уходят по итогам работы.</p>
+<h2 id="outcomes-heading">Для кого</h2>
 <div class="outcomes-grid">
 <article class="outcome-card">
-<div class="outcome-icon"><span class="material-symbols-outlined" aria-hidden="true">route</span></div>
+<div class="outcome-icon"><span class="material-symbols-outlined" aria-hidden="true">trending_up</span></div>
 <div>
-<h3>Дорожная карта</h3>
-<p>Согласуем вектор на 2–3 месяца: навыки, артефакты, воронку откликов, что в приоритете в твоей нише (финтех, b2b, b2c).</p>
+<h3>Рост в карьере</h3>
+<p>Быстрый и осознанный прогресс: стратегия, приоритеты и конкретные шаги.</p>
 </div>
 </article>
 <article class="outcome-card">
-<div class="outcome-icon"><span class="material-symbols-outlined" aria-hidden="true">edit_document</span></div>
+<div class="outcome-icon"><span class="material-symbols-outlined" aria-hidden="true">emoji_events</span></div>
 <div>
-<h3>Резюме и портфолио под продукт</h3>
-<p>Формулировка достижений, кейсно-логичная история, take-home / продуктовые тесты — с разбором и доработкой.</p>
+<h3>Конкурсы и гранты</h3>
+<p>Упаковка достижений и стратегия участия в программах и отборах.</p>
 </div>
 </article>
 <article class="outcome-card">
-<div class="outcome-icon"><span class="material-symbols-outlined" aria-hidden="true">forum</span></div>
+<div class="outcome-icon"><span class="material-symbols-outlined" aria-hidden="true">school</span></div>
 <div>
-<h3>Разбор вопросов с повтором</h3>
-<p>Продуктовая глубина, оценка компетенций, поведенка — в формате близко к тому, как крутят в больших банковских/продуктовых средах.</p>
+<h3>Вход в продукт</h3>
+<p>Путь в продакт-менеджмент: резюме, интервью, первые шаги на рынке.</p>
 </div>
 </article>
 <article class="outcome-card">
-<div class="outcome-icon"><span class="material-symbols-outlined" aria-hidden="true">support_agent</span></div>
+<div class="outcome-icon"><span class="material-symbols-outlined" aria-hidden="true">rocket_launch</span></div>
 <div>
-<h3>Сопровождение до сильного решения</h3>
-<p>Созвоны, ответы между сессиями, помощь в переговорах о компенсации и в выборе оффера, когда доходишь до этого этапа.</p>
+<h3>Запуск стартапа</h3>
+<p>Поддержка на этапе идеи, команды и выхода к релизу.</p>
 </div>
 </article>
 </div>
 </section>
 
 <div class="page-cta-row">
-<a class="page-cta" href="../../index.html#consult">Записаться</a>
-<a class="page-cta-secondary" href="index.html">Все форматы трека</a>
+<a class="page-cta" href="https://t.me/neradana" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="page-cta-secondary" href="consult.html">Консультация</a>
 </div>
-
 </main>
+<footer class="site-footer" aria-label="Юридическая информация">
+<nav class="site-footer-nav" aria-label="Документы">
+<a href="../../offer.html">Оферта</a>
+<a href="../../privacy-policy.html">Политика конфиденциальности</a>
+<a href="../../personal-data-consent.html">Согласие на обработку персональных данных</a>
+<a href="../../cookie-policy.html">Политика cookie</a>
+</nav>
+</footer>
 </div>
 <script src="../page.js"></script>
 </body>

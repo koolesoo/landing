@@ -3,7 +3,15 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>Карьерный трек</title>
+<title>Услуги — Настя Нерадовских</title>
+<meta name="description" content="Консультации по входу в IT и карьере, менторство. Q&amp;A, стратегия, разбор резюме. CPO Альфа-Банка."/>
+<meta name="theme-color" content="#000000"/>
+<link rel="canonical" href="https://koolesoo.github.io/landing/tracks/career/"/>
+<meta property="og:title" content="Услуги — Настя Нерадовских"/>
+<meta property="og:description" content="Консультации и менторство по карьере, продукту и стартапам."/>
+<meta property="og:url" content="https://koolesoo.github.io/landing/tracks/career/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:locale" content="ru_RU"/>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -14,67 +22,77 @@
 <button type="button" class="page-menu-btn" id="page-menu-btn" aria-haspopup="dialog" aria-controls="sections-overlay" aria-expanded="false" aria-label="Меню">
 <span class="material-symbols-outlined" aria-hidden="true">menu</span>
 </button>
-<div id="sections-overlay" class="sections-overlay" role="dialog" aria-modal="true" aria-label="Меню треков" aria-hidden="true">
+<div id="sections-overlay" class="sections-overlay" role="dialog" aria-modal="true" aria-label="Меню" aria-hidden="true">
 <div class="sections-overlay-panel" role="document">
 <button type="button" id="sections-overlay-close" class="sections-overlay-close" aria-label="Закрыть меню">
 <span class="material-symbols-outlined text-[22px]" aria-hidden="true">close</span>
 </button>
-<nav aria-label="Треки">
-<a class="sections-overlay-link" href="../career/index.html">Карьерный трек <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="../career/consult.html">Консультация <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="../career/support.html">Сопровождение <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="../career/mentor.html">Менторство <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link" href="../product/index.html">Продуктовый трек <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="../product/consult.html">Консультация <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="../product/mentor.html">Менторство <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<nav aria-label="Услуги">
+<a class="sections-overlay-link" href="consult.html">Консультация</a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="consult.html#qa">· Q&amp;A</a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="consult.html#strategy">· Стратегия и план</a>
+<a class="sections-overlay-link sections-overlay-link-sub" href="consult.html#resume">· Разбор резюме</a>
+<a class="sections-overlay-link" href="mentor.html">Менторство</a>
 </nav>
 </div>
 </div>
 <div class="page-shell">
 <header class="page-top">
-<a class="page-back" href="../../index.html" aria-label="На главную"><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span></a>
-<nav class="page-nav" aria-label="Направления">
-<a href="../career/index.html" class="is-active">Карьерный</a>
-<a href="../product/index.html" class="">Продуктовый</a>
+<a class="page-back" href="../../index.html" aria-label="На главную"><span class="material-symbols-outlined" aria-hidden="true">chevron_left</span><span>На главную</span></a>
+<nav class="page-nav" aria-label="Услуги">
+<a href="consult.html" class="">Консультация</a>
+<a href="mentor.html" class="">Менторство</a>
 </nav>
 </header>
 <main>
-<p class="page-eyebrow">Направление</p>
-<h1 class="page-title">Карьерный трек</h1>
-<p class="page-lead">Для тех, кто хочет зайти в IT / Product: упаковать опыт, выстроить поиск и дойти до оффера.</p>
-<nav class="subnav" aria-label="Форматы трека">
+<p class="page-eyebrow">Услуги</p>
+<h1 class="page-title">Консультации и менторство</h1>
+<p class="page-lead">Работаю с теми, кто хочет расти в карьере, зайти в продукт, выигрывать конкурсы и гранты или запустить стартап.</p>
+<nav class="subnav" aria-label="Форматы">
 <a href="index.html" class="is-active">Обзор</a>
 <a href="consult.html" class="">Консультация</a>
-<a href="support.html" class="">Сопровождение</a>
 <a href="mentor.html" class="">Менторство</a>
 </nav>
 
 <div class="track-grid">
-<a class="track-link" href="consult.html">
+<a class="track-link" href="consult.html#qa">
 <span class="track-link-num">01</span>
-<h2>Консультация</h2>
-<p>Разовый разбор: куда двигаться, как упаковать опыт и какие шаги дадут эффект.</p>
-<span class="track-link-price">2500₽</span>
+<h2>Q&amp;A</h2>
+<p>Ответы на вопросы по входу в IT: как начать, куда обращаться, как выстроить процесс.</p>
+<span class="track-link-price">5 000 ₽ · 1 ч</span>
 </a>
-<a class="track-link" href="support.html">
+<a class="track-link" href="consult.html#strategy">
 <span class="track-link-num">02</span>
-<h2>Сопровождение</h2>
-<p>Ведение от первого запроса до оффера: стратегия, упаковка, интервью и переговоры.</p>
-<span class="track-link-price">14900₽</span>
+<h2>Стратегия и план</h2>
+<p>Персональная стратегия с чёткими шагами по поиску работы и росту в карьере.</p>
+<span class="track-link-price">8 000 ₽ · 1 ч</span>
+</a>
+<a class="track-link" href="consult.html#resume">
+<span class="track-link-num">03</span>
+<h2>Разбор резюме</h2>
+<p>Структура, формулировки, ключевые слова и подача опыта под вакансию.</p>
+<span class="track-link-price">5 000 ₽ · 30 мин</span>
 </a>
 <a class="track-link" href="mentor.html">
-<span class="track-link-num">03</span>
+<span class="track-link-num">04</span>
 <h2>Менторство</h2>
-<p>Регулярные сессии с фокусом на навыки, развилки и устойчивый прогресс.</p>
-<span class="track-link-price">7900₽</span>
+<p>Старт, аудит резюме, стратегия, интервью и поддержка в чате на 1–3 месяца.</p>
+<span class="track-link-price">от 20 000 ₽ / мес</span>
 </a>
 </div>
 <div class="page-cta-row">
-<a class="page-cta" href="../../index.html#consult">Записаться</a>
-<a class="page-cta-secondary" href="../product/index.html">Смотреть продуктовый</a>
+<a class="page-cta" href="https://t.me/neradana" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="page-cta-secondary" href="../../index.html#expert">Об эксперте</a>
 </div>
-
 </main>
+<footer class="site-footer" aria-label="Юридическая информация">
+<nav class="site-footer-nav" aria-label="Документы">
+<a href="../../offer.html">Оферта</a>
+<a href="../../privacy-policy.html">Политика конфиденциальности</a>
+<a href="../../personal-data-consent.html">Согласие на обработку персональных данных</a>
+<a href="../../cookie-policy.html">Политика cookie</a>
+</nav>
+</footer>
 </div>
 <script src="../page.js"></script>
 </body>

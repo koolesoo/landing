@@ -3,7 +3,22 @@
 <html class="dark" lang="ru"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" name="viewport"/>
-<title>DesignPro | The Illuminated Scholar</title>
+<title>Настя Нерадовских — карьера в IT, консультации и менторство</title>
+<meta name="description" content="CPO Альфа-Банка. Консультации по входу в IT и карьере, менторство, разбор резюме. Суперфиналистка «Лидеров России», основатель стартапа WID."/>
+<meta name="theme-color" content="#000000"/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://koolesoo.github.io/landing/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:locale" content="ru_RU"/>
+<meta property="og:site_name" content="Карьера в IT"/>
+<meta property="og:title" content="Настя Нерадовских — карьера в IT и менторство"/>
+<meta property="og:description" content="CPO Альфа-Банка. Консультации, менторство, разбор резюме. Суперфиналистка «Лидеров России», основатель WID."/>
+<meta property="og:url" content="https://koolesoo.github.io/landing/"/>
+<meta property="og:image" content="https://koolesoo.github.io/landing/assets/nastya.jpg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Настя Нерадовских — карьера в IT и менторство"/>
+<meta name="twitter:description" content="CPO Альфа-Банка. Консультации, менторство, разбор резюме. Суперфиналистка «Лидеров России», основатель WID."/>
+<meta name="twitter:image" content="https://koolesoo.github.io/landing/assets/nastya.jpg"/>
 <script>
         /* Early zoom lock — must run before first gesture (iOS) */
         (function lockMobileZoom() {
@@ -144,6 +159,38 @@
         select,
         textarea {
             font-size: 16px;
+        }
+
+        #guide-form .guide-field {
+            margin-top: 0.5rem;
+            width: 100%;
+            border: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            background: transparent;
+            padding: 0.625rem 0;
+            font-size: 1rem;
+            color: #fff;
+            border-radius: 0;
+            transition: border-color 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        #guide-form .guide-field::placeholder {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        #guide-form .guide-field:focus,
+        #guide-form .guide-field:focus-visible {
+            outline: none;
+            box-shadow: none;
+            border-bottom-color: #64cefb;
+        }
+
+        #guide-form .guide-checkbox:focus,
+        #guide-form .guide-checkbox:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(100, 206, 251, 0.28);
         }
 
         @font-face {
@@ -709,6 +756,15 @@
             transform: rotate(180deg);
         }
 
+        .faq-trigger[aria-expanded="true"] + .faq-panel {
+            padding-top: 0;
+        }
+
+        .faq-trigger[aria-expanded="true"] + .faq-panel > p {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.15rem;
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .faq-icon-btn {
                 transition-duration: 0.01ms;
@@ -765,6 +821,12 @@
         .audience-card.is-dismissed {
             transform: translate3d(-118%, 8%, 0) rotate(-10deg);
             opacity: 0;
+            pointer-events: none;
+        }
+
+        .audience-card.is-stack-hidden {
+            opacity: 0 !important;
+            visibility: hidden;
             pointer-events: none;
         }
 
@@ -853,15 +915,16 @@
         }
 
         #mobile-menu-btn,
+        #sections-overlay-close,
         #sticky-consult-cta {
             -webkit-tap-highlight-color: transparent;
         }
 
-        #mobile-menu-btn {
+        .mobile-menu-toggle {
             position: fixed;
             top: max(0.75rem, env(safe-area-inset-top));
             right: max(0.75rem, env(safe-area-inset-right));
-            z-index: 60;
+            z-index: 90;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -876,6 +939,23 @@
             padding: 0;
             cursor: pointer;
             box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+        }
+
+        #mobile-menu-btn {
+            z-index: 60;
+        }
+
+        #sections-overlay-close {
+            display: none;
+        }
+
+        body.has-overlay-open #mobile-menu-btn {
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        body.has-overlay-open #sections-overlay-close {
+            display: inline-flex;
         }
 
         #sticky-consult-cta {
@@ -924,6 +1004,87 @@
         @media (max-width: 767.98px) {
             body.has-cookie-banner.has-sticky-cta {
                 padding-bottom: calc(5.5rem + var(--cookie-banner-lift, 0px) + env(safe-area-inset-bottom));
+            }
+        }
+
+        .expert-sticky-toggle {
+            position: fixed;
+            top: max(0.75rem, env(safe-area-inset-top));
+            left: max(0.75rem, env(safe-area-inset-left));
+            z-index: 58;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.3rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(0, 0, 0, 0.52);
+            -webkit-backdrop-filter: blur(16px) saturate(1.15);
+            backdrop-filter: blur(16px) saturate(1.15);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-0.35rem);
+            transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .expert-sticky-toggle.is-visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .expert-sticky-toggle-btn {
+            position: relative;
+            flex: 0 0 auto;
+            width: 2.65rem;
+            height: 2.65rem;
+            padding: 0;
+            border: 2px solid transparent;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.2s ease, transform 0.18s ease, opacity 0.2s ease;
+        }
+
+        .expert-sticky-toggle-btn img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .expert-sticky-toggle-btn:not(.is-active) {
+            opacity: 0.55;
+        }
+
+        .expert-sticky-toggle-btn.is-active {
+            border-color: #64cefb;
+            opacity: 1;
+            box-shadow: 0 0 0 1px rgba(100, 206, 251, 0.35), 0 4px 14px rgba(100, 206, 251, 0.22);
+        }
+
+        .expert-sticky-toggle-btn:hover {
+            opacity: 1;
+        }
+
+        .expert-sticky-toggle-btn:active {
+            transform: scale(0.96);
+        }
+
+        @media (min-width: 768px) {
+            .expert-sticky-toggle {
+                top: max(1rem, env(safe-area-inset-top));
+                left: max(1rem, env(safe-area-inset-left));
+            }
+
+            .expert-sticky-toggle-btn {
+                width: 2.85rem;
+                height: 2.85rem;
             }
         }
 
@@ -1064,6 +1225,30 @@
             }
         }
 
+        .site-footer {
+            margin-top: 0;
+            padding: 2.5rem 0 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .site-footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem 1.25rem;
+        }
+
+        .site-footer-nav a {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .site-footer-nav a:hover {
+            color: #64cefb;
+        }
+
         .hero-cta-row {
             display: flex;
             flex-direction: row;
@@ -1190,13 +1375,6 @@
             opacity: 1;
         }
 
-        .sections-overlay-close {
-            position: absolute;
-            top: max(1rem, env(safe-area-inset-top));
-            right: max(1rem, env(safe-area-inset-right));
-            z-index: 2;
-        }
-
         .sections-overlay-panel nav {
             flex: 0 1 auto;
             display: flex;
@@ -1206,7 +1384,6 @@
             margin: 0;
             width: 100%;
             padding-top: 0.25rem;
-            padding-right: 3.25rem;
             gap: 0;
         }
 
@@ -1241,6 +1418,21 @@
 
         .sections-overlay-link:hover {
             color: #64cefb;
+        }
+
+        .menu-nav-chip {
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.2rem 0.42rem;
+            border-radius: 0.2rem;
+            background: rgba(100, 206, 251, 0.16);
+            color: #8ddcf9;
+            font-size: 0.5625rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            line-height: 1;
         }
 
         .sections-overlay-link-sub {
@@ -1350,6 +1542,65 @@
 
         [data-expert-people] > .section-chip-tabs {
             margin-bottom: 1.5rem;
+            overflow-x: auto;
+            overflow-y: hidden;
+            overscroll-behavior-x: contain;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-x;
+            max-width: 100%;
+            min-width: 0;
+            padding-top: 0.65rem;
+            padding-bottom: 0.2rem;
+            scroll-padding-inline: 0.25rem 1rem;
+        }
+
+        @media (max-width: 767.98px) {
+            [data-expert-people] > .section-chip-tabs {
+                width: auto;
+                max-width: none;
+                margin-left: calc(-1 * var(--page-inline));
+                margin-right: calc(-1 * var(--page-inline-right));
+                padding-left: var(--page-inline);
+                padding-right: var(--page-inline-right);
+                box-sizing: border-box;
+            }
+        }
+
+        .section-chip--has-sticker {
+            position: relative;
+            overflow: visible;
+            padding-right: 1.35rem;
+        }
+
+        .section-chip-sticker {
+            position: absolute;
+            top: -0.55rem;
+            right: -0.2rem;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.22rem 0.42rem;
+            border-radius: 0.22rem;
+            background: #f5c518;
+            color: #111;
+            font-size: 0.5rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            line-height: 1;
+            white-space: nowrap;
+            transform: rotate(7deg);
+            box-shadow:
+                0 1px 0 rgba(0, 0, 0, 0.12),
+                0 3px 8px rgba(0, 0, 0, 0.28);
+            pointer-events: none;
+        }
+
+        .section-chip:disabled,
+        .section-chip.chip-disabled {
+            opacity: 0.38;
+            cursor: not-allowed;
+            pointer-events: none;
         }
 
         /* Ветки треков — чипсы всегда видны */
@@ -1365,6 +1616,20 @@
 
         [data-track-branches] > .section-chip-tabs {
             margin-bottom: 1.5rem;
+        }
+
+        /* Услуги — чипсы всегда видны */
+        [data-services-chips] > .section-chip-tabs {
+            display: flex !important;
+            margin-bottom: 1.5rem;
+        }
+
+        [data-services-chips] > .section-chip-panels > [data-chip-panel]:not(.is-active) {
+            display: none !important;
+        }
+
+        [data-services-expert-chips] > .section-chip-panels > [data-chip-panel]:not(.is-active) {
+            display: none !important;
         }
 
         .track-cards {
@@ -1406,17 +1671,21 @@
             }
         }
 
-        .track-card-num {
-            font-weight: 700;
-            color: #64cefb;
-        }
-
         .track-card-title {
-            margin: 1rem 0 0;
+            margin: 0;
             font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: -0.02em;
-            color: #fff;
+            color: #64cefb;
+        }
+
+        .track-card-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .track-card-title a:hover {
+            color: #8ddcf9;
         }
 
         .track-card-text {
@@ -1424,6 +1693,34 @@
             font-size: var(--copy-size);
             line-height: var(--copy-leading);
             color: var(--copy-color);
+        }
+
+        .track-card-price {
+            margin: 0.85rem 0 0;
+            font-size: 1.125rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #64cefb;
+        }
+
+        .track-card-meta {
+            margin: 0.25rem 0 0;
+            font-size: 0.8125rem;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .services-group-label {
+            margin: 0 0 1rem;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .services-group-label + .services-group-label,
+        .track-cards + .services-group-label {
+            margin-top: 2rem;
         }
 
         .track-flow-label {
@@ -1476,11 +1773,59 @@
             display: block;
         }
 
-        .track-detail p {
+        .track-detail-list {
             margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 0.55rem;
+        }
+
+        .track-detail-list li {
+            padding: 0.75rem 0.9rem;
+            border-radius: 0.65rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 0.875rem;
+            line-height: 1.45;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .track-detail-list li strong {
+            display: block;
+            margin-bottom: 0.15rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .track-detail-note {
+            margin: 1.25rem 0 0;
             font-size: 0.875rem;
             line-height: 1.55;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .track-detail-cta {
+            display: inline-flex;
+            margin-top: 1rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            border: 0;
+            background: #64cefb;
+            color: #001f2a;
+            padding: 0.55rem 1.1rem;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .track-detail-cta:hover {
+            background: #4cb8e5;
+            color: #001f2a;
         }
 
         .track-price {
@@ -1943,6 +2288,418 @@
             }
         }
 
+        /* —— Expert storytelling —— */
+        .expert-story {
+            display: grid;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .expert-story {
+                grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+                gap: 2.5rem 3rem;
+                align-items: start;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .expert-story {
+                gap: 3rem 4rem;
+            }
+        }
+
+        .expert-story-visual {
+            position: relative;
+            overflow: visible;
+        }
+
+        .expert-story-path {
+            position: absolute;
+            inset: -8% -12% auto auto;
+            width: min(72%, 16rem);
+            height: min(55%, 12rem);
+            opacity: 0.35;
+            pointer-events: none;
+            background:
+                radial-gradient(circle, rgba(100, 206, 251, 0.35) 1px, transparent 1px) 0 0 / 14px 14px,
+                radial-gradient(circle, rgba(100, 206, 251, 0.2) 1px, transparent 1px) 7px 7px / 14px 14px;
+            mask-image: radial-gradient(circle at 30% 40%, #000 0%, transparent 72%);
+        }
+
+        .expert-story-portrait-wrap {
+            position: relative;
+            z-index: 1;
+            margin: 0 auto;
+            max-width: 22rem;
+            padding-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .expert-story-portrait-wrap {
+                margin: 0;
+                max-width: none;
+            }
+        }
+
+        .expert-story-portrait {
+            display: block;
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            border-radius: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            object-fit: cover;
+            object-position: center 15%;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+        }
+
+        .expert-story-pin-card {
+            position: absolute;
+            z-index: 3;
+            width: min(62%, 10.5rem);
+            border-radius: 0.875rem;
+            padding: 0.65rem 0.75rem 1.15rem;
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        .expert-story-pin-card::after {
+            content: "📌";
+            position: absolute;
+            font-size: 0.95rem;
+            line-height: 1;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+        }
+
+        .expert-story-pin-card--accent {
+            left: 0.25rem;
+            bottom: 3.25rem;
+            background: linear-gradient(145deg, #64cefb 0%, #3eb8f0 100%);
+            color: #041018;
+            transform: rotate(-2.5deg);
+        }
+
+        .expert-story-pin-card--accent::after {
+            right: 0.55rem;
+            bottom: 0.45rem;
+        }
+
+        .expert-story-pin-card--light {
+            right: 0.25rem;
+            bottom: -0.75rem;
+            background: rgba(255, 255, 255, 0.96);
+            color: #111;
+            transform: rotate(2deg);
+        }
+
+        @media (min-width: 768px) {
+            .expert-story-pin-card {
+                width: min(68%, 11.25rem);
+                padding: 0.75rem 0.85rem 1.35rem;
+            }
+
+            .expert-story-pin-card--accent {
+                left: -0.35rem;
+                bottom: 3.5rem;
+            }
+
+            .expert-story-pin-card--light {
+                right: -0.35rem;
+                bottom: -0.65rem;
+            }
+        }
+
+        .expert-story-pin-card--light::after {
+            content: "📎";
+            right: 0.55rem;
+            top: 0.45rem;
+        }
+
+        .expert-story-pin-title {
+            font-size: 0.8125rem;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .expert-story-pin-text {
+            margin-top: 0.25rem;
+            font-size: 0.6875rem;
+            line-height: 1.35;
+            opacity: 0.82;
+        }
+
+        .expert-story-contacts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem 1rem;
+        }
+
+        .expert-story-contacts--header {
+            margin-top: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .expert-story-contacts--header {
+                margin-top: 0.85rem;
+                margin-bottom: 2rem;
+            }
+        }
+
+        .expert-story-narrative {
+            min-width: 0;
+        }
+
+        .expert-story-empathy {
+            font-size: 1.125rem;
+            font-weight: 800;
+            line-height: 1.35;
+            letter-spacing: -0.02em;
+            color: #64cefb;
+        }
+
+        @media (min-width: 768px) {
+            .expert-story-empathy {
+                font-size: 1.35rem;
+            }
+        }
+
+        .expert-story-intro {
+            margin-top: 0.85rem;
+            max-width: 38rem;
+            font-size: 1rem;
+            line-height: 1.65;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .expert-story-timeline {
+            position: relative;
+            margin: 1.5rem 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .expert-story-timeline::before {
+            content: "";
+            position: absolute;
+            left: 0.94rem;
+            top: 0.65rem;
+            bottom: 0.65rem;
+            width: 2px;
+            background: linear-gradient(180deg, rgba(100, 206, 251, 0.55) 0%, rgba(100, 206, 251, 0.12) 100%);
+        }
+
+        .expert-story-step {
+            position: relative;
+            display: flex;
+            gap: 0.85rem;
+            padding: 0.35rem 0;
+        }
+
+        .expert-story-step + .expert-story-step {
+            margin-top: 0.65rem;
+        }
+
+        .expert-story-step-marker {
+            position: relative;
+            z-index: 1;
+            flex: 0 0 1.875rem;
+            width: 1.875rem;
+            height: 1.875rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            background: #64cefb;
+            color: #041018;
+            font-size: 0.8125rem;
+            font-weight: 800;
+            line-height: 1;
+            box-shadow: 0 0 0 4px rgba(100, 206, 251, 0.12);
+        }
+
+        .expert-story-step-text {
+            flex: 1;
+            padding-top: 0.15rem;
+            font-size: 1rem;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .expert-story-details {
+            margin-top: 2.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .expert-story-details {
+                margin-top: 3rem;
+            }
+        }
+
+        .edu-cards {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        @media (min-width: 640px) {
+            .edu-cards {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .edu-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+            padding: 1rem;
+            border-radius: 0.65rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .edu-card-icon {
+            flex: 0 0 auto;
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .edu-card-icon img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .edu-card-body {
+            min-width: 0;
+        }
+
+        .edu-card-name {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.3;
+        }
+
+        .edu-card-faculty {
+            margin: 0.25rem 0 0;
+            font-size: 0.875rem;
+            line-height: 1.45;
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .achievement-scatter {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 0.7rem 0.55rem;
+            padding: 0.35rem 0 0.75rem;
+        }
+
+        .achievement-card {
+            position: relative;
+            grid-column: span 6;
+            padding: 0.85rem 0.95rem 1rem;
+            border-radius: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+            transform: rotate(var(--ach-rotate, 0deg));
+        }
+
+        .achievement-card--accent {
+            border-color: rgba(100, 206, 251, 0.35);
+            background: linear-gradient(145deg, rgba(100, 206, 251, 0.22) 0%, rgba(100, 206, 251, 0.08) 100%);
+        }
+
+        .achievement-card--light {
+            border-color: rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.94);
+            color: #111;
+        }
+
+        .achievement-card-text {
+            margin: 0;
+            font-size: 0.875rem;
+            line-height: 1.45;
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .achievement-card--light .achievement-card-text {
+            color: rgba(0, 0, 0, 0.82);
+        }
+
+        .achievement-card:nth-child(1) {
+            grid-column: 1 / -1;
+            --ach-rotate: -1.4deg;
+            max-width: 94%;
+        }
+
+        .achievement-card:nth-child(2) {
+            grid-column: 1 / span 7;
+            --ach-rotate: 2.1deg;
+            transform: rotate(var(--ach-rotate)) translateY(0.2rem);
+        }
+
+        .achievement-card:nth-child(3) {
+            grid-column: 6 / -1;
+            --ach-rotate: -2.3deg;
+            margin-top: -0.35rem;
+        }
+
+        .achievement-card:nth-child(4) {
+            grid-column: 1 / -1;
+            --ach-rotate: 0.85deg;
+            max-width: 96%;
+            margin-left: auto;
+        }
+
+        .achievement-card:nth-child(5) {
+            grid-column: 1 / span 8;
+            --ach-rotate: -1.6deg;
+        }
+
+        .achievement-card:nth-child(6) {
+            grid-column: 7 / -1;
+            --ach-rotate: 2.5deg;
+            align-self: end;
+            transform: rotate(var(--ach-rotate)) translateY(0.35rem);
+        }
+
+        @media (max-width: 479.98px) {
+            .achievement-scatter {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .achievement-card {
+                grid-column: 1 / -1 !important;
+                max-width: none !important;
+                margin-left: 0 !important;
+                margin-top: 0 !important;
+                align-self: auto !important;
+                transform: rotate(var(--ach-rotate, 0deg)) !important;
+            }
+
+            .achievement-card:nth-child(odd) {
+                margin-right: 1.15rem;
+            }
+
+            .achievement-card:nth-child(even) {
+                margin-left: 1.15rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .achievement-card {
+                transform: none !important;
+            }
+        }
+
         .expert-marquee-label {
             margin: 2rem 0 0.75rem;
             font-size: 0.6875rem;
@@ -2125,33 +2882,42 @@
 <body class="bg-black page-with-sticky-cta">
 <!-- Mobile menu (visible &lt; md via CSS) -->
 <div class="mobile-chrome">
-<button type="button" id="mobile-menu-btn" aria-haspopup="dialog" aria-controls="sections-overlay" aria-expanded="false" aria-label="Меню">
+<button type="button" id="mobile-menu-btn" class="mobile-menu-toggle" aria-haspopup="dialog" aria-controls="sections-overlay" aria-expanded="false" aria-label="Меню">
 <span class="material-symbols-outlined text-[18px]" data-icon="menu" aria-hidden="true">menu</span>
 </button>
+<button type="button" id="sections-overlay-close" class="mobile-menu-toggle" aria-label="Закрыть меню">
+<span class="material-symbols-outlined text-[18px]" data-icon="close" aria-hidden="true">close</span>
+</button>
 </div>
-<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" id="sticky-consult-cta">Связаться</a>
+<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" id="sticky-consult-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://www.linkedin.com/in/danilkolesnichenko">Связаться</a>
+<div id="expert-sticky-toggle" class="expert-sticky-toggle" role="group" aria-label="Выбор эксперта">
+<button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Настя Нерадовских">
+<img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+</button>
+<button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" data-expert-disabled disabled aria-pressed="false" aria-label="Даня Колесниченко, скоро" hidden>
+<img src="assets/6b4da35649ccdbb39aafdcc2b4190cc1.JPG" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+</button>
+</div>
 <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Согласие на использование cookie" aria-hidden="true">
 <div class="cookie-banner-inner">
-<p class="cookie-banner-text">Мы используем cookie, чтобы сайт работал стабильнее и удобнее. Вы можете принять или отклонить необязательные cookie. <a href="#">Подробнее</a></p>
+<p class="cookie-banner-text">Мы используем cookie, чтобы сайт работал стабильнее и удобнее. Вы можете согласиться или не согласиться на необязательные cookie. <a href="cookie-policy.html">Политика cookie</a></p>
 <div class="cookie-banner-actions">
-<button type="button" class="cookie-btn cookie-btn-decline" id="cookie-decline">Отклонить</button>
-<button type="button" class="cookie-btn cookie-btn-accept" id="cookie-accept">Принять</button>
+<button type="button" class="cookie-btn cookie-btn-decline" id="cookie-decline">Не соглашаюсь</button>
+<button type="button" class="cookie-btn cookie-btn-accept" id="cookie-accept">Соглашаюсь</button>
 </div>
 </div>
 </div>
-<div id="sections-overlay" class="sections-overlay" role="dialog" aria-modal="true" aria-label="Меню треков" aria-hidden="true">
+<div id="sections-overlay" class="sections-overlay" role="dialog" aria-modal="true" aria-label="Навигация по сайту" aria-hidden="true">
 <div class="sections-overlay-panel" role="document">
-<button type="button" id="sections-overlay-close" class="sections-overlay-close inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white" aria-label="Закрыть меню">
-<span class="material-symbols-outlined text-[22px]" data-icon="close" aria-hidden="true">close</span>
-</button>
-<nav class="flex flex-col" aria-label="Треки">
-<a class="sections-overlay-link" href="tracks/career/">Карьерный трек <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="tracks/career/consult.html">Консультация <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="tracks/career/support.html">Сопровождение <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="tracks/career/mentor.html">Менторство <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link" href="tracks/product/">Продуктовый трек <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="tracks/product/consult.html">Консультация <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
-<a class="sections-overlay-link sections-overlay-link-sub" href="tracks/product/mentor.html">Менторство <span class="menu-wip-chip" aria-label="Soon"><span class="menu-wip-crane" aria-hidden="true">🏗️</span> soon</span></a>
+<nav class="flex flex-col" aria-label="Разделы">
+<a class="sections-overlay-link" href="#audience">Для кого</a>
+<a class="sections-overlay-link" href="#value">Что получите</a>
+<a class="sections-overlay-link" href="#expert">Эксперты</a>
+<a class="sections-overlay-link" href="#curriculum">Услуги 🔥</a>
+<a class="sections-overlay-link" href="#guide"><span>Гайд в IT 🔥</span><span class="menu-nav-chip">бесплатно</span></a>
+<a class="sections-overlay-link" href="#placements">Трудоустройство</a>
+<a class="sections-overlay-link" href="#reviews">Отзывы</a>
+<a class="sections-overlay-link" href="#faq">Вопросы</a>
 </nav>
 </div>
 </div>
@@ -2167,15 +2933,19 @@
 <nav class="relative flex w-full max-w-full flex-nowrap items-stretch gap-8 overflow-hidden rounded-full border border-white/10 bg-white/5 py-1 pl-3 pr-3 shadow-[0px_20px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl">
 <div class="relative flex min-w-0 flex-1 items-center pl-1 pr-0">
 <div class="relative z-10 flex min-h-0 min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:gap-0 md:overflow-hidden">
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5 active" href="#expert">Эксперт</a>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#audience">Для кого</a>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#curriculum">Услуги</a>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#expert">Эксперты</a>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#guide">Гайд</a>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#curriculum">Услуги 🔥</a>
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
+<div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
+</div>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#guide">Гайд 🔥</a>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
@@ -2193,20 +2963,18 @@
 <source src="assets/test.mov" type="video/quicktime"/>
                     Your browser does not support the video tag.
                 </video>
-<img id="hero-freeze-frame" class="hero-freeze-frame is-visible absolute inset-0 z-10 h-full w-full object-cover object-[center_20%]" src="assets/nastya.jpg" alt="Настя Нерадовских" draggable="false"/>
+<img id="hero-freeze-frame" class="hero-freeze-frame is-visible absolute inset-0 z-10 h-full w-full object-cover object-[center_20%]" src="assets/nastya.jpg" alt="Карьера в IT" draggable="false"/>
 </div>
 <div id="hero-mid" class="relative z-10 mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col gap-4 pt-3 md:min-h-0 md:gap-0 md:pt-6" aria-label="Заголовок и запись">
 <div class="hero-copy flex min-h-0 flex-1 flex-col items-center justify-center gap-4 text-center md:items-start md:justify-end md:gap-6 md:pl-8 md:text-left md:-translate-y-10 lg:-translate-y-14">
 <div class="w-full max-w-lg space-y-3 md:space-y-4">
 <h1 class="line-height-tight text-balance text-center text-4xl font-black tracking-tighter sm:text-5xl md:text-left md:text-[5.2rem]">
-<span class="text-white/90">Начни карьеру </span><span class="shiny-text">в IT</span>
+<span class="text-white/90">Начните карьеру </span><span class="shiny-text">в IT</span>
 </h1>
-<p class="mt-3 text-base leading-relaxed text-white/75 md:mt-4">
-                            Поможем выбрать направление, упаковать свой опыт и подготовиться к выходу на рынок IT
-                        </p>
+<p class="mt-3 text-base leading-relaxed text-white/75 md:mt-4">Помогаем расти в карьере, зайти в продакт-менеджмент, выигрывать конкурсы и кейс-чемпионаты</p>
 </div>
 <div class="hero-cta-row">
-<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="hero-cta-primary">Связаться</a>
+<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="hero-cta-primary" id="hero-contact-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://www.linkedin.com/in/danilkolesnichenko">Связаться</a>
 <a href="#expert" class="hero-cta-secondary">О нас</a>
 </div>
 </div>
@@ -2214,37 +2982,39 @@
 </main>
 <!-- Audience stack: вне backdrop-blur, иначе sticky ломается -->
 <div class="relative z-10 bg-black/40">
-<section class="page-gutter relative py-12 md:py-16" id="audience" aria-labelledby="audience-heading" data-audience-stack>
+<section class="page-gutter relative py-12 md:py-16" id="audience" aria-labelledby="audience-heading">
 <div class="mx-auto max-w-7xl">
-<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="audience-heading">Ты точно в нужном месте, если…</h2>
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="audience-heading">Вы точно в нужном месте, если…</h2>
+<div data-global-expert-panel="nastya">
+<div data-audience-stack>
 <div class="audience-stack" aria-live="polite" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации — свайп влево или вправо">
+<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="trending_up" aria-hidden="true">trending_up</span>
+</div>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Хотите быстро и осознанно расти в карьере</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Нужен понятный вектор: куда двигаться, какие шаги дадут результат и как не тратить месяцы на хаотичный поиск.</p>
+</article>
+<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="emoji_events" aria-hidden="true">emoji_events</span>
+</div>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Планируете участвовать в конкурсах и грантах</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Хотите выстроить стратегию подачи, упаковать достижения и пройти отбор — от «Лидеров России» до университетских и корпоративных программ.</p>
+</article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="school" aria-hidden="true">school</span>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь зайти в Product — со студенческой скамьи или со сменой сферы</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Учишься в университете или работаешь не в IT и понимаешь, что хочешь строить карьеру в Product Management — но не знаешь, с чего начать и как сделать первые шаги.</p>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Мечтаете зайти в продакт-менеджмент</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Нужно разобраться с входом в IT, упаковать опыт, подготовиться к интервью и понять, как выглядит путь в продукт.</p>
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="description" aria-hidden="true">description</span>
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="rocket_launch" aria-hidden="true">rocket_launch</span>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Кажется, что у тебя слишком мало опыта</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Смотришь вакансии и думаешь, что нечего показать. Учебные проекты, кейс-чемпионаты, стажировки, внеучебная деятельность — или опыт из другой сферы — могут стать сильной частью резюме, если правильно их упаковать.</p>
-</article>
-<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
-<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="forum" aria-hidden="true">forum</span>
-</div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Не понимаешь, как проходят продуктовые интервью</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Не знаешь, какие вопросы задают, как решать кейсы, что ждут от начинающего Product Manager или кандидата со сменой трека — и как подготовиться к процессу отбора.</p>
-</article>
-<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
-<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="explore" aria-hidden="true">explore</span>
-</div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Не хочешь тратить месяцы на хаотичный поиск</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Вместо бесконечных видео, статей и случайных советов хочешь понятный план действий и понимать, что именно приблизит тебя к первой стажировке, работе или переходу в Product.</p>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Хотите запустить свой стартап</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Нужна поддержка на этапе идеи, команды и выхода к релизу — с опытом запуска WID и команды из 20 IT-профессионалов.</p>
 </article>
 </div>
 <div class="audience-stack-controls mt-5 flex items-center justify-between gap-3 sm:justify-start sm:gap-4">
@@ -2257,24 +3027,83 @@
 </button>
 </div>
 </div>
+</div>
+<div data-global-expert-panel="danya" hidden>
+<div data-audience-stack>
+<div class="audience-stack" aria-live="polite" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации — свайп влево или вправо">
+<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="flag" aria-hidden="true">flag</span>
+</div>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Хотите начать карьеру, но не знаете с чего</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Разберём первые шаги: куда смотреть, как искать и как выстроить процесс без хаоса.</p>
+</article>
+<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="emoji_events" aria-hidden="true">emoji_events</span>
+</div>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Планируете участвовать в кейс-чемпионатах</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Помогу упаковать кейс, подготовиться к отбору и пройти путь от заявки до финала.</p>
+</article>
+<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="school" aria-hidden="true">school</span>
+</div>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Мечтаете зайти в продакт-менеджмент</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Покажу, как упаковать опыт, подтянуть навыки и сделать сильный вход в продукт.</p>
+</article>
+<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="psychology" aria-hidden="true">psychology</span>
+</div>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Хотите подтянуть продуктовые навыки</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Разберём гипотезы, метрики, CustDev и то, что реально спрашивают на продуктовых ролях.</p>
+</article>
+<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="record_voice_over" aria-hidden="true">record_voice_over</span>
+</div>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Готовитесь к собеседованиям</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Отработаем ответы, кейсы и типовые вопросы — чтобы чувствовать себя увереннее на интервью.</p>
+</article>
+<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="filter_alt" aria-hidden="true">filter_alt</span>
+</div>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Хотите понять воронку найма</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Объясню, как устроен отбор в IT и продукте: от отклика до оффера и что делать на каждом этапе.</p>
+</article>
+</div>
+<div class="audience-stack-controls mt-5 flex items-center justify-between gap-3 sm:justify-start sm:gap-4">
+<button type="button" class="audience-nav-btn" data-audience-prev aria-label="Предыдущая карточка">
+<span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_left</span>
+</button>
+<div class="audience-stack-dots flex items-center gap-2" aria-hidden="true"></div>
+<button type="button" class="audience-nav-btn" data-audience-next aria-label="Следующая карточка">
+<span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section class="page-gutter relative pb-12 md:pb-16" id="value" aria-labelledby="value-heading">
 <div class="mx-auto max-w-7xl">
-<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="value-heading">Что ты получишь</h2>
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="value-heading">Что вы получите</h2>
 <div class="hero-usps w-full md:max-w-xl">
 <article class="hero-usp-card">
-<h3 class="hero-usp-title">Поймёшь, куда двигаться</h3>
-<p class="hero-usp-text">Выберешь направление и понятный путь развития под свою ситуацию</p>
+<h3 class="hero-usp-title">Выстроите стратегию роста</h3>
+<p class="hero-usp-text">Персональный план по карьере, поиску работы или участию в конкурсах и грантах</p>
 <span class="material-symbols-outlined hero-usp-icon" data-icon="explore" aria-hidden="true">explore</span>
 </article>
 <article class="hero-usp-card">
-<h3 class="hero-usp-title">Упакуешь себя для рынка</h3>
-<p class="hero-usp-text">Разберём опыт, резюме и проекты — даже если кажется, что тебе нечего показать</p>
+<h3 class="hero-usp-title">Упакуете резюме и профиль</h3>
+<p class="hero-usp-text">Разберём опыт, LinkedIn и формулировки — даже если кажется, что показывать нечего</p>
 <span class="material-symbols-outlined hero-usp-icon" data-icon="badge" aria-hidden="true">badge</span>
 </article>
 <article class="hero-usp-card">
-<h3 class="hero-usp-title">Подготовишься к отбору</h3>
-<p class="hero-usp-text">Кейсы, собеседования и вопросы, которые ждут начинающих специалистов</p>
+<h3 class="hero-usp-title">Подготовитесь к отбору</h3>
+<p class="hero-usp-text">Интервью, кейсы и вопросы для входа в IT, продукт или стартап</p>
 <span class="material-symbols-outlined hero-usp-icon" data-icon="record_voice_over" aria-hidden="true">record_voice_over</span>
 </article>
 </div>
@@ -2290,271 +3119,303 @@
 <section class="page-gutter relative py-12 md:py-16" id="expert" aria-labelledby="expert-heading">
 <div class="mx-auto max-w-7xl">
 <article>
-<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="expert-heading">Об эксперте</h2>
-<div class="flex items-start gap-4 md:gap-5">
-<div class="h-20 w-20 shrink-0 overflow-hidden rounded-full border border-white/10 bg-white/5 sm:h-24 sm:w-24 md:h-28 md:w-28">
-<img src="assets/nastya.jpg" alt="Настя Нерадовских" class="h-full w-full object-cover" loading="lazy" decoding="async"/>
+<h2 class="mb-3 text-4xl font-black tracking-tighter md:mb-4 md:text-5xl" id="expert-heading">Об экспертах</h2>
+<div data-section-chips data-expert-people id="expert-people">
+<div class="section-chip-tabs" role="tablist" aria-label="Выбор эксперта">
+<button type="button" class="section-chip chip-active" role="tab" id="people-tab-nastya" aria-selected="true" aria-controls="people-panel-nastya" data-chip-tab="nastya" data-global-expert="nastya">Настя Нерадовских</button>
+<button type="button" class="section-chip section-chip--has-sticker" role="tab" id="people-tab-danya" aria-selected="false" aria-controls="people-panel-danya" data-chip-tab="danya" data-global-expert="danya" data-expert-disabled disabled aria-label="Даня Колесниченко, скоро">Даня Колесниченко<span class="section-chip-sticker" aria-hidden="true">soon</span></button>
 </div>
-<div class="min-w-0 flex-1 pt-0.5">
-<h3 class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">Настя Нерадовских</h3>
-<p class="mt-1 text-base leading-relaxed text-white/65">CPO @ Альфа-Банк</p>
-<div id="contacts" class="mt-3 flex w-full flex-row flex-wrap items-center gap-x-4 gap-y-2">
-<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
-<img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="" class="h-4 w-4 shrink-0 object-contain" loading="lazy"/>
-<span class="text-[11px] font-semibold tracking-tight">Telegram</span>
+<div class="section-chip-panels">
+<div data-chip-panel="nastya" class="is-active" role="tabpanel" id="people-panel-nastya" aria-labelledby="people-tab-nastya">
+<div class="expert-story-contacts expert-story-contacts--header">
+<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
+<img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
+<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">Telegram</span>
 </a>
 <a href="https://www.linkedin.com/in/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
-<img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="" class="h-4 w-4 shrink-0 object-contain" loading="lazy"/>
-<span class="text-[11px] font-semibold tracking-tight">LinkedIn</span>
+<img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
+<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">LinkedIn</span>
 </a>
 </div>
+<div class="expert-story">
+<div class="expert-story-visual">
+<div class="expert-story-path" aria-hidden="true"></div>
+<div class="expert-story-portrait-wrap">
+<img src="assets/nastya.jpg" alt="Настя Нерадовских" class="expert-story-portrait" loading="lazy" decoding="async"/>
+<div class="expert-story-pin-card expert-story-pin-card--accent">
+<p class="expert-story-pin-title">Суперфиналистка «Лидеров России»</p>
+<p class="expert-story-pin-text">без связей — упорным трудом</p>
+</div>
+<div class="expert-story-pin-card expert-story-pin-card--light">
+<p class="expert-story-pin-title">CPO @ Альфа-Банк</p>
+<p class="expert-story-pin-text">от product owner в Т2</p>
 </div>
 </div>
-<div class="mt-6 max-w-3xl md:mt-8">
-<ol class="space-y-4">
-<li class="flex items-baseline gap-4">
-<span class="shrink-0 font-headline text-[2rem] font-black leading-none tracking-tighter text-[#64cefb]">01</span>
-<p class="text-base leading-relaxed text-white/75">Перешла из другой сферы</p>
-</li>
-<li class="flex items-baseline gap-4">
-<span class="shrink-0 font-headline text-[2rem] font-black leading-none tracking-tighter text-[#64cefb]">02</span>
-<p class="text-base leading-relaxed text-white/75">За 3 года доросла до CPO</p>
-</li>
-<li class="flex items-baseline gap-4">
-<span class="shrink-0 font-headline text-[2rem] font-black leading-none tracking-tighter text-[#64cefb]">03</span>
-<p class="text-base leading-relaxed text-white/75">Основала стартап WID с 20+ сотрудниками</p>
-</li>
-<li class="flex items-baseline gap-4">
-<span class="shrink-0 font-headline text-[2rem] font-black leading-none tracking-tighter text-[#64cefb]">04</span>
-<p class="text-base leading-relaxed text-white/75">Теперь помогаю тем, кто хочет попасть в IT</p>
-</li>
+</div>
+<div class="expert-story-narrative">
+<p class="expert-story-empathy">Я знаю, как сложно начинать карьеру без понятного маршрута — и как важно не сдаваться на полпути.</p>
+<p class="expert-story-intro">Поэтому помогаю выстраивать стратегию: от первых шагов в IT и участия в конкурсах до роста в продукте и запуска своего проекта. Всё, чего добилась сама — без знакомств и «удачного стечения обстоятельств».</p>
+<ol class="expert-story-timeline">
+<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">1</span><p class="expert-story-step-text">Выигрывала олимпиады уровня МГУ и НИУ ВШЭ, получала гранты Сколково, ФСИ и ВТБ, стипендии Потанина, Мегафона, KPMG и университетов.</p></li>
+<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">2</span><p class="expert-story-step-text">Стала суперфиналисткой «Лидеров России» — самостоятельно, упорным трудом, а не по знакомству.</p></li>
+<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">3</span><p class="expert-story-step-text">Прошла путь от product owner в Т2 до CPO в Альфа-Банке.</p></li>
+<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">4</span><p class="expert-story-step-text">Запускаю стартап Цифровой гардероб WID — команда из 20 IT-профессионалов по всему миру, веду проект к релизу.</p></li>
 </ol>
 </div>
-<div class="mt-6 md:mt-8" data-section-chips>
-<div class="section-chip-tabs" role="tablist" aria-label="Об эксперте">
-<button type="button" class="section-chip chip-active" role="tab" id="expert-tab-about" aria-selected="true" aria-controls="expert-panel-about" data-chip-tab="about">О себе</button>
-<button type="button" class="section-chip" role="tab" id="expert-tab-expertise" aria-selected="false" aria-controls="expert-panel-expertise" data-chip-tab="expertise">Экспертиза</button>
-<button type="button" class="section-chip" role="tab" id="expert-tab-achievements" aria-selected="false" aria-controls="expert-panel-achievements" data-chip-tab="achievements">Достижения</button>
-<button type="button" class="section-chip" role="tab" id="expert-tab-education" aria-selected="false" aria-controls="expert-panel-education" data-chip-tab="education">Образование</button>
+</div>
+<div class="expert-story-details" data-section-chips>
+<div class="section-chip-tabs" role="tablist" aria-label="Подробнее об эксперте">
+<button type="button" class="section-chip chip-active" role="tab" id="expert-tab-achievements" aria-selected="true" aria-controls="expert-panel-achievements" data-chip-tab="achievements">Достижения</button>
+<button type="button" class="section-chip" role="tab" id="expert-tab-education" aria-selected="false" aria-controls="expert-panel-education" data-chip-tab="education">Гранты и образование</button>
 </div>
 <div class="section-chip-panels space-y-6">
-<div class="is-active rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-xl md:p-7" role="tabpanel" id="expert-panel-about" aria-labelledby="expert-tab-about" data-chip-panel="about">
-<article>
-<p class="max-w-3xl text-base leading-relaxed text-white/75">CPO в Альфа-Банке. Пришла в IT из другой сферы, за три года выросла до CPO и основала стартап WID. В менторстве помогаю упаковать опыт и выстроить понятный путь в продукт и IT.</p>
+<div role="tabpanel" id="expert-panel-achievements" aria-labelledby="expert-tab-achievements" data-chip-panel="achievements" class="is-active">
+<div class="achievement-scatter">
+<article class="achievement-card achievement-card--accent">
+<p class="achievement-card-text">Суперфиналистка «Лидеров России»</p>
+</article>
+<article class="achievement-card achievement-card--light">
+<p class="achievement-card-text">Победы на олимпиадах уровня МГУ и НИУ ВШЭ</p>
+</article>
+<article class="achievement-card">
+<p class="achievement-card-text">Гранты Сколково, ФСИ и ВТБ</p>
+</article>
+<article class="achievement-card achievement-card--accent">
+<p class="achievement-card-text">Стипендии Потанина, Мегафона, KPMG, НИУ ВШЭ и РАНХиГС</p>
+</article>
+<article class="achievement-card">
+<p class="achievement-card-text">Бесплатные поездки на Камчатку, Сахалин, в Мурманск, Крым и другие регионы России</p>
+</article>
+<article class="achievement-card achievement-card--light">
+<p class="achievement-card-text">Поездки в Америку и другие страны</p>
 </article>
 </div>
-<div class="grid grid-cols-1 gap-3 sm:grid-cols-3" role="tabpanel" id="expert-panel-expertise" aria-labelledby="expert-tab-expertise" data-chip-panel="expertise">
-<article class="rounded-lg border border-white/10 bg-white/5 p-4">
-<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Product leadership</p>
-<p class="mt-3 text-base leading-relaxed text-white/75">Управление продуктом на уровне CPO: стратегия, приоритеты, команда и результат.</p>
+</div>
+<div role="tabpanel" id="expert-panel-education" aria-labelledby="expert-tab-education" data-chip-panel="education">
+<div class="edu-cards">
+<article class="edu-card">
+<div class="edu-card-icon"><img src="assets/marquee/hse-logo.png?v=20260820154" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
+<div class="edu-card-body">
+<p class="edu-card-name">НИУ ВШЭ</p>
+<p class="edu-card-faculty">Факультет мировой экономики и мировой политики</p>
+</div>
 </article>
-<article class="rounded-lg border border-white/10 bg-white/5 p-4">
-<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Карьерный переход</p>
-<p class="mt-3 text-base leading-relaxed text-white/75">Как зайти в IT без «идеального» бэкграунда и превратить опыт в сильную историю.</p>
-</article>
-<article class="rounded-lg border border-white/10 bg-white/5 p-4">
-<p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Стартап и рост</p>
-<p class="mt-3 text-base leading-relaxed text-white/75">Основала WID и выстроила команду 20+ человек — от идеи до работающего бизнеса.</p>
+<article class="edu-card">
+<div class="edu-card-icon"><img src="assets/marquee/logo-ranepa.png?v=20260820154" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
+<div class="edu-card-body">
+<p class="edu-card-name">РАНХиГС</p>
+<p class="edu-card-faculty">Магистратура «Международный менеджмент», ИБДА</p>
+</div>
 </article>
 </div>
-<div class="rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-xl md:p-7" role="tabpanel" id="expert-panel-achievements" aria-labelledby="expert-tab-achievements" data-chip-panel="achievements">
+</div>
+</div>
+</div>
+</div>
+<div data-chip-panel="danya" role="tabpanel" id="people-panel-danya" aria-labelledby="people-tab-danya">
+<h3 class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">Даня Колесниченко 👩🏼‍💻</h3>
+<div class="expert-story-contacts expert-story-contacts--header">
+<a href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
+<img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
+<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">LinkedIn</span>
+</a>
+</div>
+<div class="expert-story">
+<div class="expert-story-visual">
+<div class="expert-story-path" aria-hidden="true"></div>
+<div class="expert-story-portrait-wrap">
+<img src="assets/6b4da35649ccdbb39aafdcc2b4190cc1.JPG" alt="Даня Колесниченко" class="expert-story-portrait" loading="lazy" decoding="async"/>
+<div class="expert-story-pin-card expert-story-pin-card--accent">
+<p class="expert-story-pin-title">Alfa Case Camp 2024</p>
+<p class="expert-story-pin-text">победитель кейс-чемпионата</p>
+</div>
+<div class="expert-story-pin-card expert-story-pin-card--light">
+<p class="expert-story-pin-title">4 оффера</p>
+<p class="expert-story-pin-text">после стажировки в Альфа-Банке</p>
+</div>
+</div>
+</div>
+<div class="expert-story-narrative">
+<p class="expert-story-empathy">Я тоже думал, что у меня недостаточно опыта — и проходил тот же путь, что сейчас проходите вы.</p>
+<p class="expert-story-intro">Помогаю стартовать в IT и продукте: от первых шагов и кейс-чемпионатов до резюме, интервью и понимания воронки найма. Всё, чем делюсь — из собственного опыта в Альфа-Банке.</p>
+<ol class="expert-story-timeline">
+<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">1</span><p class="expert-story-step-text">Ex product owner @ «Альфа-Будущее».</p></li>
+<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">2</span><p class="expert-story-step-text">Победитель Alfa Case Camp 2024 — крупнейшего кейс-чемпионата Альфа-Банка × Changellenge.</p></li>
+<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">3</span><p class="expert-story-step-text">Менеджер по развитию продукта в Альфа-Банке.</p></li>
+<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">4</span><p class="expert-story-step-text">Получил 4 оффера после стажировки в Альфа-Банке.</p></li>
+</ol>
+</div>
+</div>
+<div class="expert-story-details" data-section-chips>
+<div class="section-chip-tabs" role="tablist" aria-label="Подробнее об эксперте">
+<button type="button" class="section-chip chip-active" role="tab" id="danya-tab-expertise" aria-selected="true" aria-controls="danya-panel-expertise" data-chip-tab="danya-expertise">Экспертиза</button>
+<button type="button" class="section-chip" role="tab" id="danya-tab-audience" aria-selected="false" aria-controls="danya-panel-audience" data-chip-tab="danya-audience">С кем работаю</button>
+</div>
+<div class="section-chip-panels space-y-6">
+<div class="grid grid-cols-1 gap-3 sm:grid-cols-3 is-active" role="tabpanel" id="danya-panel-expertise" aria-labelledby="danya-tab-expertise" data-chip-panel="danya-expertise">
+<article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Продукт</p><p class="mt-3 text-base leading-relaxed text-white/75">Менеджер по развитию продукта в Альфа-Банке, опыт product owner и работы с продуктовыми метриками.</p></article>
+<article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Кейс-чемпионаты</p><p class="mt-3 text-base leading-relaxed text-white/75">Победитель Alfa Case Camp 2024, выступления экспертом от Альфа-Банка и Changellenge.</p></article>
+<article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Карьера</p><p class="mt-3 text-base leading-relaxed text-white/75">Путь от стажировки до нескольких офферов — знаю воронку найма изнутри.</p></article>
+</div>
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-xl md:p-7" role="tabpanel" id="danya-panel-audience" aria-labelledby="danya-tab-audience" data-chip-panel="danya-audience">
 <ul class="space-y-3 text-base leading-relaxed text-white/75">
-<li>— Перешла в IT из другой сферы и за 3 года доросла до CPO.</li>
-<li>— CPO @ Альфа-Банк.</li>
-<li>— Основала стартап WID с командой 20+ человек.</li>
-<li>— Менторю тех, кто хочет попасть в IT и продукт.</li>
+<li>— Хотите начать карьеру, но не знаете с чего.</li>
+<li>— Планируете участвовать в кейс-чемпионатах.</li>
+<li>— Мечтаете зайти в продакт-менеджмент.</li>
+<li>— Хотите подтянуть продуктовые навыки.</li>
+<li>— Готовитесь к собеседованиям.</li>
+<li>— Хотите понять, как устроена воронка найма.</li>
 </ul>
 </div>
-<div class="grid grid-cols-1 gap-3 sm:grid-cols-2" role="tabpanel" id="expert-panel-education" aria-labelledby="expert-tab-education" data-chip-panel="education">
-<div class="rounded-lg border border-white/10 bg-white/5 p-4">
-<p class="text-base font-semibold text-white">Практика в продукте</p>
-<p class="mt-1 text-base leading-relaxed text-white/75">Рост до CPO в крупном финтехе</p>
-</div>
-<div class="rounded-lg border border-white/10 bg-white/5 p-4">
-<p class="text-base font-semibold text-white">Предпринимательство</p>
-<p class="mt-1 text-base leading-relaxed text-white/75">Запуск и развитие стартапа WID</p>
 </div>
 </div>
 </div>
 </div>
-<!-- Даня временно в архиве — вернуть: убрать hidden и чипсы выбора -->
-<div id="expert-danya-archived" hidden>
-<div class="flex items-center gap-4 md:gap-5">
-<div class="h-24 w-24 shrink-0 overflow-hidden rounded-full border border-white/10 bg-white/5 sm:h-28 sm:w-28 md:h-32 md:w-32">
-<img src="assets/6b4da35649ccdbb39aafdcc2b4190cc1.JPG" alt="Даня Колесниченко" class="h-full w-full object-cover" loading="lazy" decoding="async"/>
 </div>
-<div class="min-w-0">
-<h3 class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">Даня Колесниченко</h3>
-<p class="mt-0.5 text-base leading-relaxed text-white/65">Product Manager @ Альфа-Банк</p>
-</div>
-</div>
-<div class="mt-5 flex flex-wrap gap-3 sm:gap-4">
-<div class="min-w-[9rem] flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3">
-<div class="text-xl font-black text-[#64cefb] sm:text-2xl">2+ года</div>
-<div class="mt-0.5 text-base leading-relaxed text-white/75">опыта продакта в крупнейшем финтехе</div>
-</div>
-<div class="min-w-[9rem] flex-1 rounded-lg border border-white/10 bg-white/5 px-4 py-3">
-<div class="text-xl font-black text-[#64cefb] sm:text-2xl">100+</div>
-<div class="mt-0.5 text-base leading-relaxed text-white/75">менти · выступления в ВШЭ, Альфа-Банке, Changellenge</div>
-</div>
-</div>
-<div class="mt-8 max-w-3xl md:mt-10">
-<p class="text-xl font-bold tracking-tight text-white md:text-2xl">Я тоже думал, что у меня недостаточно опыта…</p>
-<ol class="mt-6 space-y-4">
-<li class="flex gap-4"><span class="shrink-0 font-bold text-[#64cefb]">01</span><p class="text-base leading-relaxed text-white/75">Казалось, что у меня нет релевантного опыта для стажировки</p></li>
-<li class="flex gap-4"><span class="shrink-0 font-bold text-[#64cefb]">02</span><p class="text-base leading-relaxed text-white/75">Получил 4 оффера после стажировки в Альфа-Банке</p></li>
-<li class="flex gap-4"><span class="shrink-0 font-bold text-[#64cefb]">03</span><p class="text-base leading-relaxed text-white/75">В 21 год стал Product Owner в Альфа-Банке</p></li>
-<li class="flex gap-4"><span class="shrink-0 font-bold text-[#64cefb]">04</span><p class="text-base leading-relaxed text-white/75">За год вырос до Middle Product Manager</p></li>
-</ol>
-<p class="mt-8 text-base leading-relaxed text-white/75">Теперь помогаю студентам превратить свой опыт в сильный старт карьеры в Product.</p>
-</div>
-</div>
+<p class="expert-marquee-label">опыт менторства и преподавания</p>
 </article>
-<p class="expert-marquee-label">Эксперт в</p>
 </div>
 <div class="logo-marquee" aria-label="Эксперт в компаниях и проектах">
 <div class="logo-marquee-viewport">
 <div class="logo-marquee-track" data-expert-marquee-track></div>
 </div>
 </div>
+<div id="expert-scroll-sentinel" class="h-px w-full" aria-hidden="true"></div>
 </section>
 <section class="page-gutter relative py-12 md:py-16" id="curriculum">
-<div class="mx-auto max-w-7xl" data-section-chips data-track-branches>
+<div class="mx-auto max-w-7xl">
 <h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl">Услуги</h2>
-<div class="section-chip-tabs" role="tablist" aria-label="Ветки треков">
-<button type="button" class="section-chip chip-active" role="tab" id="curriculum-tab-career" aria-selected="true" aria-controls="curriculum-panel-career" data-chip-tab="career">Карьерный трек</button>
-<button type="button" class="section-chip" role="tab" id="curriculum-tab-product" aria-selected="false" aria-controls="curriculum-panel-product" data-chip-tab="product">Продуктовый трек</button>
+<div data-services-expert-chips>
+<div class="section-chip-panels">
+<div data-chip-panel="nastya" class="is-active" role="tabpanel" id="services-expert-panel-nastya">
+<div data-section-chips data-services-chips>
+<div class="section-chip-tabs" role="tablist" aria-label="Форматы услуг">
+<button type="button" class="section-chip chip-active" role="tab" id="services-tab-consult" aria-selected="true" aria-controls="services-panel-consult" data-chip-tab="consult">Консультация</button>
+<button type="button" class="section-chip" role="tab" id="services-tab-mentor" aria-selected="false" aria-controls="services-panel-mentor" data-chip-tab="mentor">Менторство</button>
 </div>
 <div class="section-chip-panels">
-<div class="is-active" role="tabpanel" id="curriculum-panel-career" aria-labelledby="curriculum-tab-career" data-chip-panel="career">
-<div class="track-cards" data-cols="2">
+<div data-chip-panel="consult" class="is-active" role="tabpanel" id="services-panel-consult" aria-labelledby="services-tab-consult">
+<div class="track-cards" data-cols="3">
 <article class="track-card">
-<span class="track-card-num">01</span>
-<h3 class="track-card-title"><a href="tracks/career/consult.html" class="text-inherit no-underline hover:text-[#64cefb] transition-colors">Консультация</a></h3>
-<p class="track-card-text">Разовый разбор ситуации: куда двигаться, как упаковать опыт и какие шаги дать максимальный эффект.</p>
-<a class="track-more" href="tracks/career/consult.html">Подробнее</a>
+<h3 class="track-card-title">Q&amp;A</h3>
+<p class="track-card-text">Ответы на вопросы по входу в IT: как начать поиск, куда обращаться и как выстроить процесс.</p>
+<p class="track-card-price">5 000 ₽</p>
+<p class="track-card-meta">1 час · онлайн</p>
+<button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-nastya-qa">Подробнее</button>
+<div class="track-detail" id="track-detail-nastya-qa" hidden>
+<ul class="track-detail-list">
+<li><strong>Как начать поиск</strong>С чего стартовать, если хотите зайти в IT или продукт.</li>
+<li><strong>Куда обращаться</strong>Какие каналы, компании и форматы отклика работают.</li>
+<li><strong>Как выстроить процесс</strong>Что делать по шагам, чтобы не хаотично метаться.</li>
+</ul>
+<p class="track-detail-note">Подойдёт, если хотите разобраться с нуля или уточнить конкретные шаги.</p>
+<a class="track-detail-cta" href="https://t.me/neradana" target="_blank" rel="noopener noreferrer">Записаться</a>
+</div>
 </article>
+<article class="track-card">
+<h3 class="track-card-title">Стратегия и план</h3>
+<p class="track-card-text">Разбираем ситуацию и выстраиваем персональную стратегию с чёткими шагами по поиску работы и росту в карьере.</p>
+<p class="track-card-price">8 000 ₽</p>
+<p class="track-card-meta">1 час · онлайн</p>
+<button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-nastya-strategy">Подробнее</button>
+<div class="track-detail" id="track-detail-nastya-strategy" hidden>
+<ul class="track-detail-list">
+<li><strong>Разбор ситуации</strong>Текущая точка, цели и ограничения.</li>
+<li><strong>Персональная стратегия</strong>По поиску работы или росту в карьере.</li>
+<li><strong>Чёткие шаги</strong>Уходите с готовым планом действий.</li>
+</ul>
+<a class="track-detail-cta" href="https://t.me/neradana" target="_blank" rel="noopener noreferrer">Записаться</a>
+</div>
+</article>
+<article class="track-card">
+<h3 class="track-card-title">Разбор резюме</h3>
+<p class="track-card-text">Детальный анализ резюме: структура, формулировки, ключевые слова и подача опыта под нужную вакансию.</p>
+<p class="track-card-price">5 000 ₽</p>
+<p class="track-card-meta">30 минут · онлайн</p>
+<button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-nastya-resume">Подробнее</button>
+<div class="track-detail" id="track-detail-nastya-resume" hidden>
+<ul class="track-detail-list">
+<li><strong>Структура</strong>Логика подачи и читаемость для рекрутера.</li>
+<li><strong>Формулировки</strong>Как описать опыт сильнее и конкретнее.</li>
+<li><strong>Ключевые слова</strong>Под нужную вакансию и ATS.</li>
+<li><strong>Подача опыта</strong>Конкретные рекомендации по улучшению.</li>
+</ul>
+<a class="track-detail-cta" href="https://t.me/neradana" target="_blank" rel="noopener noreferrer">Записаться</a>
+</div>
+</article>
+</div>
+</div>
+<div data-chip-panel="mentor" role="tabpanel" id="services-panel-mentor" aria-labelledby="services-tab-mentor">
+<div class="track-cards" data-cols="1">
 <article class="track-card track-card-wide">
-<span class="track-card-num">02</span>
-<h3 class="track-card-title"><a href="tracks/career/support.html" class="text-inherit no-underline hover:text-[#64cefb] transition-colors">Сопровождение</a></h3>
-<p class="track-card-text">Ведение от первого запроса до оффера: стратегия поиска, упаковка, отклики, интервью и переговоры.</p>
-<p class="track-flow-label">Как устроен путь</p>
-<div class="track-cjm-scroll">
-<ol class="track-flow" aria-label="Путь сопровождения">
-<li>
-<div class="track-flow-node is-start">
-<p class="track-flow-who">ты</p>
-<p class="track-flow-title">Заявка</p>
-<p class="track-flow-text">бриф и цели</p>
+<h3 class="track-card-title">Менторство</h3>
+<p class="track-card-text">Стартовая встреча, аудит резюме и LinkedIn, стратегия перехода, подготовка к интервью и постоянная поддержка в чате. Дополнительно: стратегическая консультация для менти (−50%, 4 000 ₽) и мок-интервью (5 000 ₽).</p>
+<p class="track-card-price">20 000 ₽ / месяц · 30 000 ₽ / 2 месяца</p>
+<p class="track-card-meta">Пакеты на 2–3 месяца — по запросу</p>
+<button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-nastya-mentor">Подробнее</button>
+<div class="track-detail" id="track-detail-nastya-mentor" hidden>
+<ul class="track-detail-list">
+<li><strong>Стартовая встреча</strong>Разбор текущей ситуации, целей и составление плана.</li>
+<li><strong>Аудит резюме и LinkedIn</strong>Доработка под целевые роли.</li>
+<li><strong>Стратегия перехода и поиска</strong>Какие компании, как заходить, что подтянуть.</li>
+<li><strong>Подготовка к интервью</strong>Разбор вопросов, кейсов и форматов отбора.</li>
+<li><strong>Поддержка в чате</strong>Ответы между сессиями по ходу работы.</li>
+<li><strong>Стратегическая консультация для менти</strong>Со скидкой 50% — 4 000 ₽.</li>
+<li><strong>Мок-интервью</strong>5 000 ₽.</li>
+</ul>
+<a class="track-detail-cta" href="https://t.me/neradana" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
-</li>
-<li class="track-flow-edge" aria-hidden="true" data-label><span>старт</span></li>
-<li>
-<div class="track-flow-node is-screen">
-<div class="track-flow-chrome" aria-hidden="true"><i></i><i></i><i></i></div>
-<div class="track-flow-body">
-<p class="track-flow-who">сессия</p>
-<p class="track-flow-title">Диагностика</p>
-<p class="track-flow-text">профиль, рынок, пробелы</p>
-</div>
-</div>
-</li>
-<li class="track-flow-edge is-soft" aria-hidden="true"></li>
-<li>
-<div class="track-flow-node is-action">
-<p class="track-flow-who">план</p>
-<p class="track-flow-title">Дорожная карта</p>
-<p class="track-flow-text">4–8 недель, приоритеты</p>
-</div>
-</li>
-<li class="track-flow-edge" aria-hidden="true" data-label><span>выход</span></li>
-<li>
-<div class="track-flow-node is-artifact">
-<p class="track-flow-who">артефакты</p>
-<p class="track-flow-title">Упаковка</p>
-<p class="track-flow-text">готовые материалы под рынок</p>
-<div class="track-flow-chips">
-<span>резюме</span>
-<span>LinkedIn</span>
-<span>кейсы</span>
-</div>
-</div>
-</li>
-<li class="track-flow-edge" aria-hidden="true" data-label><span>на рынок</span></li>
-<li>
-<div class="track-flow-node is-action">
-<p class="track-flow-who">поиск</p>
-<p class="track-flow-title">Воронка</p>
-<p class="track-flow-text">отклики и приоритеты</p>
-</div>
-</li>
-<li class="track-flow-edge is-soft" aria-hidden="true" data-label><span>в цикл</span></li>
-<li>
-<div class="track-flow-loop">
-<span class="track-flow-loop-tag">цикл</span>
-<div class="track-flow-loop-row">
-<span class="material-symbols-outlined" aria-hidden="true">record_voice_over</span>
-<div>
-<strong>Интервью</strong>
-<span>подготовка к компании</span>
-</div>
-</div>
-<div class="track-flow-loop-cycle">
-<span class="material-symbols-outlined" aria-hidden="true">replay</span>
-разбор → правки → снова
-</div>
-<div class="track-flow-loop-row">
-<span class="material-symbols-outlined" aria-hidden="true">rate_review</span>
-<div>
-<strong>Разбор</strong>
-<span>что сработало / что нет</span>
+</article>
 </div>
 </div>
 </div>
-</li>
-<li class="track-flow-edge" aria-hidden="true" data-label><span>есть?</span></li>
-<li>
-<div class="track-flow-node is-decision">
-<p class="track-flow-who">развилка</p>
-<p class="track-flow-title">Оффер?</p>
-<p class="track-flow-text">выбор и переговоры</p>
 </div>
-</li>
-<li class="track-flow-edge" aria-hidden="true" data-label><span>да</span></li>
-<li>
-<div class="track-flow-node is-end">
-<span class="material-symbols-outlined" aria-hidden="true">verified</span>
-<p class="track-flow-who">результат</p>
-<p class="track-flow-title">Оффер</p>
-<p class="track-flow-text">закрываем поиск</p>
 </div>
-</li>
-</ol>
+<div data-chip-panel="danya" role="tabpanel" id="services-expert-panel-danya">
+<div data-section-chips data-services-chips>
+<div class="section-chip-tabs" role="tablist" aria-label="Форматы услуг">
+<button type="button" class="section-chip chip-active" role="tab" id="danya-services-tab-consult" aria-selected="true" aria-controls="danya-services-panel-consult" data-chip-tab="danya-consult">Консультация</button>
+<button type="button" class="section-chip" role="tab" id="danya-services-tab-mentor" aria-selected="false" aria-controls="danya-services-panel-mentor" data-chip-tab="danya-mentor">Менторство</button>
 </div>
-<a class="track-more" href="tracks/career/support.html">Подробнее</a>
+<div class="section-chip-panels">
+<div data-chip-panel="danya-consult" class="is-active" role="tabpanel" id="danya-services-panel-consult" aria-labelledby="danya-services-tab-consult">
+<div class="track-cards" data-cols="3">
+<article class="track-card">
+<h3 class="track-card-title">Q&amp;A</h3>
+<p class="track-card-text">Ответы на вопросы по старту карьеры в IT и менеджменте: как искать, куда обращаться и как выстроить процесс. Подойдёт, если хотите разобраться с нуля или уточнить конкретные шаги.</p>
+<p class="track-card-price">2 000 ₽</p>
+<p class="track-card-meta">1 час · онлайн</p>
+<a class="track-more" href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer">Записаться</a>
 </article>
 <article class="track-card">
-<span class="track-card-num">03</span>
-<h3 class="track-card-title"><a href="tracks/career/mentor.html" class="text-inherit no-underline hover:text-[#64cefb] transition-colors">Менторство</a></h3>
-<p class="track-card-text">Регулярные сессии с фокусом на карьерный трек: навыки, решения на развилках и устойчивый прогресс.</p>
-<a class="track-more" href="tracks/career/mentor.html">Подробнее</a>
+<h3 class="track-card-title">Стратегия и пошаговый план</h3>
+<p class="track-card-text">Разбираем вашу ситуацию и вместе выстраиваем персональную стратегию с чёткими шагами по поиску работы и старту карьеры.</p>
+<p class="track-card-price">3 000 ₽</p>
+<p class="track-card-meta">1 час · онлайн</p>
+<a class="track-more" href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer">Записаться</a>
+</article>
+<article class="track-card">
+<h3 class="track-card-title">Разбор резюме</h3>
+<p class="track-card-text">Детальный анализ резюме: структура, формулировки, ключевые слова, подача опыта и переупаковка «нерелевантного» опыта. Получите конкретные шаги и инсайты по резюме, которое понравится рекрутерам.</p>
+<p class="track-card-price">2 000 ₽</p>
+<p class="track-card-meta">30 минут · онлайн</p>
+<a class="track-more" href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer">Записаться</a>
 </article>
 </div>
 </div>
-<div role="tabpanel" id="curriculum-panel-product" aria-labelledby="curriculum-tab-product" data-chip-panel="product">
-<div class="track-cards" data-cols="2">
-<article class="track-card">
-<span class="track-card-num">01</span>
-<h3 class="track-card-title"><a href="tracks/product/consult.html" class="text-inherit no-underline hover:text-[#64cefb] transition-colors">Консультация</a></h3>
-<p class="track-card-text">Разбор продуктовой задачи, гипотезы или кейса — с практическими рекомендациями под вашу роль.</p>
-<a class="track-more" href="tracks/product/consult.html">Подробнее</a>
+<div data-chip-panel="danya-mentor" role="tabpanel" id="danya-services-panel-mentor" aria-labelledby="danya-services-tab-mentor">
+<div class="track-cards" data-cols="1">
+<article class="track-card track-card-wide">
+<h3 class="track-card-title">Менторство</h3>
+<p class="track-card-text">Стартовая встреча — разбор текущей ситуации, целей и составление плана. Аудит и доработка резюме. Создание и ведение LinkedIn. Стратегия поиска: какие компании, как заходить, что подтянуть, где поучаствовать. Подготовка к интервью. Постоянная поддержка в чате.</p>
+<p class="track-card-price">10 000 ₽ / месяц</p>
+<p class="track-card-meta">онлайн</p>
+<a class="track-more" href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer">Записаться</a>
 </article>
-<article class="track-card">
-<span class="track-card-num">02</span>
-<h3 class="track-card-title"><a href="tracks/product/mentor.html" class="text-inherit no-underline hover:text-[#64cefb] transition-colors">Менторство</a></h3>
-<p class="track-card-text">Сопровождение в продуктовой роли: гипотезы, метрики, командная работа и рост как PM.</p>
-<a class="track-more" href="tracks/product/mentor.html">Подробнее</a>
-</article>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2562,21 +3423,22 @@
 </section>
 <section class="page-gutter relative py-12 md:py-16" id="guide">
 <div class="mx-auto max-w-7xl w-full">
-<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl">Гайд по входу в IT</h2>
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl">Гайд по входу в&nbsp;IT</h2>
 <div class="w-full rounded-xl border border-white/10 bg-surface-container-low p-10 shadow-[0_0_0_1px_rgba(100,206,251,0.06)] backdrop-blur-xl md:p-14">
 <p class="text-pretty text-base leading-relaxed text-white/75">Короткий гайд: как выбрать направление, упаковать опыт и сделать первые шаги к стажировке или junior-роли — отправлю в Telegram.</p>
-<form class="mt-8 space-y-6" action="#" method="post">
+<form class="mt-8 space-y-6" id="guide-form" action="#" method="post" data-guide-api="" data-bot-username="career67_bot">
 <div>
 <label class="block text-xs font-bold uppercase tracking-wider text-white/55" for="guide-telegram">Ник в Telegram</label>
-<input id="guide-telegram" name="telegram" type="text" autocomplete="username" inputmode="text" required class="mt-2 w-full border-0 border-b border-white/20 bg-transparent py-2.5 text-base text-white outline-none ring-0 placeholder:text-white/55 focus:border-[#64cefb]" placeholder="@username"/>
+<input id="guide-telegram" name="telegram" type="text" autocomplete="username" inputmode="text" required class="guide-field" placeholder="@username"/>
 </div>
 <label class="flex cursor-pointer items-start gap-3 text-left text-base leading-relaxed text-white/75">
-<input id="guide-consent" name="consent" type="checkbox" required class="mt-1 h-4 w-4 shrink-0 rounded border-white/25 bg-black/40 text-[#64cefb] accent-[#64cefb] focus:ring-2 focus:ring-[#64cefb]/30"/>
-<span>Согласен(-на) с обработкой персональных данных. <a class="font-medium text-[#64cefb] underline decoration-[#64cefb]/50 underline-offset-2 transition-colors hover:text-[#8ddcf9]" href="#">Политика конфиденциальности</a></span>
+<input id="guide-consent" name="consent" type="checkbox" required class="guide-checkbox mt-1 h-4 w-4 shrink-0 rounded border-white/25 bg-black/40 text-[#64cefb] accent-[#64cefb]"/>
+<span>Соглашаюсь с <a class="font-medium text-[#64cefb] underline decoration-[#64cefb]/50 underline-offset-2 transition-colors hover:text-[#8ddcf9]" href="personal-data-consent.html">Согласием на обработку персональных данных</a> и <a class="font-medium text-[#64cefb] underline decoration-[#64cefb]/50 underline-offset-2 transition-colors hover:text-[#8ddcf9]" href="privacy-policy.html">Политикой конфиденциальности</a></span>
 </label>
 <div class="flex justify-center pt-2">
-<button type="submit" class="rounded-full bg-[#64cefb] px-7 py-2.5 text-xs font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_6px_18px_rgba(100,206,251,0.28)] transition-colors hover:bg-[#4cb8e5]">Получить гайд</button>
+<button type="submit" id="guide-submit" class="rounded-full bg-[#64cefb] px-7 py-2.5 text-xs font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_6px_18px_rgba(100,206,251,0.28)] transition-colors hover:bg-[#4cb8e5] disabled:cursor-not-allowed disabled:opacity-60">Получить гайд</button>
 </div>
+<p id="guide-status" class="text-center text-sm leading-relaxed text-white/70" role="status" aria-live="polite" hidden></p>
 </form>
 </div>
 </div>
@@ -2662,49 +3524,49 @@
 <div class="mx-auto max-w-7xl">
 <h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="faq-heading">Ответы на вопросы</h2>
 <div class="space-y-3 w-full">
-<div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
+<div class="faq-item rounded-lg border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
 <button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-1" aria-controls="faq-a-1">
-<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Кому подойдёт менторство, если у меня нет опыта в продукте?</span>
+<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Кому подойдёт менторство, если у вас нет опыта в продукте?</span>
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-1" role="region" aria-labelledby="faq-q-1">
-<p class="pt-4 text-base leading-relaxed text-white/75">Подойдёт тем, кто делает первые шаги: смена профессии, стажировки, кейсы с учёбы. На разборе посмотрим ваш бэкграунд, цели и составим реалистичный план — от навыков до портфолио и откликов.</p>
+<p class="text-base leading-relaxed text-white/75">Подойдёт тем, кто делает первые шаги: смена профессии, стажировки, кейсы с учёбы. На разборе посмотрим ваш бэкграунд, цели и составим реалистичный план — от навыков до портфолио и откликов.</p>
 </div>
 </div>
-<div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
+<div class="faq-item rounded-lg border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
 <button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-2" aria-controls="faq-a-2">
-<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Чем отличаются консультация, интенсив и сопровождение?</span>
+<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Чем отличаются форматы консультации и менторство?</span>
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-2" role="region" aria-labelledby="faq-q-2">
-<p class="pt-4 text-base leading-relaxed text-white/75">Консультация — разовая сессия с разбором кейса и планом. Интенсив — плотные практические встречи с фидбэком. Сопровождение — длительная работа: регулярные созвоны, подготовка к собесам и сопровождение до сильного оффера в рамках договорённостей.</p>
+<p class="text-base leading-relaxed text-white/75">Консультация — разовая сессия: Q&amp;A (1 час), стратегия с планом (1 час) или разбор резюме (30 минут). Менторство — работа на 1–3 месяца: стартовая встреча, аудит резюме и LinkedIn, стратегия перехода, подготовка к интервью и поддержка в чате.</p>
 </div>
 </div>
-<div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
+<div class="faq-item rounded-lg border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
 <button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-3" aria-controls="faq-a-3">
 <span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Помогаете с резюме, портфолио и продуктовыми тестовыми?</span>
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-3" role="region" aria-labelledby="faq-q-3">
-<p class="pt-4 text-base leading-relaxed text-white/75">Да: структура резюме, формулировки достижений, портфолио-кейсы, разбор take-home и продуктовых заданий, разбор вопросов с собесов — в зависимости от выбранного формата.</p>
+<p class="text-base leading-relaxed text-white/75">Да: структура резюме, формулировки достижений, портфолио-кейсы, разбор take-home и продуктовых заданий, разбор вопросов с собесов — в зависимости от выбранного формата.</p>
 </div>
 </div>
-<div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
+<div class="faq-item rounded-lg border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
 <button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-4" aria-controls="faq-a-4">
-<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Можно ли учиться, если я уже работаю не в IT?</span>
+<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Можно ли учиться, если вы уже работаете не в IT?</span>
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-4" role="region" aria-labelledby="faq-q-4">
-<p class="pt-4 text-base leading-relaxed text-white/75">Можно. PM — про аналитику, коммуникации и поставку ценности пользователю. Опыт из банка, e-commerce, маркетинга, консалтинга часто усиливают картину — важно его правильно упаковать в историю и артефакты.</p>
+<p class="text-base leading-relaxed text-white/75">Можно. PM — про аналитику, коммуникации и поставку ценности пользователю. Опыт из банка, e-commerce, маркетинга, консалтинга часто усиливают картину — важно его правильно упаковать в историю и артефакты.</p>
 </div>
 </div>
-<div class="faq-item rounded-xl border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
+<div class="faq-item rounded-lg border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
 <button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-5" aria-controls="faq-a-5">
 <span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Как проходят встречи — онлайн и в каком формате?</span>
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-5" role="region" aria-labelledby="faq-q-5">
-<p class="pt-4 text-base leading-relaxed text-white/75">По согласованию — в основном онлайн (созвоны, шаринг экрана, разбор в Miro/Notion). Продолжительность и ритм фиксируем до старта, чтобы укладываться в ваши дедлайны и учёбу.</p>
+<p class="text-base leading-relaxed text-white/75">По согласованию — в основном онлайн (созвоны, шаринг экрана, разбор в Miro/Notion). Продолжительность и ритм фиксируем до старта, чтобы укладываться в ваши дедлайны и учёбу.</p>
 </div>
 </div>
 </div>
@@ -2716,6 +3578,16 @@
 </div>
 </div>
 </section>
+<footer class="site-footer page-gutter" aria-label="Юридическая информация">
+<div class="mx-auto max-w-7xl">
+<nav class="site-footer-nav" aria-label="Документы">
+<a href="offer.html">Оферта</a>
+<a href="privacy-policy.html">Политика конфиденциальности</a>
+<a href="personal-data-consent.html">Согласие на обработку персональных данных</a>
+<a href="cookie-policy.html">Политика cookie</a>
+</nav>
+</div>
+</footer>
 </div>
 </div>
 <div class="doc-lightbox" id="doc-lightbox" aria-hidden="true">
@@ -2796,8 +3668,9 @@
         const HERO_STATIC_CREATIVE = true;
         const btnAll = document.getElementById('toggle-all');
         const btnStudents = document.getElementById('toggle-students');
-        const navIds = ['expert', 'curriculum', 'guide', 'reviews'];
+        const navIds = ['audience', 'expert', 'curriculum', 'guide', 'reviews'];
         const scrollSpyChain = [
+            { id: 'audience', href: '#audience' },
             { id: 'expert', href: '#expert' },
             { id: 'curriculum', href: '#curriculum' },
             { id: 'guide', href: '#guide' },
@@ -3020,7 +3893,7 @@
         function syncNavFromScroll() {
             /* Только реальный скролл — активный пункт не «убегает» вперёд от нуля. */
             const probe = window.scrollY;
-            let activeHref = '#expert';
+            let activeHref = scrollSpyChain[0]?.href || '#audience';
             for (const row of scrollSpyChain) {
                 const el = document.getElementById(row.id);
                 if (el && docTop(el) <= probe) {
@@ -3097,15 +3970,20 @@
 
         (function initLogoMarquees() {
             const LOGO_PX_PER_SEC = 40;
+            const MARQUEE_ASSET_VERSION = '20260820156';
 
-            /* Одинаковый набор и правила отрисовки для обеих каруселей */
-            const SHARED_LOGOS = [
+            const EXPERT_LOGOS = [
                 { file: 'logo-alfa.png', alt: 'Альфа-Банк' },
-                { file: 'logo-mars.png', alt: 'Mars' },
-                { file: 'logo-t2.png', alt: 't2' },
-                { file: 'changellenge-logo.png', alt: 'Changellenge' },
                 { file: 'hse-logo.png', alt: 'ВШЭ' },
                 { file: 'cu-logo.png', alt: 'Центральный университет', wide: true, invert: true },
+                { file: 'logo-ranepa.png', alt: 'РАНХиГС' },
+            ];
+
+            const PLACEMENTS_LOGOS = [
+                { file: 'logo-alfa.png', alt: 'Альфа-Банк' },
+                { file: 'logo-sber.png', alt: 'Сбер' },
+                { file: 'logo-tbank.png', alt: 'Т-Банк' },
+                { file: 'logo-ozon.png', alt: 'Ozon' },
                 { file: 'logo-ranepa.png', alt: 'РАНХиГС' },
             ];
 
@@ -3115,7 +3993,7 @@
                 if (logo.wide) item.classList.add('is-wide');
                 if (logo.invert) item.classList.add('is-invert');
                 const img = document.createElement('img');
-                img.src = `assets/marquee/${logo.file}`;
+                img.src = `assets/marquee/${logo.file}?v=${MARQUEE_ASSET_VERSION}`;
                 img.alt = logo.alt;
                 img.loading = 'lazy';
                 img.decoding = 'async';
@@ -3125,13 +4003,13 @@
                 return item;
             }
 
-            function fillTrack(track) {
+            function fillTrack(track, logos) {
                 if (!track) return;
                 track.replaceChildren();
                 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 const copies = reduce ? 1 : 4;
                 for (let c = 0; c < copies; c += 1) {
-                    SHARED_LOGOS.forEach((logo) => track.appendChild(makeItem(logo)));
+                    logos.forEach((logo) => track.appendChild(makeItem(logo)));
                 }
                 if (reduce) return;
                 requestAnimationFrame(() => {
@@ -3141,8 +4019,8 @@
                 });
             }
 
-            fillTrack(document.querySelector('[data-expert-marquee-track]'));
-            fillTrack(document.querySelector('[data-placements-marquee-track]'));
+            fillTrack(document.querySelector('[data-expert-marquee-track]'), EXPERT_LOGOS);
+            fillTrack(document.querySelector('[data-placements-marquee-track]'), PLACEMENTS_LOGOS);
         })();
 
         (function initReviewVideoControls() {
@@ -3333,9 +4211,7 @@
         })();
 
         (function initAudienceStack() {
-            const section = document.querySelector('[data-audience-stack]');
-            if (!section) return;
-
+            document.querySelectorAll('[data-audience-stack]').forEach((section) => {
             const stack = section.querySelector('.audience-stack');
             const cards = Array.from(section.querySelectorAll('[data-audience-card]'));
             const dotsWrap = section.querySelector('.audience-stack-dots');
@@ -3358,12 +4234,18 @@
 
             function measureCardHeight() {
                 if (reduceMotion()) return;
+                const hiddenHost = section.closest('[data-global-expert-panel]');
+                const wasHidden = hiddenHost && hiddenHost.hidden;
+                if (wasHidden) hiddenHost.hidden = false;
                 const width = stack.clientWidth || stack.offsetWidth;
-                if (!width) return;
+                if (!width) {
+                    if (wasHidden) hiddenHost.hidden = true;
+                    return;
+                }
                 let maxH = 0;
                 cards.forEach((card) => {
                     const clone = card.cloneNode(true);
-                    clone.classList.remove('is-dismissed');
+                    clone.classList.remove('is-dismissed', 'is-stack-hidden');
                     clone.style.cssText = [
                         'position:static',
                         'inset:auto',
@@ -3382,6 +4264,7 @@
                     const stackPad = Math.min(cards.length - 1, 3) * 16;
                     section.style.setProperty('--audience-card-h', `${Math.ceil(maxH + stackPad + 8)}px`);
                 }
+                if (wasHidden) hiddenHost.hidden = true;
             }
 
             function setActive(index) {
@@ -3389,9 +4272,13 @@
                 cards.forEach((card, i) => {
                     const dismissed = i < active;
                     const stackI = dismissed ? 0 : i - active;
+                    const stackHidden = !dismissed && stackI > 3;
                     card.classList.remove('is-behind');
                     card.classList.toggle('is-dismissed', dismissed);
-                    card.style.setProperty('--stack-i', String(Math.max(0, stackI)));
+                    card.classList.toggle('is-stack-hidden', stackHidden);
+                    if (!dismissed && !stackHidden) {
+                        card.style.setProperty('--stack-i', String(stackI));
+                    }
                     card.style.zIndex = String(cards.length - i);
                     card.style.transform = '';
                     card.style.opacity = '';
@@ -3469,10 +4356,140 @@
 
             measureCardHeight();
             setActive(0);
+            section.__audienceRefresh = (options = {}) => {
+                if (options.reset) active = 0;
+                measureCardHeight();
+                setActive(active);
+            };
             window.addEventListener('resize', () => {
                 measureCardHeight();
                 setActive(active);
             });
+            });
+        })();
+
+        (function initGlobalExpert() {
+            const STORAGE_KEY = 'site-expert';
+            const DISABLED_EXPERTS = new Set(['danya']);
+            const expertPeople = document.getElementById('expert-people');
+            const servicesExpert = document.querySelector('[data-services-expert-chips]');
+            const stickyCta = document.getElementById('sticky-consult-cta');
+            const heroCta = document.getElementById('hero-contact-cta');
+            const stickyToggle = document.getElementById('expert-sticky-toggle');
+            const expertSentinel = document.getElementById('expert-scroll-sentinel');
+
+            function activateChipRoot(root, key) {
+                if (!root) return;
+                const tabs = Array.from(root.querySelectorAll(':scope > .section-chip-tabs [data-chip-tab]'));
+                const panels = Array.from(root.querySelectorAll(':scope > .section-chip-panels > [data-chip-panel]'));
+                tabs.forEach((tab) => {
+                    const on = tab.getAttribute('data-chip-tab') === key;
+                    tab.classList.toggle('chip-active', on);
+                    if (tab.hasAttribute('aria-selected')) tab.setAttribute('aria-selected', on ? 'true' : 'false');
+                });
+                panels.forEach((panel) => {
+                    const on = panel.getAttribute('data-chip-panel') === key;
+                    panel.classList.toggle('is-active', on);
+                });
+            }
+
+            function activateServicesExpert(key) {
+                if (!servicesExpert) return;
+                servicesExpert.querySelectorAll(':scope > .section-chip-panels > [data-chip-panel]').forEach((panel) => {
+                    panel.classList.toggle('is-active', panel.getAttribute('data-chip-panel') === key);
+                });
+            }
+
+            function setExpert(id) {
+                if (DISABLED_EXPERTS.has(id)) id = 'nastya';
+                if (id !== 'nastya' && id !== 'danya') id = 'nastya';
+                try {
+                    localStorage.setItem(STORAGE_KEY, id);
+                } catch (e) {}
+
+                expertPeople?.querySelectorAll('[data-global-expert]').forEach((btn) => {
+                    const on = btn.getAttribute('data-global-expert') === id;
+                    btn.classList.toggle('chip-active', on);
+                    if (btn.hasAttribute('aria-selected')) btn.setAttribute('aria-selected', on ? 'true' : 'false');
+                });
+
+                stickyToggle?.querySelectorAll('[data-global-expert]').forEach((btn) => {
+                    const on = btn.getAttribute('data-global-expert') === id;
+                    btn.classList.toggle('is-active', on);
+                    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+                });
+
+                document.querySelectorAll('[data-global-expert-panel]').forEach((el) => {
+                    const on = el.getAttribute('data-global-expert-panel') === id;
+                    el.hidden = !on;
+                });
+
+                if (stickyCta) {
+                    const href = stickyCta.getAttribute('data-contact-' + id);
+                    if (href) stickyCta.href = href;
+                }
+
+                if (heroCta) {
+                    const href = heroCta.getAttribute('data-contact-' + id);
+                    if (href) heroCta.href = href;
+                }
+
+                activateChipRoot(expertPeople, id);
+                activateServicesExpert(id);
+
+                requestAnimationFrame(() => {
+                    const panel = document.querySelector('[data-global-expert-panel="' + id + '"]');
+                    panel?.querySelector('[data-audience-stack]')?.__audienceRefresh?.({ reset: true });
+                });
+            }
+
+            expertPeople?.querySelectorAll('[data-global-expert]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('data-global-expert');
+                    if (DISABLED_EXPERTS.has(id) || btn.disabled) return;
+                    setExpert(id);
+                });
+            });
+
+            stickyToggle?.querySelectorAll('[data-global-expert]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const id = btn.getAttribute('data-global-expert');
+                    if (DISABLED_EXPERTS.has(id) || btn.disabled) return;
+                    setExpert(id);
+                });
+            });
+
+            if (stickyToggle && expertSentinel) {
+                const syncStickyToggle = (show) => {
+                    stickyToggle.classList.toggle('is-visible', show);
+                };
+
+                if ('IntersectionObserver' in window) {
+                    const io = new IntersectionObserver(
+                        ([entry]) => {
+                            syncStickyToggle(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+                        },
+                        { root: null, threshold: 0 }
+                    );
+                    io.observe(expertSentinel);
+                } else {
+                    const onScroll = () => {
+                        syncStickyToggle(expertSentinel.getBoundingClientRect().top < 0);
+                    };
+                    window.addEventListener('scroll', onScroll, { passive: true });
+                    onScroll();
+                }
+            }
+
+            if (DISABLED_EXPERTS.has('danya') && stickyToggle) {
+                stickyToggle.hidden = true;
+            }
+
+            let saved = 'nastya';
+            try {
+                saved = localStorage.getItem(STORAGE_KEY) || 'nastya';
+            } catch (e) {}
+            setExpert(saved);
         })();
 
         (function initSectionChips() {
@@ -3508,18 +4525,22 @@
 
                 tabs.forEach((tab, index) => {
                     tab.addEventListener('click', () => {
+                        if (tab.disabled || tab.hasAttribute('data-expert-disabled')) return;
                         activate(root, tab.getAttribute('data-chip-tab'));
                     });
                     tab.addEventListener('keydown', (event) => {
                         if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft' && event.key !== 'Home' && event.key !== 'End') return;
                         event.preventDefault();
-                        let next = index;
-                        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
-                        if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
-                        if (event.key === 'Home') next = 0;
-                        if (event.key === 'End') next = tabs.length - 1;
-                        tabs[next].focus();
-                        activate(root, tabs[next].getAttribute('data-chip-tab'));
+                        const enabledTabs = tabs.filter((t) => !t.disabled && !t.hasAttribute('data-expert-disabled'));
+                        if (!enabledTabs.length) return;
+                        let nextIndex = enabledTabs.indexOf(tab);
+                        if (nextIndex === -1) nextIndex = 0;
+                        if (event.key === 'ArrowRight') nextIndex = (nextIndex + 1) % enabledTabs.length;
+                        if (event.key === 'ArrowLeft') nextIndex = (nextIndex - 1 + enabledTabs.length) % enabledTabs.length;
+                        if (event.key === 'Home') nextIndex = 0;
+                        if (event.key === 'End') nextIndex = enabledTabs.length - 1;
+                        enabledTabs[nextIndex].focus();
+                        activate(root, enabledTabs[nextIndex].getAttribute('data-chip-tab'));
                     });
                 });
 
@@ -3536,6 +4557,7 @@
                     if (!detail) return;
                     const open = !detail.classList.contains('is-open');
                     detail.classList.toggle('is-open', open);
+                    detail.hidden = !open;
                     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
                     btn.textContent = open ? 'Скрыть' : 'Подробнее';
                 });
@@ -3716,6 +4738,117 @@
                 } else if (!event.shiftKey && document.activeElement === last) {
                     event.preventDefault();
                     first.focus();
+                }
+            });
+        })();
+
+        (function initGuideForm() {
+            const form = document.getElementById('guide-form');
+            const telegramInput = document.getElementById('guide-telegram');
+            const consentInput = document.getElementById('guide-consent');
+            const submitBtn = document.getElementById('guide-submit');
+            const statusEl = document.getElementById('guide-status');
+            if (!form || !telegramInput || !consentInput || !submitBtn || !statusEl) return;
+
+            const TELEGRAM_RE = /^[a-zA-Z][a-zA-Z0-9_]{3,31}$/;
+            const guideApi = (form.getAttribute('data-guide-api') || '').trim();
+            const botUsername = (form.getAttribute('data-bot-username') || '').trim().replace(/^@/, '');
+
+            function normalizeUsername(value) {
+                return value.trim().replace(/^@+/, '');
+            }
+
+            function setStatus(message, isError) {
+                statusEl.hidden = !message;
+                statusEl.textContent = message;
+                statusEl.classList.toggle('text-red-300', Boolean(isError));
+                statusEl.classList.toggle('text-white/70', !isError);
+            }
+
+            function validateTelegramField() {
+                const username = normalizeUsername(telegramInput.value);
+                if (!TELEGRAM_RE.test(username)) {
+                    telegramInput.setCustomValidity(
+                        'Введите корректный ник: латиница, цифры и _, от 5 до 32 символов, начинается с буквы.'
+                    );
+                    return null;
+                }
+                telegramInput.setCustomValidity('');
+                return username;
+            }
+
+            telegramInput.addEventListener('input', () => {
+                telegramInput.setCustomValidity('');
+                setStatus('', false);
+            });
+
+            consentInput.addEventListener('change', () => setStatus('', false));
+
+            function botUrl() {
+                if (!botUsername) return '';
+                return 'https://t.me/' + encodeURIComponent(botUsername) + '?start=guide';
+            }
+
+            function openBot(url) {
+                if (!url) return;
+                window.open(url, '_blank', 'noopener,noreferrer');
+            }
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                setStatus('', false);
+
+                if (!form.reportValidity()) return;
+
+                const username = validateTelegramField();
+                if (!username) {
+                    form.reportValidity();
+                    return;
+                }
+
+                if (!consentInput.checked) {
+                    consentInput.setCustomValidity('Нужно согласие на обработку персональных данных.');
+                    form.reportValidity();
+                    return;
+                }
+                consentInput.setCustomValidity('');
+
+                submitBtn.disabled = true;
+
+                try {
+                    let link = botUrl();
+
+                    if (guideApi) {
+                        const response = await fetch(guideApi, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ telegram: username, consent: true }),
+                        });
+
+                        const payload = await response.json().catch(() => ({}));
+                        if (!response.ok) {
+                            throw new Error(payload.detail || 'Не удалось отправить заявку. Попробуйте позже.');
+                        }
+
+                        link = payload.bot_url || link;
+                        setStatus(
+                            payload.message ||
+                                'Откройте бота в Telegram и нажмите «Start» — гайд придёт автоматически.',
+                            false
+                        );
+                    } else if (link) {
+                        setStatus('Откройте бота в Telegram и нажмите «Start» — гайд придёт автоматически.', false);
+                    } else {
+                        setStatus('Укажите data-bot-username у формы или подключите API бота.', true);
+                        return;
+                    }
+
+                    openBot(link);
+                    form.reset();
+                } catch (error) {
+                    setStatus(error.message || 'Ошибка отправки. Попробуйте позже.', true);
+                } finally {
+                    submitBtn.disabled = false;
                 }
             });
         })();
