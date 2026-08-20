@@ -98,6 +98,23 @@
             touch-action: manipulation;
             -ms-touch-action: manipulation;
             overscroll-behavior-x: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        ::selection {
+            background: transparent;
+        }
+
+        ::-moz-selection {
+            background: transparent;
+        }
+
+        input,
+        textarea,
+        [contenteditable="true"] {
+            -webkit-user-select: text;
+            user-select: text;
         }
 
         @supports not (overflow-x: clip) {
@@ -159,38 +176,6 @@
         select,
         textarea {
             font-size: 16px;
-        }
-
-        #guide-form .guide-field {
-            margin-top: 0.5rem;
-            width: 100%;
-            border: 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            background: transparent;
-            padding: 0.625rem 0;
-            font-size: 1rem;
-            color: #fff;
-            border-radius: 0;
-            transition: border-color 0.2s ease;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        #guide-form .guide-field::placeholder {
-            color: rgba(255, 255, 255, 0.55);
-        }
-
-        #guide-form .guide-field:focus,
-        #guide-form .guide-field:focus-visible {
-            outline: none;
-            box-shadow: none;
-            border-bottom-color: #64cefb;
-        }
-
-        #guide-form .guide-checkbox:focus,
-        #guide-form .guide-checkbox:focus-visible {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(100, 206, 251, 0.28);
         }
 
         @font-face {
@@ -268,6 +253,43 @@
             }
         }
 
+        /* Aceternity SquigglyText — vanilla port (SVG turbulence + displacement) */
+        .squiggly-text {
+            display: inline-block;
+            max-width: 100%;
+            color: inherit;
+            animation: squiggly-anim 0.4s linear infinite;
+            will-change: filter;
+        }
+
+        @keyframes squiggly-anim {
+            0% { filter: url(#squiggly-0); }
+            25% { filter: url(#squiggly-1); }
+            50% { filter: url(#squiggly-2); }
+            75% { filter: url(#squiggly-3); }
+            100% { filter: url(#squiggly-4); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .squiggly-text {
+                animation: none;
+                filter: none;
+            }
+
+            .shiny-text {
+                animation: none;
+                background-position: 40% center;
+            }
+        }
+
+        .squiggly-filters {
+            position: absolute;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
@@ -319,6 +341,7 @@
             border-radius: 1.15rem;
             background: rgba(255, 255, 255, 0.1);
             text-align: left;
+            overflow: hidden;
         }
 
         .hero-usp-title {
@@ -346,6 +369,103 @@
             font-size: 1.35rem !important;
             color: rgba(255, 255, 255, 0.92);
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Aceternity Glare Card — vanilla port (non-clickable cards only) */
+        .glare-card {
+            --m-x: 50%;
+            --m-y: 50%;
+            --r-x: 0deg;
+            --r-y: 0deg;
+            --bg-x: 50%;
+            --bg-y: 50%;
+            --duration: 300ms;
+            --opacity: 0;
+            --easing: ease;
+            position: relative;
+            isolation: isolate;
+            transform: perspective(600px) rotateX(var(--r-y)) rotateY(var(--r-x));
+            transform-style: preserve-3d;
+            transition: transform var(--duration) var(--easing);
+            will-change: transform;
+            overflow: hidden;
+        }
+
+        .glare-card-glare,
+        .glare-card-foil {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            border-radius: inherit;
+            opacity: var(--opacity);
+            transition: opacity var(--duration) var(--easing);
+        }
+
+        .glare-card-glare {
+            mix-blend-mode: soft-light;
+            background: radial-gradient(
+                farthest-corner circle at var(--m-x) var(--m-y),
+                rgba(100, 206, 251, 0.35) 0%,
+                rgba(46, 168, 212, 0.18) 28%,
+                transparent 72%
+            );
+        }
+
+        .glare-card-foil {
+            --step: 6%;
+            --rainbow: repeating-linear-gradient(
+                    0deg,
+                    #0a2433 calc(var(--step) * 1),
+                    #134a66 calc(var(--step) * 2),
+                    #1a6f94 calc(var(--step) * 3),
+                    #2a8fb8 calc(var(--step) * 4),
+                    #3a7a9a calc(var(--step) * 5),
+                    #0f3548 calc(var(--step) * 6),
+                    #0a2433 calc(var(--step) * 7)
+                )
+                0% var(--bg-y) / 200% 700% no-repeat;
+            --diagonal: repeating-linear-gradient(
+                    128deg,
+                    transparent 0%,
+                    rgba(100, 206, 251, 0.14) 3.8%,
+                    rgba(100, 206, 251, 0.22) 4.5%,
+                    rgba(100, 206, 251, 0.14) 5.2%,
+                    transparent 10%,
+                    transparent 12%
+                )
+                var(--bg-x) var(--bg-y) / 300% no-repeat;
+            --shade: radial-gradient(
+                    farthest-corner circle at var(--m-x) var(--m-y),
+                    rgba(100, 206, 251, 0.16) 10%,
+                    rgba(20, 60, 80, 0.12) 35%,
+                    transparent 75%
+                )
+                var(--bg-x) var(--bg-y) / 300% no-repeat;
+            z-index: 3;
+            mix-blend-mode: soft-light;
+            background: var(--rainbow), var(--diagonal), var(--shade);
+            background-blend-mode: soft-light, soft-light, overlay;
+            background-size: 200% 400%, 800%, 200%;
+            background-position: 0% var(--bg-y), calc(var(--bg-x) * -1) calc(var(--bg-y) * -1), var(--bg-x) var(--bg-y);
+        }
+
+        @media (hover: hover) and (pointer: fine) {
+            .glare-card:hover {
+                --opacity: 0.4;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .glare-card {
+                transform: none !important;
+                transition: none !important;
+            }
+
+            .glare-card-glare,
+            .glare-card-foil {
+                opacity: 0 !important;
+            }
         }
 
         @media (min-width: 768px) {
@@ -404,6 +524,180 @@
         .nav-connector-fill {
             transform-origin: left center;
             will-change: transform;
+        }
+
+        #site-header {
+            overflow: visible;
+        }
+
+        #site-header .site-nav {
+            overflow: visible;
+        }
+
+        #site-header .site-nav-track {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            min-width: 0;
+            flex: 1;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 0;
+            overflow: visible;
+        }
+
+        #site-header .nav-item {
+            position: relative;
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #site-header .nav-item > .nav-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.55rem 0.7rem;
+            font-size: 0.625rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1.1;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            transition: color 0.15s ease;
+            white-space: nowrap;
+        }
+
+        #site-header .nav-item > .nav-link:hover,
+        #site-header .nav-item.is-open > .nav-link {
+            color: #fff;
+        }
+
+        #site-header .nav-book-cta {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            align-self: center;
+            margin-left: 0.35rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 0.625rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            white-space: nowrap;
+            line-height: 1.1;
+            transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+        }
+
+        #site-header .nav-book-cta:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #site-header .nav-dropdown {
+            position: absolute;
+            top: calc(100% + 0.85rem);
+            left: 50%;
+            z-index: 60;
+            min-width: 16rem;
+            padding: 0.85rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(8, 10, 14, 0.92);
+            -webkit-backdrop-filter: blur(18px) saturate(1.2);
+            backdrop-filter: blur(18px) saturate(1.2);
+            box-shadow:
+                0 18px 48px rgba(0, 0, 0, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateX(-50%) translateY(0.5rem) scale(0.96);
+            transform-origin: top center;
+            transition:
+                opacity 0.18s ease,
+                transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+                visibility 0.18s ease;
+        }
+
+        #site-header .nav-item:hover > .nav-dropdown,
+        #site-header .nav-item:focus-within > .nav-dropdown,
+        #site-header .nav-item.is-open > .nav-dropdown {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+
+        #site-header .nav-dropdown--wide {
+            min-width: 22rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.65rem;
+        }
+
+        #site-header .nav-dropdown--links {
+            display: grid;
+            gap: 0.35rem;
+            min-width: 12.5rem;
+            padding: 0.55rem;
+        }
+
+        #site-header .nav-drop-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            padding: 0.85rem 0.9rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            text-decoration: none;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
+        }
+
+        #site-header .nav-drop-card:hover {
+            background: rgba(100, 206, 251, 0.1);
+            border-color: rgba(100, 206, 251, 0.28);
+        }
+
+        #site-header .nav-drop-card-title {
+            font-size: 0.8125rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #fff;
+            line-height: 1.25;
+        }
+
+        #site-header .nav-drop-card-text {
+            font-size: 0.75rem;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        #site-header .nav-drop-link {
+            display: block;
+            padding: 0.65rem 0.75rem;
+            border-radius: 0.6rem;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.72);
+            text-decoration: none;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        #site-header .nav-drop-link:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
         }
 
         .pricing-option-active {
@@ -781,14 +1075,13 @@
             }
         }
 
-        /* —— Audience swipe stack (horizontal only) —— */
-        /* —— Audience stack: полупрозрачная диагональная колода + горизонтальный свайп —— */
+        /* —— Audience: mobile = Aceternity Animated Testimonials; desktop = grid —— */
         .audience-stack {
             position: relative;
             width: min(100%, 34rem);
             height: var(--audience-card-h, 16rem);
             margin-inline: auto;
-            perspective: 900px;
+            perspective: 1000px;
             touch-action: pan-y;
             outline: none;
             user-select: none;
@@ -814,14 +1107,20 @@
                 position: relative !important;
                 inset: auto !important;
                 height: auto !important;
-                transform: none !important;
+                transform: none;
                 opacity: 1 !important;
                 visibility: visible !important;
                 pointer-events: auto !important;
                 cursor: default;
-                transition: none;
                 will-change: auto;
                 box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+                overflow: hidden;
+            }
+
+            .audience-card.glare-card {
+                transform: perspective(600px) rotateX(var(--r-y)) rotateY(var(--r-x));
+                transition: transform var(--duration, 300ms) var(--easing, ease);
+                will-change: transform;
             }
 
             .audience-card.is-dismissed,
@@ -835,40 +1134,76 @@
             .audience-stack-controls {
                 display: none !important;
             }
+
+            .audience-word {
+                animation: none !important;
+                filter: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
         }
 
         .audience-card {
             position: absolute;
             inset: 0;
             height: fit-content;
-            --stack-i: 0;
-            transform:
-                translate3d(calc(var(--stack-i) * 14px), calc(var(--stack-i) * 16px), 0)
-                rotate(calc(var(--stack-i) * 1.8deg));
-            opacity: calc(1 - var(--stack-i) * 0.18);
-            transform-origin: center center;
+            transform-origin: bottom center;
+            transform: scale(0.95) rotate(var(--card-rot, 0deg));
+            opacity: 0.7;
             transition:
-                transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.4s ease;
+                transform 0.4s ease-in-out,
+                opacity 0.4s ease-in-out;
             will-change: transform, opacity;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
             cursor: grab;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .audience-card.is-active {
+            opacity: 1;
+            transform: scale(1) rotate(0deg) translateY(0);
+            pointer-events: auto;
+            z-index: 40;
+            cursor: grab;
+        }
+
+        .audience-card.is-active.is-entering {
+            animation: audience-testimonial-pop 0.45s ease-in-out;
+        }
+
+        @keyframes audience-testimonial-pop {
+            0% {
+                transform: scale(0.96) rotate(0deg) translateY(0);
+            }
+            40% {
+                transform: scale(1) rotate(0deg) translateY(-1.15rem);
+            }
+            100% {
+                transform: scale(1) rotate(0deg) translateY(0);
+            }
         }
 
         .audience-card:active {
             cursor: grabbing;
         }
 
-        .audience-card.is-dismissed {
-            transform: translate3d(-118%, 8%, 0) rotate(-10deg);
-            opacity: 0;
-            pointer-events: none;
+        .audience-word {
+            display: inline-block;
+            animation: audience-word-in 0.2s ease-in-out both;
         }
 
-        .audience-card.is-stack-hidden {
-            opacity: 0 !important;
-            visibility: hidden;
-            pointer-events: none;
+        @keyframes audience-word-in {
+            from {
+                filter: blur(8px);
+                opacity: 0;
+                transform: translateY(4px);
+            }
+            to {
+                filter: blur(0);
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .audience-nav-btn {
@@ -879,9 +1214,15 @@
             justify-content: center;
             border-radius: 9999px;
             border: 1px solid rgba(255, 255, 255, 0.18);
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
             color: rgba(255, 255, 255, 0.85);
             cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .audience-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.28);
         }
 
         .audience-nav-btn:disabled {
@@ -902,6 +1243,344 @@
             transform: scale(1.35);
         }
 
+        /* —— Guide promo —— */
+        .guide-panel {
+            position: relative;
+            overflow: visible;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(100, 206, 251, 0.28);
+            background:
+                radial-gradient(120% 90% at 100% 0%, rgba(100, 206, 251, 0.22) 0%, transparent 55%),
+                radial-gradient(90% 70% at 0% 100%, rgba(46, 168, 212, 0.14) 0%, transparent 50%),
+                linear-gradient(160deg, rgba(12, 28, 38, 0.95) 0%, rgba(8, 16, 22, 0.92) 100%);
+            box-shadow:
+                0 0 0 1px rgba(100, 206, 251, 0.08),
+                0 24px 60px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
+        .guide-panel-glow {
+            position: absolute;
+            width: min(28rem, 70vw);
+            height: min(28rem, 70vw);
+            right: -12%;
+            top: -30%;
+            border-radius: 9999px;
+            background: radial-gradient(circle, rgba(100, 206, 251, 0.45) 0%, rgba(100, 206, 251, 0) 70%);
+            filter: blur(8px);
+            pointer-events: none;
+            animation: guide-glow-pulse 4.5s ease-in-out infinite;
+        }
+
+        @keyframes guide-glow-pulse {
+            0%,
+            100% {
+                opacity: 0.55;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.95;
+                transform: scale(1.08);
+            }
+        }
+
+        .guide-panel-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            gap: 2rem;
+            padding: 1.75rem 1.35rem 1.85rem;
+        }
+
+        @media (min-width: 768px) {
+            .guide-panel-grid {
+                grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+                align-items: center;
+                gap: 2.5rem;
+                padding: 2.75rem 2.75rem 2.75rem 3rem;
+            }
+        }
+
+        .guide-title {
+            margin: 0;
+            max-width: 14ch;
+            font-size: 2.25rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            color: #fff;
+        }
+
+        @media (min-width: 768px) {
+            .guide-title {
+                font-size: 3.25rem;
+            }
+        }
+
+        .guide-lead {
+            margin: 0.9rem 0 0;
+            max-width: 34rem;
+            font-size: var(--copy-size, 1rem);
+            line-height: var(--copy-leading, 1.55);
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        .guide-points {
+            margin: 1.35rem 0 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 0.7rem;
+        }
+
+        .guide-points li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .guide-points .material-symbols-outlined {
+            flex: 0 0 auto;
+            margin-top: 0.05rem;
+            font-size: 1.2rem;
+            color: #64cefb;
+        }
+
+        .guide-cta {
+            position: relative;
+            z-index: 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            margin-top: 1.5rem;
+            padding: 0.85rem 1.35rem;
+            border-radius: 9999px;
+            background: linear-gradient(145deg, #8adcff 0%, #64cefb 45%, #3eb8f0 100%);
+            color: #001820;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            box-shadow:
+                0 10px 28px rgba(100, 206, 251, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.35);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .guide-cta::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background: linear-gradient(
+                110deg,
+                transparent 20%,
+                rgba(255, 255, 255, 0.45) 45%,
+                transparent 70%
+            );
+            transform: translateX(-120%);
+            animation: guide-cta-sheen 3.2s ease-in-out infinite;
+        }
+
+        @keyframes guide-cta-sheen {
+            0%,
+            55% {
+                transform: translateX(-120%);
+            }
+            100% {
+                transform: translateX(120%);
+            }
+        }
+
+        .guide-cta .material-symbols-outlined {
+            font-size: 1.05rem;
+        }
+
+        .guide-cta > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .guide-cta:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 14px 34px rgba(100, 206, 251, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .guide-legal {
+            margin: 0.95rem 0 0;
+            max-width: 34rem;
+            font-size: 0.75rem;
+            line-height: 1.45;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .guide-legal a {
+            color: #64cefb;
+            text-decoration: underline;
+            text-decoration-color: rgba(100, 206, 251, 0.45);
+            text-underline-offset: 2px;
+        }
+
+        .guide-legal a:hover {
+            color: #8ddcf9;
+        }
+
+        .guide-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 12rem;
+            order: -1;
+            overflow: visible;
+        }
+
+        @media (min-width: 768px) {
+            .guide-visual {
+                justify-content: flex-end;
+                min-height: 18rem;
+                order: 0;
+            }
+        }
+
+        .guide-cover {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            width: min(100%, 15.5rem);
+            aspect-ratio: 3 / 4;
+            padding: 1.35rem 1.25rem;
+            border-radius: 1.15rem;
+            border: 1px solid rgba(100, 206, 251, 0.45);
+            background:
+                linear-gradient(165deg, rgba(100, 206, 251, 0.28) 0%, rgba(14, 40, 55, 0.2) 42%, rgba(6, 14, 20, 0.95) 100%),
+                linear-gradient(145deg, #0b1c26 0%, #123041 100%);
+            box-shadow:
+                0 28px 50px rgba(0, 0, 0, 0.45),
+                0 0 40px rgba(100, 206, 251, 0.18);
+            transform: rotate(3deg);
+            animation: guide-cover-float 5.5s ease-in-out infinite;
+        }
+
+        .guide-cover::before {
+            content: '';
+            position: absolute;
+            inset: 0.7rem;
+            border-radius: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+        }
+
+        @keyframes guide-cover-float {
+            0%,
+            100% {
+                transform: rotate(3deg) translateY(0);
+            }
+            50% {
+                transform: rotate(2deg) translateY(-0.55rem);
+            }
+        }
+
+        .guide-sticker {
+            position: absolute;
+            top: -0.55rem;
+            left: -0.65rem;
+            z-index: 3;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.38rem 0.62rem;
+            border-radius: 0.28rem;
+            background: #f5c518;
+            color: #111;
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            line-height: 1;
+            white-space: nowrap;
+            transform: rotate(-11deg);
+            box-shadow:
+                0 0 0 1px rgba(245, 197, 24, 0.35),
+                0 0 18px rgba(245, 197, 24, 0.55),
+                0 0 36px rgba(245, 197, 24, 0.28),
+                0 4px 12px rgba(0, 0, 0, 0.35);
+            animation: guide-sticker-glow 2.4s ease-in-out infinite;
+        }
+
+        @keyframes guide-sticker-glow {
+            0%,
+            100% {
+                box-shadow:
+                    0 0 0 1px rgba(245, 197, 24, 0.35),
+                    0 0 14px rgba(245, 197, 24, 0.45),
+                    0 0 28px rgba(245, 197, 24, 0.2),
+                    0 4px 12px rgba(0, 0, 0, 0.35);
+            }
+            50% {
+                box-shadow:
+                    0 0 0 1px rgba(255, 220, 80, 0.55),
+                    0 0 22px rgba(245, 197, 24, 0.75),
+                    0 0 44px rgba(245, 197, 24, 0.4),
+                    0 4px 12px rgba(0, 0, 0, 0.35);
+            }
+        }
+
+        .guide-cover-badge {
+            position: absolute;
+            top: 1.15rem;
+            right: 1.15rem;
+            padding: 0.28rem 0.5rem;
+            border-radius: 0.35rem;
+            background: #64cefb;
+            color: #001820;
+            font-size: 0.65rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+        }
+
+        .guide-cover-kicker {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(138, 220, 255, 0.85);
+        }
+
+        .guide-cover-name {
+            margin-top: 0.45rem;
+            font-size: 1.45rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            color: #fff;
+        }
+
+        .guide-cover-meta {
+            margin-top: 0.55rem;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .guide-panel-glow,
+            .guide-cover,
+            .guide-cta::after,
+            .guide-sticker {
+                animation: none !important;
+            }
+
+            .guide-cta:hover {
+                transform: none;
+            }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .audience-stack {
                 display: grid;
@@ -915,12 +1594,21 @@
                 inset: auto;
                 transform: none !important;
                 opacity: 1 !important;
+                pointer-events: auto !important;
                 cursor: default;
                 transition: none;
+                animation: none !important;
             }
 
             .audience-stack-controls {
                 display: none;
+            }
+
+            .audience-word {
+                animation: none !important;
+                filter: none !important;
+                opacity: 1 !important;
+                transform: none !important;
             }
         }
 
@@ -959,6 +1647,7 @@
             #hero-mid {
                 bottom: max(1rem, env(safe-area-inset-bottom));
             }
+
         }
 
         #mobile-menu-btn,
@@ -1048,16 +1737,88 @@
             bottom: calc(1.5rem + var(--cookie-banner-lift, 0px) + env(safe-area-inset-bottom));
         }
 
+        .sticky-consult-bar {
+            display: contents;
+        }
+
         @media (min-width: 768px) {
-            #sticky-consult-cta {
+            .sticky-consult-bar {
+                position: fixed;
+                left: 50%;
                 bottom: max(2rem, calc(env(safe-area-inset-bottom) + 1.25rem));
-                width: min(28rem, calc(100% - 4rem));
-                padding: 1.2rem 1.75rem;
+                z-index: 60;
+                display: inline-flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 0.75rem;
+                width: max-content;
+                max-width: calc(100% - 4rem);
+                transform: translateX(-50%) translateY(0.75rem);
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+            }
+
+            .sticky-consult-bar.is-visible {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            body.has-cookie-banner .sticky-consult-bar {
+                bottom: calc(2rem + var(--cookie-banner-lift, 0px) + env(safe-area-inset-bottom));
+            }
+
+            #sticky-consult-cta,
+            #sticky-consult-cta.is-visible {
+                position: static;
+                left: auto;
+                bottom: auto;
+                transform: none;
+                width: auto;
+                min-width: 16.5rem;
+                flex: 0 0 auto;
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+                padding: 0 1.75rem;
                 font-size: 0.875rem;
+                height: 3.35rem;
+                box-sizing: border-box;
+            }
+
+            #sticky-consult-cta.is-visible:active {
+                transform: scale(0.98);
             }
 
             body.has-cookie-banner #sticky-consult-cta {
-                bottom: calc(2rem + var(--cookie-banner-lift, 0px) + env(safe-area-inset-bottom));
+                bottom: auto;
+            }
+
+            .sticky-consult-bar .expert-sticky-toggle,
+            .sticky-consult-bar .expert-sticky-toggle.is-visible {
+                position: static !important;
+                top: auto !important;
+                left: auto !important;
+                bottom: auto !important;
+                z-index: auto;
+                display: inline-flex !important;
+                height: 3.35rem;
+                padding: 0.3rem;
+                opacity: 1 !important;
+                visibility: visible !important;
+                pointer-events: auto !important;
+                transform: none !important;
+                flex: 0 0 auto;
+                align-self: center;
+            }
+
+            .sticky-consult-bar .expert-sticky-toggle-btn {
+                width: 2.75rem;
+                height: 2.75rem;
             }
         }
 
@@ -1292,7 +2053,9 @@
         .site-footer-nav {
             display: flex;
             flex-wrap: wrap;
+            justify-content: center;
             gap: 0.65rem 1.25rem;
+            text-align: center;
         }
 
         .site-footer-nav a {
@@ -1314,6 +2077,21 @@
             gap: 0.65rem;
             width: 100%;
             margin-top: 1.15rem;
+        }
+
+        .hero-cta-primary,
+        .hero-cta-secondary,
+        #sticky-consult-cta,
+        .sections-overlay-cta {
+            gap: 0.4rem;
+        }
+
+        .hero-cta-primary .material-symbols-outlined,
+        #sticky-consult-cta .material-symbols-outlined,
+        .sections-overlay-cta .material-symbols-outlined {
+            font-size: 1.05em;
+            line-height: 1;
+            font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
         }
 
         .hero-cta-primary,
@@ -1367,13 +2145,16 @@
         @media (min-width: 768px) {
             .hero-cta-row {
                 width: auto;
-                max-width: 34rem;
+                max-width: 40rem;
                 margin-top: 1.6rem;
+                align-items: center;
             }
 
             .hero-cta-primary,
             .hero-cta-secondary {
-                padding: 1.15rem 1.75rem;
+                height: 3.35rem;
+                box-sizing: border-box;
+                padding: 0 1.75rem;
                 font-size: 0.8125rem;
                 letter-spacing: 0.13em;
             }
@@ -1623,18 +2404,9 @@
             [data-expert-people] > .section-chip-tabs {
                 display: flex !important;
             }
-
-            /* Достижения / образование — тоже с переключением на десктопе */
-            .expert-story-details > .section-chip-tabs {
-                display: flex !important;
-            }
         }
 
         [data-expert-people] > .section-chip-panels > [data-chip-panel]:not(.is-active) {
-            display: none !important;
-        }
-
-        .expert-story-details > .section-chip-panels > [data-chip-panel]:not(.is-active) {
             display: none !important;
         }
 
@@ -1766,6 +2538,11 @@
         @media (min-width: 768px) {
             .track-card {
                 padding: 2rem;
+                height: 100%;
+            }
+
+            .track-cards[data-cols="3"] .track-card-price {
+                margin-top: auto;
             }
         }
 
@@ -1857,18 +2634,23 @@
             color: #fff;
         }
 
-        .track-detail {
-            display: none;
-            width: 100%;
-            min-width: 0;
-            max-width: 100%;
-            margin-top: 1.15rem;
-            padding-top: 1.15rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        .track-card {
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
         }
 
-        .track-detail.is-open {
-            display: block;
+        .track-card:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+            background: rgba(35, 35, 35, 0.72);
+        }
+
+        .track-card.is-expand-source {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .track-detail {
+            display: none !important;
         }
 
         .track-detail-list {
@@ -1924,6 +2706,179 @@
         .track-detail-cta:hover {
             background: #4cb8e5;
             color: #001f2a;
+        }
+
+        .track-expand {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            padding: max(1rem, env(safe-area-inset-top)) 1rem max(1rem, env(safe-area-inset-bottom));
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.22s ease, visibility 0.22s ease;
+        }
+
+        .track-expand.is-open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .track-expand-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+        }
+
+        .track-expand-close {
+            position: absolute;
+            top: max(0.75rem, env(safe-area-inset-top));
+            right: max(0.75rem, env(safe-area-inset-right));
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            border: 0;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.92);
+            color: #111;
+            cursor: pointer;
+        }
+
+        @media (min-width: 1024px) {
+            .track-expand-close {
+                display: none;
+            }
+        }
+
+        .track-expand-panel {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 32rem);
+            max-height: min(90vh, 40rem);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border-radius: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(18, 18, 18, 0.96);
+            -webkit-backdrop-filter: blur(18px) saturate(1.15);
+            backdrop-filter: blur(18px) saturate(1.15);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+            transform-origin: top left;
+            will-change: transform;
+        }
+
+        .track-expand-body {
+            padding: 1.35rem 1.35rem 1.5rem;
+            overflow: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .track-expand-body::-webkit-scrollbar {
+            display: none;
+        }
+
+        .track-expand-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .track-expand-copy {
+            min-width: 0;
+            flex: 1 1 auto;
+        }
+
+        .track-expand-title {
+            margin: 0;
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #64cefb;
+        }
+
+        .track-expand-text {
+            margin: 0.45rem 0 0;
+            font-size: 0.9375rem;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .track-expand-price {
+            margin: 0.85rem 0 0;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #64cefb;
+        }
+
+        .track-expand-meta {
+            margin: 0.2rem 0 0;
+            font-size: 0.8125rem;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .track-expand-cta {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            border: 0;
+            background: #64cefb;
+            color: #001f2a;
+            padding: 0.7rem 1.05rem;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .track-expand-cta:hover {
+            background: #4cb8e5;
+        }
+
+        .track-expand-content {
+            margin-top: 1.15rem;
+            padding-top: 1.1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 82%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 82%, transparent 100%);
+        }
+
+        .track-expand-content .track-detail-list {
+            display: grid;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            gap: 0.55rem;
+        }
+
+        .track-expand-content .track-detail-note {
+            display: block;
+        }
+
+        .track-expand-content .track-detail-cta {
+            display: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .track-expand,
+            .track-expand-panel {
+                transition: none !important;
+            }
         }
 
         .track-price {
@@ -2386,24 +3341,63 @@
             }
         }
 
-        /* —— Expert storytelling —— */
-        .expert-story {
+        /* —— Expert storytelling: sticky speaker + scrolling sections —— */
+        .expert-scroll {
             display: grid;
             gap: 2rem;
         }
 
         @media (min-width: 768px) {
-            .expert-story {
-                grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+            .expert-scroll {
+                grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
                 gap: 2.5rem 3rem;
                 align-items: start;
             }
         }
 
         @media (min-width: 1024px) {
-            .expert-story {
+            .expert-scroll {
                 gap: 3rem 4rem;
             }
+        }
+
+        .expert-scroll-aside {
+            min-width: 0;
+        }
+
+        @media (min-width: 768px) {
+            .expert-scroll-aside {
+                position: sticky;
+                top: 6.5rem;
+                align-self: start;
+            }
+        }
+
+        .expert-scroll-main {
+            display: flex;
+            flex-direction: column;
+            gap: 2.25rem;
+            min-width: 0;
+        }
+
+        @media (min-width: 768px) {
+            .expert-scroll-main {
+                gap: 2.75rem;
+                padding-bottom: 1rem;
+            }
+        }
+
+        .expert-scroll-block {
+            min-width: 0;
+        }
+
+        .expert-scroll-heading {
+            margin: 0 0 1rem;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(100, 206, 251, 0.9);
         }
 
         .expert-story-visual {
@@ -2532,18 +3526,37 @@
 
         .expert-story-contacts--header {
             margin-top: 0.75rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.15rem;
         }
 
         @media (min-width: 768px) {
             .expert-story-contacts--header {
                 margin-top: 0.85rem;
-                margin-bottom: 2rem;
+                margin-bottom: 1.35rem;
             }
         }
 
         .expert-story-narrative {
             min-width: 0;
+        }
+
+        .expert-scroll-aside .expert-story-name {
+            margin: 1.15rem 0 0;
+            font-size: 1.35rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+        }
+
+        @media (min-width: 768px) {
+            .expert-scroll-aside .expert-story-name {
+                margin-top: 1.35rem;
+                font-size: 1.65rem;
+            }
+        }
+
+        .expert-scroll-main .expert-story-timeline {
+            margin-top: 0.5rem;
         }
 
         .expert-story-empathy {
@@ -2556,7 +3569,8 @@
 
         @media (min-width: 768px) {
             .expert-story-empathy {
-                font-size: 1.35rem;
+                font-size: 1.75rem;
+                line-height: 1.3;
             }
         }
 
@@ -2568,68 +3582,206 @@
             color: rgba(255, 255, 255, 0.75);
         }
 
+        @media (min-width: 768px) {
+            .expert-story-intro {
+                margin-top: 1.1rem;
+                max-width: 42rem;
+                font-size: 1.2rem;
+                line-height: 1.6;
+            }
+        }
+
+        /* Aceternity-style scroll timeline */
         .expert-story-timeline {
             position: relative;
-            margin: 1.5rem 0 0;
+            margin: 0;
+            padding: 0 0 1.5rem;
+        }
+
+        .expert-story-timeline-list {
+            position: relative;
+            margin: 0;
             padding: 0;
             list-style: none;
         }
 
-        .expert-story-timeline::before {
-            content: "";
+        .expert-timeline-rail {
             position: absolute;
-            left: 0.94rem;
-            top: 0.65rem;
-            bottom: 0.65rem;
+            left: 0.7rem;
+            top: 0.35rem;
+            bottom: 1.5rem;
             width: 2px;
-            background: linear-gradient(180deg, rgba(100, 206, 251, 0.55) 0%, rgba(100, 206, 251, 0.12) 100%);
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        @media (min-width: 768px) {
+            .expert-timeline-rail {
+                left: 4.35rem;
+                top: 0.85rem;
+                bottom: 2rem;
+            }
+        }
+
+        .expert-timeline-beam {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 0%;
+            border-radius: inherit;
+            background: linear-gradient(
+                180deg,
+                rgba(100, 206, 251, 0) 0%,
+                #64cefb 18%,
+                #4cb8e5 72%,
+                rgba(100, 206, 251, 0.15) 100%
+            );
+            box-shadow: 0 0 18px rgba(100, 206, 251, 0.35);
+            will-change: height;
         }
 
         .expert-story-step {
             position: relative;
-            display: flex;
-            gap: 0.85rem;
-            padding: 0.35rem 0;
+            display: grid;
+            grid-template-columns: 1.75rem minmax(0, 1fr);
+            gap: 0.95rem;
+            padding: 1.35rem 0 1.85rem;
+            opacity: 0.42;
+            transform: translateY(0.65rem);
+            transition:
+                opacity 0.45s ease,
+                transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        .expert-story-step + .expert-story-step {
-            margin-top: 0.65rem;
+        .expert-story-step.is-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (min-width: 768px) {
+            .expert-story-step {
+                grid-template-columns: 7.5rem minmax(0, 1fr);
+                gap: 1.5rem 1.75rem;
+                padding: 2.25rem 0 3.25rem;
+                min-height: 11rem;
+                opacity: 0.35;
+            }
         }
 
         .expert-story-step-marker {
             position: relative;
             z-index: 1;
-            flex: 0 0 1.875rem;
-            width: 1.875rem;
-            height: 1.875rem;
+            width: 1.75rem;
+            height: 1.75rem;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            border-radius: 0.5rem;
-            background: #64cefb;
-            color: #041018;
-            font-size: 0.8125rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(8, 12, 16, 0.92);
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 0.7rem;
             font-weight: 800;
             line-height: 1;
-            box-shadow: 0 0 0 4px rgba(100, 206, 251, 0.12);
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.35);
+            transition:
+                color 0.35s ease,
+                border-color 0.35s ease,
+                background-color 0.35s ease,
+                box-shadow 0.35s ease;
         }
 
-        .expert-story-step-text {
-            flex: 1;
-            padding-top: 0.15rem;
-            font-size: 1rem;
-            line-height: 1.55;
-            color: rgba(255, 255, 255, 0.82);
-        }
-
-        .expert-story-details {
-            margin-top: 2.5rem;
+        .expert-story-step.is-active .expert-story-step-marker {
+            color: #041018;
+            border-color: #64cefb;
+            background: #64cefb;
+            box-shadow:
+                0 0 0 4px rgba(100, 206, 251, 0.16),
+                0 0 22px rgba(100, 206, 251, 0.35);
         }
 
         @media (min-width: 768px) {
-            .expert-story-details {
-                margin-top: 3rem;
+            .expert-story-step-marker {
+                position: absolute;
+                left: 3.6rem;
+                top: 2.55rem;
+                width: 1.55rem;
+                height: 1.55rem;
+                font-size: 0;
             }
+
+            .expert-story-step-title {
+                position: sticky;
+                top: 7.25rem;
+                align-self: start;
+                margin: 0;
+                padding-top: 0.15rem;
+                font-size: clamp(1.65rem, 2.4vw, 2.35rem);
+                font-weight: 900;
+                letter-spacing: -0.04em;
+                line-height: 1.1;
+                color: rgba(255, 255, 255, 0.28);
+                transition: color 0.35s ease;
+            }
+
+            .expert-story-step.is-active .expert-story-step-title {
+                color: #fff;
+            }
+        }
+
+        .expert-story-step-title {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .expert-story-step-title {
+                display: block;
+            }
+        }
+
+        .expert-story-step-body {
+            min-width: 0;
+            padding-top: 0.05rem;
+        }
+
+        .expert-story-step-label {
+            margin: 0 0 0.45rem;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(100, 206, 251, 0.75);
+        }
+
+        @media (min-width: 768px) {
+            .expert-story-step-label {
+                font-size: 0.78rem;
+                margin-bottom: 0.65rem;
+            }
+        }
+
+        .expert-story-step-text {
+            margin: 0;
+            font-size: 1.125rem;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.78);
+            font-weight: 500;
+        }
+
+        @media (min-width: 768px) {
+            .expert-story-step-text {
+                font-size: 1.35rem;
+                line-height: 1.5;
+                letter-spacing: -0.015em;
+                color: rgba(255, 255, 255, 0.86);
+            }
+        }
+
+        .expert-story-details {
+            margin-top: 0;
         }
 
         .edu-cards {
@@ -2751,6 +3903,16 @@
             object-fit: cover;
         }
 
+        .exp-logo--dark {
+            background: #0a0a0a;
+        }
+
+        .exp-logo--dark img {
+            width: 78%;
+            height: 78%;
+            object-fit: contain;
+        }
+
         .exp-body {
             min-width: 0;
             padding-top: 0.1rem;
@@ -2824,6 +3986,19 @@
 
         .achievement-card--light .achievement-card-text {
             color: rgba(0, 0, 0, 0.82);
+        }
+
+        @media (min-width: 768px) {
+            .achievement-card--accent,
+            .achievement-card--light {
+                border-color: rgba(255, 255, 255, 0.1);
+                background: rgba(255, 255, 255, 0.05);
+                color: inherit;
+            }
+
+            .achievement-card--light .achievement-card-text {
+                color: rgba(255, 255, 255, 0.82);
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -3012,6 +4187,15 @@
     </script>
 </head>
 <body class="bg-black page-with-sticky-cta">
+<svg class="squiggly-filters" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<defs>
+<filter id="squiggly-0"><feTurbulence baseFrequency="0.02" numOctaves="3" result="noise" seed="0"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="6"/></filter>
+<filter id="squiggly-1"><feTurbulence baseFrequency="0.02" numOctaves="3" result="noise" seed="1"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="8"/></filter>
+<filter id="squiggly-2"><feTurbulence baseFrequency="0.02" numOctaves="3" result="noise" seed="2"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="6"/></filter>
+<filter id="squiggly-3"><feTurbulence baseFrequency="0.02" numOctaves="3" result="noise" seed="3"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="8"/></filter>
+<filter id="squiggly-4"><feTurbulence baseFrequency="0.02" numOctaves="3" result="noise" seed="4"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="6"/></filter>
+</defs>
+</svg>
 <!-- Mobile menu (visible &lt; md via CSS) -->
 <div class="mobile-chrome">
 <button type="button" id="mobile-menu-btn" class="mobile-menu-toggle" aria-haspopup="dialog" aria-controls="sections-overlay" aria-expanded="false" aria-label="Меню">
@@ -3021,7 +4205,7 @@
 <span class="material-symbols-outlined text-[18px]" data-icon="close" aria-hidden="true">close</span>
 </button>
 </div>
-<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" id="sticky-consult-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Связаться</a>
+<div id="sticky-consult-bar" class="sticky-consult-bar">
 <div id="expert-sticky-toggle" class="expert-sticky-toggle" role="group" aria-label="Выбор эксперта">
 <button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Настя Нерадовских">
 <img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
@@ -3029,6 +4213,8 @@
 <button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Даня Колесниченко">
 <img src="assets/Danya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
 </button>
+</div>
+<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" id="sticky-consult-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Записаться<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
 </div>
 <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Согласие на использование cookie" aria-hidden="true">
 <div class="cookie-banner-inner">
@@ -3051,7 +4237,27 @@
 <a class="sections-overlay-link" href="#reviews">Отзывы</a>
 <a class="sections-overlay-link" href="#faq">Вопросы</a>
 </nav>
-<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="sections-overlay-cta" id="menu-contact-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Связаться</a>
+<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="sections-overlay-cta" id="menu-contact-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Записаться<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
+</div>
+</div>
+<div id="track-expand" class="track-expand" hidden aria-hidden="true">
+<div class="track-expand-backdrop" data-track-expand-close tabindex="-1" aria-hidden="true"></div>
+<button type="button" class="track-expand-close" data-track-expand-close aria-label="Закрыть">
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+</button>
+<div class="track-expand-panel" role="dialog" aria-modal="true" aria-labelledby="track-expand-title" id="track-expand-panel">
+<div class="track-expand-body">
+<div class="track-expand-head">
+<div class="track-expand-copy">
+<h3 class="track-expand-title" id="track-expand-title"></h3>
+<p class="track-expand-text" id="track-expand-text"></p>
+<p class="track-expand-price" id="track-expand-price"></p>
+<p class="track-expand-meta" id="track-expand-meta"></p>
+</div>
+<a class="track-expand-cta" id="track-expand-cta" href="#" target="_blank" rel="noopener noreferrer">Записаться</a>
+</div>
+<div class="track-expand-content" id="track-expand-content"></div>
+</div>
 </div>
 </div>
 <!-- Global fullscreen video background -->
@@ -3061,45 +4267,61 @@
 </video>
 <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-black"></div>
 </div>
-<!-- Sticky nav + scroll progress (original markup) -->
-<header id="site-header" class="fixed top-8 left-1/2 z-50 hidden w-full max-w-[min(98vw,72rem)] -translate-x-1/2 px-3 md:block">
-<nav class="relative flex w-full max-w-full flex-nowrap items-stretch gap-8 overflow-hidden rounded-full border border-white/10 bg-white/5 py-1 pl-3 pr-3 shadow-[0px_20px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl">
-<div class="relative flex min-w-0 flex-1 items-center pl-1 pr-0">
-<div class="relative z-10 flex min-h-0 min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:gap-0 md:overflow-hidden">
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#audience">Для кого</a>
+<!-- Sticky nav + scroll progress (desktop mega menu) -->
+<header id="site-header" class="fixed top-8 left-1/2 z-50 hidden w-full max-w-[min(98vw,56rem)] -translate-x-1/2 px-3 md:block">
+<nav class="site-nav relative flex w-full max-w-full flex-nowrap items-stretch rounded-full border border-white/10 bg-white/5 py-1 pl-2 pr-2 shadow-[0px_20px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl" aria-label="Основная навигация" data-desktop-nav>
+<div class="site-nav-track">
+<div class="nav-item" data-nav-key="audience">
+<a class="nav-link" href="#audience" data-nav-top>Для кого</a>
+<div class="nav-dropdown nav-dropdown--wide" role="menu" aria-label="Для кого">
+<a class="nav-drop-card" href="#audience" role="menuitem" data-nav-expert="nastya">
+<span class="nav-drop-card-title">Основной трек</span>
+<span class="nav-drop-card-text">Карьера, продукт, конкурсы и рост</span>
+</a>
+<a class="nav-drop-card" href="#audience" role="menuitem" data-nav-expert="danya">
+<span class="nav-drop-card-title">Студенческий трек</span>
+<span class="nav-drop-card-text">Старт в IT и кейс-чемпионаты</span>
+</a>
+</div>
+</div>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#value">Получите</a>
+<div class="nav-item" data-nav-key="expert">
+<a class="nav-link" href="#expert" data-nav-top>Эксперты</a>
+</div>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#expert">Эксперты</a>
+<div class="nav-item" data-nav-key="curriculum">
+<a class="nav-link" href="#curriculum" data-nav-top>Услуги</a>
+</div>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#curriculum">Услуги 🔥</a>
+<div class="nav-item" data-nav-key="guide">
+<a class="nav-link" href="#guide" data-nav-top>Гайд</a>
+</div>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#guide">Гайд 🔥</a>
+<div class="nav-item" data-nav-key="result">
+<a class="nav-link" href="#placements" data-nav-top>Результат</a>
+<div class="nav-dropdown nav-dropdown--links" role="menu" aria-label="Результат">
+<a class="nav-drop-link" href="#placements" role="menuitem">Компании</a>
+<a class="nav-drop-link" href="#reviews" role="menuitem">Отзывы</a>
+</div>
+</div>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#placements">Компании</a>
-<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
-<div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
-</div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#reviews">Отзывы</a>
-<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
-<div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
-</div>
-<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#faq">Вопросы</a>
+<div class="nav-item" data-nav-key="faq">
+<a class="nav-link" href="#faq" data-nav-top>Частые вопросы</a>
 </div>
 </div>
+<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="nav-book-cta" id="nav-contact-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Записаться</a>
 </nav>
 </header>
-<!-- Hero: креатив, заголовок -->
 <main class="relative z-10 flex min-h-screen flex-col overflow-x-hidden bg-black/40 pb-8 pt-8 backdrop-blur-xl md:pb-16 md:pt-32" id="hero">
 <!-- Speaker creative (временно статичный PNG вместо видео) -->
 <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden" id="hero-speaker-area">
@@ -3115,14 +4337,15 @@
 <p class="mt-3 text-base leading-relaxed text-white/75 md:mt-4">Помогаем расти в карьере, зайти в продакт-менеджмент, выигрывать конкурсы и кейс-чемпионаты</p>
 </div>
 <div class="hero-cta-row">
-<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="hero-cta-primary" id="hero-contact-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Связаться</a>
+<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="hero-cta-primary" id="hero-contact-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Записаться<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
 <a href="#expert" class="hero-cta-secondary">О нас</a>
 </div>
 </div>
 </div>
 </main>
-<!-- Audience stack: вне backdrop-blur, иначе sticky ломается -->
-<div class="relative z-10 bg-black/40">
+<!-- Единый слой затемнения + blur под контентом после hero -->
+<div class="relative z-10">
+<div class="relative bg-black/40 backdrop-blur-xl">
 <section class="page-gutter relative py-12 md:py-16" id="audience" aria-labelledby="audience-heading">
 <div class="mx-auto max-w-7xl">
 <h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="audience-heading">Вы точно в нужном месте, если…</h2>
@@ -3250,13 +4473,7 @@
 </div>
 </div>
 </section>
-</div>
-<!-- Единый слой затемнения + blur под всем контентом после hero (без швов между секциями) -->
-<div class="relative z-10">
-<div class="pointer-events-none absolute -top-16 left-0 right-0 z-0 h-16 bg-gradient-to-b from-transparent to-black/40 md:-top-24 md:h-24" aria-hidden="true"></div>
-<div class="relative bg-black/40 backdrop-blur-xl">
-
-<!-- Об эксперте -->
+<!-- Об экспертах -->
 <section class="page-gutter relative py-12 md:py-16" id="expert" aria-labelledby="expert-heading">
 <div class="mx-auto max-w-7xl">
 <article>
@@ -3264,22 +4481,12 @@
 <div data-section-chips data-expert-people id="expert-people">
 <div class="section-chip-tabs" role="tablist" aria-label="Выбор эксперта">
 <button type="button" class="section-chip chip-active" role="tab" id="people-tab-nastya" aria-selected="true" aria-controls="people-panel-nastya" data-chip-tab="nastya" data-global-expert="nastya" aria-label="Настя Нерадовских, основной трек">основной трек</button>
-<button type="button" class="section-chip" role="tab" id="people-tab-danya" aria-selected="false" aria-controls="people-panel-danya" data-chip-tab="danya" data-global-expert="danya" aria-label="Даня Колесниченко, для студентов">для студентов</button>
+<button type="button" class="section-chip" role="tab" id="people-tab-danya" aria-selected="false" aria-controls="people-panel-danya" data-chip-tab="danya" data-global-expert="danya" aria-label="Даня Колесниченко, студенческий трек">студенческий трек</button>
 </div>
 <div class="section-chip-panels">
 <div data-chip-panel="nastya" class="is-active" role="tabpanel" id="people-panel-nastya" aria-labelledby="people-tab-nastya">
-<h3 class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">Настя Нерадовских</h3>
-<div class="expert-story-contacts expert-story-contacts--header">
-<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
-<img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
-<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">Telegram</span>
-</a>
-<a href="https://www.linkedin.com/in/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
-<img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
-<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">LinkedIn</span>
-</a>
-</div>
-<div class="expert-story">
+<div class="expert-scroll">
+<aside class="expert-scroll-aside">
 <div class="expert-story-visual">
 <div class="expert-story-path" aria-hidden="true"></div>
 <div class="expert-story-portrait-wrap">
@@ -3294,24 +4501,102 @@
 </div>
 </div>
 </div>
+<h3 class="expert-story-name">Настя Нерадовских</h3>
+<div class="expert-story-contacts expert-story-contacts--header">
+<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
+<img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
+<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">Telegram</span>
+</a>
+<a href="https://www.linkedin.com/in/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
+<img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
+<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">LinkedIn</span>
+</a>
+</div>
 <div class="expert-story-narrative">
 <p class="expert-story-empathy">Я знаю, как сложно начинать карьеру без понятного маршрута — и как важно не сдаваться на полпути.</p>
 <p class="expert-story-intro">Поэтому помогаю выстраивать стратегию: от первых шагов в IT и участия в конкурсах до роста в продукте и запуска своего проекта. Всё, чего добилась сама — без знакомств и «удачного стечения обстоятельств».</p>
-<ol class="expert-story-timeline">
-<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">1</span><p class="expert-story-step-text">Выигрывала олимпиады уровня МГУ и НИУ ВШЭ, получала гранты Сколково, ФСИ и ВТБ, стипендии Потанина, Мегафона, KPMG и университетов.</p></li>
-<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">2</span><p class="expert-story-step-text">Стала суперфиналисткой «Лидеров России» — самостоятельно, упорным трудом, а не по знакомству.</p></li>
-<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">3</span><p class="expert-story-step-text">Прошла путь от product owner в Т2 до CPO в Альфа-Банке.</p></li>
-<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">4</span><p class="expert-story-step-text">Запускаю стартап Цифровой гардероб WID — команда из 20 IT-профессионалов по всему миру, веду проект к релизу.</p></li>
+
+</div>
+</aside>
+<div class="expert-scroll-main">
+<section class="expert-scroll-block" aria-labelledby="nastya-path-heading">
+<h4 class="expert-scroll-heading" id="nastya-path-heading">Путь</h4>
+<div class="expert-story-timeline" data-scroll-timeline>
+<div class="expert-timeline-rail" aria-hidden="true"><div class="expert-timeline-beam" data-timeline-beam></div></div>
+<ol class="expert-story-timeline-list">
+<li class="expert-story-step" data-timeline-step>
+<span class="expert-story-step-marker" aria-hidden="true">1</span>
+<p class="expert-story-step-title" aria-hidden="true">01</p>
+<div class="expert-story-step-body">
+<p class="expert-story-step-label">Олимпиады и гранты</p>
+<p class="expert-story-step-text">Выигрывала олимпиады уровня МГУ и НИУ ВШЭ, получала гранты Сколково, ФСИ и ВТБ, стипендии Потанина, Мегафона, KPMG и университетов.</p>
+</div>
+</li>
+<li class="expert-story-step" data-timeline-step>
+<span class="expert-story-step-marker" aria-hidden="true">2</span>
+<p class="expert-story-step-title" aria-hidden="true">02</p>
+<div class="expert-story-step-body">
+<p class="expert-story-step-label">Лидеры России</p>
+<p class="expert-story-step-text">Стала суперфиналисткой «Лидеров России» — самостоятельно, упорным трудом, а не по знакомству.</p>
+</div>
+</li>
+<li class="expert-story-step" data-timeline-step>
+<span class="expert-story-step-marker" aria-hidden="true">3</span>
+<p class="expert-story-step-title" aria-hidden="true">03</p>
+<div class="expert-story-step-body">
+<p class="expert-story-step-label">Product → CPO</p>
+<p class="expert-story-step-text">Прошла путь от product owner в Т2 до CPO в Альфа-Банке.</p>
+</div>
+</li>
+<li class="expert-story-step" data-timeline-step>
+<span class="expert-story-step-marker" aria-hidden="true">4</span>
+<p class="expert-story-step-title" aria-hidden="true">04</p>
+<div class="expert-story-step-body">
+<p class="expert-story-step-label">Стартап WID</p>
+<p class="expert-story-step-text">Запускаю стартап Цифровой гардероб WID — команда из 20 IT-профессионалов по всему миру, веду проект к релизу.</p>
+</div>
+</li>
 </ol>
 </div>
+</section>
+
+<section class="expert-scroll-block" aria-labelledby="nastya-exp-heading">
+<h4 class="expert-scroll-heading" id="nastya-exp-heading">Опыт</h4>
+<div class="exp-card">
+<ul class="exp-list">
+<li class="exp-item">
+<div class="exp-logo"><img src="assets/marquee/logo-alfa-2.png?v=20260820164" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-body">
+<p class="exp-role">Chief Product Officer, Альфа-Банк</p>
+<p class="exp-dates">2026 — настоящее время</p>
 </div>
-<div class="expert-story-details" data-section-chips>
-<div class="section-chip-tabs" role="tablist" aria-label="Подробнее об эксперте">
-<button type="button" class="section-chip chip-active" role="tab" id="expert-tab-achievements" aria-selected="true" aria-controls="expert-panel-achievements" data-chip-tab="achievements">Достижения</button>
-<button type="button" class="section-chip" role="tab" id="expert-tab-education" aria-selected="false" aria-controls="expert-panel-education" data-chip-tab="education">Гранты и образование</button>
+</li>
+<li class="exp-item">
+<div class="exp-logo"><img src="assets/marquee/logo-alfa-2.png?v=20260820164" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-body">
+<p class="exp-role">Product Manager, Альфа-Банк</p>
+<p class="exp-dates">2024 — 2026</p>
 </div>
-<div class="section-chip-panels space-y-6">
-<div role="tabpanel" id="expert-panel-achievements" aria-labelledby="expert-tab-achievements" data-chip-panel="achievements" class="is-active">
+</li>
+<li class="exp-item">
+<div class="exp-logo exp-logo--dark"><img src="assets/marquee/logo-t2.png?v=20260820175" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-body">
+<p class="exp-role">Product Manager, Т2</p>
+<p class="exp-dates">2023 — 2024</p>
+</div>
+</li>
+<li class="exp-item">
+<div class="exp-logo exp-logo--dark"><img src="assets/marquee/logo-mars.png?v=20260820175" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-body">
+<p class="exp-role">Mars, Procter &amp; Gamble, Сибур</p>
+<p class="exp-dates">2019 — 2023</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<section class="expert-scroll-block" aria-labelledby="nastya-ach-heading">
+<h4 class="expert-scroll-heading" id="nastya-ach-heading">Достижения</h4>
 <div class="achievement-scatter">
 <article class="achievement-card achievement-card--accent">
 <p class="achievement-card-text">Суперфиналистка «Лидеров России»</p>
@@ -3332,8 +4617,9 @@
 <p class="achievement-card-text">Поездки в Америку и другие страны</p>
 </article>
 </div>
-</div>
-<div role="tabpanel" id="expert-panel-education" aria-labelledby="expert-tab-education" data-chip-panel="education">
+</section>
+<section class="expert-scroll-block" aria-labelledby="nastya-edu-heading">
+<h4 class="expert-scroll-heading" id="nastya-edu-heading">Гранты и образование</h4>
 <div class="edu-cards">
 <article class="edu-card">
 <div class="edu-card-icon"><img src="assets/marquee/hse-logo.png?v=20260820154" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
@@ -3350,23 +4636,13 @@
 </div>
 </article>
 </div>
-</div>
+</section>
 </div>
 </div>
 </div>
 <div data-chip-panel="danya" role="tabpanel" id="people-panel-danya" aria-labelledby="people-tab-danya">
-<h3 class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">Даня Колесниченко</h3>
-<div class="expert-story-contacts expert-story-contacts--header">
-<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
-<img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
-<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">Telegram</span>
-</a>
-<a href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
-<img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
-<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">LinkedIn</span>
-</a>
-</div>
-<div class="expert-story">
+<div class="expert-scroll">
+<aside class="expert-scroll-aside">
 <div class="expert-story-visual">
 <div class="expert-story-path" aria-hidden="true"></div>
 <div class="expert-story-portrait-wrap">
@@ -3381,26 +4657,67 @@
 </div>
 </div>
 </div>
+<h3 class="expert-story-name">Даня Колесниченко</h3>
+<div class="expert-story-contacts expert-story-contacts--header">
+<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
+<img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
+<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">Telegram</span>
+</a>
+<a href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
+<img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
+<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">LinkedIn</span>
+</a>
+</div>
 <div class="expert-story-narrative">
 <p class="expert-story-empathy">Я тоже думал, что у меня недостаточно опыта — и проходил тот же путь, что сейчас проходите вы.</p>
 <p class="expert-story-intro">Помогаю стартовать в IT и продукте: от первых шагов и кейс-чемпионатов до резюме, интервью и понимания воронки найма. Всё, чем делюсь — из собственного опыта в Альфа-Банке.</p>
-<ol class="expert-story-timeline">
-<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">1</span><p class="expert-story-step-text">Ex product owner @ «Альфа-Будущее».</p></li>
-<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">2</span><p class="expert-story-step-text">Победитель Alfa Case Camp 2024 — крупнейшего кейс-чемпионата Альфа-Банка × Changellenge.</p></li>
-<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">3</span><p class="expert-story-step-text">Менеджер по развитию продукта в Альфа-Банке.</p></li>
-<li class="expert-story-step"><span class="expert-story-step-marker" aria-hidden="true">4</span><p class="expert-story-step-text">Получил 4 оффера после стажировки в Альфа-Банке.</p></li>
+
+</div>
+</aside>
+<div class="expert-scroll-main">
+<section class="expert-scroll-block" aria-labelledby="danya-path-heading">
+<h4 class="expert-scroll-heading" id="danya-path-heading">Путь</h4>
+<div class="expert-story-timeline" data-scroll-timeline>
+<div class="expert-timeline-rail" aria-hidden="true"><div class="expert-timeline-beam" data-timeline-beam></div></div>
+<ol class="expert-story-timeline-list">
+<li class="expert-story-step" data-timeline-step>
+<span class="expert-story-step-marker" aria-hidden="true">1</span>
+<p class="expert-story-step-title" aria-hidden="true">01</p>
+<div class="expert-story-step-body">
+<p class="expert-story-step-label">Альфа-Будущее</p>
+<p class="expert-story-step-text">Ex product owner @ «Альфа-Будущее».</p>
+</div>
+</li>
+<li class="expert-story-step" data-timeline-step>
+<span class="expert-story-step-marker" aria-hidden="true">2</span>
+<p class="expert-story-step-title" aria-hidden="true">02</p>
+<div class="expert-story-step-body">
+<p class="expert-story-step-label">Alfa Case Camp</p>
+<p class="expert-story-step-text">Победитель Alfa Case Camp 2024 — крупнейшего кейс-чемпионата Альфа-Банка × Changellenge.</p>
+</div>
+</li>
+<li class="expert-story-step" data-timeline-step>
+<span class="expert-story-step-marker" aria-hidden="true">3</span>
+<p class="expert-story-step-title" aria-hidden="true">03</p>
+<div class="expert-story-step-body">
+<p class="expert-story-step-label">Product Manager</p>
+<p class="expert-story-step-text">Менеджер по развитию продукта в Альфа-Банке.</p>
+</div>
+</li>
+<li class="expert-story-step" data-timeline-step>
+<span class="expert-story-step-marker" aria-hidden="true">4</span>
+<p class="expert-story-step-title" aria-hidden="true">04</p>
+<div class="expert-story-step-body">
+<p class="expert-story-step-label">4 оффера</p>
+<p class="expert-story-step-text">Получил 4 оффера после стажировки в Альфа-Банке.</p>
+</div>
+</li>
 </ol>
 </div>
-</div>
-<div class="expert-story-details" data-section-chips>
-<div class="section-chip-tabs" role="tablist" aria-label="Подробнее об эксперте">
-<button type="button" class="section-chip chip-active" role="tab" id="danya-tab-experience" aria-selected="true" aria-controls="danya-panel-experience" data-chip-tab="danya-experience">Опыт</button>
-<button type="button" class="section-chip" role="tab" id="danya-tab-education" aria-selected="false" aria-controls="danya-panel-education" data-chip-tab="danya-education">Образование</button>
-<button type="button" class="section-chip" role="tab" id="danya-tab-expertise" aria-selected="false" aria-controls="danya-panel-expertise" data-chip-tab="danya-expertise">Экспертиза</button>
-<button type="button" class="section-chip" role="tab" id="danya-tab-audience" aria-selected="false" aria-controls="danya-panel-audience" data-chip-tab="danya-audience">С кем работаю</button>
-</div>
-<div class="section-chip-panels space-y-6">
-<div class="is-active" role="tabpanel" id="danya-panel-experience" aria-labelledby="danya-tab-experience" data-chip-panel="danya-experience">
+</section>
+
+<section class="expert-scroll-block" aria-labelledby="danya-exp-heading">
+<h4 class="expert-scroll-heading" id="danya-exp-heading">Опыт</h4>
 <div class="exp-card">
 <ul class="exp-list">
 <li class="exp-item">
@@ -3419,8 +4736,9 @@
 </li>
 </ul>
 </div>
-</div>
-<div role="tabpanel" id="danya-panel-education" aria-labelledby="danya-tab-education" data-chip-panel="danya-education">
+</section>
+<section class="expert-scroll-block" aria-labelledby="danya-edu-heading">
+<h4 class="expert-scroll-heading" id="danya-edu-heading">Образование</h4>
 <div class="edu-cards">
 <article class="edu-card">
 <div class="edu-card-icon"><img src="assets/marquee/logo-fu.png?v=20260820163" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
@@ -3437,13 +4755,18 @@
 </div>
 </article>
 </div>
-</div>
-<div class="grid grid-cols-1 gap-3 sm:grid-cols-3" role="tabpanel" id="danya-panel-expertise" aria-labelledby="danya-tab-expertise" data-chip-panel="danya-expertise">
+</section>
+<section class="expert-scroll-block" aria-labelledby="danya-expertise-heading">
+<h4 class="expert-scroll-heading" id="danya-expertise-heading">Экспертиза</h4>
+<div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
 <article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Продукт</p><p class="mt-3 text-base leading-relaxed text-white/75">Менеджер по развитию продукта в Альфа-Банке, опыт product owner и работы с продуктовыми метриками.</p></article>
 <article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Кейс-чемпионаты</p><p class="mt-3 text-base leading-relaxed text-white/75">Победитель Alfa Case Camp 2024, выступления экспертом от Альфа-Банка и Changellenge.</p></article>
 <article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Карьера</p><p class="mt-3 text-base leading-relaxed text-white/75">Путь от стажировки до нескольких офферов — знаю воронку найма изнутри.</p></article>
 </div>
-<div class="rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-xl md:p-7" role="tabpanel" id="danya-panel-audience" aria-labelledby="danya-tab-audience" data-chip-panel="danya-audience">
+</section>
+<section class="expert-scroll-block" aria-labelledby="danya-audience-heading">
+<h4 class="expert-scroll-heading" id="danya-audience-heading">С кем работаю</h4>
+<div class="rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-xl md:p-7">
 <ul class="space-y-3 text-base leading-relaxed text-white/75">
 <li>— Хотите начать карьеру, но не знаете с чего.</li>
 <li>— Планируете участвовать в кейс-чемпионатах.</li>
@@ -3453,6 +4776,7 @@
 <li>— Хотите понять, как устроена воронка найма.</li>
 </ul>
 </div>
+</section>
 </div>
 </div>
 </div>
@@ -3494,7 +4818,7 @@
 <li><strong>Как выстроить процесс</strong>Что делать по шагам, чтобы не хаотично метаться.</li>
 </ul>
 <p class="track-detail-note">Подойдёт, если хотите разобраться с нуля или уточнить конкретные шаги.</p>
-<a class="track-detail-cta" href="https://t.me/neradana" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_nastya" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 <article class="track-card">
@@ -3509,7 +4833,7 @@
 <li><strong>Персональная стратегия</strong>По поиску работы или росту в карьере.</li>
 <li><strong>Чёткие шаги</strong>Уходите с готовым планом действий.</li>
 </ul>
-<a class="track-detail-cta" href="https://t.me/neradana" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_nastya" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 <article class="track-card">
@@ -3525,7 +4849,7 @@
 <li><strong>Ключевые слова</strong>Под нужную вакансию и ATS.</li>
 <li><strong>Подача опыта</strong>Конкретные рекомендации по улучшению.</li>
 </ul>
-<a class="track-detail-cta" href="https://t.me/neradana" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_nastya" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 </div>
@@ -3548,7 +4872,7 @@
 <li><strong>Стратегическая консультация для менти</strong>Со скидкой 50% — 4 000 ₽.</li>
 <li><strong>Мок-интервью</strong>5 000 ₽.</li>
 </ul>
-<a class="track-detail-cta" href="https://t.me/neradana" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_nastya" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 </div>
@@ -3567,24 +4891,51 @@
 <div class="track-cards" data-cols="3">
 <article class="track-card">
 <h3 class="track-card-title">Q&amp;A</h3>
-<p class="track-card-text">Ответы на вопросы по старту карьеры в IT и менеджменте: как искать, куда обращаться и как выстроить процесс. Подойдёт, если хотите разобраться с нуля или уточнить конкретные шаги.</p>
+<p class="track-card-text">Ответы на вопросы по старту карьеры в IT и менеджменте: как искать, куда обращаться и как выстроить процесс.</p>
 <p class="track-card-price">2 000 ₽</p>
 <p class="track-card-meta">1 час · онлайн</p>
-<a class="track-more" href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer">Записаться</a>
+<button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-danya-qa">Подробнее</button>
+<div class="track-detail" id="track-detail-danya-qa" hidden>
+<ul class="track-detail-list">
+<li><strong>Как начать поиск</strong>С чего стартовать, если хотите зайти в IT или менеджмент.</li>
+<li><strong>Куда обращаться</strong>Какие каналы, компании и форматы отклика работают.</li>
+<li><strong>Как выстроить процесс</strong>Что делать по шагам, чтобы не хаотично метаться.</li>
+</ul>
+<p class="track-detail-note">Подойдёт, если хотите разобраться с нуля или уточнить конкретные шаги.</p>
+<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_danya" target="_blank" rel="noopener noreferrer">Записаться</a>
+</div>
 </article>
 <article class="track-card">
 <h3 class="track-card-title">Стратегия и пошаговый план</h3>
 <p class="track-card-text">Разбираем вашу ситуацию и вместе выстраиваем персональную стратегию с чёткими шагами по поиску работы и старту карьеры.</p>
 <p class="track-card-price">3 000 ₽</p>
 <p class="track-card-meta">1 час · онлайн</p>
-<a class="track-more" href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer">Записаться</a>
+<button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-danya-strategy">Подробнее</button>
+<div class="track-detail" id="track-detail-danya-strategy" hidden>
+<ul class="track-detail-list">
+<li><strong>Разбор ситуации</strong>Текущая точка, цели и ограничения.</li>
+<li><strong>Персональная стратегия</strong>По поиску работы и старту карьеры.</li>
+<li><strong>Чёткие шаги</strong>Уходите с готовым планом действий.</li>
+</ul>
+<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_danya" target="_blank" rel="noopener noreferrer">Записаться</a>
+</div>
 </article>
 <article class="track-card">
 <h3 class="track-card-title">Разбор резюме</h3>
-<p class="track-card-text">Детальный анализ резюме: структура, формулировки, ключевые слова, подача опыта и переупаковка «нерелевантного» опыта. Получите конкретные шаги и инсайты по резюме, которое понравится рекрутерам.</p>
+<p class="track-card-text">Детальный анализ резюме: структура, формулировки, ключевые слова, подача опыта и переупаковка «нерелевантного» опыта.</p>
 <p class="track-card-price">2 000 ₽</p>
 <p class="track-card-meta">30 минут · онлайн</p>
-<a class="track-more" href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer">Записаться</a>
+<button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-danya-resume">Подробнее</button>
+<div class="track-detail" id="track-detail-danya-resume" hidden>
+<ul class="track-detail-list">
+<li><strong>Структура</strong>Логика подачи и читаемость для рекрутера.</li>
+<li><strong>Формулировки</strong>Как описать опыт сильнее и конкретнее.</li>
+<li><strong>Ключевые слова</strong>Под нужную вакансию и ATS.</li>
+<li><strong>Переупаковка опыта</strong>Как показать «нерелевантный» опыт в плюс.</li>
+</ul>
+<p class="track-detail-note">Получите конкретные шаги и инсайты по резюме, которое понравится рекрутерам.</p>
+<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_danya" target="_blank" rel="noopener noreferrer">Записаться</a>
+</div>
 </article>
 </div>
 </div>
@@ -3592,10 +4943,21 @@
 <div class="track-cards" data-cols="1">
 <article class="track-card track-card-wide">
 <h3 class="track-card-title">Менторство</h3>
-<p class="track-card-text">Стартовая встреча — разбор текущей ситуации, целей и составление плана. Аудит и доработка резюме. Создание и ведение LinkedIn. Стратегия поиска: какие компании, как заходить, что подтянуть, где поучаствовать. Подготовка к интервью. Постоянная поддержка в чате.</p>
+<p class="track-card-text">Стартовая встреча, аудит резюме, LinkedIn, стратегия поиска, подготовка к интервью и постоянная поддержка в чате.</p>
 <p class="track-card-price">10 000 ₽ / месяц</p>
 <p class="track-card-meta">онлайн</p>
-<a class="track-more" href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer">Записаться</a>
+<button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-danya-mentor">Подробнее</button>
+<div class="track-detail" id="track-detail-danya-mentor" hidden>
+<ul class="track-detail-list">
+<li><strong>Стартовая встреча</strong>Разбор текущей ситуации, целей и составление плана.</li>
+<li><strong>Аудит и доработка резюме</strong>Под целевые роли и отклики.</li>
+<li><strong>Создание и ведение LinkedIn</strong>Профиль и регулярная активность.</li>
+<li><strong>Стратегия поиска</strong>Какие компании, как заходить, что подтянуть, где поучаствовать.</li>
+<li><strong>Подготовка к интервью</strong>Разбор вопросов, кейсов и форматов отбора.</li>
+<li><strong>Поддержка в чате</strong>Ответы между сессиями по ходу работы.</li>
+</ul>
+<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_danya" target="_blank" rel="noopener noreferrer">Записаться</a>
+</div>
 </article>
 </div>
 </div>
@@ -3606,25 +4968,44 @@
 </div>
 </div>
 </section>
-<section class="page-gutter relative py-12 md:py-16" id="guide">
+<section class="page-gutter relative py-12 md:py-16" id="guide" aria-labelledby="guide-heading">
 <div class="mx-auto max-w-7xl w-full">
-<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl">Гайд по входу в&nbsp;IT</h2>
-<div class="w-full rounded-xl border border-white/10 bg-surface-container-low p-10 shadow-[0_0_0_1px_rgba(100,206,251,0.06)] backdrop-blur-xl md:p-14">
-<p class="text-pretty text-base leading-relaxed text-white/75">Гайд: как подготовиться к интервью на Product Manager — отправлю в Telegram.</p>
-<form class="mt-8 space-y-6" id="guide-form" action="#" method="post" data-guide-api="" data-bot-username="career67_bot">
-<div>
-<label class="block text-xs font-bold uppercase tracking-wider text-white/55" for="guide-telegram">Ник в Telegram</label>
-<input id="guide-telegram" name="telegram" type="text" autocomplete="username" inputmode="text" required class="guide-field" placeholder="@username"/>
+<div class="guide-panel">
+<div class="guide-panel-glow" aria-hidden="true"></div>
+<div class="guide-panel-grid">
+<div class="guide-copy">
+<h2 class="guide-title" id="guide-heading">Гайд по входу в&nbsp;IT</h2>
+<p class="guide-lead">Как подготовиться к интервью на Product Manager — открою в Telegram после короткой заявки.</p>
+<ul class="guide-points">
+<li>
+<span class="material-symbols-outlined" aria-hidden="true">checklist</span>
+<span>Структура интервью и что ждут от кандидата</span>
+</li>
+<li>
+<span class="material-symbols-outlined" aria-hidden="true">quiz</span>
+<span>Типовые вопросы и как на них отвечать</span>
+</li>
+<li>
+<span class="material-symbols-outlined" aria-hidden="true">inventory_2</span>
+<span>Как упаковать опыт, даже если кажется, что показывать нечего</span>
+</li>
+</ul>
+<a href="https://t.me/career67_bot?start=guide" target="_blank" rel="noopener noreferrer" class="guide-cta">
+<span>Получить гайд</span>
+<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+</a>
+<p class="guide-legal">Нажимая кнопку, вы соглашаетесь с <a href="personal-data-consent.html">Согласием на обработку персональных данных</a> и <a href="privacy-policy.html">Политикой конфиденциальности</a>.</p>
 </div>
-<label class="flex cursor-pointer items-start gap-3 text-left text-base leading-relaxed text-white/75">
-<input id="guide-consent" name="consent" type="checkbox" required class="guide-checkbox mt-1 h-4 w-4 shrink-0 rounded border-white/25 bg-black/40 text-[#64cefb] accent-[#64cefb]"/>
-<span>Соглашаюсь с <a class="font-medium text-[#64cefb] underline decoration-[#64cefb]/50 underline-offset-2 transition-colors hover:text-[#8ddcf9]" href="personal-data-consent.html">Согласием на обработку персональных данных</a> и <a class="font-medium text-[#64cefb] underline decoration-[#64cefb]/50 underline-offset-2 transition-colors hover:text-[#8ddcf9]" href="privacy-policy.html">Политикой конфиденциальности</a></span>
-</label>
-<div class="flex justify-center pt-2">
-<button type="submit" id="guide-submit" class="rounded-full bg-[#64cefb] px-7 py-2.5 text-xs font-extrabold uppercase tracking-widest text-[#001f2a] shadow-[0_6px_18px_rgba(100,206,251,0.28)] transition-colors hover:bg-[#4cb8e5] disabled:cursor-not-allowed disabled:opacity-60">Получить гайд</button>
+<div class="guide-visual" aria-hidden="true">
+<div class="guide-cover">
+<span class="guide-sticker">бесплатно</span>
+<span class="guide-cover-badge">PDF</span>
+<span class="guide-cover-kicker">Product Manager</span>
+<span class="guide-cover-name">Гайд к интервью</span>
+<span class="guide-cover-meta">вход в IT</span>
 </div>
-<p id="guide-status" class="text-center text-sm leading-relaxed text-white/70" role="status" aria-live="polite" hidden></p>
-</form>
+</div>
+</div>
 </div>
 </div>
 </section>
@@ -3852,19 +5233,25 @@
         const HERO_STATIC_CREATIVE = true;
         const btnAll = document.getElementById('toggle-all');
         const btnStudents = document.getElementById('toggle-students');
-        const navIds = ['audience', 'value', 'expert', 'curriculum', 'guide', 'placements', 'reviews', 'faq'];
-        const scrollSpyChain = [
-            { id: 'audience', href: '#audience' },
-            { id: 'value', href: '#value' },
-            { id: 'expert', href: '#expert' },
-            { id: 'curriculum', href: '#curriculum' },
-            { id: 'guide', href: '#guide' },
-            { id: 'placements', href: '#placements' },
-            { id: 'reviews', href: '#reviews' },
-            { id: 'faq', href: '#faq' },
+        const navKeys = [
+            { key: 'audience', id: 'audience' },
+            { key: 'expert', id: 'expert' },
+            { key: 'curriculum', id: 'curriculum' },
+            { key: 'guide', id: 'guide' },
+            { key: 'result', id: 'placements' },
+            { key: 'faq', id: 'faq' },
         ];
-        const navLinks = document.querySelectorAll('.nav-link');
-        const connectorFills = document.querySelectorAll('.nav-connector-fill');
+        const scrollSpyChain = [
+            { key: 'audience', ids: ['audience'] },
+            { key: 'expert', ids: ['expert'] },
+            { key: 'curriculum', ids: ['curriculum'] },
+            { key: 'guide', ids: ['guide'] },
+            { key: 'result', ids: ['placements', 'reviews'] },
+            { key: 'faq', ids: ['faq'] },
+        ];
+        const navItems = Array.from(document.querySelectorAll('#site-header .nav-item[data-nav-key]'));
+        const navLinks = Array.from(document.querySelectorAll('#site-header .nav-link[data-nav-top]'));
+        const connectorFills = document.querySelectorAll('#site-header .nav-connector-fill');
         let navSyncRaf = null;
         let heroVideoMode = 'all';
         let reverseRafId = null;
@@ -4040,7 +5427,7 @@
         }
 
         function updateNavProgress() {
-            const els = navIds.map((id) => document.getElementById(id)).filter(Boolean);
+            const els = navKeys.map((row) => document.getElementById(row.id)).filter(Boolean);
             if (!els.length || els.length !== navLinks.length) return;
 
             /* Без смещения по высоте окна: иначе при scrollY=0 линии уже частично «заполнены». */
@@ -4082,21 +5469,20 @@
         function syncNavFromScroll() {
             /* Только реальный скролл — активный пункт не «убегает» вперёд от нуля. */
             const probe = window.scrollY;
-            let activeHref = scrollSpyChain[0]?.href || '#audience';
+            let activeKey = scrollSpyChain[0]?.key || 'audience';
             for (const row of scrollSpyChain) {
-                const el = document.getElementById(row.id);
-                if (el && docTop(el) <= probe) {
-                    activeHref = row.href;
-                }
+                const hit = row.ids.some((id) => {
+                    const el = document.getElementById(id);
+                    return el && docTop(el) <= probe;
+                });
+                if (hit) activeKey = row.key;
             }
-            navLinks.forEach((link) => {
-                const h = link.getAttribute('href');
-                link.classList.remove('active', 'text-white');
-                link.classList.add('text-white/55');
-                if (h === activeHref) {
-                    link.classList.add('active', 'text-white');
-                    link.classList.remove('text-white/55');
-                }
+            navItems.forEach((item) => {
+                const link = item.querySelector('.nav-link[data-nav-top]');
+                if (!link) return;
+                const on = item.getAttribute('data-nav-key') === activeKey;
+                link.classList.toggle('active', on);
+                link.classList.toggle('text-white', on);
             });
             updateNavProgress();
         }
@@ -4112,6 +5498,131 @@
         window.addEventListener('scroll', requestNavSync, { passive: true });
         window.addEventListener('resize', syncNavFromScroll);
         syncNavFromScroll();
+
+
+        (function initGlareCards() {
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+            const desktop = window.matchMedia('(min-width: 768px)');
+            const staticSelectors =
+                '.hero-usp-card, .achievement-card, .edu-card, .exp-card';
+
+            function isInteractiveCard(el) {
+                return !!(
+                    el.matches('a, button') ||
+                    el.querySelector(
+                        'a[href], button, [data-track-more], input, textarea, select, video, [role="button"]'
+                    )
+                );
+            }
+
+            function enhance(el) {
+                if (el.dataset.glareReady === '1' || isInteractiveCard(el)) return;
+                el.dataset.glareReady = '1';
+                el.classList.add('glare-card');
+
+                const glare = document.createElement('div');
+                glare.className = 'glare-card-glare';
+                glare.setAttribute('aria-hidden', 'true');
+                const foil = document.createElement('div');
+                foil.className = 'glare-card-foil';
+                foil.setAttribute('aria-hidden', 'true');
+                el.append(glare, foil);
+
+                const state = {
+                    glare: { x: 50, y: 50 },
+                    background: { x: 50, y: 50 },
+                    rotate: { x: 0, y: 0 }
+                };
+                let inside = false;
+
+                function updateStyles() {
+                    el.style.setProperty('--m-x', state.glare.x + '%');
+                    el.style.setProperty('--m-y', state.glare.y + '%');
+                    el.style.setProperty('--r-x', state.rotate.x + 'deg');
+                    el.style.setProperty('--r-y', state.rotate.y + 'deg');
+                    el.style.setProperty('--bg-x', state.background.x + '%');
+                    el.style.setProperty('--bg-y', state.background.y + '%');
+                }
+
+                function onMove(event) {
+                    if (reduceMotion.matches || !finePointer.matches) return;
+                    if (el.classList.contains('audience-card') && !desktop.matches) return;
+                    const rotateFactor = 0.35;
+                    const rect = el.getBoundingClientRect();
+                    const percentage = {
+                        x: (100 / rect.width) * (event.clientX - rect.left),
+                        y: (100 / rect.height) * (event.clientY - rect.top)
+                    };
+                    const delta = {
+                        x: percentage.x - 50,
+                        y: percentage.y - 50
+                    };
+                    state.background.x = 50 + percentage.x / 4 - 12.5;
+                    state.background.y = 50 + percentage.y / 3 - 16.67;
+                    state.rotate.x = -(delta.x / 3.5) * rotateFactor;
+                    state.rotate.y = (delta.y / 2) * rotateFactor;
+                    state.glare.x = percentage.x;
+                    state.glare.y = percentage.y;
+                    el.style.setProperty('--opacity', '0.4');
+                    updateStyles();
+                }
+
+                function onEnter() {
+                    if (reduceMotion.matches || !finePointer.matches) return;
+                    if (el.classList.contains('audience-card') && !desktop.matches) return;
+                    inside = true;
+                    el.style.setProperty('--opacity', '0.4');
+                    window.setTimeout(() => {
+                        if (inside) el.style.setProperty('--duration', '0s');
+                    }, 300);
+                }
+
+                function onLeave() {
+                    inside = false;
+                    el.style.removeProperty('--duration');
+                    el.style.setProperty('--r-x', '0deg');
+                    el.style.setProperty('--r-y', '0deg');
+                    el.style.setProperty('--opacity', '0');
+                    state.rotate.x = 0;
+                    state.rotate.y = 0;
+                }
+
+                el.addEventListener('pointermove', onMove);
+                el.addEventListener('pointerenter', onEnter);
+                el.addEventListener('pointerleave', onLeave);
+            }
+
+            function sync() {
+                document.querySelectorAll(staticSelectors).forEach(enhance);
+                if (desktop.matches) {
+                    document.querySelectorAll('.audience-card').forEach(enhance);
+                }
+            }
+
+            sync();
+            desktop.addEventListener('change', sync);
+        })();
+
+        (function initDesktopNavMenus() {
+            const desktopNav = document.querySelector('[data-desktop-nav]');
+            if (!desktopNav) return;
+
+            desktopNav.querySelectorAll('.nav-item').forEach((item) => {
+                item.addEventListener('mouseenter', () => item.classList.add('is-open'));
+                item.addEventListener('mouseleave', () => item.classList.remove('is-open'));
+            });
+
+            desktopNav.querySelectorAll('[data-nav-expert]').forEach((link) => {
+                link.addEventListener('click', () => {
+                    const id = link.getAttribute('data-nav-expert');
+                    const chip = document.querySelector(
+                        '#expert-people [data-global-expert="' + id + '"]:not([disabled])'
+                    );
+                    if (chip) chip.click();
+                });
+            });
+        })();
 
         const bgVideo = document.getElementById('bg-video');
 
@@ -4401,174 +5912,239 @@
 
         (function initAudienceStack() {
             document.querySelectorAll('[data-audience-stack]').forEach((section) => {
-            const stack = section.querySelector('.audience-stack');
-            const cards = Array.from(section.querySelectorAll('[data-audience-card]'));
-            const dotsWrap = section.querySelector('.audience-stack-dots');
-            const prevBtn = section.querySelector('[data-audience-prev]');
-            const nextBtn = section.querySelector('[data-audience-next]');
-            if (!stack || cards.length < 2) return;
+                const stack = section.querySelector('.audience-stack');
+                const cards = Array.from(section.querySelectorAll('[data-audience-card]'));
+                const dotsWrap = section.querySelector('.audience-stack-dots');
+                const prevBtn = section.querySelector('[data-audience-prev]');
+                const nextBtn = section.querySelector('[data-audience-next]');
+                if (!stack || cards.length < 2) return;
 
-            const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const desktopGrid = () => window.matchMedia('(min-width: 768px)').matches;
-            let active = 0;
-            let dragX = 0;
-            let startX = 0;
-            let dragging = false;
+                const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const desktopGrid = () => window.matchMedia('(min-width: 768px)').matches;
+                let active = 0;
+                let dragX = 0;
+                let startX = 0;
+                let dragging = false;
 
-            if (dotsWrap) {
-                dotsWrap.innerHTML = cards
-                    .map((_, i) => `<span class="audience-stack-dot${i === 0 ? ' is-active' : ''}"></span>`)
-                    .join('');
-            }
-            const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
-
-            function measureCardHeight() {
-                if (reduceMotion() || desktopGrid()) {
-                    section.style.removeProperty('--audience-card-h');
-                    return;
+                if (stack.getAttribute('aria-label')) {
+                    stack.setAttribute('aria-label', 'Ситуации — листайте стрелками или свайпом');
                 }
-                const hiddenHost = section.closest('[data-global-expert-panel]');
-                const wasHidden = hiddenHost && hiddenHost.hidden;
-                if (wasHidden) hiddenHost.hidden = false;
-                const width = stack.clientWidth || stack.offsetWidth;
-                if (!width) {
-                    if (wasHidden) hiddenHost.hidden = true;
-                    return;
+
+                if (dotsWrap) {
+                    dotsWrap.innerHTML = cards
+                        .map((_, i) => `<span class="audience-stack-dot${i === 0 ? ' is-active' : ''}"></span>`)
+                        .join('');
                 }
-                let maxH = 0;
-                cards.forEach((card) => {
-                    const clone = card.cloneNode(true);
-                    clone.classList.remove('is-dismissed', 'is-stack-hidden');
-                    clone.style.cssText = [
-                        'position:static',
-                        'inset:auto',
-                        'transform:none',
-                        'opacity:1',
-                        'visibility:hidden',
-                        'pointer-events:none',
-                        `width:${width}px`,
-                        'height:auto',
-                    ].join(';');
-                    stack.appendChild(clone);
-                    maxH = Math.max(maxH, clone.offsetHeight);
-                    clone.remove();
+                const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
+
+                function randomRot() {
+                    return Math.floor(Math.random() * 21) - 10;
+                }
+
+                function rememberText(card) {
+                    card.querySelectorAll('h3, p').forEach((node) => {
+                        if (!node.dataset.raw) node.dataset.raw = node.textContent || '';
+                    });
+                }
+
+                function restoreText(card) {
+                    card.querySelectorAll('h3, p').forEach((node) => {
+                        if (node.dataset.raw != null) node.textContent = node.dataset.raw;
+                    });
+                }
+
+                function animateWords(card) {
+                    if (reduceMotion()) return;
+                    card.querySelectorAll('h3, p').forEach((node) => {
+                        const raw = node.dataset.raw;
+                        if (!raw) return;
+                        let delay = 0;
+                        node.innerHTML = raw
+                            .split(/(\s+)/)
+                            .map((part) => {
+                                if (!part.trim()) return part;
+                                const ms = (delay++ * 0.02).toFixed(2);
+                                return (
+                                    '<span class="audience-word" style="animation-delay:' +
+                                    ms +
+                                    's">' +
+                                    part +
+                                    '</span>'
+                                );
+                            })
+                            .join('');
+                    });
+                }
+
+                cards.forEach((card, i) => {
+                    rememberText(card);
+                    card.style.setProperty('--card-rot', randomRot() + 'deg');
+                    card.style.zIndex = String(cards.length + 2 - i);
                 });
-                if (maxH > 0) {
-                    const stackPad = Math.min(cards.length - 1, 3) * 16;
-                    section.style.setProperty('--audience-card-h', `${Math.ceil(maxH + stackPad + 8)}px`);
-                }
-                if (wasHidden) hiddenHost.hidden = true;
-            }
 
-            function setActive(index) {
-                if (desktopGrid()) {
+                function measureCardHeight() {
+                    if (reduceMotion() || desktopGrid()) {
+                        section.style.removeProperty('--audience-card-h');
+                        return;
+                    }
+                    const hiddenHost = section.closest('[data-global-expert-panel]');
+                    const wasHidden = hiddenHost && hiddenHost.hidden;
+                    if (wasHidden) hiddenHost.hidden = false;
+                    const width = stack.clientWidth || stack.offsetWidth;
+                    if (!width) {
+                        if (wasHidden) hiddenHost.hidden = true;
+                        return;
+                    }
+                    let maxH = 0;
                     cards.forEach((card) => {
-                        card.classList.remove('is-dismissed', 'is-stack-hidden', 'is-behind');
-                        card.style.removeProperty('--stack-i');
-                        card.style.zIndex = '';
+                        const clone = card.cloneNode(true);
+                        clone.classList.remove('is-active', 'is-entering');
+                        clone.style.cssText = [
+                            'position:static',
+                            'inset:auto',
+                            'transform:none',
+                            'opacity:1',
+                            'visibility:hidden',
+                            'pointer-events:none',
+                            'width:' + width + 'px',
+                            'height:auto'
+                        ].join(';');
+                        stack.appendChild(clone);
+                        maxH = Math.max(maxH, clone.offsetHeight);
+                        clone.remove();
+                    });
+                    if (maxH > 0) {
+                        section.style.setProperty('--audience-card-h', Math.ceil(maxH + 28) + 'px');
+                    }
+                    if (wasHidden) hiddenHost.hidden = true;
+                }
+
+                function setActive(index, options) {
+                    const opts = options || {};
+                    if (desktopGrid()) {
+                        cards.forEach((card) => {
+                            card.classList.remove('is-active', 'is-entering');
+                            card.style.removeProperty('--card-rot');
+                            card.style.zIndex = '';
+                            card.style.transform = '';
+                            card.style.opacity = '';
+                            restoreText(card);
+                            card.removeAttribute('aria-hidden');
+                        });
+                        return;
+                    }
+
+                    const len = cards.length;
+                    active = ((index % len) + len) % len;
+
+                    cards.forEach((card, i) => {
+                        const on = i === active;
+                        card.classList.toggle('is-active', on);
+                        card.classList.remove('is-entering');
                         card.style.transform = '';
                         card.style.opacity = '';
-                        card.removeAttribute('aria-hidden');
+                        if (on) {
+                            card.style.zIndex = '40';
+                            card.style.setProperty('--card-rot', '0deg');
+                            card.setAttribute('aria-hidden', 'false');
+                            if (!opts.silent && !reduceMotion()) {
+                                animateWords(card);
+                                card.classList.add('is-entering');
+                                window.setTimeout(() => card.classList.remove('is-entering'), 480);
+                            } else {
+                                restoreText(card);
+                            }
+                        } else {
+                            card.style.setProperty('--card-rot', randomRot() + 'deg');
+                            card.style.zIndex = String(len + 2 - i);
+                            card.setAttribute('aria-hidden', 'true');
+                            restoreText(card);
+                        }
                     });
-                    return;
+
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('is-active', i === active);
+                    });
+                    if (prevBtn) prevBtn.disabled = false;
+                    if (nextBtn) nextBtn.disabled = false;
                 }
-                active = Math.max(0, Math.min(cards.length - 1, index));
-                cards.forEach((card, i) => {
-                    const dismissed = i < active;
-                    const stackI = dismissed ? 0 : i - active;
-                    const stackHidden = !dismissed && stackI > 3;
-                    card.classList.remove('is-behind');
-                    card.classList.toggle('is-dismissed', dismissed);
-                    card.classList.toggle('is-stack-hidden', stackHidden);
-                    if (!dismissed && !stackHidden) {
-                        card.style.setProperty('--stack-i', String(stackI));
-                    }
-                    card.style.zIndex = String(cards.length - i);
-                    card.style.transform = '';
-                    card.style.opacity = '';
-                    card.setAttribute('aria-hidden', i === active ? 'false' : 'true');
-                });
+
+                function go(delta) {
+                    if (reduceMotion() || desktopGrid()) return;
+                    setActive(active + delta);
+                }
+
+                if (prevBtn) prevBtn.addEventListener('click', () => go(-1));
+                if (nextBtn) nextBtn.addEventListener('click', () => go(1));
+
                 dots.forEach((dot, i) => {
-                    dot.classList.toggle('is-active', i === active);
+                    dot.style.cursor = 'pointer';
+                    dot.addEventListener('click', () => setActive(i));
                 });
-                if (prevBtn) prevBtn.disabled = active <= 0;
-                if (nextBtn) nextBtn.disabled = active >= cards.length - 1;
-            }
 
-            function go(delta) {
-                if (reduceMotion() || desktopGrid()) return;
-                setActive(active + delta);
-            }
+                stack.addEventListener('keydown', (event) => {
+                    if (event.key === 'ArrowLeft') {
+                        event.preventDefault();
+                        go(-1);
+                    } else if (event.key === 'ArrowRight') {
+                        event.preventDefault();
+                        go(1);
+                    }
+                });
 
-            if (prevBtn) prevBtn.addEventListener('click', () => go(-1));
-            if (nextBtn) nextBtn.addEventListener('click', () => go(1));
-
-            dots.forEach((dot, i) => {
-                dot.style.cursor = 'pointer';
-                dot.addEventListener('click', () => setActive(i));
-            });
-
-            stack.addEventListener('keydown', (event) => {
-                if (event.key === 'ArrowLeft') {
-                    event.preventDefault();
-                    go(-1);
-                } else if (event.key === 'ArrowRight') {
-                    event.preventDefault();
-                    go(1);
+                function onPointerDown(event) {
+                    if (reduceMotion() || desktopGrid()) return;
+                    if (event.pointerType === 'mouse' && event.button !== 0) return;
+                    dragging = true;
+                    dragX = 0;
+                    startX = event.clientX;
+                    stack.setPointerCapture(event.pointerId);
                 }
-            });
 
-            function onPointerDown(event) {
-                if (reduceMotion() || desktopGrid()) return;
-                if (event.pointerType === 'mouse' && event.button !== 0) return;
-                dragging = true;
-                dragX = 0;
-                startX = event.clientX;
-                stack.setPointerCapture(event.pointerId);
-            }
-
-            function onPointerMove(event) {
-                if (!dragging) return;
-                dragX = event.clientX - startX;
-                const front = cards[active];
-                if (!front) return;
-                const rot = dragX / 40;
-                front.style.transform = `translate3d(${dragX}px, 0, 0) rotate(${rot}deg)`;
-                front.style.opacity = String(Math.max(0.35, 1 - Math.abs(dragX) / 280));
-            }
-
-            function onPointerUp(event) {
-                if (!dragging) return;
-                dragging = false;
-                try {
-                    stack.releasePointerCapture(event.pointerId);
-                } catch (e) {}
-                const front = cards[active];
-                if (front) {
-                    front.style.transform = '';
-                    front.style.opacity = '';
+                function onPointerMove(event) {
+                    if (!dragging) return;
+                    dragX = event.clientX - startX;
+                    const front = cards[active];
+                    if (!front) return;
+                    const rot = dragX / 40;
+                    front.style.transform =
+                        'translate3d(' + dragX + 'px, 0, 0) rotate(' + rot + 'deg) scale(1)';
+                    front.style.opacity = String(Math.max(0.4, 1 - Math.abs(dragX) / 300));
                 }
-                if (dragX < -64) go(1);
-                else if (dragX > 64) go(-1);
-                dragX = 0;
-            }
 
-            stack.addEventListener('pointerdown', onPointerDown);
-            stack.addEventListener('pointermove', onPointerMove);
-            stack.addEventListener('pointerup', onPointerUp);
-            stack.addEventListener('pointercancel', onPointerUp);
+                function onPointerUp(event) {
+                    if (!dragging) return;
+                    dragging = false;
+                    try {
+                        stack.releasePointerCapture(event.pointerId);
+                    } catch (e) {}
+                    const front = cards[active];
+                    if (front) {
+                        front.style.transform = '';
+                        front.style.opacity = '';
+                    }
+                    if (dragX < -64) go(1);
+                    else if (dragX > 64) go(-1);
+                    dragX = 0;
+                }
 
-            measureCardHeight();
-            setActive(0);
-            section.__audienceRefresh = (options = {}) => {
-                if (options.reset) active = 0;
+                stack.addEventListener('pointerdown', onPointerDown);
+                stack.addEventListener('pointermove', onPointerMove);
+                stack.addEventListener('pointerup', onPointerUp);
+                stack.addEventListener('pointercancel', onPointerUp);
+
                 measureCardHeight();
-                setActive(active);
-            };
-            window.addEventListener('resize', () => {
-                measureCardHeight();
-                setActive(active);
-            });
+                setActive(0, { silent: true });
+                section.__audienceRefresh = (options) => {
+                    const opts = options || {};
+                    if (opts.reset) active = 0;
+                    measureCardHeight();
+                    setActive(active, { silent: true });
+                };
+                window.addEventListener('resize', () => {
+                    measureCardHeight();
+                    setActive(active, { silent: true });
+                });
             });
         })();
 
@@ -4580,12 +6156,22 @@
             const stickyCta = document.getElementById('sticky-consult-cta');
             const heroCta = document.getElementById('hero-contact-cta');
             const menuCta = document.getElementById('menu-contact-cta');
+            const navCta = document.getElementById('nav-contact-cta');
             const stickyToggle = document.getElementById('expert-sticky-toggle');
+            const desktopMq = window.matchMedia('(min-width: 768px)');
 
             function syncContactHref(el, id) {
                 if (!el) return;
                 const href = el.getAttribute('data-contact-' + id);
                 if (href) el.href = href;
+            }
+
+            function syncToggleButtons(root, id) {
+                root?.querySelectorAll('[data-global-expert]').forEach((btn) => {
+                    const on = btn.getAttribute('data-global-expert') === id;
+                    btn.classList.toggle('is-active', on);
+                    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+                });
             }
 
             function activateChipRoot(root, key) {
@@ -4623,11 +6209,7 @@
                     if (btn.hasAttribute('aria-selected')) btn.setAttribute('aria-selected', on ? 'true' : 'false');
                 });
 
-                stickyToggle?.querySelectorAll('[data-global-expert]').forEach((btn) => {
-                    const on = btn.getAttribute('data-global-expert') === id;
-                    btn.classList.toggle('is-active', on);
-                    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-                });
+                syncToggleButtons(stickyToggle, id);
 
                 document.querySelectorAll('[data-global-expert-panel]').forEach((el) => {
                     const on = el.getAttribute('data-global-expert-panel') === id;
@@ -4637,6 +6219,7 @@
                 syncContactHref(stickyCta, id);
                 syncContactHref(heroCta, id);
                 syncContactHref(menuCta, id);
+                syncContactHref(navCta, id);
 
                 activateChipRoot(expertPeople, id);
                 activateServicesExpert(id);
@@ -4645,6 +6228,7 @@
                     const panel = document.querySelector('[data-global-expert-panel="' + id + '"]');
                     panel?.querySelector('[data-audience-stack]')?.__audienceRefresh?.({ reset: true });
                     stickyToggle?.__refreshVisibility?.();
+                    window.__refreshScrollTimelines?.();
                 });
             }
 
@@ -4666,6 +6250,11 @@
 
             if (stickyToggle && expertPeople) {
                 const syncStickyToggle = () => {
+                    if (desktopMq.matches) {
+                        // На деске тогл живёт в bar вместе с CTA — отдельная видимость не нужна
+                        stickyToggle.classList.remove('is-visible');
+                        return;
+                    }
                     const panel = expertPeople.querySelector(':scope > .section-chip-panels > [data-chip-panel].is-active')
                         || expertPeople.querySelector('[data-chip-panel].is-active');
                     const portrait = panel?.querySelector('.expert-story-portrait-wrap');
@@ -4673,14 +6262,23 @@
                         stickyToggle.classList.remove('is-visible');
                         return;
                     }
-                    // Показать сразу, как только низ фото ушёл выше верхнего края экрана
                     const pastPhoto = portrait.getBoundingClientRect().bottom <= 0;
                     stickyToggle.classList.toggle('is-visible', pastPhoto);
                 };
 
                 window.addEventListener('scroll', syncStickyToggle, { passive: true });
                 window.addEventListener('resize', syncStickyToggle, { passive: true });
+                if (typeof desktopMq.addEventListener === 'function') {
+                    desktopMq.addEventListener('change', syncStickyToggle);
+                } else if (typeof desktopMq.addListener === 'function') {
+                    desktopMq.addListener(syncStickyToggle);
+                }
                 stickyToggle.__refreshVisibility = syncStickyToggle;
+                // После появления sticky CTA тоже синхронизируем
+                if (stickyCta) {
+                    const mo = new MutationObserver(syncStickyToggle);
+                    mo.observe(stickyCta, { attributes: true, attributeFilter: ['class'] });
+                }
                 syncStickyToggle();
             }
 
@@ -4689,6 +6287,63 @@
                 saved = localStorage.getItem(STORAGE_KEY) || 'nastya';
             } catch (e) {}
             setExpert(saved);
+        })();
+
+        (function initScrollTimelines() {
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const timelines = Array.from(document.querySelectorAll('[data-scroll-timeline]'));
+            if (!timelines.length) return;
+
+            function clamp(n, min, max) {
+                return Math.max(min, Math.min(max, n));
+            }
+
+            function syncTimeline(root) {
+                const beam = root.querySelector('[data-timeline-beam]');
+                const steps = Array.from(root.querySelectorAll('[data-timeline-step]'));
+                if (!beam || !steps.length) return;
+
+                if (reduceMotion) {
+                    beam.style.height = '100%';
+                    steps.forEach((step) => step.classList.add('is-active'));
+                    return;
+                }
+
+                const rect = root.getBoundingClientRect();
+                const view = window.innerHeight || 1;
+                // Progress while timeline travels through the viewport (Aceternity-like)
+                const start = view * 0.72;
+                const end = view * 0.28;
+                const raw = (start - rect.top) / Math.max(1, rect.height + (start - end));
+                const progress = clamp(raw, 0, 1);
+                beam.style.height = (progress * 100).toFixed(2) + '%';
+
+                const activationY = view * 0.58;
+                steps.forEach((step) => {
+                    const stepRect = step.getBoundingClientRect();
+                    const reached = stepRect.top < activationY;
+                    step.classList.toggle('is-active', reached || progress >= 0.97);
+                });
+            }
+
+            function syncAll() {
+                timelines.forEach(syncTimeline);
+            }
+
+            let ticking = false;
+            function onScroll() {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(() => {
+                    syncAll();
+                    ticking = false;
+                });
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll, { passive: true });
+            syncAll();
+            window.__refreshScrollTimelines = syncAll;
         })();
 
         (function initSectionChips() {
@@ -4726,6 +6381,7 @@
                     tab.addEventListener('click', () => {
                         if (tab.disabled || tab.hasAttribute('data-expert-disabled')) return;
                         activate(root, tab.getAttribute('data-chip-tab'));
+                        requestAnimationFrame(() => window.__refreshScrollTimelines?.());
                     });
                     tab.addEventListener('keydown', (event) => {
                         if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft' && event.key !== 'Home' && event.key !== 'End') return;
@@ -4748,18 +6404,154 @@
             });
         })();
 
-        (function initTrackMore() {
-            document.querySelectorAll('[data-track-more]').forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    const id = btn.getAttribute('aria-controls');
-                    const detail = id ? document.getElementById(id) : null;
-                    if (!detail) return;
-                    const open = !detail.classList.contains('is-open');
-                    detail.classList.toggle('is-open', open);
-                    detail.hidden = !open;
-                    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-                    btn.textContent = open ? 'Скрыть' : 'Подробнее';
+        (function initTrackExpand() {
+            const root = document.getElementById('track-expand');
+            const panel = document.getElementById('track-expand-panel');
+            const titleEl = document.getElementById('track-expand-title');
+            const textEl = document.getElementById('track-expand-text');
+            const priceEl = document.getElementById('track-expand-price');
+            const metaEl = document.getElementById('track-expand-meta');
+            const ctaEl = document.getElementById('track-expand-cta');
+            const contentEl = document.getElementById('track-expand-content');
+            if (!root || !panel || !titleEl || !contentEl) return;
+
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let activeCard = null;
+            let lastFocus = null;
+            let closing = false;
+
+            function fillFromCard(card) {
+                const title = card.querySelector('.track-card-title');
+                const text = card.querySelector('.track-card-text');
+                const price = card.querySelector('.track-card-price');
+                const meta = card.querySelector('.track-card-meta');
+                const detail = card.querySelector('.track-detail');
+                const detailCta = detail?.querySelector('.track-detail-cta');
+
+                titleEl.textContent = title?.textContent?.trim() || '';
+                textEl.textContent = text?.textContent?.trim() || '';
+                priceEl.textContent = price?.textContent?.trim() || '';
+                metaEl.textContent = meta?.textContent?.trim() || '';
+                priceEl.hidden = !priceEl.textContent;
+                metaEl.hidden = !metaEl.textContent;
+
+                const href = detailCta?.getAttribute('href') || '#';
+                ctaEl.href = href;
+                ctaEl.style.display = detailCta ? '' : 'none';
+
+                contentEl.replaceChildren();
+                if (detail) {
+                    detail.querySelectorAll('.track-detail-list, .track-detail-note').forEach((node) => {
+                        contentEl.appendChild(node.cloneNode(true));
+                    });
+                }
+            }
+
+            function lockScroll() {
+                document.body.classList.add('has-overlay-open');
+            }
+
+            function unlockScroll() {
+                if (!document.getElementById('sections-overlay')?.classList.contains('is-open')) {
+                    document.body.classList.remove('has-overlay-open');
+                }
+            }
+
+            function playOpenFlip(card) {
+                if (reduceMotion) {
+                    panel.style.transform = '';
+                    return;
+                }
+                const from = card.getBoundingClientRect();
+                const to = panel.getBoundingClientRect();
+                if (!from.width || !to.width) return;
+                const dx = from.left - to.left;
+                const dy = from.top - to.top;
+                const sx = from.width / to.width;
+                const sy = Math.max(0.2, from.height / to.height);
+                panel.style.transition = 'none';
+                panel.style.transform = `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`;
+                panel.style.borderRadius = getComputedStyle(card).borderRadius;
+                void panel.offsetWidth;
+                panel.style.transition = 'transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), border-radius 0.42s ease';
+                panel.style.transform = 'translate(0, 0) scale(1)';
+                panel.style.borderRadius = '';
+            }
+
+            function openCard(card) {
+                if (closing || activeCard === card) return;
+                if (activeCard) closeCard(true);
+                lastFocus = document.activeElement;
+                activeCard = card;
+                fillFromCard(card);
+                card.classList.add('is-expand-source');
+                root.hidden = false;
+                root.setAttribute('aria-hidden', 'false');
+                root.classList.add('is-open');
+                lockScroll();
+                requestAnimationFrame(() => playOpenFlip(card));
+                const closeBtn = root.querySelector('.track-expand-close');
+                (closeBtn || ctaEl || panel).focus?.();
+            }
+
+            function closeCard(immediate) {
+                if (!activeCard && root.hidden) return;
+                closing = true;
+                const card = activeCard;
+                const finish = () => {
+                    root.classList.remove('is-open');
+                    root.hidden = true;
+                    root.setAttribute('aria-hidden', 'true');
+                    panel.style.transition = '';
+                    panel.style.transform = '';
+                    panel.style.borderRadius = '';
+                    card?.classList.remove('is-expand-source');
+                    activeCard = null;
+                    closing = false;
+                    unlockScroll();
+                    if (lastFocus && typeof lastFocus.focus === 'function') {
+                        try { lastFocus.focus(); } catch (e) {}
+                    }
+                    lastFocus = null;
+                };
+
+                if (immediate || reduceMotion || !card) {
+                    finish();
+                    return;
+                }
+
+                const from = panel.getBoundingClientRect();
+                const to = card.getBoundingClientRect();
+                if (from.width && to.width) {
+                    const dx = to.left - from.left;
+                    const dy = to.top - from.top;
+                    const sx = to.width / from.width;
+                    const sy = Math.max(0.2, to.height / from.height);
+                    panel.style.transition = 'transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), border-radius 0.32s ease';
+                    panel.style.transform = `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`;
+                    panel.style.borderRadius = getComputedStyle(card).borderRadius;
+                }
+                window.setTimeout(finish, 320);
+            }
+
+            document.querySelectorAll('.track-card').forEach((card) => {
+                if (!card.querySelector('[data-track-more]')) return;
+                const open = () => openCard(card);
+                card.addEventListener('click', (event) => {
+                    if (event.target.closest('a')) return;
+                    open();
                 });
+            });
+
+            root.querySelectorAll('[data-track-expand-close]').forEach((el) => {
+                el.addEventListener('click', () => closeCard(false));
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && !root.hidden) {
+                    event.preventDefault();
+                    closeCard(false);
+                }
             });
         })();
 
@@ -4841,11 +6633,14 @@
             (function initStickyConsultCta() {
                 const hero = document.getElementById('hero');
                 const sticky = document.getElementById('sticky-consult-cta');
+                const stickyBar = document.getElementById('sticky-consult-bar');
                 if (!hero || !sticky) return;
 
                 const sync = (show) => {
                     sticky.classList.toggle('is-visible', show);
+                    stickyBar?.classList.toggle('is-visible', show);
                     document.body.classList.toggle('has-sticky-cta', show);
+                    document.getElementById('expert-sticky-toggle')?.__refreshVisibility?.();
                 };
 
                 if (!('IntersectionObserver' in window)) {
@@ -4997,115 +6792,31 @@
             });
         })();
 
-        (function initGuideForm() {
-            const form = document.getElementById('guide-form');
-            const telegramInput = document.getElementById('guide-telegram');
-            const consentInput = document.getElementById('guide-consent');
-            const submitBtn = document.getElementById('guide-submit');
-            const statusEl = document.getElementById('guide-status');
-            if (!form || !telegramInput || !consentInput || !submitBtn || !statusEl) return;
+    </script>
+</body></html>
+ sectionsOverlay && sectionsOverlay.classList.contains('is-open') ? sectionsOverlay : null;
+                if (!openMenu) return;
 
-            const TELEGRAM_RE = /^[a-zA-Z][a-zA-Z0-9_]{3,31}$/;
-            const guideApi = (form.getAttribute('data-guide-api') || '').trim();
-            const botUsername = (form.getAttribute('data-bot-username') || '').trim().replace(/^@/, '');
-
-            function normalizeUsername(value) {
-                return value.trim().replace(/^@+/, '');
-            }
-
-            function setStatus(message, isError) {
-                statusEl.hidden = !message;
-                statusEl.textContent = message;
-                statusEl.classList.toggle('text-red-300', Boolean(isError));
-                statusEl.classList.toggle('text-white/70', !isError);
-            }
-
-            function validateTelegramField() {
-                const username = normalizeUsername(telegramInput.value);
-                if (!TELEGRAM_RE.test(username)) {
-                    telegramInput.setCustomValidity(
-                        'Введите корректный ник: латиница, цифры и _, от 5 до 32 символов, начинается с буквы.'
-                    );
-                    return null;
-                }
-                telegramInput.setCustomValidity('');
-                return username;
-            }
-
-            telegramInput.addEventListener('input', () => {
-                telegramInput.setCustomValidity('');
-                setStatus('', false);
-            });
-
-            consentInput.addEventListener('change', () => setStatus('', false));
-
-            function botUrl() {
-                if (!botUsername) return '';
-                return 'https://t.me/' + encodeURIComponent(botUsername) + '?start=guide';
-            }
-
-            function openBot(url) {
-                if (!url) return;
-                window.open(url, '_blank', 'noopener,noreferrer');
-            }
-
-            form.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                setStatus('', false);
-
-                if (!form.reportValidity()) return;
-
-                const username = validateTelegramField();
-                if (!username) {
-                    form.reportValidity();
+                if (event.key === 'Escape') {
+                    event.preventDefault();
+                    closeOverlay(sectionsOverlay);
                     return;
                 }
 
-                if (!consentInput.checked) {
-                    consentInput.setCustomValidity('Нужно согласие на обработку персональных данных.');
-                    form.reportValidity();
-                    return;
-                }
-                consentInput.setCustomValidity('');
-
-                submitBtn.disabled = true;
-
-                try {
-                    let link = botUrl();
-
-                    if (guideApi) {
-                        const response = await fetch(guideApi, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ telegram: username, consent: true }),
-                        });
-
-                        const payload = await response.json().catch(() => ({}));
-                        if (!response.ok) {
-                            throw new Error(payload.detail || 'Не удалось отправить заявку. Попробуйте позже.');
-                        }
-
-                        link = payload.bot_url || link;
-                        setStatus(
-                            payload.message ||
-                                'Откройте бота в Telegram и нажмите «Start» — гайд придёт автоматически.',
-                            false
-                        );
-                    } else if (link) {
-                        setStatus('Откройте бота в Telegram и нажмите «Start» — гайд придёт автоматически.', false);
-                    } else {
-                        setStatus('Укажите data-bot-username у формы или подключите API бота.', true);
-                        return;
-                    }
-
-                    openBot(link);
-                    form.reset();
-                } catch (error) {
-                    setStatus(error.message || 'Ошибка отправки. Попробуйте позже.', true);
-                } finally {
-                    submitBtn.disabled = false;
+                if (event.key !== 'Tab') return;
+                const nodes = focusableIn(openMenu);
+                if (!nodes.length) return;
+                const first = nodes[0];
+                const last = nodes[nodes.length - 1];
+                if (event.shiftKey && document.activeElement === first) {
+                    event.preventDefault();
+                    last.focus();
+                } else if (!event.shiftKey && document.activeElement === last) {
+                    event.preventDefault();
+                    first.focus();
                 }
             });
         })();
+
     </script>
 </body></html>

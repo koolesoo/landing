@@ -1,23 +1,27 @@
-"""Telegram-бот: отправляет гайд пользователям, пришедшим с сайта."""
+"""Telegram-бот: гайд с сайта и запись на услуги."""
 
 from __future__ import annotations
 
-import asyncio
-import json
 import logging
 import os
-import re
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
 from aiohttp import web
 from dotenv import load_dotenv
-from telegram import Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.constants import ParseMode
-from telegram.ext import Application, CommandHandler, ContextTypes
+from telegram.ext import (
+    Application,
+    CallbackQueryHandler,
+    CommandHandler,
+    ContextTypes,
+)
 
 from guide_content import (
+    BOOKING_INTRO,
+    BOOKING_SUCCESS,
     GUIDE_CAPTION,
     GUIDE_FILE,
     GUIDE_FILENAME,
@@ -25,6 +29,7 @@ from guide_content import (
     WELCOME_DEFAULT,
     WELCOME_FROM_SITE,
 )
+from services import EXPERTS, get_expert, get_tariff
 
 load_dotenv()
 
@@ -39,7 +44,7 @@ DB_PATH = BASE_DIR / "data" / "guide.db"
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 BOT_USERNAME = os.getenv("BOT_USERNAME", "").strip().lstrip("@")
-ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "neradana").strip().lstrip("@").lower()
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "koolesoo").strip().lstrip("@").lower()
 ADMIN_CHAT_ID = os.getenv("ADMIN_CHAT_ID", "").strip()
 BOT_MODE = os.getenv("BOT_MODE", "polling").strip().lower()
 WEBHOOK_URL = os.getenv("WEBHOOK_URL", "").strip().rstrip("/")
@@ -54,8 +59,6 @@ ALLOWED_ORIGINS = {
     if origin.strip()
 }
 
-TELEGRAM_USERNAME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9_]{3,31}$")
-
 ptb_app: Application | None = None
 
 
@@ -63,39 +66,40 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat()
 
 
-def normalize_username(value: str) -> str | None:
-    username = value.strip().lstrip("@")
-    if not TELEGRAM_USERNAME_RE.fullmatch(username):
-        return None
-    return username.lower()
-
-
 def init_db() -> None:
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     with sqlite3.connect(DB_PATH) as conn:
         conn.execute(
             """
-            CREATE TABLE IF NOT EXISTS guide_requests (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                telegram_username TEXT NOT NULL,
-                created_at TEXT NOT NULL,
-                delivered_at TEXT,
-                telegram_user_id INTEGER,
-                source TEXT NOT NULL DEFAULT 'site'
+            CREATE TABLE IF NOT EXISTS settings (
+                key TEXT PRIMARY KEY,
+                value TEXT NOT NULL
             )
             """
         )
         conn.execute(
             """
-            CREATE INDEX IF NOT EXISTS idx_guide_requests_username
-            ON guide_requests (telegram_username)
+            CREATE TABLE IF NOT EXISTS booking_starts (
+                telegram_user_id INTEGER PRIMARY KEY,
+                username TEXT,
+                full_name TEXT,
+                created_at TEXT NOT NULL
+            )
             """
         )
         conn.execute(
             """
-            CREATE TABLE IF NOT EXISTS settings (
-                key TEXT PRIMARY KEY,
-                value TEXT NOT NULL
+            CREATE TABLE IF NOT EXISTS bookings (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                telegram_user_id INTEGER NOT NULL,
+                username TEXT,
+                full_name TEXT,
+                expert_id TEXT NOT NULL,
+                tariff_id TEXT NOT NULL,
+                expert_name TEXT NOT NULL,
+                tariff_title TEXT NOT NULL,
+                tariff_price TEXT NOT NULL,
+                created_at TEXT NOT NULL
             )
             """
         )
@@ -110,7 +114,8 @@ def get_setting(key: str) -> str | None:
 def set_setting(key: str, value: str) -> None:
     with sqlite3.connect(DB_PATH) as conn:
         conn.execute(
-            "INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+            "INSERT INTO settings (key, value) VALUES (?, ?) "
+            "ON CONFLICT(key) DO UPDATE SET value = excluded.value",
             (key, value),
         )
 
@@ -145,35 +150,164 @@ async def notify_admin(bot, text: str) -> None:
         logger.warning("Admin chat id is not set — @%s should /start the bot once", ADMIN_USERNAME)
         return
     try:
-        await bot.send_message(chat_id=chat_id, text=text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+        await bot.send_message(
+            chat_id=chat_id,
+            text=text,
+            parse_mode=ParseMode.HTML,
+            disable_web_page_preview=True,
+        )
     except Exception:
         logger.exception("Failed to notify admin (chat_id=%s)", chat_id)
 
 
-def save_guide_request(username: str, source: str = "site") -> None:
+def mark_booking_start(user_id: int, username: str | None, full_name: str | None) -> bool:
+    """Возвращает True, если это первый старт записи у пользователя."""
+    with sqlite3.connect(DB_PATH) as conn:
+        existing = conn.execute(
+            "SELECT 1 FROM booking_starts WHERE telegram_user_id = ?",
+            (user_id,),
+        ).fetchone()
+        if existing:
+            return False
+        conn.execute(
+            """
+            INSERT INTO booking_starts (telegram_user_id, username, full_name, created_at)
+            VALUES (?, ?, ?, ?)
+            """,
+            (user_id, username, full_name, utc_now()),
+        )
+        return True
+
+
+def save_booking(
+    user_id: int,
+    username: str | None,
+    full_name: str | None,
+    expert_id: str,
+    tariff_id: str,
+    expert_name: str,
+    tariff_title: str,
+    tariff_price: str,
+) -> None:
     with sqlite3.connect(DB_PATH) as conn:
         conn.execute(
             """
-            INSERT INTO guide_requests (telegram_username, created_at, source)
-            VALUES (?, ?, ?)
+            INSERT INTO bookings (
+                telegram_user_id, username, full_name,
+                expert_id, tariff_id, expert_name, tariff_title, tariff_price, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            (username, utc_now(), source),
+            (
+                user_id,
+                username,
+                full_name,
+                expert_id,
+                tariff_id,
+                expert_name,
+                tariff_title,
+                tariff_price,
+                utc_now(),
+            ),
         )
 
 
-def mark_delivered(user_id: int, username: str | None) -> None:
-    if not username:
+def main_menu_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("📘 Получить гайд", callback_data="menu:guide")],
+            [InlineKeyboardButton("🗓️ Записаться на услугу", callback_data="book:start")],
+        ]
+    )
+
+
+def experts_keyboard() -> InlineKeyboardMarkup:
+    rows = [
+        [InlineKeyboardButton(expert.name, callback_data=f"book:expert:{expert.id}")]
+        for expert in EXPERTS.values()
+    ]
+    rows.append([InlineKeyboardButton("« Назад", callback_data="menu:home")])
+    return InlineKeyboardMarkup(rows)
+
+
+def tariffs_keyboard(expert_id: str) -> InlineKeyboardMarkup:
+    expert = get_expert(expert_id)
+    if not expert:
+        return experts_keyboard()
+    rows = [
+        [
+            InlineKeyboardButton(
+                f"{tariff.title} · {tariff.price}",
+                callback_data=f"book:tariff:{expert.id}:{tariff.id}",
+            )
+        ]
+        for tariff in expert.tariffs
+    ]
+    rows.append([InlineKeyboardButton("« К экспертам", callback_data="book:start")])
+    return InlineKeyboardMarkup(rows)
+
+
+def confirm_keyboard(expert_id: str, tariff_id: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    "✅ Подтвердить запись",
+                    callback_data=f"book:confirm:{expert_id}:{tariff_id}",
+                )
+            ],
+            [InlineKeyboardButton("« К тарифам", callback_data=f"book:expert:{expert_id}")],
+        ]
+    )
+
+
+def after_success_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("📘 Получить гайд", callback_data="menu:guide")],
+            [InlineKeyboardButton("🗓️ Ещё одна запись", callback_data="book:start")],
+        ]
+    )
+
+
+async def clear_message_buttons(query) -> None:
+    """Убирает кнопки у сообщения, текст/файл оставляет — история не затирается."""
+    if not query or not query.message:
         return
-    delivered_at = utc_now()
-    with sqlite3.connect(DB_PATH) as conn:
-        conn.execute(
-            """
-            UPDATE guide_requests
-            SET delivered_at = ?, telegram_user_id = ?
-            WHERE telegram_username = ? AND delivered_at IS NULL
-            """,
-            (delivered_at, user_id, username.lower()),
-        )
+    try:
+        await query.edit_message_reply_markup(reply_markup=None)
+    except Exception:
+        logger.debug("Could not clear reply markup", exc_info=True)
+
+
+async def send_ui_message(
+    update: Update,
+    text: str,
+    *,
+    reply_markup: InlineKeyboardMarkup | None = None,
+    parse_mode: str | None = None,
+    edit: bool = False,
+) -> None:
+    """edit=True — только внутри шагов записи; иначе новое сообщение (история сохраняется)."""
+    query = update.callback_query
+    message = update.effective_message
+    if not message:
+        return
+
+    if edit and query and query.message and query.message.text is not None:
+        try:
+            await query.edit_message_text(
+                text,
+                parse_mode=parse_mode,
+                reply_markup=reply_markup,
+            )
+            return
+        except Exception:
+            logger.debug("Falling back to new message", exc_info=True)
+
+    if query:
+        await clear_message_buttons(query)
+
+    await message.reply_text(text, parse_mode=parse_mode, reply_markup=reply_markup)
 
 
 async def send_guide(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -184,8 +318,11 @@ async def send_guide(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
     register_admin_chat_id(user.id, user.username)
 
+    if update.callback_query:
+        await clear_message_buttons(update.callback_query)
+
     if not GUIDE_FILE.is_file():
-        await message.reply_text("Гайд временно недоступен. Напишите @neradana")
+        await message.reply_text("Гайд временно недоступен. Напишите /book для записи.")
         logger.error("Guide file missing: %s", GUIDE_FILE)
         return
 
@@ -195,16 +332,133 @@ async def send_guide(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
             filename=GUIDE_FILENAME,
             caption=f"<b>{GUIDE_TITLE}</b>\n\n{GUIDE_CAPTION}",
             parse_mode=ParseMode.HTML,
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton("🗓️ Записаться на услугу", callback_data="book:start")]]
+            ),
         )
-
-    username = user.username.lower() if user.username else None
-    mark_delivered(user.id, username)
-    logger.info("Guide delivered to user_id=%s username=%s", user.id, username)
 
     user_ref = format_user_ref(user.username, user.id, user.full_name)
     await notify_admin(
         context.bot,
-        f"📘 <b>Запрос гайда в боте</b>\n{user_ref}\nГайд отправлен.",
+        f"📘 <b>Гайд отправлен</b>\n{user_ref}",
+    )
+
+
+async def start_booking(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+    *,
+    expert_id: str | None = None,
+    edit: bool = False,
+) -> None:
+    message = update.effective_message
+    user = update.effective_user
+    if not message or not user:
+        return
+
+    register_admin_chat_id(user.id, user.username)
+
+    is_first = mark_booking_start(user.id, user.username, user.full_name)
+    if is_first:
+        user_ref = format_user_ref(user.username, user.id, user.full_name)
+        await notify_admin(
+            context.bot,
+            f"🟡 <b>Старт записи</b>\n{user_ref}\nНачал оформление заявки.",
+        )
+
+    if expert_id and get_expert(expert_id):
+        await show_tariffs(update, expert_id, edit=edit)
+        return
+
+    await send_ui_message(
+        update,
+        BOOKING_INTRO,
+        reply_markup=experts_keyboard(),
+        edit=edit,
+    )
+
+
+async def show_tariffs(update: Update, expert_id: str, *, edit: bool = False) -> None:
+    expert = get_expert(expert_id)
+    if not expert:
+        return
+
+    await send_ui_message(
+        update,
+        f"Эксперт: <b>{expert.name}</b>\n\nВыберите тариф:",
+        reply_markup=tariffs_keyboard(expert_id),
+        parse_mode=ParseMode.HTML,
+        edit=edit,
+    )
+
+
+async def show_confirm(update: Update, expert_id: str, tariff_id: str) -> None:
+    expert = get_expert(expert_id)
+    tariff = get_tariff(expert_id, tariff_id)
+    if not expert or not tariff:
+        return
+
+    meta = f"\n{tariff.meta}" if tariff.meta else ""
+    text = (
+        f"Проверьте заявку:\n\n"
+        f"👤 <b>{expert.name}</b>\n"
+        f"📦 {tariff.title}\n"
+        f"💰 {tariff.price}{meta}"
+    )
+    await send_ui_message(
+        update,
+        text,
+        reply_markup=confirm_keyboard(expert_id, tariff_id),
+        parse_mode=ParseMode.HTML,
+        edit=True,
+    )
+
+
+async def complete_booking(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+    expert_id: str,
+    tariff_id: str,
+) -> None:
+    query = update.callback_query
+    user = update.effective_user
+    expert = get_expert(expert_id)
+    tariff = get_tariff(expert_id, tariff_id)
+    if not query or not user or not expert or not tariff:
+        return
+
+    save_booking(
+        user.id,
+        user.username,
+        user.full_name,
+        expert.id,
+        tariff.id,
+        expert.name,
+        tariff.title,
+        tariff.price,
+    )
+
+    success_text = (
+        BOOKING_SUCCESS
+        + f"\n\n👤 {expert.name}\n📦 {tariff.title}\n💰 {tariff.price}"
+    )
+    # Финальный success — отдельным сообщением, черновик заявки оставляем в истории
+    await clear_message_buttons(query)
+    await query.message.reply_text(
+        success_text,
+        parse_mode=ParseMode.HTML,
+        reply_markup=after_success_keyboard(),
+    )
+
+    user_ref = format_user_ref(user.username, user.id, user.full_name)
+    await notify_admin(
+        context.bot,
+        (
+            f"🟢 <b>Успешная запись</b>\n"
+            f"{user_ref}\n"
+            f"Эксперт: {expert.name}\n"
+            f"Тариф: {tariff.title} · {tariff.price}"
+        ),
     )
 
 
@@ -217,18 +471,76 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     register_admin_chat_id(user.id, user.username)
 
     args = context.args or []
-    from_site = bool(args) and args[0].startswith("guide")
+    payload = args[0].lower() if args else ""
 
-    if from_site:
+    if payload.startswith("guide"):
         await message.reply_text(WELCOME_FROM_SITE)
-    else:
-        await message.reply_text(WELCOME_DEFAULT)
+        await send_guide(update, context)
+        return
 
-    await send_guide(update, context)
+    if payload.startswith("book_"):
+        expert_id = payload.replace("book_", "", 1)
+        await start_booking(update, context, expert_id=expert_id if expert_id in EXPERTS else None)
+        return
+
+    if payload.startswith("book"):
+        await start_booking(update, context)
+        return
+
+    await message.reply_text(WELCOME_DEFAULT, reply_markup=main_menu_keyboard())
 
 
 async def guide_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await send_guide(update, context)
+
+
+async def book_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await start_booking(update, context)
+
+
+async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    if not query or not query.data:
+        return
+
+    await query.answer()
+    data = query.data
+    user = update.effective_user
+    if user:
+        register_admin_chat_id(user.id, user.username)
+
+    # Меню / гайд / новая запись — всегда новые сообщения, чтобы не затирать success
+    if data == "menu:home":
+        await send_ui_message(
+            update,
+            WELCOME_DEFAULT,
+            reply_markup=main_menu_keyboard(),
+            edit=False,
+        )
+        return
+
+    if data == "menu:guide":
+        await send_guide(update, context)
+        return
+
+    if data == "book:start":
+        await start_booking(update, context, edit=False)
+        return
+
+    if data.startswith("book:expert:"):
+        expert_id = data.split(":", 2)[2]
+        await show_tariffs(update, expert_id, edit=True)
+        return
+
+    if data.startswith("book:tariff:"):
+        _, _, expert_id, tariff_id = data.split(":", 3)
+        await show_confirm(update, expert_id, tariff_id)
+        return
+
+    if data.startswith("book:confirm:"):
+        _, _, expert_id, tariff_id = data.split(":", 3)
+        await complete_booking(update, context, expert_id, tariff_id)
+        return
 
 
 def build_ptb_app() -> Application:
@@ -238,13 +550,9 @@ def build_ptb_app() -> Application:
     application = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", start_command))
     application.add_handler(CommandHandler("guide", guide_command))
+    application.add_handler(CommandHandler("book", book_command))
+    application.add_handler(CallbackQueryHandler(on_callback))
     return application
-
-
-def bot_deep_link() -> str:
-    if not BOT_USERNAME:
-        return ""
-    return f"https://t.me/{BOT_USERNAME}?start=guide"
 
 
 def cors_headers(request: web.Request) -> dict[str, str]:
@@ -258,54 +566,6 @@ def cors_headers(request: web.Request) -> dict[str, str]:
 
 async def health_handler(_request: web.Request) -> web.Response:
     return web.json_response({"status": "ok"})
-
-
-async def guide_handler(request: web.Request) -> web.Response:
-    headers = cors_headers(request)
-
-    if request.method == "OPTIONS":
-        return web.Response(
-            status=204,
-            headers={
-                **headers,
-                "Access-Control-Allow-Methods": "POST, OPTIONS",
-                "Access-Control-Allow-Headers": "Content-Type",
-            },
-        )
-
-    try:
-        payload = await request.json()
-    except json.JSONDecodeError:
-        return web.json_response({"detail": "invalid_json"}, status=400, headers=headers)
-
-    if not payload.get("consent"):
-        return web.json_response({"detail": "consent_required"}, status=400, headers=headers)
-
-    username = normalize_username(str(payload.get("telegram", "")))
-    if not username:
-        return web.json_response({"detail": "invalid_telegram_username"}, status=400, headers=headers)
-
-    link = bot_deep_link()
-    if not link:
-        return web.json_response({"detail": "bot_not_configured"}, status=503, headers=headers)
-
-    save_guide_request(username, source="site")
-    logger.info("Guide request from site: @%s", username)
-
-    if ptb_app is not None:
-        await notify_admin(
-            ptb_app.bot,
-            f"📝 <b>Заявка на гайд с сайта</b>\n@{username}\nЖдёт перехода в бота и Start.",
-        )
-
-    return web.json_response(
-        {
-            "ok": True,
-            "bot_url": link,
-            "message": "Откройте бота в Telegram и нажмите «Start» — гайд придёт автоматически.",
-        },
-        headers=headers,
-    )
 
 
 async def telegram_webhook_handler(request: web.Request) -> web.Response:
@@ -358,7 +618,6 @@ async def on_shutdown(app: web.Application) -> None:
 def create_web_app() -> web.Application:
     app = web.Application()
     app.router.add_get("/health", health_handler)
-    app.router.add_route("*", "/api/guide", guide_handler)
     app.router.add_post("/telegram/{secret}", telegram_webhook_handler)
     app.on_startup.append(on_startup)
     app.on_cleanup.append(on_shutdown)
