@@ -18,7 +18,9 @@ from telegram.constants import ParseMode
 from telegram.ext import Application, CommandHandler, ContextTypes
 
 from guide_content import (
-    GUIDE_PARTS,
+    GUIDE_CAPTION,
+    GUIDE_FILE,
+    GUIDE_FILENAME,
     GUIDE_TITLE,
     WELCOME_DEFAULT,
     WELCOME_FROM_SITE,
@@ -182,9 +184,18 @@ async def send_guide(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
     register_admin_chat_id(user.id, user.username)
 
-    await message.reply_text(f"<b>{GUIDE_TITLE}</b>", parse_mode=ParseMode.HTML)
-    for part in GUIDE_PARTS:
-        await message.reply_text(part, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+    if not GUIDE_FILE.is_file():
+        await message.reply_text("Гайд временно недоступен. Напишите @neradana")
+        logger.error("Guide file missing: %s", GUIDE_FILE)
+        return
+
+    with GUIDE_FILE.open("rb") as guide_file:
+        await message.reply_document(
+            document=guide_file,
+            filename=GUIDE_FILENAME,
+            caption=f"<b>{GUIDE_TITLE}</b>\n\n{GUIDE_CAPTION}",
+            parse_mode=ParseMode.HTML,
+        )
 
     username = user.username.lower() if user.username else None
     mark_delivered(user.id, username)

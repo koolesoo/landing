@@ -350,13 +350,16 @@
 
         @media (min-width: 768px) {
             .hero-usps {
-                gap: 0.65rem;
-                max-width: 28rem;
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 1rem;
+                max-width: none;
             }
 
             .hero-usp-card {
-                padding: 1rem 3.4rem 1rem 1.2rem;
+                padding: 1.15rem 3.4rem 1.15rem 1.25rem;
                 border-radius: 1.25rem;
+                min-height: 100%;
             }
 
             .hero-usp-title {
@@ -365,6 +368,8 @@
 
             .hero-usp-icon {
                 right: 1rem;
+                top: 1.15rem;
+                transform: none;
                 font-size: 1.45rem !important;
             }
         }
@@ -792,7 +797,43 @@
 
         @media (min-width: 768px) {
             .audience-stack {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1rem;
+                width: 100%;
+                max-width: none;
+                height: auto !important;
                 margin-inline: 0;
+                perspective: none;
+                touch-action: auto;
+                user-select: auto;
+                -webkit-user-select: auto;
+            }
+
+            .audience-card {
+                position: relative !important;
+                inset: auto !important;
+                height: auto !important;
+                transform: none !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                pointer-events: auto !important;
+                cursor: default;
+                transition: none;
+                will-change: auto;
+                box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+            }
+
+            .audience-card.is-dismissed,
+            .audience-card.is-stack-hidden {
+                opacity: 1 !important;
+                visibility: visible !important;
+                pointer-events: auto !important;
+                transform: none !important;
+            }
+
+            .audience-stack-controls {
+                display: none !important;
             }
         }
 
@@ -884,6 +925,12 @@
         }
 
         /* —— Mobile chrome: menu, sticky CTA, overlays —— */
+        :root {
+            --mobile-chrome-top: max(0.75rem, env(safe-area-inset-top));
+            --mobile-chrome-side: 0.75rem;
+            --mobile-chrome-size: 2.5rem;
+        }
+
         body.has-overlay-open {
             overflow: hidden;
         }
@@ -893,7 +940,7 @@
         }
 
         .page-with-sticky-cta.has-sticky-cta {
-            padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+            padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
         }
 
         @media (max-width: 767.98px) {
@@ -922,14 +969,14 @@
 
         .mobile-menu-toggle {
             position: fixed;
-            top: max(0.75rem, env(safe-area-inset-top));
-            right: max(0.75rem, env(safe-area-inset-right));
+            top: var(--mobile-chrome-top);
+            right: max(var(--mobile-chrome-side), env(safe-area-inset-right));
             z-index: 90;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 2.5rem;
-            height: 2.5rem;
+            width: var(--mobile-chrome-size);
+            height: var(--mobile-chrome-size);
             border-radius: 9999px;
             border: 1px solid rgba(255, 255, 255, 0.14);
             background: rgba(0, 0, 0, 0.45);
@@ -961,10 +1008,10 @@
         #sticky-consult-cta {
             position: fixed;
             left: 50%;
-            bottom: max(0.85rem, env(safe-area-inset-bottom));
+            bottom: max(1.5rem, calc(env(safe-area-inset-bottom) + 0.75rem));
             z-index: 60;
             transform: translateX(-50%) translateY(0.75rem);
-            width: min(calc(100% - (var(--page-inline) + var(--page-inline-right))), 22rem);
+            width: min(calc(100% - (var(--page-inline) + var(--page-inline-right))), 26rem);
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -972,17 +1019,17 @@
             border: 0;
             background: #64cefb;
             color: #001f2a;
-            padding: 0.95rem 1.25rem;
-            font-size: 0.6875rem;
+            padding: 1.1rem 1.5rem;
+            font-size: 0.8125rem;
             font-weight: 800;
             letter-spacing: 0.14em;
             text-transform: uppercase;
             text-decoration: none;
             cursor: pointer;
-            box-shadow: 0 10px 32px rgba(100, 206, 251, 0.4);
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
             transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
         }
 
@@ -998,7 +1045,20 @@
         }
 
         body.has-cookie-banner #sticky-consult-cta {
-            bottom: calc(0.85rem + var(--cookie-banner-lift, 0px) + env(safe-area-inset-bottom));
+            bottom: calc(1.5rem + var(--cookie-banner-lift, 0px) + env(safe-area-inset-bottom));
+        }
+
+        @media (min-width: 768px) {
+            #sticky-consult-cta {
+                bottom: max(2rem, calc(env(safe-area-inset-bottom) + 1.25rem));
+                width: min(28rem, calc(100% - 4rem));
+                padding: 1.2rem 1.75rem;
+                font-size: 0.875rem;
+            }
+
+            body.has-cookie-banner #sticky-consult-cta {
+                bottom: calc(2rem + var(--cookie-banner-lift, 0px) + env(safe-area-inset-bottom));
+            }
         }
 
         @media (max-width: 767.98px) {
@@ -1009,18 +1069,20 @@
 
         .expert-sticky-toggle {
             position: fixed;
-            top: max(0.75rem, env(safe-area-inset-top));
-            left: max(0.75rem, env(safe-area-inset-left));
+            top: var(--mobile-chrome-top);
+            left: max(var(--mobile-chrome-side), env(safe-area-inset-left));
             z-index: 58;
+            box-sizing: border-box;
             display: inline-flex;
             align-items: center;
-            gap: 0.35rem;
-            padding: 0.3rem;
+            gap: 0.2rem;
+            height: var(--mobile-chrome-size);
+            padding: 0.2rem;
             border-radius: 9999px;
             border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(0, 0, 0, 0.52);
-            -webkit-backdrop-filter: blur(16px) saturate(1.15);
-            backdrop-filter: blur(16px) saturate(1.15);
+            background: rgba(0, 0, 0, 0.45);
+            -webkit-backdrop-filter: blur(16px) saturate(1.2);
+            backdrop-filter: blur(16px) saturate(1.2);
             box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
             opacity: 0;
             visibility: hidden;
@@ -1040,8 +1102,8 @@
         .expert-sticky-toggle-btn {
             position: relative;
             flex: 0 0 auto;
-            width: 2.65rem;
-            height: 2.65rem;
+            width: calc(var(--mobile-chrome-size) - 0.4rem);
+            height: calc(var(--mobile-chrome-size) - 0.4rem);
             padding: 0;
             border: 2px solid transparent;
             border-radius: 9999px;
@@ -1065,7 +1127,7 @@
         .expert-sticky-toggle-btn.is-active {
             border-color: #64cefb;
             opacity: 1;
-            box-shadow: 0 0 0 1px rgba(100, 206, 251, 0.35), 0 4px 14px rgba(100, 206, 251, 0.22);
+            box-shadow: 0 0 0 1px rgba(100, 206, 251, 0.35);
         }
 
         .expert-sticky-toggle-btn:hover {
@@ -1077,14 +1139,10 @@
         }
 
         @media (min-width: 768px) {
-            .expert-sticky-toggle {
-                top: max(1rem, env(safe-area-inset-top));
-                left: max(1rem, env(safe-area-inset-left));
-            }
-
-            .expert-sticky-toggle-btn {
-                width: 2.85rem;
-                height: 2.85rem;
+            :root {
+                --mobile-chrome-top: max(1rem, env(safe-area-inset-top));
+                --mobile-chrome-side: 1rem;
+                --mobile-chrome-size: 2.75rem;
             }
         }
 
@@ -1264,8 +1322,8 @@
             align-items: center;
             justify-content: center;
             border-radius: 9999px;
-            padding: 0.9rem 1.1rem;
-            font-size: 0.6875rem;
+            padding: 0.95rem 1.25rem;
+            font-size: 0.75rem;
             font-weight: 800;
             letter-spacing: 0.12em;
             text-transform: uppercase;
@@ -1281,7 +1339,6 @@
             border: 0;
             background: #64cefb;
             color: #001f2a;
-            box-shadow: 0 8px 24px rgba(100, 206, 251, 0.32);
         }
 
         .hero-cta-primary:hover {
@@ -1310,13 +1367,15 @@
         @media (min-width: 768px) {
             .hero-cta-row {
                 width: auto;
-                max-width: 28rem;
-                margin-top: 1.35rem;
+                max-width: 34rem;
+                margin-top: 1.6rem;
             }
 
             .hero-cta-primary,
             .hero-cta-secondary {
-                padding: 0.95rem 1.35rem;
+                padding: 1.15rem 1.75rem;
+                font-size: 0.8125rem;
+                letter-spacing: 0.13em;
             }
         }
 
@@ -1358,7 +1417,7 @@
             padding:
                 max(1.25rem, env(safe-area-inset-top))
                 max(1.5rem, env(safe-area-inset-right))
-                max(2rem, env(safe-area-inset-bottom))
+                max(0.85rem, env(safe-area-inset-bottom))
                 max(1.5rem, env(safe-area-inset-left));
             box-shadow: none;
             transform: translate3d(0, 0.75rem, 0);
@@ -1464,6 +1523,36 @@
             border-bottom: 0;
         }
 
+        .sections-overlay-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            align-self: center;
+            margin-top: auto;
+            width: min(calc(100% - 0.5rem), 22rem);
+            min-height: 3.1rem;
+            padding: 0.95rem 1.25rem;
+            border-radius: 9999px;
+            border: 0;
+            background: #64cefb;
+            color: #001f2a;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background-color 0.15s ease, transform 0.12s ease;
+        }
+
+        .sections-overlay-cta:hover {
+            background: #4cb8e5;
+        }
+
+        .sections-overlay-cta:active {
+            transform: scale(0.98);
+        }
+
         /* —— Section chips (mobile tab panels) —— */
         .section-chip-tabs {
             display: flex;
@@ -1534,9 +1623,18 @@
             [data-expert-people] > .section-chip-tabs {
                 display: flex !important;
             }
+
+            /* Достижения / образование — тоже с переключением на десктопе */
+            .expert-story-details > .section-chip-tabs {
+                display: flex !important;
+            }
         }
 
         [data-expert-people] > .section-chip-panels > [data-chip-panel]:not(.is-active) {
+            display: none !important;
+        }
+
+        .expert-story-details > .section-chip-panels > [data-chip-panel]:not(.is-active) {
             display: none !important;
         }
 
@@ -1569,7 +1667,7 @@
         .section-chip--has-sticker {
             position: relative;
             overflow: visible;
-            padding-right: 1.35rem;
+            padding-right: 2.75rem;
         }
 
         .section-chip-sticker {
@@ -2574,6 +2672,18 @@
             object-fit: contain;
         }
 
+        .edu-card-monogram {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1;
+        }
+
+        .edu-card-icon--invert img {
+            filter: invert(1) brightness(1.05);
+        }
+
         .edu-card-body {
             min-width: 0;
         }
@@ -2593,22 +2703,105 @@
             color: rgba(255, 255, 255, 0.65);
         }
 
+        .exp-card {
+            padding: 1.15rem 1.15rem 1rem;
+            border-radius: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .exp-card-title {
+            margin: 0 0 1rem;
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #fff;
+        }
+
+        .exp-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .exp-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+        }
+
+        .exp-logo {
+            flex: 0 0 auto;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+        }
+
+        .exp-logo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .exp-body {
+            min-width: 0;
+            padding-top: 0.1rem;
+        }
+
+        .exp-role {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 650;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .exp-dates {
+            margin: 0.2rem 0 0;
+            font-size: 0.8125rem;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
         .achievement-scatter {
             display: grid;
-            grid-template-columns: repeat(12, minmax(0, 1fr));
-            gap: 0.7rem 0.55rem;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
             padding: 0.35rem 0 0.75rem;
+        }
+
+        @media (min-width: 640px) {
+            .achievement-scatter {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.85rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .achievement-scatter {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 1rem;
+            }
         }
 
         .achievement-card {
             position: relative;
-            grid-column: span 6;
-            padding: 0.85rem 0.95rem 1rem;
-            border-radius: 0.8rem;
+            display: flex;
+            align-items: center;
+            min-height: 100%;
+            padding: 1rem 1.1rem;
+            border-radius: 0.9rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             background: rgba(255, 255, 255, 0.05);
             box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
-            transform: rotate(var(--ach-rotate, 0deg));
         }
 
         .achievement-card--accent {
@@ -2624,74 +2817,13 @@
 
         .achievement-card-text {
             margin: 0;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             line-height: 1.45;
             color: rgba(255, 255, 255, 0.82);
         }
 
         .achievement-card--light .achievement-card-text {
             color: rgba(0, 0, 0, 0.82);
-        }
-
-        .achievement-card:nth-child(1) {
-            grid-column: 1 / -1;
-            --ach-rotate: -1.4deg;
-            max-width: 94%;
-        }
-
-        .achievement-card:nth-child(2) {
-            grid-column: 1 / span 7;
-            --ach-rotate: 2.1deg;
-            transform: rotate(var(--ach-rotate)) translateY(0.2rem);
-        }
-
-        .achievement-card:nth-child(3) {
-            grid-column: 6 / -1;
-            --ach-rotate: -2.3deg;
-            margin-top: -0.35rem;
-        }
-
-        .achievement-card:nth-child(4) {
-            grid-column: 1 / -1;
-            --ach-rotate: 0.85deg;
-            max-width: 96%;
-            margin-left: auto;
-        }
-
-        .achievement-card:nth-child(5) {
-            grid-column: 1 / span 8;
-            --ach-rotate: -1.6deg;
-        }
-
-        .achievement-card:nth-child(6) {
-            grid-column: 7 / -1;
-            --ach-rotate: 2.5deg;
-            align-self: end;
-            transform: rotate(var(--ach-rotate)) translateY(0.35rem);
-        }
-
-        @media (max-width: 479.98px) {
-            .achievement-scatter {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
-            }
-
-            .achievement-card {
-                grid-column: 1 / -1 !important;
-                max-width: none !important;
-                margin-left: 0 !important;
-                margin-top: 0 !important;
-                align-self: auto !important;
-                transform: rotate(var(--ach-rotate, 0deg)) !important;
-            }
-
-            .achievement-card:nth-child(odd) {
-                margin-right: 1.15rem;
-            }
-
-            .achievement-card:nth-child(even) {
-                margin-left: 1.15rem;
-            }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -2889,18 +3021,18 @@
 <span class="material-symbols-outlined text-[18px]" data-icon="close" aria-hidden="true">close</span>
 </button>
 </div>
-<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" id="sticky-consult-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://www.linkedin.com/in/danilkolesnichenko">Связаться</a>
+<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" id="sticky-consult-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Связаться</a>
 <div id="expert-sticky-toggle" class="expert-sticky-toggle" role="group" aria-label="Выбор эксперта">
 <button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Настя Нерадовских">
 <img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
 </button>
-<button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" data-expert-disabled disabled aria-pressed="false" aria-label="Даня Колесниченко, скоро" hidden>
-<img src="assets/6b4da35649ccdbb39aafdcc2b4190cc1.JPG" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+<button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Даня Колесниченко">
+<img src="assets/Danya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
 </button>
 </div>
 <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Согласие на использование cookie" aria-hidden="true">
 <div class="cookie-banner-inner">
-<p class="cookie-banner-text">Мы используем cookie, чтобы сайт работал стабильнее и удобнее. Вы можете согласиться или не согласиться на необязательные cookie. <a href="cookie-policy.html">Политика cookie</a></p>
+<p class="cookie-banner-text">Мы используем необходимые технические данные для работы сайта. Аналитика (например, Яндекс.Метрика) подключается только с вашего согласия. <a href="privacy-policy.html">Политика конфиденциальности</a></p>
 <div class="cookie-banner-actions">
 <button type="button" class="cookie-btn cookie-btn-decline" id="cookie-decline">Не соглашаюсь</button>
 <button type="button" class="cookie-btn cookie-btn-accept" id="cookie-accept">Соглашаюсь</button>
@@ -2919,6 +3051,7 @@
 <a class="sections-overlay-link" href="#reviews">Отзывы</a>
 <a class="sections-overlay-link" href="#faq">Вопросы</a>
 </nav>
+<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="sections-overlay-cta" id="menu-contact-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Связаться</a>
 </div>
 </div>
 <!-- Global fullscreen video background -->
@@ -2929,11 +3062,15 @@
 <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-black"></div>
 </div>
 <!-- Sticky nav + scroll progress (original markup) -->
-<header id="site-header" class="fixed top-8 left-1/2 z-50 hidden w-full max-w-[min(98vw,56rem)] -translate-x-1/2 px-3 md:block">
+<header id="site-header" class="fixed top-8 left-1/2 z-50 hidden w-full max-w-[min(98vw,72rem)] -translate-x-1/2 px-3 md:block">
 <nav class="relative flex w-full max-w-full flex-nowrap items-stretch gap-8 overflow-hidden rounded-full border border-white/10 bg-white/5 py-1 pl-3 pr-3 shadow-[0px_20px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl">
 <div class="relative flex min-w-0 flex-1 items-center pl-1 pr-0">
 <div class="relative z-10 flex min-h-0 min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:gap-0 md:overflow-hidden">
 <a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#audience">Для кого</a>
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
+<div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
+</div>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#value">Получите</a>
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
@@ -2949,7 +3086,15 @@
 <div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
 <div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
 </div>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#placements">Компании</a>
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
+<div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
+</div>
 <a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#reviews">Отзывы</a>
+<div class="nav-connector relative hidden h-px min-h-px min-w-[4px] flex-1 self-center overflow-hidden rounded-full bg-white/10 md:block" aria-hidden="true">
+<div class="nav-connector-fill absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-[#64cefb] shadow-[0_0_6px_#64cefb] transition-transform duration-100 ease-out"></div>
+</div>
+<a class="nav-link flex shrink-0 items-center justify-center px-1 py-1 text-center text-[9px] font-bold uppercase leading-tight tracking-widest text-white/50 transition-colors hover:text-white sm:text-[10px] sm:px-1.5" href="#faq">Вопросы</a>
 </div>
 </div>
 </nav>
@@ -2958,15 +3103,11 @@
 <main class="relative z-10 flex min-h-screen flex-col overflow-x-hidden bg-black/40 pb-8 pt-8 backdrop-blur-xl md:pb-16 md:pt-32" id="hero">
 <!-- Speaker creative (временно статичный PNG вместо видео) -->
 <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden" id="hero-speaker-area">
-<video class="hero-video-layer is-hidden absolute inset-0 z-0 h-full w-full object-cover object-center opacity-100" id="hero-video" muted playsinline preload="none" disablePictureInPicture hidden>
-<source src="assets/test.webm" type="video/webm"/>
-<source src="assets/test.mov" type="video/quicktime"/>
-                    Your browser does not support the video tag.
-                </video>
+<video class="hero-video-layer is-hidden absolute inset-0 z-0 h-full w-full object-cover object-center opacity-100" id="hero-video" muted playsinline preload="none" disablePictureInPicture hidden></video>
 <img id="hero-freeze-frame" class="hero-freeze-frame is-visible absolute inset-0 z-10 h-full w-full object-cover object-[center_20%]" src="assets/nastya.jpg" alt="Карьера в IT" draggable="false"/>
 </div>
 <div id="hero-mid" class="relative z-10 mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col gap-4 pt-3 md:min-h-0 md:gap-0 md:pt-6" aria-label="Заголовок и запись">
-<div class="hero-copy flex min-h-0 flex-1 flex-col items-center justify-center gap-4 text-center md:items-start md:justify-end md:gap-6 md:pl-8 md:text-left md:-translate-y-10 lg:-translate-y-14">
+<div class="hero-copy flex min-h-0 flex-1 flex-col items-center justify-center gap-4 text-center md:items-start md:justify-center md:gap-6 md:pl-8 md:pb-8 md:text-left md:-translate-y-6 lg:-translate-y-10">
 <div class="w-full max-w-lg space-y-3 md:space-y-4">
 <h1 class="line-height-tight text-balance text-center text-4xl font-black tracking-tighter sm:text-5xl md:text-left md:text-[5.2rem]">
 <span class="text-white/90">Начните карьеру </span><span class="shiny-text">в IT</span>
@@ -2974,7 +3115,7 @@
 <p class="mt-3 text-base leading-relaxed text-white/75 md:mt-4">Помогаем расти в карьере, зайти в продакт-менеджмент, выигрывать конкурсы и кейс-чемпионаты</p>
 </div>
 <div class="hero-cta-row">
-<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="hero-cta-primary" id="hero-contact-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://www.linkedin.com/in/danilkolesnichenko">Связаться</a>
+<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="hero-cta-primary" id="hero-contact-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Связаться</a>
 <a href="#expert" class="hero-cta-secondary">О нас</a>
 </div>
 </div>
@@ -3090,7 +3231,7 @@
 <section class="page-gutter relative pb-12 md:pb-16" id="value" aria-labelledby="value-heading">
 <div class="mx-auto max-w-7xl">
 <h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="value-heading">Что вы получите</h2>
-<div class="hero-usps w-full md:max-w-xl">
+<div class="hero-usps w-full">
 <article class="hero-usp-card">
 <h3 class="hero-usp-title">Выстроите стратегию роста</h3>
 <p class="hero-usp-text">Персональный план по карьере, поиску работы или участию в конкурсах и грантах</p>
@@ -3122,11 +3263,12 @@
 <h2 class="mb-3 text-4xl font-black tracking-tighter md:mb-4 md:text-5xl" id="expert-heading">Об экспертах</h2>
 <div data-section-chips data-expert-people id="expert-people">
 <div class="section-chip-tabs" role="tablist" aria-label="Выбор эксперта">
-<button type="button" class="section-chip chip-active" role="tab" id="people-tab-nastya" aria-selected="true" aria-controls="people-panel-nastya" data-chip-tab="nastya" data-global-expert="nastya">Настя Нерадовских</button>
-<button type="button" class="section-chip section-chip--has-sticker" role="tab" id="people-tab-danya" aria-selected="false" aria-controls="people-panel-danya" data-chip-tab="danya" data-global-expert="danya" data-expert-disabled disabled aria-label="Даня Колесниченко, скоро">Даня Колесниченко<span class="section-chip-sticker" aria-hidden="true">soon</span></button>
+<button type="button" class="section-chip chip-active" role="tab" id="people-tab-nastya" aria-selected="true" aria-controls="people-panel-nastya" data-chip-tab="nastya" data-global-expert="nastya" aria-label="Настя Нерадовских, основной трек">основной трек</button>
+<button type="button" class="section-chip" role="tab" id="people-tab-danya" aria-selected="false" aria-controls="people-panel-danya" data-chip-tab="danya" data-global-expert="danya" aria-label="Даня Колесниченко, для студентов">для студентов</button>
 </div>
 <div class="section-chip-panels">
 <div data-chip-panel="nastya" class="is-active" role="tabpanel" id="people-panel-nastya" aria-labelledby="people-tab-nastya">
+<h3 class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">Настя Нерадовских</h3>
 <div class="expert-story-contacts expert-story-contacts--header">
 <a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
 <img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
@@ -3213,8 +3355,12 @@
 </div>
 </div>
 <div data-chip-panel="danya" role="tabpanel" id="people-panel-danya" aria-labelledby="people-tab-danya">
-<h3 class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">Даня Колесниченко 👩🏼‍💻</h3>
+<h3 class="text-xl font-black tracking-tight sm:text-2xl md:text-3xl">Даня Колесниченко</h3>
 <div class="expert-story-contacts expert-story-contacts--header">
+<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
+<img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
+<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">Telegram</span>
+</a>
 <a href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
 <img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
 <span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">LinkedIn</span>
@@ -3224,7 +3370,7 @@
 <div class="expert-story-visual">
 <div class="expert-story-path" aria-hidden="true"></div>
 <div class="expert-story-portrait-wrap">
-<img src="assets/6b4da35649ccdbb39aafdcc2b4190cc1.JPG" alt="Даня Колесниченко" class="expert-story-portrait" loading="lazy" decoding="async"/>
+<img src="assets/Danya.jpg" alt="Даня Колесниченко" class="expert-story-portrait" loading="lazy" decoding="async"/>
 <div class="expert-story-pin-card expert-story-pin-card--accent">
 <p class="expert-story-pin-title">Alfa Case Camp 2024</p>
 <p class="expert-story-pin-text">победитель кейс-чемпионата</p>
@@ -3248,11 +3394,51 @@
 </div>
 <div class="expert-story-details" data-section-chips>
 <div class="section-chip-tabs" role="tablist" aria-label="Подробнее об эксперте">
-<button type="button" class="section-chip chip-active" role="tab" id="danya-tab-expertise" aria-selected="true" aria-controls="danya-panel-expertise" data-chip-tab="danya-expertise">Экспертиза</button>
+<button type="button" class="section-chip chip-active" role="tab" id="danya-tab-experience" aria-selected="true" aria-controls="danya-panel-experience" data-chip-tab="danya-experience">Опыт</button>
+<button type="button" class="section-chip" role="tab" id="danya-tab-education" aria-selected="false" aria-controls="danya-panel-education" data-chip-tab="danya-education">Образование</button>
+<button type="button" class="section-chip" role="tab" id="danya-tab-expertise" aria-selected="false" aria-controls="danya-panel-expertise" data-chip-tab="danya-expertise">Экспертиза</button>
 <button type="button" class="section-chip" role="tab" id="danya-tab-audience" aria-selected="false" aria-controls="danya-panel-audience" data-chip-tab="danya-audience">С кем работаю</button>
 </div>
 <div class="section-chip-panels space-y-6">
-<div class="grid grid-cols-1 gap-3 sm:grid-cols-3 is-active" role="tabpanel" id="danya-panel-expertise" aria-labelledby="danya-tab-expertise" data-chip-panel="danya-expertise">
+<div class="is-active" role="tabpanel" id="danya-panel-experience" aria-labelledby="danya-tab-experience" data-chip-panel="danya-experience">
+<div class="exp-card">
+<ul class="exp-list">
+<li class="exp-item">
+<div class="exp-logo"><img src="assets/marquee/logo-alfa-2.png?v=20260820164" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-body">
+<p class="exp-role">Growth Product Manager, Альфа-Банк</p>
+<p class="exp-dates">2026 — настоящее время</p>
+</div>
+</li>
+<li class="exp-item">
+<div class="exp-logo"><img src="assets/marquee/logo-alfa-2.png?v=20260820164" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-body">
+<p class="exp-role">Product Manager, Альфа-Банк</p>
+<p class="exp-dates">2024 — 2025</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div role="tabpanel" id="danya-panel-education" aria-labelledby="danya-tab-education" data-chip-panel="danya-education">
+<div class="edu-cards">
+<article class="edu-card">
+<div class="edu-card-icon"><img src="assets/marquee/logo-fu.png?v=20260820163" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
+<div class="edu-card-body">
+<p class="edu-card-name">Финансовый университет при Правительстве РФ</p>
+<p class="edu-card-faculty">Прикладная информатика · бакалавриат</p>
+</div>
+</article>
+<article class="edu-card">
+<div class="edu-card-icon edu-card-icon--invert"><img src="assets/marquee/cu-logo.png?v=20260820154" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
+<div class="edu-card-body">
+<p class="edu-card-name">Центральный университет</p>
+<p class="edu-card-faculty">Продуктовый менеджмент · магистратура</p>
+</div>
+</article>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-3 sm:grid-cols-3" role="tabpanel" id="danya-panel-expertise" aria-labelledby="danya-tab-expertise" data-chip-panel="danya-expertise">
 <article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Продукт</p><p class="mt-3 text-base leading-relaxed text-white/75">Менеджер по развитию продукта в Альфа-Банке, опыт product owner и работы с продуктовыми метриками.</p></article>
 <article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Кейс-чемпионаты</p><p class="mt-3 text-base leading-relaxed text-white/75">Победитель Alfa Case Camp 2024, выступления экспертом от Альфа-Банка и Changellenge.</p></article>
 <article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Карьера</p><p class="mt-3 text-base leading-relaxed text-white/75">Путь от стажировки до нескольких офферов — знаю воронку найма изнутри.</p></article>
@@ -3280,7 +3466,6 @@
 <div class="logo-marquee-track" data-expert-marquee-track></div>
 </div>
 </div>
-<div id="expert-scroll-sentinel" class="h-px w-full" aria-hidden="true"></div>
 </section>
 <section class="page-gutter relative py-12 md:py-16" id="curriculum">
 <div class="mx-auto max-w-7xl">
@@ -3385,21 +3570,21 @@
 <p class="track-card-text">Ответы на вопросы по старту карьеры в IT и менеджменте: как искать, куда обращаться и как выстроить процесс. Подойдёт, если хотите разобраться с нуля или уточнить конкретные шаги.</p>
 <p class="track-card-price">2 000 ₽</p>
 <p class="track-card-meta">1 час · онлайн</p>
-<a class="track-more" href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-more" href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer">Записаться</a>
 </article>
 <article class="track-card">
 <h3 class="track-card-title">Стратегия и пошаговый план</h3>
 <p class="track-card-text">Разбираем вашу ситуацию и вместе выстраиваем персональную стратегию с чёткими шагами по поиску работы и старту карьеры.</p>
 <p class="track-card-price">3 000 ₽</p>
 <p class="track-card-meta">1 час · онлайн</p>
-<a class="track-more" href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-more" href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer">Записаться</a>
 </article>
 <article class="track-card">
 <h3 class="track-card-title">Разбор резюме</h3>
 <p class="track-card-text">Детальный анализ резюме: структура, формулировки, ключевые слова, подача опыта и переупаковка «нерелевантного» опыта. Получите конкретные шаги и инсайты по резюме, которое понравится рекрутерам.</p>
 <p class="track-card-price">2 000 ₽</p>
 <p class="track-card-meta">30 минут · онлайн</p>
-<a class="track-more" href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-more" href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer">Записаться</a>
 </article>
 </div>
 </div>
@@ -3410,7 +3595,7 @@
 <p class="track-card-text">Стартовая встреча — разбор текущей ситуации, целей и составление плана. Аудит и доработка резюме. Создание и ведение LinkedIn. Стратегия поиска: какие компании, как заходить, что подтянуть, где поучаствовать. Подготовка к интервью. Постоянная поддержка в чате.</p>
 <p class="track-card-price">10 000 ₽ / месяц</p>
 <p class="track-card-meta">онлайн</p>
-<a class="track-more" href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-more" href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer">Записаться</a>
 </article>
 </div>
 </div>
@@ -3425,7 +3610,7 @@
 <div class="mx-auto max-w-7xl w-full">
 <h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl">Гайд по входу в&nbsp;IT</h2>
 <div class="w-full rounded-xl border border-white/10 bg-surface-container-low p-10 shadow-[0_0_0_1px_rgba(100,206,251,0.06)] backdrop-blur-xl md:p-14">
-<p class="text-pretty text-base leading-relaxed text-white/75">Короткий гайд: как выбрать направление, упаковать опыт и сделать первые шаги к стажировке или junior-роли — отправлю в Telegram.</p>
+<p class="text-pretty text-base leading-relaxed text-white/75">Гайд: как подготовиться к интервью на Product Manager — отправлю в Telegram.</p>
 <form class="mt-8 space-y-6" id="guide-form" action="#" method="post" data-guide-api="" data-bot-username="career67_bot">
 <div>
 <label class="block text-xs font-bold uppercase tracking-wider text-white/55" for="guide-telegram">Ник в Telegram</label>
@@ -3584,7 +3769,6 @@
 <a href="offer.html">Оферта</a>
 <a href="privacy-policy.html">Политика конфиденциальности</a>
 <a href="personal-data-consent.html">Согласие на обработку персональных данных</a>
-<a href="cookie-policy.html">Политика cookie</a>
 </nav>
 </div>
 </footer>
@@ -3668,13 +3852,16 @@
         const HERO_STATIC_CREATIVE = true;
         const btnAll = document.getElementById('toggle-all');
         const btnStudents = document.getElementById('toggle-students');
-        const navIds = ['audience', 'expert', 'curriculum', 'guide', 'reviews'];
+        const navIds = ['audience', 'value', 'expert', 'curriculum', 'guide', 'placements', 'reviews', 'faq'];
         const scrollSpyChain = [
             { id: 'audience', href: '#audience' },
+            { id: 'value', href: '#value' },
             { id: 'expert', href: '#expert' },
             { id: 'curriculum', href: '#curriculum' },
             { id: 'guide', href: '#guide' },
+            { id: 'placements', href: '#placements' },
             { id: 'reviews', href: '#reviews' },
+            { id: 'faq', href: '#faq' },
         ];
         const navLinks = document.querySelectorAll('.nav-link');
         const connectorFills = document.querySelectorAll('.nav-connector-fill');
@@ -3854,21 +4041,23 @@
 
         function updateNavProgress() {
             const els = navIds.map((id) => document.getElementById(id)).filter(Boolean);
-            if (els.length !== 5) return;
+            if (!els.length || els.length !== navLinks.length) return;
 
             /* Без смещения по высоте окна: иначе при scrollY=0 линии уже частично «заполнены». */
             const scrollY = window.scrollY;
             const tops = els.map(docTop);
             const progressOn = navProgressEnabled();
+            const lastIndex = els.length - 1;
+            const fillCount = Math.min(connectorFills.length, lastIndex);
 
-            if (progressOn && connectorFills.length === 4) {
-                connectorFills.forEach((fill, k) => {
+            if (progressOn && fillCount > 0) {
+                for (let k = 0; k < fillCount; k += 1) {
                     const a = tops[k];
                     const b = tops[k + 1];
                     const span = Math.max(1, b - a);
                     const t = Math.max(0, Math.min(1, (scrollY - a) / span));
-                    fill.style.transform = `scaleX(${t})`;
-                });
+                    connectorFills[k].style.transform = `scaleX(${t})`;
+                }
             } else if (connectorFills.length) {
                 connectorFills.forEach((fill) => {
                     fill.style.transform = 'scaleX(0)';
@@ -3881,10 +4070,10 @@
             navLinks.forEach((link, i) => {
                 link.classList.remove('nav-filled');
                 if (!progressOn) return;
-                if (i < 4 && scrollY >= tops[i + 1]) {
+                if (i < lastIndex && scrollY >= tops[i + 1]) {
                     link.classList.add('nav-filled');
                 }
-                if (i === 4 && nearEnd) {
+                if (i === lastIndex && nearEnd) {
                     link.classList.add('nav-filled');
                 }
             });
@@ -4220,6 +4409,7 @@
             if (!stack || cards.length < 2) return;
 
             const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const desktopGrid = () => window.matchMedia('(min-width: 768px)').matches;
             let active = 0;
             let dragX = 0;
             let startX = 0;
@@ -4233,7 +4423,10 @@
             const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
 
             function measureCardHeight() {
-                if (reduceMotion()) return;
+                if (reduceMotion() || desktopGrid()) {
+                    section.style.removeProperty('--audience-card-h');
+                    return;
+                }
                 const hiddenHost = section.closest('[data-global-expert-panel]');
                 const wasHidden = hiddenHost && hiddenHost.hidden;
                 if (wasHidden) hiddenHost.hidden = false;
@@ -4268,6 +4461,17 @@
             }
 
             function setActive(index) {
+                if (desktopGrid()) {
+                    cards.forEach((card) => {
+                        card.classList.remove('is-dismissed', 'is-stack-hidden', 'is-behind');
+                        card.style.removeProperty('--stack-i');
+                        card.style.zIndex = '';
+                        card.style.transform = '';
+                        card.style.opacity = '';
+                        card.removeAttribute('aria-hidden');
+                    });
+                    return;
+                }
                 active = Math.max(0, Math.min(cards.length - 1, index));
                 cards.forEach((card, i) => {
                     const dismissed = i < active;
@@ -4292,7 +4496,7 @@
             }
 
             function go(delta) {
-                if (reduceMotion()) return;
+                if (reduceMotion() || desktopGrid()) return;
                 setActive(active + delta);
             }
 
@@ -4315,7 +4519,7 @@
             });
 
             function onPointerDown(event) {
-                if (reduceMotion()) return;
+                if (reduceMotion() || desktopGrid()) return;
                 if (event.pointerType === 'mouse' && event.button !== 0) return;
                 dragging = true;
                 dragX = 0;
@@ -4370,13 +4574,19 @@
 
         (function initGlobalExpert() {
             const STORAGE_KEY = 'site-expert';
-            const DISABLED_EXPERTS = new Set(['danya']);
+            const DISABLED_EXPERTS = new Set();
             const expertPeople = document.getElementById('expert-people');
             const servicesExpert = document.querySelector('[data-services-expert-chips]');
             const stickyCta = document.getElementById('sticky-consult-cta');
             const heroCta = document.getElementById('hero-contact-cta');
+            const menuCta = document.getElementById('menu-contact-cta');
             const stickyToggle = document.getElementById('expert-sticky-toggle');
-            const expertSentinel = document.getElementById('expert-scroll-sentinel');
+
+            function syncContactHref(el, id) {
+                if (!el) return;
+                const href = el.getAttribute('data-contact-' + id);
+                if (href) el.href = href;
+            }
 
             function activateChipRoot(root, key) {
                 if (!root) return;
@@ -4424,15 +4634,9 @@
                     el.hidden = !on;
                 });
 
-                if (stickyCta) {
-                    const href = stickyCta.getAttribute('data-contact-' + id);
-                    if (href) stickyCta.href = href;
-                }
-
-                if (heroCta) {
-                    const href = heroCta.getAttribute('data-contact-' + id);
-                    if (href) heroCta.href = href;
-                }
+                syncContactHref(stickyCta, id);
+                syncContactHref(heroCta, id);
+                syncContactHref(menuCta, id);
 
                 activateChipRoot(expertPeople, id);
                 activateServicesExpert(id);
@@ -4440,6 +4644,7 @@
                 requestAnimationFrame(() => {
                     const panel = document.querySelector('[data-global-expert-panel="' + id + '"]');
                     panel?.querySelector('[data-audience-stack]')?.__audienceRefresh?.({ reset: true });
+                    stickyToggle?.__refreshVisibility?.();
                 });
             }
 
@@ -4459,30 +4664,24 @@
                 });
             });
 
-            if (stickyToggle && expertSentinel) {
-                const syncStickyToggle = (show) => {
-                    stickyToggle.classList.toggle('is-visible', show);
+            if (stickyToggle && expertPeople) {
+                const syncStickyToggle = () => {
+                    const panel = expertPeople.querySelector(':scope > .section-chip-panels > [data-chip-panel].is-active')
+                        || expertPeople.querySelector('[data-chip-panel].is-active');
+                    const portrait = panel?.querySelector('.expert-story-portrait-wrap');
+                    if (!portrait) {
+                        stickyToggle.classList.remove('is-visible');
+                        return;
+                    }
+                    // Показать сразу, как только низ фото ушёл выше верхнего края экрана
+                    const pastPhoto = portrait.getBoundingClientRect().bottom <= 0;
+                    stickyToggle.classList.toggle('is-visible', pastPhoto);
                 };
 
-                if ('IntersectionObserver' in window) {
-                    const io = new IntersectionObserver(
-                        ([entry]) => {
-                            syncStickyToggle(!entry.isIntersecting && entry.boundingClientRect.top < 0);
-                        },
-                        { root: null, threshold: 0 }
-                    );
-                    io.observe(expertSentinel);
-                } else {
-                    const onScroll = () => {
-                        syncStickyToggle(expertSentinel.getBoundingClientRect().top < 0);
-                    };
-                    window.addEventListener('scroll', onScroll, { passive: true });
-                    onScroll();
-                }
-            }
-
-            if (DISABLED_EXPERTS.has('danya') && stickyToggle) {
-                stickyToggle.hidden = true;
+                window.addEventListener('scroll', syncStickyToggle, { passive: true });
+                window.addEventListener('resize', syncStickyToggle, { passive: true });
+                stickyToggle.__refreshVisibility = syncStickyToggle;
+                syncStickyToggle();
             }
 
             let saved = 'nastya';
@@ -4634,7 +4833,7 @@
                 sectionsOverlay.addEventListener('click', (event) => {
                     if (event.target === sectionsOverlay) closeOverlay(sectionsOverlay);
                 });
-                sectionsOverlay.querySelectorAll('.sections-overlay-link').forEach((link) => {
+                sectionsOverlay.querySelectorAll('.sections-overlay-link, .sections-overlay-cta').forEach((link) => {
                     link.addEventListener('click', () => closeOverlay(sectionsOverlay));
                 });
             }
@@ -4667,19 +4866,76 @@
                 io.observe(hero);
             })();
 
-            (function initCookieBanner() {
+            (function initCookieConsent() {
                 const STORAGE_KEY = 'cookie-consent';
+                /* Когда появится Метрика: поставьте ID и ANALYTICS_ENABLED = true */
+                const ANALYTICS_ENABLED = false;
+                const YANDEX_METRIKA_ID = '';
+
                 const banner = document.getElementById('cookie-banner');
                 const acceptBtn = document.getElementById('cookie-accept');
                 const declineBtn = document.getElementById('cookie-decline');
                 if (!banner || !acceptBtn || !declineBtn) return;
 
-                let saved = null;
-                try {
-                    saved = localStorage.getItem(STORAGE_KEY);
-                } catch (e) {}
+                function readConsent() {
+                    try {
+                        return localStorage.getItem(STORAGE_KEY);
+                    } catch (e) {
+                        return null;
+                    }
+                }
 
-                if (saved === 'accepted' || saved === 'declined') return;
+                function writeConsent(value) {
+                    try {
+                        localStorage.setItem(STORAGE_KEY, value);
+                    } catch (e) {}
+                }
+
+                function loadAnalytics() {
+                    if (!ANALYTICS_ENABLED || !YANDEX_METRIKA_ID) return;
+                    if (window.__siteAnalyticsLoaded) return;
+                    window.__siteAnalyticsLoaded = true;
+
+                    (function (m, e, t, r, i, k, a) {
+                        m[i] = m[i] || function () {
+                            (m[i].a = m[i].a || []).push(arguments);
+                        };
+                        m[i].l = 1 * new Date();
+                        for (var j = 0; j < document.scripts.length; j++) {
+                            if (document.scripts[j].src === r) return;
+                        }
+                        k = e.createElement(t);
+                        a = e.getElementsByTagName(t)[0];
+                        k.async = 1;
+                        k.src = r;
+                        a.parentNode.insertBefore(k, a);
+                    })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+                    window.ym(Number(YANDEX_METRIKA_ID), 'init', {
+                        clickmap: true,
+                        trackLinks: true,
+                        accurateTrackBounce: true,
+                        webvisor: false,
+                    });
+                }
+
+                function applyConsent(value) {
+                    if (value === 'accepted') {
+                        loadAnalytics();
+                    }
+                    /* declined / нет согласия — аналитику не грузим */
+                }
+
+                window.__siteCookieConsent = {
+                    get: readConsent,
+                    hasAnalyticsConsent: () => readConsent() === 'accepted',
+                };
+
+                const saved = readConsent();
+                if (saved === 'accepted' || saved === 'declined') {
+                    applyConsent(saved);
+                    return;
+                }
 
                 const syncLift = () => {
                     const h = banner.classList.contains('is-visible')
@@ -4689,9 +4945,8 @@
                 };
 
                 const hideBanner = (value) => {
-                    try {
-                        localStorage.setItem(STORAGE_KEY, value);
-                    } catch (e) {}
+                    writeConsent(value);
+                    applyConsent(value);
                     banner.classList.add('is-leaving');
                     banner.classList.remove('is-visible');
                     banner.setAttribute('aria-hidden', 'true');
