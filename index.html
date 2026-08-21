@@ -337,7 +337,7 @@
             width: 100%;
             box-sizing: border-box;
             min-height: 0;
-            padding: 0.9rem 3.1rem 0.9rem 1.05rem;
+            padding: 1.05rem 1.15rem;
             border-radius: 1.15rem;
             background: rgba(255, 255, 255, 0.1);
             text-align: left;
@@ -346,29 +346,19 @@
 
         .hero-usp-title {
             margin: 0;
-            font-size: 0.95rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            line-height: 1.25;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.2;
             color: #fff;
         }
 
         .hero-usp-text {
-            margin: 0.28rem 0 0;
-            font-size: var(--copy-size);
+            margin: 0.4rem 0 0;
+            font-size: 1rem;
             font-weight: 400;
-            line-height: var(--copy-leading);
-            color: var(--copy-color);
-        }
-
-        .hero-usp-icon {
-            position: absolute;
-            right: 0.85rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.35rem !important;
-            color: rgba(255, 255, 255, 0.92);
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            line-height: 1.45;
+            color: rgba(255, 255, 255, 0.78);
         }
 
         /* Aceternity Glare Card – vanilla port (non-clickable cards only) */
@@ -477,20 +467,17 @@
             }
 
             .hero-usp-card {
-                padding: 1.15rem 3.4rem 1.15rem 1.25rem;
+                padding: 1.25rem 1.35rem;
                 border-radius: 1.25rem;
                 min-height: 100%;
             }
 
             .hero-usp-title {
-                font-size: 1.05rem;
+                font-size: 1.35rem;
             }
 
-            .hero-usp-icon {
-                right: 1rem;
-                top: 1.15rem;
-                transform: none;
-                font-size: 1.45rem !important;
+            .hero-usp-text {
+                font-size: 1.05rem;
             }
         }
 
@@ -1026,8 +1013,6 @@
             font-size: 0.9375rem;
             line-height: 1.55;
             color: rgba(255, 255, 255, 0.78);
-            mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 72%, transparent 100%);
         }
 
         .review-text-card-body p {
@@ -1532,27 +1517,38 @@
             margin-top: 3.25rem;
             border-radius: 1.5rem;
             border: 1px solid rgba(100, 206, 251, 0.28);
-            background:
-                radial-gradient(120% 90% at 100% 0%, rgba(100, 206, 251, 0.22) 0%, transparent 55%),
-                radial-gradient(90% 70% at 0% 100%, rgba(46, 168, 212, 0.14) 0%, transparent 50%),
-                linear-gradient(160deg, rgba(12, 28, 38, 0.95) 0%, rgba(8, 16, 22, 0.92) 100%);
+            background: #061018;
             box-shadow:
                 0 0 0 1px rgba(100, 206, 251, 0.08),
                 0 24px 60px rgba(0, 0, 0, 0.35),
                 inset 0 1px 0 rgba(255, 255, 255, 0.06);
         }
 
-        .guide-panel-glow {
+        .guide-panel-bg {
             position: absolute;
-            width: min(28rem, 70vw);
-            height: min(28rem, 70vw);
-            right: -12%;
-            top: -30%;
-            border-radius: 9999px;
-            background: radial-gradient(circle, rgba(100, 206, 251, 0.45) 0%, rgba(100, 206, 251, 0) 70%);
-            filter: blur(8px);
+            inset: 0;
+            z-index: 0;
+            border-radius: inherit;
+            overflow: hidden;
             pointer-events: none;
-            opacity: 0.7;
+            background: url('assets/guide-back.jpg') center / cover no-repeat;
+        }
+
+        .guide-panel-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.4) 0%,
+                rgba(0, 0, 0, 0.34) 35%,
+                rgba(0, 0, 0, 0.52) 72%,
+                rgba(0, 0, 0, 0.7) 100%
+            );
+        }
+
+        .guide-panel-glow {
+            display: none;
         }
 
         .guide-panel-grid {
@@ -1607,23 +1603,24 @@
         .guide-points li {
             display: flex;
             align-items: flex-start;
-            gap: 0.65rem;
+            gap: 0.55rem;
             font-size: 0.95rem;
             line-height: 1.4;
             color: rgba(255, 255, 255, 0.88);
         }
 
-        .guide-points .material-symbols-outlined {
+        .guide-points .guide-bullet {
             flex: 0 0 auto;
             margin-top: 0.05rem;
-            font-size: 1.2rem;
-            color: #64cefb;
+            color: rgba(255, 255, 255, 0.55);
+            font-weight: 500;
         }
 
         .guide-cta {
             position: relative;
             display: inline-flex;
             align-items: center;
+            align-self: center;
             gap: 0.45rem;
             margin-top: 1.5rem;
             padding: 0.85rem 1.35rem;
@@ -1636,6 +1633,12 @@
             text-transform: uppercase;
             text-decoration: none;
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+        }
+
+        .guide-copy {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
         }
 
         .guide-legal {
@@ -1742,11 +1745,16 @@
             }
         }
 
-        /* –– Mobile chrome: menu, sticky CTA, overlays –– */
+        /* –– Mobile chrome: top sheet, menu, sticky CTA, overlays –– */
         :root {
-            --mobile-chrome-top: max(0.75rem, env(safe-area-inset-top));
+            --mobile-chrome-top: max(0.5rem, env(safe-area-inset-top));
             --mobile-chrome-side: 0.75rem;
             --mobile-chrome-size: 2.5rem;
+            --mobile-top-sheet-pad-y: 0.35rem;
+            --mobile-top-sheet-gap: 0.55rem;
+            --mobile-top-sheet-height: calc(
+                var(--mobile-chrome-top) + var(--mobile-top-sheet-gap) + var(--mobile-chrome-size) + (var(--mobile-top-sheet-pad-y) * 2)
+            );
         }
 
         body.has-overlay-open {
@@ -1763,7 +1771,7 @@
 
         @media (max-width: 767.98px) {
             html {
-                scroll-padding-top: 4.5rem;
+                scroll-padding-top: calc(var(--mobile-top-sheet-height) + 0.75rem);
             }
 
             .mobile-chrome {
@@ -1777,7 +1785,29 @@
             #hero-mid {
                 bottom: max(1rem, env(safe-area-inset-bottom));
             }
+        }
 
+        .mobile-top-sheet {
+            position: fixed;
+            top: calc(var(--mobile-chrome-top) + var(--mobile-top-sheet-gap));
+            left: max(var(--mobile-chrome-side), env(safe-area-inset-left));
+            right: max(var(--mobile-chrome-side), env(safe-area-inset-right));
+            z-index: 70;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            box-sizing: border-box;
+            min-height: calc(var(--mobile-chrome-size) + (var(--mobile-top-sheet-pad-y) * 2));
+            padding: var(--mobile-top-sheet-pad-y) 0.4rem;
+            border-radius: 1.35rem;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(10, 12, 16, 0.72);
+            -webkit-backdrop-filter: blur(22px) saturate(1.35);
+            backdrop-filter: blur(22px) saturate(1.35);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 12px 32px rgba(0, 0, 0, 0.4);
         }
 
         #mobile-menu-btn,
@@ -1787,32 +1817,42 @@
         }
 
         .mobile-menu-toggle {
-            position: fixed;
-            top: var(--mobile-chrome-top);
-            right: max(var(--mobile-chrome-side), env(safe-area-inset-right));
-            z-index: 90;
+            position: relative;
+            top: auto;
+            right: auto;
+            z-index: 1;
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            flex: 0 0 auto;
             width: var(--mobile-chrome-size);
             height: var(--mobile-chrome-size);
             border-radius: 9999px;
             border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(0, 0, 0, 0.45);
-            -webkit-backdrop-filter: blur(16px) saturate(1.2);
-            backdrop-filter: blur(16px) saturate(1.2);
+            background: rgba(255, 255, 255, 0.08);
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
             color: #fff;
             padding: 0;
             cursor: pointer;
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+            box-shadow: none;
         }
 
         #mobile-menu-btn {
-            z-index: 60;
+            z-index: 1;
+            margin-left: auto;
         }
 
         #sections-overlay-close {
             display: none;
+            position: fixed;
+            top: calc(var(--mobile-chrome-top) + var(--mobile-top-sheet-gap) + var(--mobile-top-sheet-pad-y));
+            right: max(var(--mobile-chrome-side), env(safe-area-inset-right));
+            z-index: 95;
+            background: rgba(0, 0, 0, 0.45);
+            -webkit-backdrop-filter: blur(16px) saturate(1.2);
+            backdrop-filter: blur(16px) saturate(1.2);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
         }
 
         body.has-overlay-open #mobile-menu-btn {
@@ -1822,6 +1862,11 @@
 
         body.has-overlay-open #sections-overlay-close {
             display: inline-flex;
+        }
+
+        body.has-overlay-open .mobile-top-sheet {
+            opacity: 0;
+            pointer-events: none;
         }
 
         #sticky-consult-cta {
@@ -1928,8 +1973,8 @@
                 bottom: auto;
             }
 
-            .sticky-consult-bar .expert-sticky-toggle,
-            .sticky-consult-bar .expert-sticky-toggle.is-visible {
+            .sticky-consult-bar .expert-sticky-toggle--desk,
+            .sticky-consult-bar .expert-sticky-toggle--desk.is-visible {
                 position: static !important;
                 top: auto !important;
                 left: auto !important;
@@ -1942,8 +1987,13 @@
                 visibility: visible !important;
                 pointer-events: auto !important;
                 transform: none !important;
+                transition: none;
                 flex: 0 0 auto;
                 align-self: center;
+                background: rgba(0, 0, 0, 0.45);
+                -webkit-backdrop-filter: blur(16px) saturate(1.2);
+                backdrop-filter: blur(16px) saturate(1.2);
+                box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
             }
 
             .sticky-consult-bar .expert-sticky-toggle-btn {
@@ -1959,10 +2009,10 @@
         }
 
         .expert-sticky-toggle {
-            position: fixed;
-            top: var(--mobile-chrome-top);
-            left: max(var(--mobile-chrome-side), env(safe-area-inset-left));
-            z-index: 58;
+            position: relative;
+            top: auto;
+            left: auto;
+            z-index: 1;
             box-sizing: border-box;
             display: inline-flex;
             align-items: center;
@@ -1971,15 +2021,15 @@
             padding: 0.2rem;
             border-radius: 9999px;
             border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(0, 0, 0, 0.45);
-            -webkit-backdrop-filter: blur(16px) saturate(1.2);
-            backdrop-filter: blur(16px) saturate(1.2);
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transform: translateY(-0.35rem);
-            transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+            background: rgba(255, 255, 255, 0.06);
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+            box-shadow: none;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: none;
+            transition: none;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -1987,7 +2037,11 @@
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-            transform: translateY(0);
+            transform: none;
+        }
+
+        .expert-sticky-toggle--desk {
+            display: none;
         }
 
         .expert-sticky-toggle-btn {
@@ -3696,44 +3750,36 @@
             position: absolute;
             z-index: 3;
             width: min(62%, 10.5rem);
-            border-radius: 0.875rem;
-            padding: 0.65rem 0.75rem 1.15rem;
-            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
-        }
-
-        .expert-story-pin-card::after {
-            content: "📌";
-            position: absolute;
-            font-size: 0.95rem;
-            line-height: 1;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+            border-radius: 1rem;
+            padding: 0.7rem 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            background: #fff;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+            color: #111;
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
         }
 
         .expert-story-pin-card--accent {
             left: 0.25rem;
             bottom: 3.25rem;
-            background: linear-gradient(145deg, #64cefb 0%, #3eb8f0 100%);
-            color: #041018;
-            transform: rotate(-2.5deg);
-        }
-
-        .expert-story-pin-card--accent::after {
-            right: 0.55rem;
-            bottom: 0.45rem;
+            border-color: rgba(100, 206, 251, 0.55);
+            background: #fff;
+            box-shadow:
+                0 0 0 1px rgba(100, 206, 251, 0.2),
+                0 12px 28px rgba(0, 0, 0, 0.28);
         }
 
         .expert-story-pin-card--light {
             right: 0.25rem;
             bottom: -0.75rem;
-            background: rgba(255, 255, 255, 0.96);
-            color: #111;
-            transform: rotate(2deg);
+            border-color: rgba(0, 0, 0, 0.08);
         }
 
         @media (min-width: 768px) {
             .expert-story-pin-card {
                 width: min(68%, 11.25rem);
-                padding: 0.75rem 0.85rem 1.35rem;
+                padding: 0.8rem 0.9rem;
             }
 
             .expert-story-pin-card--accent {
@@ -3747,23 +3793,24 @@
             }
         }
 
-        .expert-story-pin-card--light::after {
-            content: "📎";
-            right: 0.55rem;
-            top: 0.45rem;
-        }
-
         .expert-story-pin-title {
+            margin: 0;
             font-size: 0.8125rem;
             font-weight: 800;
+            letter-spacing: -0.02em;
             line-height: 1.25;
+            color: #111;
+        }
+
+        .expert-story-pin-card--accent .expert-story-pin-title {
+            color: #0a3a4d;
         }
 
         .expert-story-pin-text {
-            margin-top: 0.25rem;
+            margin: 0.3rem 0 0;
             font-size: 0.6875rem;
-            line-height: 1.35;
-            opacity: 0.82;
+            line-height: 1.4;
+            color: rgba(17, 17, 17, 0.62);
         }
 
         .expert-story-contacts {
@@ -3773,14 +3820,57 @@
         }
 
         .expert-story-contacts--header {
-            margin-top: 0.75rem;
-            margin-bottom: 1.15rem;
+            display: inline-flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            flex: 0 0 auto;
+            gap: 0.4rem;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
         }
 
         @media (min-width: 768px) {
             .expert-story-contacts--header {
-                margin-top: 0.85rem;
-                margin-bottom: 1.35rem;
+                gap: 0.45rem;
+            }
+        }
+
+        .expert-story-contact {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.85rem;
+            height: 1.85rem;
+            border-radius: 9999px;
+            overflow: hidden;
+            background: transparent;
+            text-decoration: none;
+            transition: transform 0.18s ease, opacity 0.18s ease;
+        }
+
+        .expert-story-contact img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .expert-story-contact:hover {
+            transform: scale(1.06);
+            opacity: 0.92;
+        }
+
+        .expert-story-contact:active {
+            transform: scale(0.96);
+        }
+
+        @media (min-width: 768px) {
+            .expert-story-contact {
+                width: 2rem;
+                height: 2rem;
             }
         }
 
@@ -3788,8 +3878,19 @@
             min-width: 0;
         }
 
+        .expert-story-identity {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-top: 1.15rem;
+            margin-bottom: 1.05rem;
+        }
+
         .expert-scroll-aside .expert-story-name {
-            margin: 1.15rem 0 0;
+            margin: 0;
+            min-width: 0;
+            flex: 1 1 auto;
             font-size: 1.35rem;
             font-weight: 900;
             letter-spacing: -0.03em;
@@ -3797,8 +3898,13 @@
         }
 
         @media (min-width: 768px) {
-            .expert-scroll-aside .expert-story-name {
+            .expert-story-identity {
                 margin-top: 1.35rem;
+                margin-bottom: 1.2rem;
+                gap: 1rem;
+            }
+
+            .expert-scroll-aside .expert-story-name {
                 font-size: 1.65rem;
             }
         }
@@ -4084,6 +4190,10 @@
             filter: invert(1) brightness(1.05);
         }
 
+        .edu-card-icon--light {
+            background: #fff;
+        }
+
         .edu-card-body {
             min-width: 0;
         }
@@ -4152,7 +4262,7 @@
         }
 
         .exp-logo--dark {
-            background: #0a0a0a;
+            background: #fff;
         }
 
         .exp-logo--dark img {
@@ -4256,7 +4366,7 @@
         }
 
         .expert-marquee-label {
-            margin: 2rem 0 0.75rem;
+            margin: 2rem 0 1.35rem;
             font-size: 0.6875rem;
             font-weight: 800;
             letter-spacing: 0.14em;
@@ -4283,8 +4393,12 @@
             margin-right: calc(-1 * var(--page-inline-right));
             width: auto;
             max-width: none;
-            padding: 0.25rem 0;
+            padding: 0.55rem 0;
             overflow: hidden;
+        }
+
+        #expert .logo-marquee {
+            margin-top: 0;
         }
 
         #placements .logo-marquee {
@@ -4294,6 +4408,7 @@
         @media (min-width: 768px) {
             .expert-marquee-label {
                 margin-top: 2.25rem;
+                margin-bottom: 1.6rem;
             }
 
             #placements .logo-marquee {
@@ -4310,7 +4425,7 @@
         .logo-marquee-track {
             display: flex;
             width: max-content;
-            gap: 3.25rem;
+            gap: 3.75rem;
             align-items: center;
             animation: logo-marquee-scroll var(--logo-marquee-duration, 28s) linear infinite;
             will-change: transform;
@@ -4322,7 +4437,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            height: 2.75rem;
+            height: 3.5rem;
             opacity: 0.92;
         }
 
@@ -4330,12 +4445,12 @@
             display: block;
             height: 100%;
             width: auto;
-            max-width: 9.5rem;
+            max-width: 11.5rem;
             object-fit: contain;
         }
 
         .logo-marquee-item.is-wide img {
-            max-width: 12rem;
+            max-width: 14.5rem;
         }
 
         .logo-marquee-item.is-invert img {
@@ -4349,19 +4464,19 @@
 
         @media (min-width: 768px) {
             .logo-marquee-track {
-                gap: 4.5rem;
+                gap: 5rem;
             }
 
             .logo-marquee-item {
-                height: 3.25rem;
+                height: 4.25rem;
             }
 
             .logo-marquee-item img {
-                max-width: 11rem;
+                max-width: 13.5rem;
             }
 
             .logo-marquee-item.is-wide img {
-                max-width: 14rem;
+                max-width: 17rem;
             }
         }
 
@@ -4446,15 +4561,25 @@
 </svg>
 <!-- Mobile menu (visible &lt; md via CSS) -->
 <div class="mobile-chrome">
+<header class="mobile-top-sheet" aria-label="Мобильная панель">
+<div id="expert-sticky-toggle" class="expert-sticky-toggle is-visible" role="group" aria-label="Выбор эксперта">
+<button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Настя Нерадовских">
+<img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+</button>
+<button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Даня Колесниченко">
+<img src="assets/Danya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+</button>
+</div>
 <button type="button" id="mobile-menu-btn" class="mobile-menu-toggle" aria-haspopup="dialog" aria-controls="sections-overlay" aria-expanded="false" aria-label="Меню">
 <span class="material-symbols-outlined text-[18px]" data-icon="menu" aria-hidden="true">menu</span>
 </button>
+</header>
 <button type="button" id="sections-overlay-close" class="mobile-menu-toggle" aria-label="Закрыть меню">
 <span class="material-symbols-outlined text-[18px]" data-icon="close" aria-hidden="true">close</span>
 </button>
 </div>
 <div id="sticky-consult-bar" class="sticky-consult-bar">
-<div id="expert-sticky-toggle" class="expert-sticky-toggle" role="group" aria-label="Выбор эксперта">
+<div id="expert-sticky-toggle-desk" class="expert-sticky-toggle expert-sticky-toggle--desk" role="group" aria-label="Выбор эксперта">
 <button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Настя Нерадовских">
 <img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
 </button>
@@ -4701,17 +4826,14 @@
 <article class="hero-usp-card">
 <h3 class="hero-usp-title">Выстроишь стратегию роста</h3>
 <p class="hero-usp-text">Персональный план по карьере, поиску работы или участию в конкурсах и грантах</p>
-<span class="material-symbols-outlined hero-usp-icon" data-icon="explore" aria-hidden="true">explore</span>
 </article>
 <article class="hero-usp-card">
 <h3 class="hero-usp-title">Упакуешь резюме и профиль</h3>
 <p class="hero-usp-text">Разберём опыт, LinkedIn и формулировки – даже если кажется, что показывать нечего</p>
-<span class="material-symbols-outlined hero-usp-icon" data-icon="badge" aria-hidden="true">badge</span>
 </article>
 <article class="hero-usp-card">
 <h3 class="hero-usp-title">Подготовишься к отбору</h3>
 <p class="hero-usp-text">Интервью, кейсы и вопросы для входа в IT, продукт или стартап</p>
-<span class="material-symbols-outlined hero-usp-icon" data-icon="record_voice_over" aria-hidden="true">record_voice_over</span>
 </article>
 </div>
 </div>
@@ -4744,16 +4866,16 @@
 </div>
 </div>
 </div>
+<div class="expert-story-identity">
 <h3 class="expert-story-name">Настя Нерадовских</h3>
 <div class="expert-story-contacts expert-story-contacts--header">
-<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
-<img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
-<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">Telegram</span>
+<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="expert-story-contact" aria-label="Telegram">
+<img src="assets/telegram.png" alt="" width="40" height="40" loading="lazy" decoding="async"/>
 </a>
-<a href="https://www.linkedin.com/in/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
-<img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
-<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">LinkedIn</span>
+<a href="https://www.linkedin.com/in/koolesoo" target="_blank" rel="noopener noreferrer" class="expert-story-contact" aria-label="LinkedIn">
+<img src="assets/linkedin.png" alt="" width="40" height="40" loading="lazy" decoding="async"/>
 </a>
+</div>
 </div>
 <div class="expert-story-narrative">
 <p class="expert-story-empathy">Я знаю, как сложно начинать карьеру без понятного маршрута – и как важно не сдаваться на полпути.</p>
@@ -4815,28 +4937,28 @@
 <div class="exp-card">
 <ul class="exp-list">
 <li class="exp-item">
-<div class="exp-logo"><img src="assets/marquee/logo-alfa-2.png?v=20260820164" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-logo"><img src="assets/marquee/logo-alfa.png?v=20260821191" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Chief Product Owner, Альфа-Банк</p>
 <p class="exp-dates">2026 – настоящее время</p>
 </div>
 </li>
 <li class="exp-item">
-<div class="exp-logo"><img src="assets/marquee/logo-alfa-2.png?v=20260820164" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-logo"><img src="assets/marquee/logo-alfa.png?v=20260821191" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Product Owner, Альфа-Банк</p>
 <p class="exp-dates">2024 – 2026</p>
 </div>
 </li>
 <li class="exp-item">
-<div class="exp-logo exp-logo--dark"><img src="assets/marquee/logo-t2.png?v=20260820175" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-logo exp-logo--dark"><img src="assets/marquee/logo-t2.png?v=20260821191" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Product Manager, Т2</p>
 <p class="exp-dates">2023 – 2024</p>
 </div>
 </li>
 <li class="exp-item">
-<div class="exp-logo exp-logo--dark"><img src="assets/marquee/logo-mars.png?v=20260820175" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-logo exp-logo--dark"><img src="assets/marquee/logo-mars.png?v=20260821191" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Mars, Procter &amp; Gamble, Сибур</p>
 <p class="exp-dates">2019 – 2023</p>
@@ -4851,21 +4973,21 @@
 <h4 class="expert-scroll-heading" id="nastya-edu-heading">Образование</h4>
 <div class="edu-cards">
 <article class="edu-card">
-<div class="edu-card-icon"><img src="assets/marquee/hse-logo.png?v=20260820154" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
+<div class="edu-card-icon"><img src="assets/marquee/logo-hse.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="edu-card-body">
 <p class="edu-card-name">НИУ ВШЭ</p>
 <p class="edu-card-faculty">Бакалавриат «Международные отношения», факультет мировой экономики и мировой политики</p>
 </div>
 </article>
 <article class="edu-card">
-<div class="edu-card-icon"><img src="assets/marquee/logo-ranepa.png?v=20260820154" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
+<div class="edu-card-icon"><img src="assets/marquee/logo-ranepa.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="edu-card-body">
 <p class="edu-card-name">РАНХиГС</p>
 <p class="edu-card-faculty">Магистратура «Международный менеджмент», ИБДА</p>
 </div>
 </article>
 <article class="edu-card">
-<div class="edu-card-icon"><span class="edu-card-monogram">МШУ</span></div>
+<div class="edu-card-icon edu-card-icon--light"><img src="assets/marquee/logo-skolkovo.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="edu-card-body">
 <p class="edu-card-name">МШУ Сколково</p>
 <p class="edu-card-faculty">Управление цифровым продуктом, Стартап Академия, Лидерский UPGRADE, Триада личностного роста</p>
@@ -4896,16 +5018,16 @@
 </div>
 </div>
 </div>
+<div class="expert-story-identity">
 <h3 class="expert-story-name">Даня Колесниченко</h3>
 <div class="expert-story-contacts expert-story-contacts--header">
-<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
-<img src="assets/free-telegram-3d-icon-png-download-6786108.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
-<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">Telegram</span>
+<a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="expert-story-contact" aria-label="Telegram">
+<img src="assets/telegram.png" alt="" width="40" height="40" loading="lazy" decoding="async"/>
 </a>
-<a href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-white no-underline transition-opacity hover:opacity-80">
-<img src="assets/free-linkedin-3d-icon-png-download-8250235.png.webp" alt="" class="h-5 w-5 shrink-0 object-contain" loading="lazy"/>
-<span class="text-base leading-relaxed font-semibold tracking-tight text-white/65">LinkedIn</span>
+<a href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer" class="expert-story-contact" aria-label="LinkedIn">
+<img src="assets/linkedin.png" alt="" width="40" height="40" loading="lazy" decoding="async"/>
 </a>
+</div>
 </div>
 <div class="expert-story-narrative">
 <p class="expert-story-empathy">Я тоже думал, что у меня недостаточно опыта – и проходил тот же путь, что сейчас проходишь ты.</p>
@@ -4969,14 +5091,14 @@
 <div class="exp-card">
 <ul class="exp-list">
 <li class="exp-item">
-<div class="exp-logo"><img src="assets/marquee/logo-alfa-2.png?v=20260820164" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-logo"><img src="assets/marquee/logo-alfa.png?v=20260821191" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Growth Product Manager, Альфа-Банк</p>
 <p class="exp-dates">2026 – настоящее время</p>
 </div>
 </li>
 <li class="exp-item">
-<div class="exp-logo"><img src="assets/marquee/logo-alfa-2.png?v=20260820164" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-logo"><img src="assets/marquee/logo-alfa.png?v=20260821191" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Product Owner, Альфа-Банк</p>
 <p class="exp-dates">2024 – 2025</p>
@@ -4991,14 +5113,14 @@
 <h4 class="expert-scroll-heading" id="danya-edu-heading">Образование</h4>
 <div class="edu-cards">
 <article class="edu-card">
-<div class="edu-card-icon"><img src="assets/marquee/logo-fu.png?v=20260820163" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
+<div class="edu-card-icon"><img src="assets/marquee/logo-fu.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="edu-card-body">
 <p class="edu-card-name">Финансовый университет при Правительстве РФ</p>
 <p class="edu-card-faculty">Прикладная информатика · бакалавриат</p>
 </div>
 </article>
 <article class="edu-card">
-<div class="edu-card-icon edu-card-icon--invert"><img src="assets/marquee/cu-logo.png?v=20260820154" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
+<div class="edu-card-icon edu-card-icon--invert"><img src="assets/marquee/logo-cu.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="edu-card-body">
 <p class="edu-card-name">Центральный университет</p>
 <p class="edu-card-faculty">Продуктовый менеджмент · магистратура</p>
@@ -5057,7 +5179,7 @@
 <div data-section-chips data-services-chips>
 <div class="section-chip-tabs" role="tablist" aria-label="Форматы услуг">
 <button type="button" class="section-chip chip-active" role="tab" id="services-tab-consult" aria-selected="true" aria-controls="services-panel-consult" data-chip-tab="consult">Консультация</button>
-<button type="button" class="section-chip" role="tab" id="services-tab-mentor" aria-selected="false" aria-controls="services-panel-mentor" data-chip-tab="mentor">Менторство</button>
+<button type="button" class="section-chip" role="tab" id="services-tab-mentor" aria-selected="false" aria-controls="services-panel-mentor" data-chip-tab="mentor">Менторство 🔥</button>
 </div>
 <div class="section-chip-panels">
 <div data-chip-panel="consult" class="is-active" role="tabpanel" id="services-panel-consult" aria-labelledby="services-tab-consult">
@@ -5152,7 +5274,7 @@
 <div data-section-chips data-services-chips>
 <div class="section-chip-tabs" role="tablist" aria-label="Форматы услуг">
 <button type="button" class="section-chip chip-active" role="tab" id="danya-services-tab-consult" aria-selected="true" aria-controls="danya-services-panel-consult" data-chip-tab="danya-consult">Консультация</button>
-<button type="button" class="section-chip" role="tab" id="danya-services-tab-mentor" aria-selected="false" aria-controls="danya-services-panel-mentor" data-chip-tab="danya-mentor">Менторство</button>
+<button type="button" class="section-chip" role="tab" id="danya-services-tab-mentor" aria-selected="false" aria-controls="danya-services-panel-mentor" data-chip-tab="danya-mentor">Менторство 🔥</button>
 </div>
 <div class="section-chip-panels">
 <div data-chip-panel="danya-consult" class="is-active" role="tabpanel" id="danya-services-panel-consult" aria-labelledby="danya-services-tab-consult">
@@ -5160,7 +5282,7 @@
 <article class="track-card">
 <h3 class="track-card-title">Q&amp;A</h3>
 <p class="track-card-text">Ответы на вопросы по старту карьеры в IT и менеджменте: как искать, куда обращаться и как выстроить процесс</p>
-<p class="track-card-price">2 000 ₽</p>
+<p class="track-card-price">2 500 ₽</p>
 <p class="track-card-meta">1 час · онлайн</p>
 <button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-danya-qa">Подробнее</button>
 <div class="track-detail" id="track-detail-danya-qa" hidden>
@@ -5191,7 +5313,7 @@
 <article class="track-card">
 <h3 class="track-card-title">Разбор резюме</h3>
 <p class="track-card-text">Детальный анализ резюме: структура, формулировки, ключевые слова, подача опыта и переупаковка «нерелевантного» опыта</p>
-<p class="track-card-price">2 000 ₽</p>
+<p class="track-card-price">2 500 ₽</p>
 <p class="track-card-meta">30 минут · онлайн</p>
 <button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-danya-resume">Подробнее</button>
 <div class="track-detail" id="track-detail-danya-resume" hidden>
@@ -5239,29 +5361,30 @@
 <section class="page-gutter relative py-12 md:py-16" id="guide" aria-labelledby="guide-heading">
 <div class="mx-auto max-w-7xl w-full">
 <div class="guide-panel">
+<div class="guide-panel-bg" aria-hidden="true"></div>
 <div class="guide-panel-glow" aria-hidden="true"></div>
 <div class="guide-panel-grid">
 <div class="guide-copy">
 <h2 class="guide-title" id="guide-heading">Гайд по входу в IT</h2>
-<p class="guide-lead">Как подготовиться к интервью на Product Manager – открою в Telegram после короткой заявки.</p>
+<p class="guide-lead">Как подготовиться к интервью на Product Manager – откроем в Telegram после короткой заявки.</p>
 <ul class="guide-points">
 <li>
-<span class="material-symbols-outlined" aria-hidden="true">checklist</span>
+<span class="guide-bullet" aria-hidden="true">–</span>
 <span>Структура интервью и что ждут от кандидата</span>
 </li>
 <li>
-<span class="material-symbols-outlined" aria-hidden="true">quiz</span>
+<span class="guide-bullet" aria-hidden="true">–</span>
 <span>Типовые вопросы и как на них отвечать</span>
 </li>
 <li>
-<span class="material-symbols-outlined" aria-hidden="true">inventory_2</span>
+<span class="guide-bullet" aria-hidden="true">–</span>
 <span>Как упаковать опыт, даже если кажется, что показывать нечего</span>
 </li>
 </ul>
 <a href="https://t.me/career67_bot?start=guide" target="_blank" rel="noopener noreferrer" class="guide-cta">
 <span>Получить гайд</span>
 </a>
-<p class="guide-legal">Отправим PDF-гайд в Telegram. Нажимая кнопку, ты соглашаешься с <a href="personal-data-consent.html">Согласием на обработку персональных данных</a> и <a href="privacy-policy.html">Политикой конфиденциальности</a>.</p>
+<p class="guide-legal">Отправим PDF-гайд в Telegram. Нажимая кнопку, ты даёшь <a href="personal-data-consent.html">согласие на обработку персональных данных</a> и принимаешь <a href="privacy-policy.html">Политику конфиденциальности</a>.</p>
 </div>
 <div class="guide-visual">
 <div class="guide-cover">
@@ -5290,7 +5413,7 @@
 <h2 class="text-4xl font-black tracking-tighter md:text-5xl" id="reviews-heading">Отзывы</h2>
 <p class="reviews-head-rating">
 <span class="material-symbols-outlined text-[16px] text-[#f5c518] md:text-[18px]" style="font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;" aria-hidden="true">star</span>
-4.87 средняя оценка
+4.95 средняя оценка
 </p>
 </div>
 <div class="reviews-nav" aria-label="Управление каруселью отзывов">
@@ -5308,10 +5431,8 @@
 <div class="review-text-card-face">
 <button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Аня</button>
 <div class="review-text-card-body">
-<p>Настя, спасибо огромное за консультацию!</p>
-<p>Я вообще ни сколько не пожалела, что у тебя взяла ее! Ты крутой ментор)</p>
-<p>Пришла к тебе с полным запросом, чтобы полностью уйти в финтех направление и выйти в новое направление работы для себя)</p>
-<p>Ты мне построила пошаговый план, что нужно сделать для этого и верное направление и мотивацию, ты вселила в меня огромную уверенность, что у меня получится) Поделилась большим количеством лайфаков, которые помогут мне в этом, это очень ценно! И за курсы спасибо огромное. Осталось дело за малым, только за моим обучением) ещё раз спасибо огромное</p>
+<p>Настя, спасибо огромное за консультацию! Я вообще ни сколько не пожалела, что у тебя взяла ее – ты крутой ментор)</p>
+<p>Пришла с запросом уйти в финтех: ты построила пошаговый план, вселила уверенность и поделилась лайфхаками…</p>
 </div>
 </div>
 <div class="review-card-content" hidden>
@@ -5325,11 +5446,8 @@
 <div class="review-text-card-face">
 <button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Настя</button>
 <div class="review-text-card-body">
-<p>Настя, привет!</p>
-<p>Спасибо большое за консультацию! Хотела отметить, что ты очень точно и без лишней воды задавала вопросы, помогла структурировать мои мысли и выстроить карьерную стратегию исходя из уже имеющегося опыта.</p>
-<p>Отдельное спасибо за общий файл по итогу встречи, все последовательно: цель, необходимые шаги для карьерного роста. Это помогает держать фокус и возвращаться к ключевым моментам.</p>
-<p>Я уже проработала первый шаг, определила свою траекторию и хотела бы записаться на следующую консультацию, переупаковать резюме.</p>
-<p>Ещё хотела отметить, очень понравилось, что ты можешь сориентировать какую литературу/курсы/книги прочитать, что важно для повышения необходимых навыков.</p>
+<p>Спасибо большое за консультацию! Точно и без лишней воды помогла структурировать мысли и выстроить карьерную стратегию из имеющегося опыта.</p>
+<p>Отдельное спасибо за итоговый файл: цель и шаги – помогает держать фокус…</p>
 </div>
 </div>
 <div class="review-card-content" hidden>
@@ -5344,15 +5462,8 @@
 <div class="review-text-card-face">
 <button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Маша</button>
 <div class="review-text-card-body">
-<p>Консультация была очень полезной и даже, в каком-то смысле, терапевтичной. Я давно думала о смене деятельности, но ловила себя на мыслях типа «а вдруг поздно», «не получится», «у меня нет опыта», но в процессе созвона поняла, что при грамотной стратегии разрозненные мысли могут превратиться в пошаговый план действий:</p>
-<ol>
-<li>Было очень полезно посмотреть на анализ своего пройденного профессионального пути со стороны, зачастую были подсвечены вещи, на которые я бы не обратила внимание, а именно они оказались важны.</li>
-<li>В диалоге я обнаружила/вспомнила более детально кейсы, с которыми мне приходилось иметь дело, и которые отлично лягут в основу продающего резюме.</li>
-<li>Особое впечатление произвело то, как мой нынешний опыт можно преподнести полезным для сферы, в которой я хочу развиваться: большую часть задач я, оказывается, и так выполняю, просто не знала, как именно ее обозначить, чтобы превратить в преимущество.</li>
-<li>Самое ценное – подробный и понятный план дальнейших действий. Если раньше у меня было полное непонимание и откладывание смены деятельности на неопределенный срок, то теперь мне уже не терпится приступить к следующему этапу намеченного курса.</li>
-<li>Как итог, я уже вовсю занимаюсь изучением новой потенциальной сферы, читаю книги и смотрю профессиональные видео, и с каждым днем понимания все больше.</li>
-</ol>
-<p>Выход из зоны комфорта больше не пугает: с Анастасией очень легко, диалог по существу, информация важная и по существу, без воды и лозунгов. Обязательно продолжу дальнейшие консультации и с удовольствием порекомендую друзьям и знакомым!</p>
+<p>Консультация была очень полезной: разрозненные мысли превратились в пошаговый план, а текущий опыт – в преимущество для новой сферы.</p>
+<p>С Анастасией легко и по существу, без воды. Обязательно продолжу и с удовольствием порекомендую…</p>
 </div>
 </div>
 <div class="review-card-content" hidden>
@@ -5371,13 +5482,8 @@
 <div class="review-text-card-face">
 <button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Юля</button>
 <div class="review-text-card-body">
-<p>Настя, привет!</p>
-<p>Мне очень понравилось работать с тобой.</p>
-<p>Во-первых, сразу было заметно, что ты шаришь в своей теме и даешь реальные и прикладные советы. Не абстрактно, а четко.</p>
-<p>Отдельно хочу поблагодарить за честность, что давала реальные ожидания, аргументированные комментарии по резюме, кейсам на работе и тд. В целом я получила очень подробную картину, что сейчас происходит в ИТ мире)</p>
-<p>Курсы – просто супер, теперь хотя бы знаю что и где изучать. Тут у меня было больше всего вопросов.</p>
-<p>Ну и по окончании сессий, у меня не осталось никаких вопросов, все проблемы решили. Я теперь четко понимаю куда двигаться.</p>
-<p>Спасибо огромное, дала большую мотивацию расти дальше и пробовать себя</p>
+<p>Реальные прикладные советы, честные ожидания и подробная картина IT. Теперь четко понимаю, куда двигаться.</p>
+<p>Спасибо огромное – дала большую мотивацию расти дальше и пробовать себя…</p>
 </div>
 </div>
 <div class="review-card-content" hidden>
@@ -5394,10 +5500,8 @@
 <div class="review-text-card-face">
 <button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Даяна</button>
 <div class="review-text-card-body">
-<p>Привет!) Прошло сегодня финальное собеседование – на встрече был продакт с прошлого собеса и девушка тимлид. В целом положительные впечатления остались, буду ждать ОС.</p>
-<p>Вопросы задавала только тимлид. На встрече рассказала про себя по методу STAR, далее девушка задавала кейсовые вопросы:</p>
-<p>Расскажи с какой неудачей сталкивалась и как решала проблему.<br/>Как будешь решать проблему противоречивых требований у стейкхолдеров.<br/>Что будешь делать, если разработчик не понял требование или взял в работу задачу и интерпретировал требования по своему?<br/>Что должно произойти чтобы ты поняла, что команда тебе не подходит?</p>
-<p>Спасибо за помощь в подготовке, смогла более полно ответить на вопросы</p>
+<p>Прошло финальное собеседование – положительные впечатления, жду ОС.</p>
+<p>Спасибо за помощь в подготовке: смогла более полно ответить на вопросы…</p>
 </div>
 </div>
 <div class="review-card-content" hidden>
@@ -6005,21 +6109,29 @@
 
         (function initLogoMarquees() {
             const LOGO_PX_PER_SEC = 40;
-            const MARQUEE_ASSET_VERSION = '20260820156';
+            const MARQUEE_ASSET_VERSION = '20260821193';
 
-            const EXPERT_LOGOS = [
-                { file: 'logo-alfa.png', alt: 'Альфа-Банк' },
-                { file: 'hse-logo.png', alt: 'ВШЭ' },
-                { file: 'cu-logo.png', alt: 'Центральный университет', wide: true, invert: true },
-                { file: 'logo-ranepa.png', alt: 'РАНХиГС' },
-            ];
+            const EXPERT_MARQUEE_LOGOS = {
+                nastya: [
+                    { file: 'logo-alfa2.png', alt: 'Альфа-Банк' },
+                    { file: 'logo-hse2.png', alt: 'ВШЭ' },
+                    { file: 'logo-cu2.png', alt: 'Центральный университет', wide: true, invert: true },
+                    { file: 'logo-ranepa2.png', alt: 'РАНХиГС' },
+                ],
+                danya: [
+                    { file: 'logo-alfa2.png', alt: 'Альфа-Банк', wide: true },
+                    { file: 'logo-changellenge.png', alt: 'Changellenge', wide: true },
+                    { file: 'logo-cu2.png', alt: 'Центральный университет', wide: true, invert: true },
+                    { file: 'logo-hse2.png', alt: 'ВШЭ' },
+                ],
+            };
 
             const PLACEMENTS_LOGOS = [
-                { file: 'logo-alfa.png', alt: 'Альфа-Банк' },
+                { file: 'logo-alfa2.png', alt: 'Альфа-Банк' },
                 { file: 'logo-sber.png', alt: 'Сбер' },
                 { file: 'logo-tbank.png', alt: 'Т-Банк' },
                 { file: 'logo-ozon.png', alt: 'Ozon' },
-                { file: 'logo-ranepa.png', alt: 'РАНХиГС' },
+                { file: 'logo-ranepa2.png', alt: 'РАНХиГС' },
             ];
 
             function makeItem(logo) {
@@ -6054,7 +6166,16 @@
                 });
             }
 
-            fillTrack(document.querySelector('[data-expert-marquee-track]'), EXPERT_LOGOS);
+            const expertTrack = document.querySelector('[data-expert-marquee-track]');
+
+            function syncExpertMarquee(id) {
+                const logos = EXPERT_MARQUEE_LOGOS[id] || EXPERT_MARQUEE_LOGOS.nastya;
+                fillTrack(expertTrack, logos);
+            }
+
+            window.__syncExpertMarquee = syncExpertMarquee;
+
+            syncExpertMarquee('nastya');
             fillTrack(document.querySelector('[data-placements-marquee-track]'), PLACEMENTS_LOGOS);
         })();
 
@@ -6479,6 +6600,8 @@
             const menuCta = document.getElementById('menu-contact-cta');
             const navCta = document.getElementById('nav-contact-cta');
             const stickyToggle = document.getElementById('expert-sticky-toggle');
+            const stickyToggleDesk = document.getElementById('expert-sticky-toggle-desk');
+            const stickyToggles = [stickyToggle, stickyToggleDesk].filter(Boolean);
             const desktopMq = window.matchMedia('(min-width: 768px)');
 
             function syncContactHref(el, id) {
@@ -6530,7 +6653,7 @@
                     if (btn.hasAttribute('aria-selected')) btn.setAttribute('aria-selected', on ? 'true' : 'false');
                 });
 
-                syncToggleButtons(stickyToggle, id);
+                stickyToggles.forEach((root) => syncToggleButtons(root, id));
 
                 document.querySelectorAll('[data-global-expert-panel]').forEach((el) => {
                     const on = el.getAttribute('data-global-expert-panel') === id;
@@ -6548,7 +6671,7 @@
                 requestAnimationFrame(() => {
                     const panel = document.querySelector('[data-global-expert-panel="' + id + '"]');
                     panel?.querySelector('[data-audience-stack]')?.__audienceRefresh?.({ reset: true });
-                    stickyToggle?.__refreshVisibility?.();
+                    window.__syncExpertMarquee?.(id);
                     window.__refreshScrollTimelines?.();
                 });
             }
@@ -6561,46 +6684,21 @@
                 });
             });
 
-            stickyToggle?.querySelectorAll('[data-global-expert]').forEach((btn) => {
-                btn.addEventListener('click', () => {
-                    const id = btn.getAttribute('data-global-expert');
-                    if (DISABLED_EXPERTS.has(id) || btn.disabled) return;
-                    setExpert(id);
+            stickyToggles.forEach((root) => {
+                root.querySelectorAll('[data-global-expert]').forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.getAttribute('data-global-expert');
+                        if (DISABLED_EXPERTS.has(id) || btn.disabled) return;
+                        setExpert(id);
+                    });
                 });
             });
 
-            if (stickyToggle && expertPeople) {
-                const syncStickyToggle = () => {
-                    if (desktopMq.matches) {
-                        // На деске тогл живёт в bar вместе с CTA – отдельная видимость не нужна
-                        stickyToggle.classList.remove('is-visible');
-                        return;
-                    }
-                    const panel = expertPeople.querySelector(':scope > .section-chip-panels > [data-chip-panel].is-active')
-                        || expertPeople.querySelector('[data-chip-panel].is-active');
-                    const portrait = panel?.querySelector('.expert-story-portrait-wrap');
-                    if (!portrait) {
-                        stickyToggle.classList.remove('is-visible');
-                        return;
-                    }
-                    const pastPhoto = portrait.getBoundingClientRect().bottom <= 0;
-                    stickyToggle.classList.toggle('is-visible', pastPhoto);
+            if (stickyToggle) {
+                stickyToggle.classList.add('is-visible');
+                stickyToggle.__refreshVisibility = () => {
+                    if (!desktopMq.matches) stickyToggle.classList.add('is-visible');
                 };
-
-                window.addEventListener('scroll', syncStickyToggle, { passive: true });
-                window.addEventListener('resize', syncStickyToggle, { passive: true });
-                if (typeof desktopMq.addEventListener === 'function') {
-                    desktopMq.addEventListener('change', syncStickyToggle);
-                } else if (typeof desktopMq.addListener === 'function') {
-                    desktopMq.addListener(syncStickyToggle);
-                }
-                stickyToggle.__refreshVisibility = syncStickyToggle;
-                // После появления sticky CTA тоже синхронизируем
-                if (stickyCta) {
-                    const mo = new MutationObserver(syncStickyToggle);
-                    mo.observe(stickyCta, { attributes: true, attributeFilter: ['class'] });
-                }
-                syncStickyToggle();
             }
 
             let saved = 'nastya';
