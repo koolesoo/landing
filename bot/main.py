@@ -147,7 +147,7 @@ def format_user_ref(username: str | None, user_id: int | None = None, full_name:
 async def notify_admin(bot, text: str) -> None:
     chat_id = get_admin_chat_id()
     if not chat_id:
-        logger.warning("Admin chat id is not set — @%s should /start the bot once", ADMIN_USERNAME)
+        logger.warning("Admin chat id is not set – @%s should /start the bot once", ADMIN_USERNAME)
         return
     try:
         await bot.send_message(
@@ -270,7 +270,7 @@ def after_success_keyboard() -> InlineKeyboardMarkup:
 
 
 async def clear_message_buttons(query) -> None:
-    """Убирает кнопки у сообщения, текст/файл оставляет — история не затирается."""
+    """Убирает кнопки у сообщения, текст/файл оставляет – история не затирается."""
     if not query or not query.message:
         return
     try:
@@ -287,7 +287,7 @@ async def send_ui_message(
     parse_mode: str | None = None,
     edit: bool = False,
 ) -> None:
-    """edit=True — только внутри шагов записи; иначе новое сообщение (история сохраняется)."""
+    """edit=True – только внутри шагов записи; иначе новое сообщение (история сохраняется)."""
     query = update.callback_query
     message = update.effective_message
     if not message:
@@ -385,7 +385,7 @@ async def show_tariffs(update: Update, expert_id: str, *, edit: bool = False) ->
 
     await send_ui_message(
         update,
-        f"Эксперт: <b>{expert.name}</b>\n\nВыберите тариф:",
+        f"Эксперт: <b>{expert.name}</b>\n\nВыбери тариф:",
         reply_markup=tariffs_keyboard(expert_id),
         parse_mode=ParseMode.HTML,
         edit=edit,
@@ -442,7 +442,7 @@ async def complete_booking(
         BOOKING_SUCCESS
         + f"\n\n👤 {expert.name}\n📦 {tariff.title}\n💰 {tariff.price}"
     )
-    # Финальный success — отдельным сообщением, черновик заявки оставляем в истории
+    # Финальный success – отдельным сообщением, черновик заявки оставляем в истории
     await clear_message_buttons(query)
     await query.message.reply_text(
         success_text,
@@ -509,7 +509,7 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     if user:
         register_admin_chat_id(user.id, user.username)
 
-    # Меню / гайд / новая запись — всегда новые сообщения, чтобы не затирать success
+    # Меню / гайд / новая запись – всегда новые сообщения, чтобы не затирать success
     if data == "menu:home":
         await send_ui_message(
             update,

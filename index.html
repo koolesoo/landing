@@ -3,7 +3,7 @@
 <html class="dark" lang="ru"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" name="viewport"/>
-<title>Настя Нерадовских — карьера в IT, консультации и менторство</title>
+<title>Настя Нерадовских – карьера в IT, консультации и менторство</title>
 <meta name="description" content="CPO Альфа-Банка. Консультации по входу в IT и карьере, менторство, разбор резюме. Суперфиналистка «Лидеров России», основатель стартапа WID."/>
 <meta name="theme-color" content="#000000"/>
 <meta name="robots" content="index, follow"/>
@@ -11,16 +11,16 @@
 <meta property="og:type" content="website"/>
 <meta property="og:locale" content="ru_RU"/>
 <meta property="og:site_name" content="Карьера в IT"/>
-<meta property="og:title" content="Настя Нерадовских — карьера в IT и менторство"/>
+<meta property="og:title" content="Настя Нерадовских – карьера в IT и менторство"/>
 <meta property="og:description" content="CPO Альфа-Банка. Консультации, менторство, разбор резюме. Суперфиналистка «Лидеров России», основатель WID."/>
 <meta property="og:url" content="https://koolesoo.github.io/landing/"/>
 <meta property="og:image" content="https://koolesoo.github.io/landing/assets/nastya.jpg"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Настя Нерадовских — карьера в IT и менторство"/>
+<meta name="twitter:title" content="Настя Нерадовских – карьера в IT и менторство"/>
 <meta name="twitter:description" content="CPO Альфа-Банка. Консультации, менторство, разбор резюме. Суперфиналистка «Лидеров России», основатель WID."/>
 <meta name="twitter:image" content="https://koolesoo.github.io/landing/assets/nastya.jpg"/>
 <script>
-        /* Early zoom lock — must run before first gesture (iOS) */
+        /* Early zoom lock – must run before first gesture (iOS) */
         (function lockMobileZoom() {
             const VIEWPORT =
                 'width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no';
@@ -65,7 +65,7 @@
 <style>
         html {
             scroll-behavior: smooth;
-            /* Десктоп: якоря под фиксированной шапкой; мобилка — шапки нет */
+            /* Десктоп: якоря под фиксированной шапкой; мобилка – шапки нет */
             scroll-padding-top: 5.75rem;
             touch-action: manipulation;
             -ms-touch-action: manipulation;
@@ -253,7 +253,7 @@
             }
         }
 
-        /* Aceternity SquigglyText — vanilla port (SVG turbulence + displacement) */
+        /* Aceternity SquigglyText – vanilla port (SVG turbulence + displacement) */
         .squiggly-text {
             display: inline-block;
             max-width: 100%;
@@ -298,7 +298,7 @@
             line-height: 0.85;
         }
 
-        /* Заголовок «для студентов» шире контейнера — буллеты остаются в max-w-lg */
+        /* Заголовок «для студентов» шире контейнера – буллеты остаются в max-w-lg */
         @media (max-width: 767.98px) {
             #hero-mode-students {
                 overflow: visible;
@@ -371,7 +371,7 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
-        /* Aceternity Glare Card — vanilla port (non-clickable cards only) */
+        /* Aceternity Glare Card – vanilla port (non-clickable cards only) */
         .glare-card {
             --m-x: 50%;
             --m-y: 50%;
@@ -494,7 +494,7 @@
             }
         }
 
-        /* Активный сегмент таба — светло-серое матовое стекло */
+        /* Активный сегмент таба – светло-серое матовое стекло */
         .chip-active {
             color: #ffffff;
             background: linear-gradient(
@@ -853,6 +853,283 @@
             pointer-events: auto;
         }
 
+        /* Apple-style text review cards */
+        .reviews-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .reviews-head-copy {
+            min-width: 0;
+        }
+
+        .reviews-head-rating {
+            margin-top: 0.55rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .reviews-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .apple-cards-carousel {
+            display: flex;
+            align-items: stretch;
+            gap: 1rem;
+            max-width: 100%;
+            overflow-x: auto;
+            overflow-y: visible;
+            scroll-snap-type: x mandatory;
+            scroll-padding-inline: 0;
+            padding-top: 0.35rem;
+            padding-bottom: 0.5rem;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            overscroll-behavior-x: contain;
+        }
+
+        .apple-cards-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .review-text-card {
+            position: relative;
+            flex: 0 0 min(85vw, 22rem);
+            min-height: 22rem;
+            max-height: min(70vh, 34rem);
+            scroll-snap-align: start;
+            border-radius: 1.35rem;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.35) 100%),
+                radial-gradient(120% 90% at 12% 0%, rgba(100, 206, 251, 0.22), transparent 55%),
+                #12161c;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            overflow: hidden;
+            transition: border-color 0.25s ease;
+        }
+
+        .review-text-card-face {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.85rem;
+            width: 100%;
+            height: 100%;
+            max-height: min(70vh, 34rem);
+            padding: 1.25rem 1.25rem 1.35rem;
+            color: #fff;
+            text-align: left;
+            overflow: hidden;
+        }
+
+        .review-text-card:nth-child(2) {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.35) 100%),
+                radial-gradient(120% 90% at 88% 8%, rgba(143, 168, 255, 0.2), transparent 55%),
+                #12161c;
+        }
+
+        .review-text-card:nth-child(3) {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.35) 100%),
+                radial-gradient(120% 90% at 20% 10%, rgba(100, 206, 251, 0.16), transparent 52%),
+                #14181f;
+        }
+
+        .review-text-card:nth-child(4) {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.35) 100%),
+                radial-gradient(120% 90% at 70% 0%, rgba(255, 196, 120, 0.14), transparent 55%),
+                #12161c;
+        }
+
+        .review-text-card:nth-child(5) {
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.35) 100%),
+                radial-gradient(120% 90% at 40% 0%, rgba(120, 220, 190, 0.14), transparent 55%),
+                #12161c;
+        }
+
+        .review-text-card:hover,
+        .review-text-card:focus-within {
+            border-color: rgba(100, 206, 251, 0.45);
+        }
+
+        .review-text-card-name {
+            margin: 0;
+            flex: 0 0 auto;
+            align-self: flex-start;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            color: #fff;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .review-text-card-name:focus-visible {
+            outline: 2px solid rgba(100, 206, 251, 0.7);
+            outline-offset: 3px;
+            border-radius: 0.25rem;
+        }
+
+        .review-text-card-body {
+            margin: 0;
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            font-size: 0.9375rem;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.78);
+            overscroll-behavior: contain;
+        }
+
+        .review-text-card-body p {
+            margin: 0 0 0.7rem;
+        }
+
+        .review-text-card-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .review-text-card-body ol {
+            margin: 0 0 0.7rem;
+            padding-left: 1.1rem;
+        }
+
+        .review-text-card-body li {
+            margin: 0 0 0.4rem;
+        }
+
+        .review-card-content {
+            display: none;
+        }
+
+        .review-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 130;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .review-modal.is-open {
+            display: flex;
+        }
+
+        .review-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .review-modal-panel {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 36rem);
+            max-height: min(84vh, 40rem);
+            display: flex;
+            flex-direction: column;
+            border-radius: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #10141a;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+
+        .review-modal-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.25rem 1.25rem 0.85rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .review-modal-title {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #fff;
+        }
+
+        .review-modal-close {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .review-modal-body {
+            padding: 1.1rem 1.25rem 1.4rem;
+            overflow-y: auto;
+            font-size: 0.95rem;
+            line-height: 1.65;
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        .review-modal-body p {
+            margin: 0 0 0.85rem;
+        }
+
+        .review-modal-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .review-modal-body ol {
+            margin: 0 0 0.85rem;
+            padding-left: 1.15rem;
+        }
+
+        .review-modal-body li {
+            margin: 0 0 0.45rem;
+        }
+
+        @media (min-width: 768px) {
+            .review-text-card {
+                flex-basis: 24rem;
+                min-height: 24rem;
+                max-height: min(72vh, 36rem);
+            }
+
+            .review-text-card-face {
+                max-height: min(72vh, 36rem);
+            }
+
+            .reviews-head {
+                margin-bottom: 2rem;
+            }
+        }
+
         .doc-preview-btn {
             display: block;
             width: 100%;
@@ -903,7 +1180,7 @@
             cursor: pointer;
         }
 
-        /* Hero: мобилка — колонка видео → табы → текст → CTA; десктоп — сетка как раньше */
+        /* Hero: мобилка – колонка видео → табы → текст → CTA; десктоп – сетка как раньше */
         @media (max-width: 767.98px) {
             #hero {
                 overflow: hidden;
@@ -1075,13 +1352,13 @@
             }
         }
 
-        /* —— Audience: mobile = Aceternity Animated Testimonials; desktop = grid —— */
+        /* –– Audience: mobile = diagonal swipe stack; desktop = grid –– */
         .audience-stack {
             position: relative;
             width: min(100%, 34rem);
             height: var(--audience-card-h, 16rem);
             margin-inline: auto;
-            perspective: 1000px;
+            perspective: 900px;
             touch-action: pan-y;
             outline: none;
             user-select: none;
@@ -1107,7 +1384,7 @@
                 position: relative !important;
                 inset: auto !important;
                 height: auto !important;
-                transform: none;
+                transform: none !important;
                 opacity: 1 !important;
                 visibility: visible !important;
                 pointer-events: auto !important;
@@ -1118,7 +1395,7 @@
             }
 
             .audience-card.glare-card {
-                transform: perspective(600px) rotateX(var(--r-y)) rotateY(var(--r-x));
+                transform: perspective(600px) rotateX(var(--r-y)) rotateY(var(--r-x)) !important;
                 transition: transform var(--duration, 300ms) var(--easing, ease);
                 will-change: transform;
             }
@@ -1131,15 +1408,13 @@
                 transform: none !important;
             }
 
-            .audience-stack-controls {
-                display: none !important;
+            .audience-card.glare-card.is-dismissed,
+            .audience-card.glare-card.is-stack-hidden {
+                transform: perspective(600px) rotateX(var(--r-y)) rotateY(var(--r-x)) !important;
             }
 
-            .audience-word {
-                animation: none !important;
-                filter: none !important;
-                opacity: 1 !important;
-                transform: none !important;
+            .audience-stack-controls {
+                display: none !important;
             }
         }
 
@@ -1147,63 +1422,35 @@
             position: absolute;
             inset: 0;
             height: fit-content;
-            transform-origin: bottom center;
-            transform: scale(0.95) rotate(var(--card-rot, 0deg));
-            opacity: 0.7;
+            --stack-i: 0;
+            transform:
+                translate3d(calc(var(--stack-i) * 14px), calc(var(--stack-i) * 16px), 0)
+                rotate(calc(var(--stack-i) * 1.8deg));
+            opacity: calc(1 - var(--stack-i) * 0.18);
+            transform-origin: center center;
             transition:
-                transform 0.4s ease-in-out,
-                opacity 0.4s ease-in-out;
+                transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.4s ease;
             will-change: transform, opacity;
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
             cursor: grab;
-            pointer-events: none;
             overflow: hidden;
-        }
-
-        .audience-card.is-active {
-            opacity: 1;
-            transform: scale(1) rotate(0deg) translateY(0);
-            pointer-events: auto;
-            z-index: 40;
-            cursor: grab;
-        }
-
-        .audience-card.is-active.is-entering {
-            animation: audience-testimonial-pop 0.45s ease-in-out;
-        }
-
-        @keyframes audience-testimonial-pop {
-            0% {
-                transform: scale(0.96) rotate(0deg) translateY(0);
-            }
-            40% {
-                transform: scale(1) rotate(0deg) translateY(-1.15rem);
-            }
-            100% {
-                transform: scale(1) rotate(0deg) translateY(0);
-            }
         }
 
         .audience-card:active {
             cursor: grabbing;
         }
 
-        .audience-word {
-            display: inline-block;
-            animation: audience-word-in 0.2s ease-in-out both;
+        .audience-card.is-dismissed {
+            transform: translate3d(-118%, 8%, 0) rotate(-10deg);
+            opacity: 0;
+            pointer-events: none;
         }
 
-        @keyframes audience-word-in {
-            from {
-                filter: blur(8px);
-                opacity: 0;
-                transform: translateY(4px);
-            }
-            to {
-                filter: blur(0);
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .audience-card.is-stack-hidden {
+            opacity: 0 !important;
+            visibility: hidden;
+            pointer-events: none;
         }
 
         .audience-nav-btn {
@@ -1243,7 +1490,7 @@
             transform: scale(1.35);
         }
 
-        /* —— Guide promo —— */
+        /* –– Guide promo –– */
         .guide-panel {
             position: relative;
             overflow: visible;
@@ -1594,25 +1841,18 @@
                 inset: auto;
                 transform: none !important;
                 opacity: 1 !important;
+                visibility: visible !important;
                 pointer-events: auto !important;
                 cursor: default;
                 transition: none;
-                animation: none !important;
             }
 
             .audience-stack-controls {
                 display: none;
             }
-
-            .audience-word {
-                animation: none !important;
-                filter: none !important;
-                opacity: 1 !important;
-                transform: none !important;
-            }
         }
 
-        /* —— Mobile chrome: menu, sticky CTA, overlays —— */
+        /* –– Mobile chrome: menu, sticky CTA, overlays –– */
         :root {
             --mobile-chrome-top: max(0.75rem, env(safe-area-inset-top));
             --mobile-chrome-side: 0.75rem;
@@ -2334,7 +2574,7 @@
             transform: scale(0.98);
         }
 
-        /* —— Section chips (mobile tab panels) —— */
+        /* –– Section chips (mobile tab panels) –– */
         .section-chip-tabs {
             display: flex;
             gap: 0.5rem;
@@ -2400,7 +2640,7 @@
                 display: none !important;
             }
 
-            /* Выбор эксперта — чипсы всегда видны */
+            /* Выбор эксперта – чипсы всегда видны */
             [data-expert-people] > .section-chip-tabs {
                 display: flex !important;
             }
@@ -2473,7 +2713,7 @@
             pointer-events: none;
         }
 
-        /* Ветки треков — чипсы всегда видны */
+        /* Ветки треков – чипсы всегда видны */
         @media (min-width: 768px) {
             [data-track-branches] > .section-chip-tabs {
                 display: flex !important;
@@ -2488,7 +2728,7 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Услуги — чипсы всегда видны */
+        /* Услуги – чипсы всегда видны */
         [data-services-chips] > .section-chip-tabs {
             display: flex !important;
             margin-bottom: 1.5rem;
@@ -2578,10 +2818,72 @@
             color: #64cefb;
         }
 
+        .track-card-price--stack {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.35rem;
+        }
+
+        .track-card-price-line {
+            display: inline-flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.4rem;
+        }
+
+        .track-card-price-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.12rem 0.45rem;
+            border-radius: 9999px;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: #0a1620;
+            background: #64cefb;
+        }
+
         .track-card-meta {
             margin: 0.25rem 0 0;
             font-size: 0.8125rem;
             color: rgba(255, 255, 255, 0.45);
+        }
+
+        .track-card-extras {
+            margin: 0.9rem 0 0;
+            padding: 0.85rem 0.95rem;
+            border-radius: 0.65rem;
+            border: 1px solid rgba(100, 206, 251, 0.28);
+            background: rgba(100, 206, 251, 0.08);
+        }
+
+        .track-card-extras-label {
+            margin: 0 0 0.55rem;
+            font-size: 0.6875rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(100, 206, 251, 0.85);
+        }
+
+        .track-card-extra {
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.35rem 0.45rem;
+            font-size: 0.875rem;
+            line-height: 1.45;
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        .track-card-extra + .track-card-extra {
+            margin-top: 0.45rem;
+        }
+
+        .track-expand-content .track-card-extras {
+            margin: 0 0 1rem;
         }
 
         .services-group-label {
@@ -2851,6 +3153,13 @@
             font-size: 1.05rem;
             font-weight: 800;
             color: #64cefb;
+        }
+
+        .track-expand-price.track-card-price--stack {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.35rem;
         }
 
         .track-expand-meta {
@@ -3379,7 +3688,7 @@
             }
         }
 
-        /* —— Expert storytelling: sticky speaker + scrolling sections —— */
+        /* –– Expert storytelling: sticky speaker + scrolling sections –– */
         .expert-scroll {
             display: grid;
             gap: 2rem;
@@ -4054,7 +4363,7 @@
             color: rgba(255, 255, 255, 0.45);
         }
 
-        /* —— Shared logos marquee (expert + placements) —— */
+        /* –– Shared logos marquee (expert + placements) –– */
         #expert,
         #placements {
             overflow-x: clip;
@@ -4256,7 +4565,7 @@
 </div>
 <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Согласие на использование cookie" aria-hidden="true">
 <div class="cookie-banner-inner">
-<p class="cookie-banner-text">Мы используем необходимые технические данные для работы сайта. Аналитика (например, Яндекс.Метрика) подключается только с вашего согласия. <a href="privacy-policy.html">Политика конфиденциальности</a></p>
+<p class="cookie-banner-text">Мы используем необходимые технические данные для работы сайта. Аналитика (например, Яндекс.Метрика) подключается только с твоего согласия. <a href="privacy-policy.html">Политика конфиденциальности</a></p>
 <div class="cookie-banner-actions">
 <button type="button" class="cookie-btn cookie-btn-decline" id="cookie-decline">Не соглашаюсь</button>
 <button type="button" class="cookie-btn cookie-btn-accept" id="cookie-accept">Соглашаюсь</button>
@@ -4267,7 +4576,7 @@
 <div class="sections-overlay-panel" role="document">
 <nav class="flex flex-col" aria-label="Разделы">
 <a class="sections-overlay-link" href="#audience">Для кого</a>
-<a class="sections-overlay-link" href="#value">Что получите</a>
+<a class="sections-overlay-link" href="#value">Что получишь</a>
 <a class="sections-overlay-link" href="#expert">Эксперты</a>
 <a class="sections-overlay-link" href="#curriculum">Услуги 🔥</a>
 <a class="sections-overlay-link" href="#guide"><span>Гайд в IT 🔥</span><span class="menu-nav-chip">бесплатно</span></a>
@@ -4370,7 +4679,7 @@
 <div class="hero-copy flex min-h-0 flex-1 flex-col items-center justify-center gap-4 text-center md:items-start md:justify-center md:gap-6 md:pl-8 md:pb-8 md:text-left md:-translate-y-6 lg:-translate-y-10">
 <div class="w-full max-w-lg space-y-3 md:space-y-4">
 <h1 class="line-height-tight text-balance text-center text-4xl font-black tracking-tighter sm:text-5xl md:text-left md:text-[5.2rem]">
-<span class="text-white/90">Начните карьеру </span><span class="shiny-text">в IT</span>
+<span class="text-white/90">Начни карьеру </span><span class="shiny-text">в IT</span>
 </h1>
 <p class="mt-3 text-base leading-relaxed text-white/75 md:mt-4">Помогаем расти в карьере, зайти в продакт-менеджмент, выигрывать конкурсы и кейс-чемпионаты</p>
 </div>
@@ -4386,37 +4695,30 @@
 <div class="relative bg-black/40 backdrop-blur-xl">
 <section class="page-gutter relative py-12 md:py-16" id="audience" aria-labelledby="audience-heading">
 <div class="mx-auto max-w-7xl">
-<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="audience-heading">Вы точно в нужном месте, если…</h2>
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="audience-heading">Ты точно в нужном месте, если…</h2>
 <div data-global-expert-panel="nastya">
 <div data-audience-stack>
-<div class="audience-stack" aria-live="polite" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации — свайп влево или вправо">
+<div class="audience-stack" aria-live="polite" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации – свайп влево или вправо">
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="trending_up" aria-hidden="true">trending_up</span>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Хотите быстро и осознанно расти в карьере</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Нужен понятный вектор: куда двигаться, какие шаги дадут результат и как не тратить месяцы на хаотичный поиск.</p>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь быстро и осознанно расти в карьере</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Нужен понятный вектор: куда двигаться, какие шаги дадут результат и как не тратить месяцы на хаотичный поиск</p>
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="emoji_events" aria-hidden="true">emoji_events</span>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Планируете участвовать в конкурсах и грантах</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Хотите выстроить стратегию подачи, упаковать достижения и пройти отбор — от «Лидеров России» до университетских и корпоративных программ.</p>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Планируешь участвовать в конкурсах и грантах</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Хочешь выстроить стратегию подачи, упаковать достижения и пройти отбор – от «Лидеров России» до университетских и корпоративных программ</p>
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="school" aria-hidden="true">school</span>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Мечтаете зайти в продакт-менеджмент</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Нужно разобраться с входом в IT, упаковать опыт, подготовиться к интервью и понять, как выглядит путь в продукт.</p>
-</article>
-<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
-<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="rocket_launch" aria-hidden="true">rocket_launch</span>
-</div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Хотите запустить свой стартап</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Нужна поддержка на этапе идеи, команды и выхода к релизу — с опытом запуска WID и команды из 20 IT-профессионалов.</p>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Мечтаешь зайти в продакт-менеджмент</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Нужно разобраться с входом в IT, упаковать опыт, подготовиться к интервью и понять, как выглядит путь в продукт</p>
 </article>
 </div>
 <div class="audience-stack-controls mt-5 flex items-center justify-between gap-3 sm:justify-start sm:gap-4">
@@ -4432,48 +4734,48 @@
 </div>
 <div data-global-expert-panel="danya" hidden>
 <div data-audience-stack>
-<div class="audience-stack" aria-live="polite" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации — свайп влево или вправо">
+<div class="audience-stack" aria-live="polite" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации – свайп влево или вправо">
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="flag" aria-hidden="true">flag</span>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Хотите начать карьеру, но не знаете с чего</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Разберём первые шаги: куда смотреть, как искать и как выстроить процесс без хаоса.</p>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь начать карьеру, но не знаешь с чего</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Разберём первые шаги: куда смотреть, как искать и как выстроить процесс без хаоса</p>
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="emoji_events" aria-hidden="true">emoji_events</span>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Планируете участвовать в кейс-чемпионатах</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Помогу упаковать кейс, подготовиться к отбору и пройти путь от заявки до финала.</p>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Планируешь участвовать в кейс-чемпионатах</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Помогу упаковать кейс, подготовиться к отбору и пройти путь от заявки до финала</p>
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="school" aria-hidden="true">school</span>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Мечтаете зайти в продакт-менеджмент</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Покажу, как упаковать опыт, подтянуть навыки и сделать сильный вход в продукт.</p>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Мечтаешь зайти в продакт-менеджмент</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Покажу, как упаковать опыт, подтянуть навыки и сделать сильный вход в продукт</p>
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="psychology" aria-hidden="true">psychology</span>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Хотите подтянуть продуктовые навыки</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Разберём гипотезы, метрики, CustDev и то, что реально спрашивают на продуктовых ролях.</p>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь подтянуть продуктовые навыки</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Разберём гипотезы, метрики, CustDev и то, что реально спрашивают на продуктовых ролях</p>
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="record_voice_over" aria-hidden="true">record_voice_over</span>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Готовитесь к собеседованиям</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Отработаем ответы, кейсы и типовые вопросы — чтобы чувствовать себя увереннее на интервью.</p>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Готовишься к собеседованиям</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Отработаем ответы, кейсы и типовые вопросы – чтобы чувствовать себя увереннее на интервью</p>
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="filter_alt" aria-hidden="true">filter_alt</span>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Хотите понять воронку найма</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Объясню, как устроен отбор в IT и продукте: от отклика до оффера и что делать на каждом этапе.</p>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь понять воронку найма</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Объясню, как устроен отбор в IT и продукте: от отклика до оффера и что делать на каждом этапе</p>
 </article>
 </div>
 <div class="audience-stack-controls mt-5 flex items-center justify-between gap-3 sm:justify-start sm:gap-4">
@@ -4491,20 +4793,20 @@
 </section>
 <section class="page-gutter relative pb-12 md:pb-16" id="value" aria-labelledby="value-heading">
 <div class="mx-auto max-w-7xl">
-<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="value-heading">Что вы получите</h2>
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="value-heading">Что ты получишь</h2>
 <div class="hero-usps w-full">
 <article class="hero-usp-card">
-<h3 class="hero-usp-title">Выстроите стратегию роста</h3>
+<h3 class="hero-usp-title">Выстроишь стратегию роста</h3>
 <p class="hero-usp-text">Персональный план по карьере, поиску работы или участию в конкурсах и грантах</p>
 <span class="material-symbols-outlined hero-usp-icon" data-icon="explore" aria-hidden="true">explore</span>
 </article>
 <article class="hero-usp-card">
-<h3 class="hero-usp-title">Упакуете резюме и профиль</h3>
-<p class="hero-usp-text">Разберём опыт, LinkedIn и формулировки — даже если кажется, что показывать нечего</p>
+<h3 class="hero-usp-title">Упакуешь резюме и профиль</h3>
+<p class="hero-usp-text">Разберём опыт, LinkedIn и формулировки – даже если кажется, что показывать нечего</p>
 <span class="material-symbols-outlined hero-usp-icon" data-icon="badge" aria-hidden="true">badge</span>
 </article>
 <article class="hero-usp-card">
-<h3 class="hero-usp-title">Подготовитесь к отбору</h3>
+<h3 class="hero-usp-title">Подготовишься к отбору</h3>
 <p class="hero-usp-text">Интервью, кейсы и вопросы для входа в IT, продукт или стартап</p>
 <span class="material-symbols-outlined hero-usp-icon" data-icon="record_voice_over" aria-hidden="true">record_voice_over</span>
 </article>
@@ -4531,11 +4833,11 @@
 <img src="assets/nastya.jpg" alt="Настя Нерадовских" class="expert-story-portrait" loading="lazy" decoding="async"/>
 <div class="expert-story-pin-card expert-story-pin-card--accent">
 <p class="expert-story-pin-title">Суперфиналистка «Лидеров России»</p>
-<p class="expert-story-pin-text">без связей — упорным трудом</p>
+<p class="expert-story-pin-text">без связей – упорным трудом</p>
 </div>
 <div class="expert-story-pin-card expert-story-pin-card--light">
 <p class="expert-story-pin-title">CPO @ Альфа-Банк</p>
-<p class="expert-story-pin-text">от product owner в Т2</p>
+<p class="expert-story-pin-text">от стажёра-маркетолога в P&amp;G</p>
 </div>
 </div>
 </div>
@@ -4551,8 +4853,8 @@
 </a>
 </div>
 <div class="expert-story-narrative">
-<p class="expert-story-empathy">Я знаю, как сложно начинать карьеру без понятного маршрута — и как важно не сдаваться на полпути.</p>
-<p class="expert-story-intro">Поэтому помогаю выстраивать стратегию: от первых шагов в IT и участия в конкурсах до роста в продукте и запуска своего проекта. Всё, чего добилась сама — без знакомств и «удачного стечения обстоятельств».</p>
+<p class="expert-story-empathy">Я знаю, как сложно начинать карьеру без понятного маршрута – и как важно не сдаваться на полпути.</p>
+<p class="expert-story-intro">Поэтому помогаю выстраивать стратегию: от первых шагов в IT и участия в конкурсах до роста в продукте и запуска своего проекта. Всё, чего добилась сама – без знакомств и «удачного стечения обстоятельств».</p>
 
 </div>
 </aside>
@@ -4567,7 +4869,7 @@
 <p class="expert-story-step-title" aria-hidden="true">01</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Олимпиады и гранты</p>
-<p class="expert-story-step-text">Выигрывала олимпиады уровня МГУ и НИУ ВШЭ, получала гранты Сколково, ФСИ и ВТБ, стипендии Потанина, Мегафона, KPMG и университетов.</p>
+<p class="expert-story-step-text">Выигрывала олимпиады уровня МГУ и НИУ ВШЭ, получала гранты Сколково, ФСИ и ВТБ, стипендии Потанина, Мегафона, KPMG и университетов</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
@@ -4575,7 +4877,7 @@
 <p class="expert-story-step-title" aria-hidden="true">02</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Лидеры России</p>
-<p class="expert-story-step-text">Стала суперфиналисткой «Лидеров России» — самостоятельно, упорным трудом, а не по знакомству.</p>
+<p class="expert-story-step-text">Стала суперфиналисткой «Лидеров России» – самостоятельно, упорным трудом, а не по знакомству</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
@@ -4583,7 +4885,7 @@
 <p class="expert-story-step-title" aria-hidden="true">03</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Product → CPO</p>
-<p class="expert-story-step-text">Прошла путь от product owner в Т2 до CPO в Альфа-Банке.</p>
+<p class="expert-story-step-text">Прошла путь от стажёра-маркетолога в Procter &amp; Gamble до CPO в Альфа-Банке</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
@@ -4591,7 +4893,7 @@
 <p class="expert-story-step-title" aria-hidden="true">04</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Стартап WID</p>
-<p class="expert-story-step-text">Запускаю стартап Цифровой гардероб WID — команда из 20 IT-профессионалов по всему миру, веду проект к релизу.</p>
+<p class="expert-story-step-text">Основала стартап Цифровой гардероб WID – команда из 20 IT-профессионалов по всему миру, веду проект к релизу</p>
 </div>
 </li>
 </ol>
@@ -4605,65 +4907,42 @@
 <li class="exp-item">
 <div class="exp-logo"><img src="assets/marquee/logo-alfa-2.png?v=20260820164" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
-<p class="exp-role">Chief Product Officer, Альфа-Банк</p>
-<p class="exp-dates">2026 — настоящее время</p>
+<p class="exp-role">Chief Product Owner, Альфа-Банк</p>
+<p class="exp-dates">2026 – настоящее время</p>
 </div>
 </li>
 <li class="exp-item">
 <div class="exp-logo"><img src="assets/marquee/logo-alfa-2.png?v=20260820164" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
-<p class="exp-role">Product Manager, Альфа-Банк</p>
-<p class="exp-dates">2024 — 2026</p>
+<p class="exp-role">Product Owner, Альфа-Банк</p>
+<p class="exp-dates">2024 – 2026</p>
 </div>
 </li>
 <li class="exp-item">
 <div class="exp-logo exp-logo--dark"><img src="assets/marquee/logo-t2.png?v=20260820175" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Product Manager, Т2</p>
-<p class="exp-dates">2023 — 2024</p>
+<p class="exp-dates">2023 – 2024</p>
 </div>
 </li>
 <li class="exp-item">
 <div class="exp-logo exp-logo--dark"><img src="assets/marquee/logo-mars.png?v=20260820175" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Mars, Procter &amp; Gamble, Сибур</p>
-<p class="exp-dates">2019 — 2023</p>
+<p class="exp-dates">2019 – 2023</p>
 </div>
 </li>
 </ul>
 </div>
 </section>
-<section class="expert-scroll-block" aria-labelledby="nastya-ach-heading">
-<h4 class="expert-scroll-heading" id="nastya-ach-heading">Достижения</h4>
-<div class="achievement-scatter">
-<article class="achievement-card achievement-card--accent">
-<p class="achievement-card-text">Суперфиналистка «Лидеров России»</p>
-</article>
-<article class="achievement-card achievement-card--light">
-<p class="achievement-card-text">Победы на олимпиадах уровня МГУ и НИУ ВШЭ</p>
-</article>
-<article class="achievement-card">
-<p class="achievement-card-text">Гранты Сколково, ФСИ и ВТБ</p>
-</article>
-<article class="achievement-card achievement-card--accent">
-<p class="achievement-card-text">Стипендии Потанина, Мегафона, KPMG, НИУ ВШЭ и РАНХиГС</p>
-</article>
-<article class="achievement-card">
-<p class="achievement-card-text">Бесплатные поездки на Камчатку, Сахалин, в Мурманск, Крым и другие регионы России</p>
-</article>
-<article class="achievement-card achievement-card--light">
-<p class="achievement-card-text">Поездки в Америку и другие страны</p>
-</article>
-</div>
-</section>
 <section class="expert-scroll-block" aria-labelledby="nastya-edu-heading">
-<h4 class="expert-scroll-heading" id="nastya-edu-heading">Гранты и образование</h4>
+<h4 class="expert-scroll-heading" id="nastya-edu-heading">Образование</h4>
 <div class="edu-cards">
 <article class="edu-card">
 <div class="edu-card-icon"><img src="assets/marquee/hse-logo.png?v=20260820154" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="edu-card-body">
 <p class="edu-card-name">НИУ ВШЭ</p>
-<p class="edu-card-faculty">Факультет мировой экономики и мировой политики</p>
+<p class="edu-card-faculty">Бакалавриат «Международные отношения», факультет мировой экономики и мировой политики</p>
 </div>
 </article>
 <article class="edu-card">
@@ -4671,6 +4950,13 @@
 <div class="edu-card-body">
 <p class="edu-card-name">РАНХиГС</p>
 <p class="edu-card-faculty">Магистратура «Международный менеджмент», ИБДА</p>
+</div>
+</article>
+<article class="edu-card">
+<div class="edu-card-icon"><span class="edu-card-monogram">МШУ</span></div>
+<div class="edu-card-body">
+<p class="edu-card-name">МШУ Сколково</p>
+<p class="edu-card-faculty">Управление цифровым продуктом, Стартап Академия, Лидерский UPGRADE, Триада личностного роста</p>
 </div>
 </article>
 </div>
@@ -4707,8 +4993,8 @@
 </a>
 </div>
 <div class="expert-story-narrative">
-<p class="expert-story-empathy">Я тоже думал, что у меня недостаточно опыта — и проходил тот же путь, что сейчас проходите вы.</p>
-<p class="expert-story-intro">Помогаю стартовать в IT и продукте: от первых шагов и кейс-чемпионатов до резюме, интервью и понимания воронки найма. Всё, чем делюсь — из собственного опыта в Альфа-Банке.</p>
+<p class="expert-story-empathy">Я тоже думал, что у меня недостаточно опыта – и проходил тот же путь, что сейчас проходишь ты.</p>
+<p class="expert-story-intro">Помогаю стартовать в IT и продукте: от первых шагов и кейс-чемпионатов до резюме, интервью и понимания воронки найма. Всё, чем делюсь – из собственного опыта в Альфа-Банке.</p>
 
 </div>
 </aside>
@@ -4723,7 +5009,7 @@
 <p class="expert-story-step-title" aria-hidden="true">01</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Альфа-Будущее</p>
-<p class="expert-story-step-text">Ex product owner @ «Альфа-Будущее».</p>
+<p class="expert-story-step-text">Ex product owner @ «Альфа-Будущее»</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
@@ -4731,7 +5017,7 @@
 <p class="expert-story-step-title" aria-hidden="true">02</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Alfa Case Camp</p>
-<p class="expert-story-step-text">Победитель Alfa Case Camp 2024 — крупнейшего кейс-чемпионата Альфа-Банка × Changellenge.</p>
+<p class="expert-story-step-text">Победитель Alfa Case Camp 2024 – крупнейшего кейс-чемпионата Альфа-Банка × Changellenge</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
@@ -4739,7 +5025,7 @@
 <p class="expert-story-step-title" aria-hidden="true">03</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Product Manager</p>
-<p class="expert-story-step-text">Менеджер по развитию продукта в Альфа-Банке.</p>
+<p class="expert-story-step-text">Менеджер по развитию продукта в Альфа-Банке</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
@@ -4747,7 +5033,7 @@
 <p class="expert-story-step-title" aria-hidden="true">04</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">4 оффера</p>
-<p class="expert-story-step-text">Получил 4 оффера после стажировки в Альфа-Банке.</p>
+<p class="expert-story-step-text">Получил 4 оффера после стажировки в Альфа-Банке</p>
 </div>
 </li>
 </ol>
@@ -4762,14 +5048,14 @@
 <div class="exp-logo"><img src="assets/marquee/logo-alfa-2.png?v=20260820164" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Growth Product Manager, Альфа-Банк</p>
-<p class="exp-dates">2026 — настоящее время</p>
+<p class="exp-dates">2026 – настоящее время</p>
 </div>
 </li>
 <li class="exp-item">
 <div class="exp-logo"><img src="assets/marquee/logo-alfa-2.png?v=20260820164" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
-<p class="exp-role">Product Manager, Альфа-Банк</p>
-<p class="exp-dates">2024 — 2025</p>
+<p class="exp-role">Product Owner, Альфа-Банк</p>
+<p class="exp-dates">2024 – 2025</p>
 </div>
 </li>
 </ul>
@@ -4797,21 +5083,21 @@
 <section class="expert-scroll-block" aria-labelledby="danya-expertise-heading">
 <h4 class="expert-scroll-heading" id="danya-expertise-heading">Экспертиза</h4>
 <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
-<article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Продукт</p><p class="mt-3 text-base leading-relaxed text-white/75">Менеджер по развитию продукта в Альфа-Банке, опыт product owner и работы с продуктовыми метриками.</p></article>
-<article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Кейс-чемпионаты</p><p class="mt-3 text-base leading-relaxed text-white/75">Победитель Alfa Case Camp 2024, выступления экспертом от Альфа-Банка и Changellenge.</p></article>
-<article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Карьера</p><p class="mt-3 text-base leading-relaxed text-white/75">Путь от стажировки до нескольких офферов — знаю воронку найма изнутри.</p></article>
+<article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Продукт</p><p class="mt-3 text-base leading-relaxed text-white/75">Менеджер по развитию продукта в Альфа-Банке, опыт product owner и работы с продуктовыми метриками</p></article>
+<article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Кейс-чемпионаты</p><p class="mt-3 text-base leading-relaxed text-white/75">Победитель Alfa Case Camp 2024, выступления экспертом от Альфа-Банка и Changellenge</p></article>
+<article class="rounded-lg border border-white/10 bg-white/5 p-4"><p class="text-xs font-bold uppercase tracking-widest text-[#64cefb]">Карьера</p><p class="mt-3 text-base leading-relaxed text-white/75">Путь от стажировки до нескольких офферов – знаю воронку найма изнутри</p></article>
 </div>
 </section>
 <section class="expert-scroll-block" aria-labelledby="danya-audience-heading">
 <h4 class="expert-scroll-heading" id="danya-audience-heading">С кем работаю</h4>
 <div class="rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-xl md:p-7">
 <ul class="space-y-3 text-base leading-relaxed text-white/75">
-<li>— Хотите начать карьеру, но не знаете с чего.</li>
-<li>— Планируете участвовать в кейс-чемпионатах.</li>
-<li>— Мечтаете зайти в продакт-менеджмент.</li>
-<li>— Хотите подтянуть продуктовые навыки.</li>
-<li>— Готовитесь к собеседованиям.</li>
-<li>— Хотите понять, как устроена воронка найма.</li>
+<li>– Хочешь начать карьеру, но не знаешь с чего</li>
+<li>– Планируешь участвовать в кейс-чемпионатах</li>
+<li>– Мечтаешь зайти в продакт-менеджмент</li>
+<li>– Хочешь подтянуть продуктовые навыки</li>
+<li>– Готовишься к собеседованиям</li>
+<li>– Хочешь понять, как устроена воронка найма</li>
 </ul>
 </div>
 </section>
@@ -4845,47 +5131,51 @@
 <div class="track-cards" data-cols="3">
 <article class="track-card">
 <h3 class="track-card-title">Q&amp;A</h3>
-<p class="track-card-text">Ответы на вопросы по входу в IT: как начать поиск, куда обращаться и как выстроить процесс.</p>
+<p class="track-card-text">Ответы на вопросы по входу в IT: как начать поиск, куда обращаться и как выстроить процесс</p>
 <p class="track-card-price">5 000 ₽</p>
 <p class="track-card-meta">1 час · онлайн</p>
 <button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-nastya-qa">Подробнее</button>
 <div class="track-detail" id="track-detail-nastya-qa" hidden>
 <ul class="track-detail-list">
-<li><strong>Как начать поиск</strong>С чего стартовать, если хотите зайти в IT или продукт.</li>
+<li><strong>Как начать поиск</strong>С чего стартовать, если хочешь зайти в IT или продукт.</li>
 <li><strong>Куда обращаться</strong>Какие каналы, компании и форматы отклика работают.</li>
 <li><strong>Как выстроить процесс</strong>Что делать по шагам, чтобы не хаотично метаться.</li>
 </ul>
-<p class="track-detail-note">Подойдёт, если хотите разобраться с нуля или уточнить конкретные шаги.</p>
+<p class="track-detail-note">Подойдёт, если хочешь разобраться с нуля или уточнить конкретные шаги</p>
 <a class="track-detail-cta" href="https://t.me/career67_bot?start=book_nastya" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 <article class="track-card">
 <h3 class="track-card-title">Стратегия и план</h3>
-<p class="track-card-text">Разбираем ситуацию и выстраиваем персональную стратегию с чёткими шагами по поиску работы и росту в карьере.</p>
+<p class="track-card-text">Разбираем ситуацию и выстраиваем персональную стратегию с чёткими шагами по поиску работы и росту в карьере</p>
 <p class="track-card-price">8 000 ₽</p>
 <p class="track-card-meta">1 час · онлайн</p>
 <button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-nastya-strategy">Подробнее</button>
 <div class="track-detail" id="track-detail-nastya-strategy" hidden>
 <ul class="track-detail-list">
-<li><strong>Разбор ситуации</strong>Текущая точка, цели и ограничения.</li>
-<li><strong>Персональная стратегия</strong>По поиску работы или росту в карьере.</li>
-<li><strong>Чёткие шаги</strong>Уходите с готовым планом действий.</li>
+<li><strong>Разбор ситуации</strong>Текущая точка, цели и ограничения</li>
+<li><strong>Персональная стратегия</strong>По поиску работы или росту в карьере</li>
+<li><strong>Разбор хардов и софтов</strong></li>
+<li><strong>Рекомендации, как прокачать зоны для развития</strong></li>
+<li><strong>Подбор подходящих компаний</strong></li>
+<li><strong>Чёткие шаги</strong>Уходишь с готовым планом действий</li>
 </ul>
 <a class="track-detail-cta" href="https://t.me/career67_bot?start=book_nastya" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 <article class="track-card">
 <h3 class="track-card-title">Разбор резюме</h3>
-<p class="track-card-text">Детальный анализ резюме: структура, формулировки, ключевые слова и подача опыта под нужную вакансию.</p>
+<p class="track-card-text">Детальный анализ резюме: структура, формулировки, ключевые слова и подача опыта под нужную вакансию. На руках будет готовое резюме</p>
 <p class="track-card-price">5 000 ₽</p>
 <p class="track-card-meta">30 минут · онлайн</p>
 <button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-nastya-resume">Подробнее</button>
 <div class="track-detail" id="track-detail-nastya-resume" hidden>
 <ul class="track-detail-list">
-<li><strong>Структура</strong>Логика подачи и читаемость для рекрутера.</li>
-<li><strong>Формулировки</strong>Как описать опыт сильнее и конкретнее.</li>
-<li><strong>Ключевые слова</strong>Под нужную вакансию и ATS.</li>
-<li><strong>Подача опыта</strong>Конкретные рекомендации по улучшению.</li>
+<li><strong>Структура</strong>Логика подачи и читаемость для рекрутера</li>
+<li><strong>Формулировки</strong>Как описать опыт сильнее и конкретнее</li>
+<li><strong>Ключевые слова</strong>Под нужную вакансию и ATS</li>
+<li><strong>Подача опыта</strong>Конкретные рекомендации по улучшению</li>
+<li><strong>Результат</strong>Уходишь с готовым резюме на руках</li>
 </ul>
 <a class="track-detail-cta" href="https://t.me/career67_bot?start=book_nastya" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
@@ -4896,19 +5186,26 @@
 <div class="track-cards" data-cols="1">
 <article class="track-card track-card-wide">
 <h3 class="track-card-title">Менторство</h3>
-<p class="track-card-text">Стартовая встреча, аудит резюме и LinkedIn, стратегия перехода, подготовка к интервью и постоянная поддержка в чате. Дополнительно: стратегическая консультация для менти (−50%, 4 000 ₽) и мок-интервью (5 000 ₽).</p>
-<p class="track-card-price">20 000 ₽ / месяц · 30 000 ₽ / 2 месяца</p>
-<p class="track-card-meta">Пакеты на 2–3 месяца — по запросу</p>
+<p class="track-card-text">Стартовая встреча, аудит резюме и LinkedIn, стратегия перехода, подготовка к интервью и постоянная поддержка в чате</p>
+<div class="track-card-extras">
+<p class="track-card-extras-label">Дополнительно для менти</p>
+<p class="track-card-extra">Стратегическая консультация <span class="track-card-price-badge">−50%</span> · 4 000 ₽</p>
+<p class="track-card-extra">Мок-интервью · 2 500 ₽</p>
+</div>
+<p class="track-card-price track-card-price--stack">
+<span class="track-card-price-line">20 000 ₽ / месяц</span>
+<span class="track-card-price-line">30 000 ₽ / 2 месяца <span class="track-card-price-badge">−25%</span></span>
+</p>
 <button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-nastya-mentor">Подробнее</button>
 <div class="track-detail" id="track-detail-nastya-mentor" hidden>
 <ul class="track-detail-list">
-<li><strong>Стартовая встреча</strong>Разбор текущей ситуации, целей и составление плана.</li>
-<li><strong>Аудит резюме и LinkedIn</strong>Доработка под целевые роли.</li>
-<li><strong>Стратегия перехода и поиска</strong>Какие компании, как заходить, что подтянуть.</li>
-<li><strong>Подготовка к интервью</strong>Разбор вопросов, кейсов и форматов отбора.</li>
-<li><strong>Поддержка в чате</strong>Ответы между сессиями по ходу работы.</li>
-<li><strong>Стратегическая консультация для менти</strong>Со скидкой 50% — 4 000 ₽.</li>
-<li><strong>Мок-интервью</strong>5 000 ₽.</li>
+<li><strong>Стартовая встреча</strong>Разбор текущей ситуации, целей и составление плана</li>
+<li><strong>Аудит резюме и LinkedIn</strong>Доработка под целевые роли</li>
+<li><strong>Стратегия перехода и поиска</strong>Какие компании, как заходить, что подтянуть</li>
+<li><strong>Подготовка к интервью</strong>Разбор вопросов, кейсов и форматов отбора</li>
+<li><strong>Поддержка в чате</strong>Ответы между сессиями по ходу работы</li>
+<li><strong>Стратегическая консультация для менти</strong>−50% – 4 000 ₽</li>
+<li><strong>Мок-интервью</strong>2 500 ₽</li>
 </ul>
 <a class="track-detail-cta" href="https://t.me/career67_bot?start=book_nastya" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
@@ -4929,23 +5226,23 @@
 <div class="track-cards" data-cols="3">
 <article class="track-card">
 <h3 class="track-card-title">Q&amp;A</h3>
-<p class="track-card-text">Ответы на вопросы по старту карьеры в IT и менеджменте: как искать, куда обращаться и как выстроить процесс.</p>
+<p class="track-card-text">Ответы на вопросы по старту карьеры в IT и менеджменте: как искать, куда обращаться и как выстроить процесс</p>
 <p class="track-card-price">2 000 ₽</p>
 <p class="track-card-meta">1 час · онлайн</p>
 <button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-danya-qa">Подробнее</button>
 <div class="track-detail" id="track-detail-danya-qa" hidden>
 <ul class="track-detail-list">
-<li><strong>Как начать поиск</strong>С чего стартовать, если хотите зайти в IT или менеджмент.</li>
+<li><strong>Как начать поиск</strong>С чего стартовать, если хочешь зайти в IT или менеджмент.</li>
 <li><strong>Куда обращаться</strong>Какие каналы, компании и форматы отклика работают.</li>
 <li><strong>Как выстроить процесс</strong>Что делать по шагам, чтобы не хаотично метаться.</li>
 </ul>
-<p class="track-detail-note">Подойдёт, если хотите разобраться с нуля или уточнить конкретные шаги.</p>
+<p class="track-detail-note">Подойдёт, если хочешь разобраться с нуля или уточнить конкретные шаги</p>
 <a class="track-detail-cta" href="https://t.me/career67_bot?start=book_danya" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 <article class="track-card">
 <h3 class="track-card-title">Стратегия и пошаговый план</h3>
-<p class="track-card-text">Разбираем вашу ситуацию и вместе выстраиваем персональную стратегию с чёткими шагами по поиску работы и старту карьеры.</p>
+<p class="track-card-text">Разбираем твою ситуацию и вместе выстраиваем персональную стратегию с чёткими шагами по поиску работы и старту карьеры</p>
 <p class="track-card-price">3 000 ₽</p>
 <p class="track-card-meta">1 час · онлайн</p>
 <button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-danya-strategy">Подробнее</button>
@@ -4953,14 +5250,14 @@
 <ul class="track-detail-list">
 <li><strong>Разбор ситуации</strong>Текущая точка, цели и ограничения.</li>
 <li><strong>Персональная стратегия</strong>По поиску работы и старту карьеры.</li>
-<li><strong>Чёткие шаги</strong>Уходите с готовым планом действий.</li>
+<li><strong>Чёткие шаги</strong>Уходишь с готовым планом действий.</li>
 </ul>
 <a class="track-detail-cta" href="https://t.me/career67_bot?start=book_danya" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 <article class="track-card">
 <h3 class="track-card-title">Разбор резюме</h3>
-<p class="track-card-text">Детальный анализ резюме: структура, формулировки, ключевые слова, подача опыта и переупаковка «нерелевантного» опыта.</p>
+<p class="track-card-text">Детальный анализ резюме: структура, формулировки, ключевые слова, подача опыта и переупаковка «нерелевантного» опыта</p>
 <p class="track-card-price">2 000 ₽</p>
 <p class="track-card-meta">30 минут · онлайн</p>
 <button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-danya-resume">Подробнее</button>
@@ -4971,7 +5268,7 @@
 <li><strong>Ключевые слова</strong>Под нужную вакансию и ATS.</li>
 <li><strong>Переупаковка опыта</strong>Как показать «нерелевантный» опыт в плюс.</li>
 </ul>
-<p class="track-detail-note">Получите конкретные шаги и инсайты по резюме, которое понравится рекрутерам.</p>
+<p class="track-detail-note">Получишь конкретные шаги и инсайты по резюме, которое понравится рекрутерам</p>
 <a class="track-detail-cta" href="https://t.me/career67_bot?start=book_danya" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
@@ -4981,7 +5278,7 @@
 <div class="track-cards" data-cols="1">
 <article class="track-card track-card-wide">
 <h3 class="track-card-title">Менторство</h3>
-<p class="track-card-text">Стартовая встреча, аудит резюме, LinkedIn, стратегия поиска, подготовка к интервью и постоянная поддержка в чате.</p>
+<p class="track-card-text">Стартовая встреча, аудит резюме, LinkedIn, стратегия поиска, подготовка к интервью и постоянная поддержка в чате</p>
 <p class="track-card-price">10 000 ₽ / месяц</p>
 <p class="track-card-meta">онлайн</p>
 <button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-danya-mentor">Подробнее</button>
@@ -5013,7 +5310,7 @@
 <div class="guide-panel-grid">
 <div class="guide-copy">
 <h2 class="guide-title" id="guide-heading">Гайд по входу в&nbsp;IT</h2>
-<p class="guide-lead">Как подготовиться к интервью на Product Manager — открою в Telegram после короткой заявки.</p>
+<p class="guide-lead">Как подготовиться к интервью на Product Manager – открою в Telegram после короткой заявки.</p>
 <ul class="guide-points">
 <li>
 <span class="material-symbols-outlined" aria-hidden="true">checklist</span>
@@ -5032,7 +5329,7 @@
 <span>Получить гайд</span>
 <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
 </a>
-<p class="guide-legal">Нажимая кнопку, вы соглашаетесь с <a href="personal-data-consent.html">Согласием на обработку персональных данных</a> и <a href="privacy-policy.html">Политикой конфиденциальности</a>.</p>
+<p class="guide-legal">Нажимая кнопку, ты соглашаешься с <a href="personal-data-consent.html">Согласием на обработку персональных данных</a> и <a href="privacy-policy.html">Политикой конфиденциальности</a>.</p>
 </div>
 <div class="guide-visual" aria-hidden="true">
 <div class="guide-cover">
@@ -5059,82 +5356,153 @@
 </section>
 <section class="page-gutter relative py-12 md:py-16" id="reviews" aria-labelledby="reviews-heading">
 <div class="mx-auto max-w-7xl">
-<div class="mb-6 flex items-baseline justify-between gap-4 md:mb-8">
+<div class="reviews-head">
+<div class="reviews-head-copy">
 <h2 class="text-4xl font-black tracking-tighter md:text-5xl" id="reviews-heading">Отзывы</h2>
-<p class="shrink-0 inline-flex items-center gap-1.5 text-xs font-medium tracking-tight text-white/45 md:text-sm">
+<p class="reviews-head-rating">
 <span class="material-symbols-outlined text-[16px] text-[#f5c518] md:text-[18px]" style="font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;" aria-hidden="true">star</span>
 4.87 средняя оценка
 </p>
 </div>
-<div class="flex max-w-full snap-x snap-mandatory gap-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:overflow-visible md:pb-0 lg:grid-cols-3" data-reviews-carousel>
-<figure class="flex h-full min-w-full snap-start flex-col items-center py-2 md:min-w-0">
-<div class="review-video-shell is-paused">
-<video class="review-video" preload="metadata" playsinline>
-<source src="assets/otzyv.mp4" type="video/mp4"/>
-                            Ваш браузер не поддерживает видео.
-                        </video>
-<button type="button" class="review-video-toggle" aria-label="Play review video" aria-pressed="false">
-<span class="material-symbols-outlined" data-icon="play_arrow" aria-hidden="true">play_arrow</span>
-</button>
-</div>
-<figcaption class="mt-3 max-w-xs text-center">
-<span class="block text-sm font-bold text-white">Мария Соколова</span>
-<p class="mt-1 text-base leading-relaxed text-white/75">Студентка → стажировка в финтехе. Упаковали учебные проекты и прошли 3 этапа отбора.</p>
-</figcaption>
-</figure>
-<figure class="flex h-full min-w-full snap-start flex-col items-center py-2 md:min-w-0">
-<div class="review-video-shell is-paused">
-<video class="review-video" preload="metadata" playsinline>
-<source src="assets/otzyv.mp4" type="video/mp4"/>
-                            Ваш браузер не поддерживает видео.
-                        </video>
-<button type="button" class="review-video-toggle" aria-label="Play review video" aria-pressed="false">
-<span class="material-symbols-outlined" data-icon="play_arrow" aria-hidden="true">play_arrow</span>
-</button>
-</div>
-<figcaption class="mt-3 max-w-xs text-center">
-<span class="block text-sm font-bold text-white">Илья Орлов</span>
-<p class="mt-1 text-base leading-relaxed text-white/75">Смена сферы из маркетинга. За 2 месяца собрал воронку откликов и получил оффер junior PM.</p>
-</figcaption>
-</figure>
-<figure class="flex h-full min-w-full snap-start flex-col items-center py-2 md:min-w-0">
-<div class="review-video-shell is-paused">
-<video class="review-video" preload="metadata" playsinline>
-<source src="assets/otzyv.mp4" type="video/mp4"/>
-                            Ваш браузер не поддерживает видео.
-                        </video>
-<button type="button" class="review-video-toggle" aria-label="Play review video" aria-pressed="false">
-<span class="material-symbols-outlined" data-icon="play_arrow" aria-hidden="true">play_arrow</span>
-</button>
-</div>
-<figcaption class="mt-3 max-w-xs text-center">
-<span class="block text-sm font-bold text-white">Анна Ким</span>
-<p class="mt-1 text-base leading-relaxed text-white/75">Внутренний переход в продукт. Подтянули кейсы, метрики и прошли продуктовые интервью.</p>
-</figcaption>
-</figure>
-</div>
-<div class="audience-stack-controls mt-5 flex items-center justify-between gap-3 sm:justify-start sm:gap-4 md:hidden" aria-label="Управление каруселью отзывов">
+<div class="reviews-nav" aria-label="Управление каруселью отзывов">
 <button type="button" class="audience-nav-btn" data-reviews-nav="prev" aria-label="Предыдущий отзыв">
 <span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_left</span>
 </button>
-<div class="audience-stack-dots flex items-center gap-2" data-reviews-dots aria-hidden="true"></div>
 <button type="button" class="audience-nav-btn" data-reviews-nav="next" aria-label="Следующий отзыв">
 <span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_right</span>
 </button>
 </div>
 </div>
+<div class="apple-cards-carousel" data-reviews-carousel>
+<article class="review-text-card">
+<div class="review-text-card-face">
+<button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Аня</button>
+<div class="review-text-card-body">
+<p>Настя, спасибо огромное за консультацию!</p>
+<p>Я вообще ни сколько не пожалела, что у тебя взяла ее! Ты крутой ментор)</p>
+<p>Пришла к тебе с полным запросом, чтобы полностью уйти в финтех направление и выйти в новое направление работы для себя)</p>
+<p>Ты мне построила пошаговый план, что нужно сделать для этого и верное направление и мотивацию, ты вселила в меня огромную уверенность, что у меня получится) Поделилась большим количеством лайфаков, которые помогут мне в этом, это очень ценно! И за курсы спасибо огромное. Осталось дело за малым, только за моим обучением) ещё раз спасибо огромное</p>
+</div>
+</div>
+<div class="review-card-content" hidden>
+<p>Настя, спасибо огромное за консультацию!</p>
+<p>Я вообще ни сколько не пожалела, что у тебя взяла ее! Ты крутой ментор)</p>
+<p>Пришла к тебе с полным запросом, чтобы полностью уйти в финтех направление и выйти в новое направление работы для себя)</p>
+<p>Ты мне построила пошаговый план, что нужно сделать для этого и верное направление и мотивацию, ты вселила в меня огромную уверенность, что у меня получится) Поделилась большим количеством лайфаков, которые помогут мне в этом, это очень ценно! И за курсы спасибо огромное. Осталось дело за малым, только за моим обучением) ещё раз спасибо огромное</p>
+</div>
+</article>
+<article class="review-text-card">
+<div class="review-text-card-face">
+<button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Настя</button>
+<div class="review-text-card-body">
+<p>Настя, привет!</p>
+<p>Спасибо большое за консультацию! Хотела отметить, что ты очень точно и без лишней воды задавала вопросы, помогла структурировать мои мысли и выстроить карьерную стратегию исходя из уже имеющегося опыта.</p>
+<p>Отдельное спасибо за общий файл по итогу встречи, все последовательно: цель, необходимые шаги для карьерного роста. Это помогает держать фокус и возвращаться к ключевым моментам.</p>
+<p>Я уже проработала первый шаг, определила свою траекторию и хотела бы записаться на следующую консультацию, переупаковать резюме.</p>
+<p>Ещё хотела отметить, очень понравилось, что ты можешь сориентировать какую литературу/курсы/книги прочитать, что важно для повышения необходимых навыков.</p>
+</div>
+</div>
+<div class="review-card-content" hidden>
+<p>Настя, привет!</p>
+<p>Спасибо большое за консультацию! Хотела отметить, что ты очень точно и без лишней воды задавала вопросы, помогла структурировать мои мысли и выстроить карьерную стратегию исходя из уже имеющегося опыта.</p>
+<p>Отдельное спасибо за общий файл по итогу встречи, все последовательно: цель, необходимые шаги для карьерного роста. Это помогает держать фокус и возвращаться к ключевым моментам.</p>
+<p>Я уже проработала первый шаг, определила свою траекторию и хотела бы записаться на следующую консультацию, переупаковать резюме.</p>
+<p>Ещё хотела отметить, очень понравилось, что ты можешь сориентировать какую литературу/курсы/книги прочитать, что важно для повышения необходимых навыков.</p>
+</div>
+</article>
+<article class="review-text-card">
+<div class="review-text-card-face">
+<button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Маша</button>
+<div class="review-text-card-body">
+<p>Консультация была очень полезной и даже, в каком-то смысле, терапевтичной. Я давно думала о смене деятельности, но ловила себя на мыслях типа «а вдруг поздно», «не получится», «у меня нет опыта», но в процессе созвона поняла, что при грамотной стратегии разрозненные мысли могут превратиться в пошаговый план действий:</p>
+<ol>
+<li>Было очень полезно посмотреть на анализ своего пройденного профессионального пути со стороны, зачастую были подсвечены вещи, на которые я бы не обратила внимание, а именно они оказались важны.</li>
+<li>В диалоге я обнаружила/вспомнила более детально кейсы, с которыми мне приходилось иметь дело, и которые отлично лягут в основу продающего резюме.</li>
+<li>Особое впечатление произвело то, как мой нынешний опыт можно преподнести полезным для сферы, в которой я хочу развиваться: большую часть задач я, оказывается, и так выполняю, просто не знала, как именно ее обозначить, чтобы превратить в преимущество.</li>
+<li>Самое ценное – подробный и понятный план дальнейших действий. Если раньше у меня было полное непонимание и откладывание смены деятельности на неопределенный срок, то теперь мне уже не терпится приступить к следующему этапу намеченного курса.</li>
+<li>Как итог, я уже вовсю занимаюсь изучением новой потенциальной сферы, читаю книги и смотрю профессиональные видео, и с каждым днем понимания все больше.</li>
+</ol>
+<p>Выход из зоны комфорта больше не пугает: с Анастасией очень легко, диалог по существу, информация важная и по существу, без воды и лозунгов. Обязательно продолжу дальнейшие консультации и с удовольствием порекомендую друзьям и знакомым!</p>
+</div>
+</div>
+<div class="review-card-content" hidden>
+<p>Консультация была очень полезной и даже, в каком-то смысле, терапевтичной. Я давно думала о смене деятельности, но ловила себя на мыслях типа «а вдруг поздно», «не получится», «у меня нет опыта», но в процессе созвона поняла, что при грамотной стратегии разрозненные мысли могут превратиться в пошаговый план действий:</p>
+<ol>
+<li>Было очень полезно посмотреть на анализ своего пройденного профессионального пути со стороны, зачастую были подсвечены вещи, на которые я бы не обратила внимание, а именно они оказались важны.</li>
+<li>В диалоге я обнаружила/вспомнила более детально кейсы, с которыми мне приходилось иметь дело, и которые отлично лягут в основу продающего резюме.</li>
+<li>Особое впечатление произвело то, как мой нынешний опыт можно преподнести полезным для сферы, в которой я хочу развиваться: большую часть задач я, оказывается, и так выполняю, просто не знала, как именно ее обозначить, чтобы превратить в преимущество.</li>
+<li>Самое ценное – подробный и понятный план дальнейших действий. Если раньше у меня было полное непонимание и откладывание смены деятельности на неопределенный срок, то теперь мне уже не терпится приступить к следующему этапу намеченного курса.</li>
+<li>Как итог, я уже вовсю занимаюсь изучением новой потенциальной сферы, читаю книги и смотрю профессиональные видео, и с каждым днем понимания все больше.</li>
+</ol>
+<p>Выход из зоны комфорта больше не пугает: с Анастасией очень легко, диалог по существу, информация важная и по существу, без воды и лозунгов. Обязательно продолжу дальнейшие консультации и с удовольствием порекомендую друзьям и знакомым!</p>
+</div>
+</article>
+<article class="review-text-card">
+<div class="review-text-card-face">
+<button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Юля</button>
+<div class="review-text-card-body">
+<p>Настя, привет!</p>
+<p>Мне очень понравилось работать с тобой.</p>
+<p>Во-первых, сразу было заметно, что ты шаришь в своей теме и даешь реальные и прикладные советы. Не абстрактно, а четко.</p>
+<p>Отдельно хочу поблагодарить за честность, что давала реальные ожидания, аргументированные комментарии по резюме, кейсам на работе и тд. В целом я получила очень подробную картину, что сейчас происходит в ИТ мире)</p>
+<p>Курсы – просто супер, теперь хотя бы знаю что и где изучать. Тут у меня было больше всего вопросов.</p>
+<p>Ну и по окончании сессий, у меня не осталось никаких вопросов, все проблемы решили. Я теперь четко понимаю куда двигаться.</p>
+<p>Спасибо огромное, дала большую мотивацию расти дальше и пробовать себя</p>
+</div>
+</div>
+<div class="review-card-content" hidden>
+<p>Настя, привет!</p>
+<p>Мне очень понравилось работать с тобой.</p>
+<p>Во-первых, сразу было заметно, что ты шаришь в своей теме и даешь реальные и прикладные советы. Не абстрактно, а четко.</p>
+<p>Отдельно хочу поблагодарить за честность, что давала реальные ожидания, аргументированные комментарии по резюме, кейсам на работе и тд. В целом я получила очень подробную картину, что сейчас происходит в ИТ мире)</p>
+<p>Курсы – просто супер, теперь хотя бы знаю что и где изучать. Тут у меня было больше всего вопросов.</p>
+<p>Ну и по окончании сессий, у меня не осталось никаких вопросов, все проблемы решили. Я теперь четко понимаю куда двигаться.</p>
+<p>Спасибо огромное, дала большую мотивацию расти дальше и пробовать себя</p>
+</div>
+</article>
+<article class="review-text-card">
+<div class="review-text-card-face">
+<button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Даяна</button>
+<div class="review-text-card-body">
+<p>Привет!) Прошло сегодня финальное собеседование – на встрече был продакт с прошлого собеса и девушка тимлид. В целом положительные впечатления остались, буду ждать ОС.</p>
+<p>Вопросы задавала только тимлид. На встрече рассказала про себя по методу STAR, далее девушка задавала кейсовые вопросы:</p>
+<p>Расскажи с какой неудачей сталкивалась и как решала проблему.<br/>Как будешь решать проблему противоречивых требований у стейкхолдеров.<br/>Что будешь делать, если разработчик не понял требование или взял в работу задачу и интерпретировал требования по своему?<br/>Что должно произойти чтобы ты поняла, что команда тебе не подходит?</p>
+<p>Спасибо за помощь в подготовке, смогла более полно ответить на вопросы</p>
+</div>
+</div>
+<div class="review-card-content" hidden>
+<p>Привет!) Прошло сегодня финальное собеседование – на встрече был продакт с прошлого собеса и девушка тимлид. В целом положительные впечатления остались, буду ждать ОС.</p>
+<p>Вопросы задавала только тимлид. На встрече рассказала про себя по методу STAR, далее девушка задавала кейсовые вопросы:</p>
+<p>Расскажи с какой неудачей сталкивалась и как решала проблему.<br/>Как будешь решать проблему противоречивых требований у стейкхолдеров.<br/>Что будешь делать, если разработчик не понял требование или взял в работу задачу и интерпретировал требования по своему?<br/>Что должно произойти чтобы ты поняла, что команда тебе не подходит?</p>
+<p>Спасибо за помощь в подготовке, смогла более полно ответить на вопросы</p>
+</div>
+</article>
+</div>
+</div>
 </section>
+<div id="review-modal" class="review-modal" hidden aria-hidden="true">
+<div class="review-modal-backdrop" data-review-modal-close tabindex="-1" aria-hidden="true"></div>
+<div class="review-modal-panel" role="dialog" aria-modal="true" aria-labelledby="review-modal-title">
+<div class="review-modal-head">
+<h3 class="review-modal-title" id="review-modal-title"></h3>
+<button type="button" class="review-modal-close" data-review-modal-close aria-label="Закрыть">
+<span class="material-symbols-outlined text-[20px]" aria-hidden="true">close</span>
+</button>
+</div>
+<div class="review-modal-body" id="review-modal-body"></div>
+</div>
+</div>
 <section class="page-gutter relative py-12 md:py-16" id="faq" aria-labelledby="faq-heading">
 <div class="mx-auto max-w-7xl">
 <h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="faq-heading">Ответы на вопросы</h2>
 <div class="space-y-3 w-full">
 <div class="faq-item rounded-lg border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
 <button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-1" aria-controls="faq-a-1">
-<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Кому подойдёт менторство, если у вас нет опыта в продукте?</span>
+<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Кому подойдёт менторство, если у тебя нет опыта в продукте?</span>
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-1" role="region" aria-labelledby="faq-q-1">
-<p class="text-base leading-relaxed text-white/75">Подойдёт тем, кто делает первые шаги: смена профессии, стажировки, кейсы с учёбы. На разборе посмотрим ваш бэкграунд, цели и составим реалистичный план — от навыков до портфолио и откликов.</p>
+<p class="text-base leading-relaxed text-white/75">Подойдёт тем, кто делает первые шаги: смена профессии, стажировки, кейсы с учёбы. На разборе посмотрим твой бэкграунд, цели и составим реалистичный план – от навыков до портфолио и откликов.</p>
 </div>
 </div>
 <div class="faq-item rounded-lg border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
@@ -5143,34 +5511,34 @@
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-2" role="region" aria-labelledby="faq-q-2">
-<p class="text-base leading-relaxed text-white/75">Консультация — разовая сессия: Q&amp;A (1 час), стратегия с планом (1 час) или разбор резюме (30 минут). Менторство — работа на 1–3 месяца: стартовая встреча, аудит резюме и LinkedIn, стратегия перехода, подготовка к интервью и поддержка в чате.</p>
+<p class="text-base leading-relaxed text-white/75">Консультация – разовая сессия: Q&amp;A (1 час), стратегия с планом (1 час) или разбор резюме (30 минут). Менторство – работа на 1–3 месяца: стартовая встреча, аудит резюме и LinkedIn, стратегия перехода, подготовка к интервью и поддержка в чате.</p>
 </div>
 </div>
 <div class="faq-item rounded-lg border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
 <button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-3" aria-controls="faq-a-3">
-<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Помогаете с резюме, портфолио и продуктовыми тестовыми?</span>
+<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Помогаешь с резюме, портфолио и продуктовыми тестовыми?</span>
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-3" role="region" aria-labelledby="faq-q-3">
-<p class="text-base leading-relaxed text-white/75">Да: структура резюме, формулировки достижений, портфолио-кейсы, разбор take-home и продуктовых заданий, разбор вопросов с собесов — в зависимости от выбранного формата.</p>
+<p class="text-base leading-relaxed text-white/75">Да: структура резюме, формулировки достижений, портфолио-кейсы, разбор take-home и продуктовых заданий, разбор вопросов с собесов – в зависимости от выбранного формата.</p>
 </div>
 </div>
 <div class="faq-item rounded-lg border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
 <button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-4" aria-controls="faq-a-4">
-<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Можно ли учиться, если вы уже работаете не в IT?</span>
+<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Можно ли учиться, если ты уже работаешь не в IT?</span>
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-4" role="region" aria-labelledby="faq-q-4">
-<p class="text-base leading-relaxed text-white/75">Можно. PM — про аналитику, коммуникации и поставку ценности пользователю. Опыт из банка, e-commerce, маркетинга, консалтинга часто усиливают картину — важно его правильно упаковать в историю и артефакты.</p>
+<p class="text-base leading-relaxed text-white/75">Можно. PM – про аналитику, коммуникации и поставку ценности пользователю. Опыт из банка, e-commerce, маркетинга, консалтинга часто усиливают картину – важно его правильно упаковать в историю и артефакты.</p>
 </div>
 </div>
 <div class="faq-item rounded-lg border border-white/10 bg-surface-container-low/80 backdrop-blur-xl">
 <button type="button" class="faq-trigger flex w-full items-stretch justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-7" aria-expanded="false" id="faq-q-5" aria-controls="faq-a-5">
-<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Как проходят встречи — онлайн и в каком формате?</span>
+<span class="flex-1 self-center pr-2 text-base font-semibold text-white md:text-lg">Как проходят встречи – онлайн и в каком формате?</span>
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-5" role="region" aria-labelledby="faq-q-5">
-<p class="text-base leading-relaxed text-white/75">По согласованию — в основном онлайн (созвоны, шаринг экрана, разбор в Miro/Notion). Продолжительность и ритм фиксируем до старта, чтобы укладываться в ваши дедлайны и учёбу.</p>
+<p class="text-base leading-relaxed text-white/75">Только онлайн</p>
 </div>
 </div>
 </div>
@@ -5267,7 +5635,7 @@
 
         const heroVideo = document.getElementById('hero-video');
         const heroFreezeFrame = document.getElementById('hero-freeze-frame');
-        /* TEMP: статичный креатив в hero — выключить, когда вернём видео */
+        /* TEMP: статичный креатив в hero – выключить, когда вернём видео */
         const HERO_STATIC_CREATIVE = true;
         const btnAll = document.getElementById('toggle-all');
         const btnStudents = document.getElementById('toggle-students');
@@ -5505,7 +5873,7 @@
         }
 
         function syncNavFromScroll() {
-            /* Только реальный скролл — активный пункт не «убегает» вперёд от нуля. */
+            /* Только реальный скролл – активный пункт не «убегает» вперёд от нуля. */
             const probe = window.scrollY;
             let activeKey = scrollSpyChain[0]?.key || 'audience';
             for (const row of scrollSpyChain) {
@@ -5694,7 +6062,7 @@
             bgVideo.addEventListener('playing', () => bgVideo.classList.remove('is-inactive'));
             bgVideo.addEventListener('pause', () => {
                 if (document.hidden) return;
-                /* Без автоплея браузер рисует системную Play — прячем видео */
+                /* Без автоплея браузер рисует системную Play – прячем видео */
                 if (bgVideo.paused) bgVideo.classList.add('is-inactive');
             });
         }
@@ -5821,22 +6189,12 @@
                 const carousel = section.querySelector('[data-reviews-carousel]');
                 const prevBtn = section.querySelector('[data-reviews-nav="prev"]');
                 const nextBtn = section.querySelector('[data-reviews-nav="next"]');
-                const dotsRoot = section.querySelector('[data-reviews-dots]');
                 if (!carousel || !prevBtn || !nextBtn) return;
 
-                const cards = Array.from(carousel.querySelectorAll('figure'));
+                const cards = Array.from(carousel.querySelectorAll('.review-text-card'));
                 if (!cards.length) return;
 
                 let index = 0;
-                const dots = cards.map((_, i) => {
-                    const dot = document.createElement('span');
-                    dot.className = 'audience-stack-dot';
-                    if (dotsRoot) {
-                        dotsRoot.appendChild(dot);
-                        dot.addEventListener('click', () => goTo(i));
-                    }
-                    return dot;
-                });
 
                 function goTo(i) {
                     index = Math.max(0, Math.min(cards.length - 1, i));
@@ -5862,7 +6220,6 @@
                         }
                     });
                     index = nearest;
-                    dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
                 }
 
                 prevBtn.addEventListener('click', () => goTo(index - 1));
@@ -5872,6 +6229,62 @@
                 }, { passive: true });
                 window.addEventListener('resize', sync);
                 sync();
+            });
+        })();
+
+        (function initReviewModal() {
+            const modal = document.getElementById('review-modal');
+            const titleEl = document.getElementById('review-modal-title');
+            const bodyEl = document.getElementById('review-modal-body');
+            const triggers = document.querySelectorAll('[data-review-open]');
+            if (!modal || !titleEl || !bodyEl || !triggers.length) return;
+
+            let lastFocus = null;
+
+            function openModal(trigger) {
+                const card = trigger.closest('.review-text-card');
+                if (!card) return;
+                const name = trigger.textContent?.trim() || 'Отзыв';
+                const content = card.querySelector('.review-card-content');
+                titleEl.textContent = name;
+                bodyEl.replaceChildren();
+                if (content) {
+                    Array.from(content.childNodes).forEach((node) => {
+                        bodyEl.appendChild(node.cloneNode(true));
+                    });
+                }
+                lastFocus = document.activeElement;
+                modal.hidden = false;
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.classList.add('has-overlay-open');
+                const closeBtn = modal.querySelector('.review-modal-close');
+                closeBtn?.focus();
+            }
+
+            function closeModal() {
+                modal.classList.remove('is-open');
+                modal.hidden = true;
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.classList.remove('has-overlay-open');
+                bodyEl.replaceChildren();
+                if (lastFocus && typeof lastFocus.focus === 'function') {
+                    lastFocus.focus();
+                }
+            }
+
+            triggers.forEach((trigger) => {
+                trigger.addEventListener('click', () => openModal(trigger));
+            });
+
+            modal.querySelectorAll('[data-review-modal-close]').forEach((el) => {
+                el.addEventListener('click', closeModal);
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+                    closeModal();
+                }
             });
         })();
 
@@ -5965,7 +6378,7 @@
                 let dragging = false;
 
                 if (stack.getAttribute('aria-label')) {
-                    stack.setAttribute('aria-label', 'Ситуации — листайте стрелками или свайпом');
+                    stack.setAttribute('aria-label', 'Ситуации – листайте стрелками или свайпом');
                 }
 
                 if (dotsWrap) {
@@ -5974,51 +6387,6 @@
                         .join('');
                 }
                 const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
-
-                function randomRot() {
-                    return Math.floor(Math.random() * 21) - 10;
-                }
-
-                function rememberText(card) {
-                    card.querySelectorAll('h3, p').forEach((node) => {
-                        if (!node.dataset.raw) node.dataset.raw = node.textContent || '';
-                    });
-                }
-
-                function restoreText(card) {
-                    card.querySelectorAll('h3, p').forEach((node) => {
-                        if (node.dataset.raw != null) node.textContent = node.dataset.raw;
-                    });
-                }
-
-                function animateWords(card) {
-                    if (reduceMotion()) return;
-                    card.querySelectorAll('h3, p').forEach((node) => {
-                        const raw = node.dataset.raw;
-                        if (!raw) return;
-                        let delay = 0;
-                        node.innerHTML = raw
-                            .split(/(\s+)/)
-                            .map((part) => {
-                                if (!part.trim()) return part;
-                                const ms = (delay++ * 0.02).toFixed(2);
-                                return (
-                                    '<span class="audience-word" style="animation-delay:' +
-                                    ms +
-                                    's">' +
-                                    part +
-                                    '</span>'
-                                );
-                            })
-                            .join('');
-                    });
-                }
-
-                cards.forEach((card, i) => {
-                    rememberText(card);
-                    card.style.setProperty('--card-rot', randomRot() + 'deg');
-                    card.style.zIndex = String(cards.length + 2 - i);
-                });
 
                 function measureCardHeight() {
                     if (reduceMotion() || desktopGrid()) {
@@ -6036,7 +6404,7 @@
                     let maxH = 0;
                     cards.forEach((card) => {
                         const clone = card.cloneNode(true);
-                        clone.classList.remove('is-active', 'is-entering');
+                        clone.classList.remove('is-dismissed', 'is-stack-hidden');
                         clone.style.cssText = [
                             'position:static',
                             'inset:auto',
@@ -6052,59 +6420,46 @@
                         clone.remove();
                     });
                     if (maxH > 0) {
-                        section.style.setProperty('--audience-card-h', Math.ceil(maxH + 28) + 'px');
+                        const stackPad = Math.min(cards.length - 1, 3) * 16;
+                        section.style.setProperty('--audience-card-h', Math.ceil(maxH + stackPad + 8) + 'px');
                     }
                     if (wasHidden) hiddenHost.hidden = true;
                 }
 
-                function setActive(index, options) {
-                    const opts = options || {};
-                    if (desktopGrid()) {
+                function setActive(index) {
+                    if (desktopGrid() || reduceMotion()) {
                         cards.forEach((card) => {
-                            card.classList.remove('is-active', 'is-entering');
-                            card.style.removeProperty('--card-rot');
+                            card.classList.remove('is-dismissed', 'is-stack-hidden', 'is-behind');
+                            card.style.removeProperty('--stack-i');
                             card.style.zIndex = '';
                             card.style.transform = '';
                             card.style.opacity = '';
-                            restoreText(card);
                             card.removeAttribute('aria-hidden');
                         });
                         return;
                     }
 
-                    const len = cards.length;
-                    active = ((index % len) + len) % len;
-
+                    active = Math.max(0, Math.min(cards.length - 1, index));
                     cards.forEach((card, i) => {
-                        const on = i === active;
-                        card.classList.toggle('is-active', on);
-                        card.classList.remove('is-entering');
+                        const dismissed = i < active;
+                        const stackI = dismissed ? 0 : i - active;
+                        const stackHidden = !dismissed && stackI > 3;
+                        card.classList.remove('is-behind');
+                        card.classList.toggle('is-dismissed', dismissed);
+                        card.classList.toggle('is-stack-hidden', stackHidden);
+                        if (!dismissed && !stackHidden) {
+                            card.style.setProperty('--stack-i', String(stackI));
+                        }
+                        card.style.zIndex = String(cards.length - i);
                         card.style.transform = '';
                         card.style.opacity = '';
-                        if (on) {
-                            card.style.zIndex = '40';
-                            card.style.setProperty('--card-rot', '0deg');
-                            card.setAttribute('aria-hidden', 'false');
-                            if (!opts.silent && !reduceMotion()) {
-                                animateWords(card);
-                                card.classList.add('is-entering');
-                                window.setTimeout(() => card.classList.remove('is-entering'), 480);
-                            } else {
-                                restoreText(card);
-                            }
-                        } else {
-                            card.style.setProperty('--card-rot', randomRot() + 'deg');
-                            card.style.zIndex = String(len + 2 - i);
-                            card.setAttribute('aria-hidden', 'true');
-                            restoreText(card);
-                        }
+                        card.setAttribute('aria-hidden', i === active ? 'false' : 'true');
                     });
-
                     dots.forEach((dot, i) => {
                         dot.classList.toggle('is-active', i === active);
                     });
-                    if (prevBtn) prevBtn.disabled = false;
-                    if (nextBtn) nextBtn.disabled = false;
+                    if (prevBtn) prevBtn.disabled = active <= 0;
+                    if (nextBtn) nextBtn.disabled = active >= cards.length - 1;
                 }
 
                 function go(delta) {
@@ -6145,9 +6500,8 @@
                     const front = cards[active];
                     if (!front) return;
                     const rot = dragX / 40;
-                    front.style.transform =
-                        'translate3d(' + dragX + 'px, 0, 0) rotate(' + rot + 'deg) scale(1)';
-                    front.style.opacity = String(Math.max(0.4, 1 - Math.abs(dragX) / 300));
+                    front.style.transform = 'translate3d(' + dragX + 'px, 0, 0) rotate(' + rot + 'deg)';
+                    front.style.opacity = String(Math.max(0.35, 1 - Math.abs(dragX) / 280));
                 }
 
                 function onPointerUp(event) {
@@ -6172,16 +6526,16 @@
                 stack.addEventListener('pointercancel', onPointerUp);
 
                 measureCardHeight();
-                setActive(0, { silent: true });
+                setActive(0);
                 section.__audienceRefresh = (options) => {
                     const opts = options || {};
                     if (opts.reset) active = 0;
                     measureCardHeight();
-                    setActive(active, { silent: true });
+                    setActive(active);
                 };
                 window.addEventListener('resize', () => {
                     measureCardHeight();
-                    setActive(active, { silent: true });
+                    setActive(active);
                 });
             });
         })();
@@ -6289,7 +6643,7 @@
             if (stickyToggle && expertPeople) {
                 const syncStickyToggle = () => {
                     if (desktopMq.matches) {
-                        // На деске тогл живёт в bar вместе с CTA — отдельная видимость не нужна
+                        // На деске тогл живёт в bar вместе с CTA – отдельная видимость не нужна
                         stickyToggle.classList.remove('is-visible');
                         return;
                     }
@@ -6470,7 +6824,15 @@
 
                 titleEl.textContent = title?.textContent?.trim() || '';
                 textEl.textContent = text?.textContent?.trim() || '';
-                priceEl.textContent = price?.textContent?.trim() || '';
+                priceEl.className = 'track-expand-price';
+                if (price) {
+                    priceEl.innerHTML = price.innerHTML;
+                    if (price.classList.contains('track-card-price--stack')) {
+                        priceEl.classList.add('track-card-price--stack');
+                    }
+                } else {
+                    priceEl.textContent = '';
+                }
                 metaEl.textContent = meta?.textContent?.trim() || '';
                 priceEl.hidden = !priceEl.textContent;
                 metaEl.hidden = !metaEl.textContent;
@@ -6480,6 +6842,10 @@
                 ctaEl.style.display = detailCta ? '' : 'none';
 
                 contentEl.replaceChildren();
+                const extras = card.querySelector('.track-card-extras');
+                if (extras) {
+                    contentEl.appendChild(extras.cloneNode(true));
+                }
                 if (detail) {
                     detail.querySelectorAll('.track-detail-list, .track-detail-note').forEach((node) => {
                         contentEl.appendChild(node.cloneNode(true));
@@ -6731,7 +7097,7 @@
                     if (value === 'accepted') {
                         loadAnalytics();
                     }
-                    /* declined / нет согласия — аналитику не грузим */
+                    /* declined / нет согласия – аналитику не грузим */
                 }
 
                 window.__siteCookieConsent = {
