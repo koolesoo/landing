@@ -959,43 +959,50 @@
             height: min(70vh, 32rem);
             scroll-snap-align: start;
             border-radius: 1.35rem;
-            background: #f4f6f8;
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: rgba(27, 27, 27, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
             overflow: hidden;
             transition: border-color 0.25s ease, box-shadow 0.25s ease;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
         }
 
         .review-text-card-face {
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            gap: 0.85rem;
+            gap: 0.95rem;
             width: 100%;
             height: 100%;
             padding: 1.25rem 1.25rem 1.35rem;
-            color: #12161c;
+            color: rgba(255, 255, 255, 0.85);
             text-align: left;
             overflow: hidden;
         }
 
-        .review-text-card:nth-child(2),
-        .review-text-card:nth-child(3),
-        .review-text-card:nth-child(4),
-        .review-text-card:nth-child(5) {
-            background: #f4f6f8;
-        }
-
         .review-text-card:hover,
         .review-text-card:focus-within {
-            border-color: rgba(100, 206, 251, 0.55);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+            border-color: rgba(100, 206, 251, 0.45);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .review-text-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.85rem;
+            flex: 0 0 auto;
+        }
+
+        .review-text-card-heading {
+            min-width: 0;
+            flex: 1 1 auto;
         }
 
         .review-text-card-name {
             margin: 0;
-            flex: 0 0 auto;
-            align-self: flex-start;
+            display: block;
             padding: 0;
             border: 0;
             background: transparent;
@@ -1003,7 +1010,7 @@
             font-weight: 800;
             letter-spacing: -0.03em;
             line-height: 1.1;
-            color: #0b1016;
+            color: #fff;
             cursor: pointer;
             text-align: left;
         }
@@ -1014,14 +1021,36 @@
             border-radius: 0.25rem;
         }
 
+        .review-text-card-role {
+            margin: 0.35rem 0 0;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .review-text-card-photo {
+            flex: 0 0 auto;
+            width: 4.25rem;
+            height: 4.25rem;
+            border-radius: 999px;
+            object-fit: cover;
+            object-position: center;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
         .review-text-card-body {
             margin: 0;
             flex: 1 1 auto;
             min-height: 0;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             font-size: 0.9375rem;
             line-height: 1.55;
-            color: rgba(18, 22, 28, 0.78);
+            color: rgba(255, 255, 255, 0.75);
+            padding-right: 0.15rem;
         }
 
         .review-text-card-body p {
@@ -5506,10 +5535,18 @@
 <div class="apple-cards-carousel" data-reviews-carousel>
 <article class="review-text-card">
 <div class="review-text-card-face">
+<div class="review-text-card-top">
+<div class="review-text-card-heading">
 <button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Аня</button>
+<p class="review-text-card-role">Product Manager</p>
+</div>
+<img class="review-text-card-photo" src="assets/reviews/anya.jpg" alt="Аня" width="68" height="68" loading="lazy" decoding="async"/>
+</div>
 <div class="review-text-card-body">
-<p>Настя, спасибо огромное за консультацию! Я вообще ни сколько не пожалела, что у тебя взяла ее – ты крутой ментор)</p>
-<p>Пришла с запросом уйти в финтех: ты построила пошаговый план, вселила уверенность и поделилась лайфхаками…</p>
+<p>Настя, спасибо огромное за консультацию!</p>
+<p>Я вообще ни сколько не пожалела, что у тебя взяла ее! Ты крутой ментор)</p>
+<p>Пришла к тебе с полным запросом, чтобы полностью уйти в финтех направление и выйти в новое направление работы для себя)</p>
+<p>Ты мне построила пошаговый план, что нужно сделать для этого и верное направление и мотивацию, ты вселила в меня огромную уверенность, что у меня получится) Поделилась большим количеством лайфаков, которые помогут мне в этом, это очень ценно! И за курсы спасибо огромное. Осталось дело за малым, только за моим обучением) ещё раз спасибо огромное</p>
 </div>
 </div>
 <div class="review-card-content" hidden>
@@ -5521,10 +5558,19 @@
 </article>
 <article class="review-text-card">
 <div class="review-text-card-face">
+<div class="review-text-card-top">
+<div class="review-text-card-heading">
 <button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Настя</button>
+<p class="review-text-card-role">Product Manager</p>
+</div>
+<img class="review-text-card-photo" src="assets/reviews/nastya.jpg" alt="Настя" width="68" height="68" loading="lazy" decoding="async"/>
+</div>
 <div class="review-text-card-body">
-<p>Спасибо большое за консультацию! Точно и без лишней воды помогла структурировать мысли и выстроить карьерную стратегию из имеющегося опыта.</p>
-<p>Отдельное спасибо за итоговый файл: цель и шаги – помогает держать фокус…</p>
+<p>Настя, привет!</p>
+<p>Спасибо большое за консультацию! Хотела отметить, что ты очень точно и без лишней воды задавала вопросы, помогла структурировать мои мысли и выстроить карьерную стратегию исходя из уже имеющегося опыта.</p>
+<p>Отдельное спасибо за общий файл по итогу встречи, все последовательно: цель, необходимые шаги для карьерного роста. Это помогает держать фокус и возвращаться к ключевым моментам.</p>
+<p>Я уже проработала первый шаг, определила свою траекторию и хотела бы записаться на следующую консультацию, переупаковать резюме.</p>
+<p>Ещё хотела отметить, очень понравилось, что ты можешь сориентировать какую литературу/курсы/книги прочитать, что важно для повышения необходимых навыков.</p>
 </div>
 </div>
 <div class="review-card-content" hidden>
@@ -5537,10 +5583,23 @@
 </article>
 <article class="review-text-card">
 <div class="review-text-card-face">
+<div class="review-text-card-top">
+<div class="review-text-card-heading">
 <button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Маша</button>
+<p class="review-text-card-role">Смена профессии → Product</p>
+</div>
+<img class="review-text-card-photo" src="assets/reviews/masha.jpg" alt="Маша" width="68" height="68" loading="lazy" decoding="async"/>
+</div>
 <div class="review-text-card-body">
-<p>Консультация была очень полезной: разрозненные мысли превратились в пошаговый план, а текущий опыт – в преимущество для новой сферы.</p>
-<p>С Анастасией легко и по существу, без воды. Обязательно продолжу и с удовольствием порекомендую…</p>
+<p>Консультация была очень полезной и даже, в каком-то смысле, терапевтичной. Я давно думала о смене деятельности, но ловила себя на мыслях типа «а вдруг поздно», «не получится», «у меня нет опыта», но в процессе созвона поняла, что при грамотной стратегии разрозненные мысли могут превратиться в пошаговый план действий:</p>
+<ol>
+<li>Было очень полезно посмотреть на анализ своего пройденного профессионального пути со стороны, зачастую были подсвечены вещи, на которые я бы не обратила внимание, а именно они оказались важны.</li>
+<li>В диалоге я обнаружила/вспомнила более детально кейсы, с которыми мне приходилось иметь дело, и которые отлично лягут в основу продающего резюме.</li>
+<li>Особое впечатление произвело то, как мой нынешний опыт можно преподнести полезным для сферы, в которой я хочу развиваться: большую часть задач я, оказывается, и так выполняю, просто не знала, как именно ее обозначить, чтобы превратить в преимущество.</li>
+<li>Самое ценное – подробный и понятный план дальнейших действий. Если раньше у меня было полное непонимание и откладывание смены деятельности на неопределенный срок, то теперь мне уже не терпится приступить к следующему этапу намеченного курса.</li>
+<li>Как итог, я уже вовсю занимаюсь изучением новой потенциальной сферы, читаю книги и смотрю профессиональные видео, и с каждым днем понимания все больше.</li>
+</ol>
+<p>Выход из зоны комфорта больше не пугает: с Анастасией очень легко, диалог по существу, информация важная и по существу, без воды и лозунгов. Обязательно продолжу дальнейшие консультации и с удовольствием порекомендую друзьям и знакомым!</p>
 </div>
 </div>
 <div class="review-card-content" hidden>
@@ -5557,10 +5616,21 @@
 </article>
 <article class="review-text-card">
 <div class="review-text-card-face">
+<div class="review-text-card-top">
+<div class="review-text-card-heading">
 <button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Юля</button>
+<p class="review-text-card-role">Вход в IT</p>
+</div>
+<img class="review-text-card-photo" src="assets/reviews/yulya.jpg" alt="Юля" width="68" height="68" loading="lazy" decoding="async"/>
+</div>
 <div class="review-text-card-body">
-<p>Реальные прикладные советы, честные ожидания и подробная картина IT. Теперь четко понимаю, куда двигаться.</p>
-<p>Спасибо огромное – дала большую мотивацию расти дальше и пробовать себя…</p>
+<p>Настя, привет!</p>
+<p>Мне очень понравилось работать с тобой.</p>
+<p>Во-первых, сразу было заметно, что ты шаришь в своей теме и даешь реальные и прикладные советы. Не абстрактно, а четко.</p>
+<p>Отдельно хочу поблагодарить за честность, что давала реальные ожидания, аргументированные комментарии по резюме, кейсам на работе и тд. В целом я получила очень подробную картину, что сейчас происходит в ИТ мире)</p>
+<p>Курсы – просто супер, теперь хотя бы знаю что и где изучать. Тут у меня было больше всего вопросов.</p>
+<p>Ну и по окончании сессий, у меня не осталось никаких вопросов, все проблемы решили. Я теперь четко понимаю куда двигаться.</p>
+<p>Спасибо огромное, дала большую мотивацию расти дальше и пробовать себя</p>
 </div>
 </div>
 <div class="review-card-content" hidden>
@@ -5575,10 +5645,18 @@
 </article>
 <article class="review-text-card">
 <div class="review-text-card-face">
+<div class="review-text-card-top">
+<div class="review-text-card-heading">
 <button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Даяна</button>
+<p class="review-text-card-role">Product Manager</p>
+</div>
+<img class="review-text-card-photo" src="assets/reviews/dayana.jpg" alt="Даяна" width="68" height="68" loading="lazy" decoding="async"/>
+</div>
 <div class="review-text-card-body">
-<p>Прошло финальное собеседование – положительные впечатления, жду ОС.</p>
-<p>Спасибо за помощь в подготовке: смогла более полно ответить на вопросы…</p>
+<p>Привет!) Прошло сегодня финальное собеседование – на встрече был продакт с прошлого собеса и девушка тимлид. В целом положительные впечатления остались, буду ждать ОС.</p>
+<p>Вопросы задавала только тимлид. На встрече рассказала про себя по методу STAR, далее девушка задавала кейсовые вопросы:</p>
+<p>Расскажи с какой неудачей сталкивалась и как решала проблему.<br/>Как будешь решать проблему противоречивых требований у стейкхолдеров.<br/>Что будешь делать, если разработчик не понял требование или взял в работу задачу и интерпретировал требования по своему?<br/>Что должно произойти чтобы ты поняла, что команда тебе не подходит?</p>
+<p>Спасибо за помощь в подготовке, смогла более полно ответить на вопросы</p>
 </div>
 </div>
 <div class="review-card-content" hidden>
@@ -5588,7 +5666,7 @@
 <p>Спасибо за помощь в подготовке, смогла более полно ответить на вопросы</p>
 </div>
 </article>
-</div>
+</div></div>
 </section>
 <div id="review-modal" class="review-modal" hidden aria-hidden="true">
 <div class="review-modal-backdrop" data-review-modal-close tabindex="-1" aria-hidden="true"></div>
