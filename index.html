@@ -5,7 +5,8 @@
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" name="viewport"/>
 <title>Настя Нерадовских – карьера в IT, консультации и менторство</title>
 <meta name="description" content="CPO Альфа-Банка. Консультации по входу в IT и карьере, менторство, разбор резюме. Суперфиналистка «Лидеров России», основатель стартапа WID."/>
-<meta name="theme-color" content="#000000"/>
+<meta name="theme-color" content="#1a1a1a"/>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"/>
 <meta name="robots" content="index, follow"/>
 <link rel="canonical" href="https://growcareer.ru/"/>
 <meta property="og:type" content="website"/>
@@ -88,7 +89,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #000000;
+            background-color: #1a1a1a;
             color: #ffffff;
             margin: 0;
             width: 100%;
@@ -547,7 +548,7 @@
             justify-content: center;
             padding: 0.55rem 0.7rem;
             font-size: 0.625rem;
-            font-weight: 800;
+            font-weight: 500;
             letter-spacing: 0.12em;
             text-transform: uppercase;
             text-align: center;
@@ -676,7 +677,7 @@
             padding: 0.65rem 0.75rem;
             border-radius: 0.6rem;
             font-size: 0.8125rem;
-            font-weight: 700;
+            font-weight: 500;
             color: rgba(255, 255, 255, 0.72);
             text-decoration: none;
             transition: background-color 0.15s ease, color 0.15s ease;
@@ -958,13 +959,11 @@
             height: min(70vh, 32rem);
             scroll-snap-align: start;
             border-radius: 1.35rem;
-            background:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.35) 100%),
-                radial-gradient(120% 90% at 12% 0%, rgba(100, 206, 251, 0.22), transparent 55%),
-                #12161c;
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: #f4f6f8;
+            border: 1px solid rgba(0, 0, 0, 0.08);
             overflow: hidden;
-            transition: border-color 0.25s ease;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
         }
 
         .review-text-card-face {
@@ -975,42 +974,22 @@
             width: 100%;
             height: 100%;
             padding: 1.25rem 1.25rem 1.35rem;
-            color: #fff;
+            color: #12161c;
             text-align: left;
             overflow: hidden;
         }
 
-        .review-text-card:nth-child(2) {
-            background:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.35) 100%),
-                radial-gradient(120% 90% at 88% 8%, rgba(143, 168, 255, 0.2), transparent 55%),
-                #12161c;
-        }
-
-        .review-text-card:nth-child(3) {
-            background:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.35) 100%),
-                radial-gradient(120% 90% at 20% 10%, rgba(100, 206, 251, 0.16), transparent 52%),
-                #14181f;
-        }
-
-        .review-text-card:nth-child(4) {
-            background:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.35) 100%),
-                radial-gradient(120% 90% at 70% 0%, rgba(255, 196, 120, 0.14), transparent 55%),
-                #12161c;
-        }
-
+        .review-text-card:nth-child(2),
+        .review-text-card:nth-child(3),
+        .review-text-card:nth-child(4),
         .review-text-card:nth-child(5) {
-            background:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(0, 0, 0, 0.35) 100%),
-                radial-gradient(120% 90% at 40% 0%, rgba(120, 220, 190, 0.14), transparent 55%),
-                #12161c;
+            background: #f4f6f8;
         }
 
         .review-text-card:hover,
         .review-text-card:focus-within {
-            border-color: rgba(100, 206, 251, 0.45);
+            border-color: rgba(100, 206, 251, 0.55);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
         }
 
         .review-text-card-name {
@@ -1024,7 +1003,7 @@
             font-weight: 800;
             letter-spacing: -0.03em;
             line-height: 1.1;
-            color: #fff;
+            color: #0b1016;
             cursor: pointer;
             text-align: left;
         }
@@ -1042,7 +1021,7 @@
             overflow: hidden;
             font-size: 0.9375rem;
             line-height: 1.55;
-            color: rgba(255, 255, 255, 0.78);
+            color: rgba(18, 22, 28, 0.78);
         }
 
         .review-text-card-body p {
@@ -1242,23 +1221,58 @@
                 transform: none;
             }
 
+            .hero-back-dim {
+                background: rgba(0, 0, 0, 0.22);
+            }
+
+            .hero-scrim {
+                background: linear-gradient(
+                    to bottom,
+                    transparent 0%,
+                    transparent 38%,
+                    rgba(0, 0, 0, 0.12) 52%,
+                    rgba(0, 0, 0, 0.42) 68%,
+                    rgba(0, 0, 0, 0.78) 84%,
+                    rgba(0, 0, 0, 0.94) 100%
+                );
+            }
+
             #hero-speaker-area .hero-freeze-frame {
                 left: 0;
                 right: 0;
-                bottom: 0;
                 top: auto;
+                bottom: 0;
                 width: 100%;
                 height: auto;
                 max-width: none;
                 max-height: none;
-                transform: none;
-                -webkit-mask-image: none;
-                mask-image: none;
+                transform: translateY(-7.5rem);
+                -webkit-mask-image: linear-gradient(
+                    to bottom,
+                    #000 0%,
+                    #000 68%,
+                    rgba(0, 0, 0, 0.85) 80%,
+                    rgba(0, 0, 0, 0.4) 90%,
+                    transparent 100%
+                );
+                mask-image: linear-gradient(
+                    to bottom,
+                    #000 0%,
+                    #000 68%,
+                    rgba(0, 0, 0, 0.85) 80%,
+                    rgba(0, 0, 0, 0.4) 90%,
+                    transparent 100%
+                );
             }
 
             #hero-speaker-area .hero-freeze-frame img {
+                display: block;
+                width: 100%;
+                height: auto;
+                max-height: none;
                 object-fit: contain;
-                object-position: bottom center;
+                object-position: center 18%;
+                transform: none;
             }
 
             #hero-mid {
@@ -1338,9 +1352,9 @@
             #hero-speaker-area .hero-freeze-frame {
                 inset: auto !important;
                 top: auto !important;
-                right: auto !important;
+                right: 0 !important;
                 bottom: 0 !important;
-                left: 0 !important;
+                left: auto !important;
                 width: auto !important;
                 height: 92% !important;
                 max-width: 78% !important;
@@ -1356,7 +1370,7 @@
                 height: 100%;
                 max-width: 100%;
                 object-fit: contain;
-                object-position: bottom left;
+                object-position: bottom right;
             }
 
             #hero-mid {
@@ -1368,10 +1382,11 @@
             }
 
             #hero-mid .hero-copy {
-                align-self: end;
+                align-self: start;
                 justify-self: start;
                 margin-top: auto;
-                margin-left: auto;
+                margin-left: 0;
+                margin-right: auto;
             }
 
             #hero > .hero-tabs-wrap {
@@ -1602,7 +1617,7 @@
         @media (min-width: 768px) {
             .guide-panel-grid {
                 grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-                align-items: center;
+                align-items: start;
                 gap: 2.5rem;
                 padding: 2.75rem 2.75rem 2.75rem 3rem;
             }
@@ -1660,9 +1675,11 @@
             position: relative;
             display: inline-flex;
             align-items: center;
-            align-self: center;
+            justify-content: center;
+            flex: 1 1 auto;
+            min-width: 0;
             gap: 0.45rem;
-            margin-top: 1.5rem;
+            margin-top: 0;
             padding: 0.85rem 1.35rem;
             border-radius: 9999px;
             background: linear-gradient(145deg, #8adcff 0%, #64cefb 45%, #3eb8f0 100%);
@@ -1673,17 +1690,37 @@
             text-transform: uppercase;
             text-decoration: none;
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+            pointer-events: auto;
+        }
+
+        .guide-cta-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.65rem;
+            width: 100%;
         }
 
         .guide-copy {
             display: flex;
             flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .guide-actions {
+            display: flex;
+            flex-direction: column;
             align-items: stretch;
+            gap: 0.75rem;
+            width: min(100%, 18.5rem);
+            margin-inline: auto;
+            margin-top: 0.35rem;
+            pointer-events: auto;
         }
 
         .guide-legal {
-            margin: 0.95rem 0 0;
-            max-width: 34rem;
+            margin: 0;
+            max-width: none;
             font-size: 0.75rem;
             line-height: 1.45;
             color: rgba(255, 255, 255, 0.45);
@@ -1701,34 +1738,43 @@
         }
 
         .guide-visual {
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            min-height: 11rem;
-            order: -1;
-            overflow: visible;
-            pointer-events: none;
-        }
-
-        @media (min-width: 768px) {
-            .guide-visual {
-                justify-content: flex-end;
-                min-height: 16rem;
-                order: 0;
-            }
+            display: contents;
         }
 
         .guide-cover {
             position: relative;
             width: min(100%, 18.5rem);
+            margin-inline: auto;
             margin-top: -4.5rem;
             transform: rotate(2.5deg);
+            order: -1;
+            pointer-events: none;
         }
 
         @media (min-width: 768px) {
+            .guide-visual {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-end;
+                gap: 1.15rem;
+                min-height: 0;
+                order: 0;
+                overflow: visible;
+                pointer-events: none;
+            }
+
             .guide-cover {
                 width: min(100%, 22rem);
-                margin-top: -5.25rem;
+                margin-inline: 0;
+                margin-top: 0;
+                order: 0;
+            }
+
+            .guide-actions {
+                width: min(100%, 22rem);
+                margin-inline: 0;
+                margin-top: 0;
             }
         }
 
@@ -1740,14 +1786,15 @@
         }
 
         .guide-sticker {
-            position: absolute;
-            top: 12%;
-            left: -0.35rem;
-            z-index: 3;
+            position: relative;
+            top: auto;
+            left: auto;
+            z-index: 1;
             display: inline-flex;
+            flex: 0 0 auto;
             align-items: center;
-            padding: 0.38rem 0.62rem;
-            border-radius: 0.28rem;
+            padding: 0.42rem 0.65rem;
+            border-radius: 0.35rem;
             background: #f5c518;
             color: #111;
             font-size: 0.68rem;
@@ -1756,7 +1803,7 @@
             text-transform: uppercase;
             line-height: 1;
             white-space: nowrap;
-            transform: rotate(-11deg);
+            transform: rotate(-6deg);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
             pointer-events: none;
         }
@@ -2100,6 +2147,7 @@
         #cookie-banner {
             position: fixed;
             left: 50%;
+            right: auto;
             bottom: max(0.85rem, env(safe-area-inset-bottom));
             z-index: 70;
             transform: translateX(-50%) translateY(0.75rem);
@@ -2135,6 +2183,7 @@
         .cookie-banner-inner {
             display: flex;
             flex-direction: column;
+            align-items: stretch;
             gap: 0.85rem;
         }
 
@@ -2207,30 +2256,45 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        @media (min-width: 480px) {
+        @media (min-width: 768px) {
             #cookie-banner {
-                padding: 1.1rem 1.25rem;
+                left: auto;
+                right: max(1.25rem, env(safe-area-inset-right));
+                bottom: max(1.25rem, env(safe-area-inset-bottom));
+                width: min(42rem, calc(100vw - 2.5rem));
+                max-width: 42rem;
+                padding: 1.15rem 1.35rem 1.2rem;
+                transform: translateY(0.75rem);
+            }
+
+            #cookie-banner.is-visible {
+                transform: translateY(0);
+            }
+
+            #cookie-banner.is-leaving {
+                transform: translateY(0.75rem);
             }
 
             .cookie-banner-inner {
-                flex-direction: row;
-                align-items: center;
-                gap: 1rem;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.95rem;
             }
 
             .cookie-banner-text {
-                flex: 1 1 auto;
+                flex: 0 0 auto;
                 font-size: 0.875rem;
+                line-height: 1.5;
             }
 
             .cookie-banner-actions {
                 flex: 0 0 auto;
+                width: 100%;
             }
 
             .cookie-btn {
-                flex: 0 0 auto;
-                padding-left: 1.15rem;
-                padding-right: 1.15rem;
+                flex: 1 1 0;
+                padding: 0.78rem 1.2rem;
             }
         }
 
@@ -2425,7 +2489,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             color: rgba(255, 255, 255, 0.92);
             font-size: clamp(1.35rem, 4.5vw, 2rem);
-            font-weight: 800;
+            font-weight: 500;
             letter-spacing: -0.03em;
             text-decoration: none;
             transition: color 0.15s ease;
@@ -2453,7 +2517,7 @@
         .sections-overlay-link-sub {
             padding: 0.55rem 0.15rem 0.55rem 0.35rem;
             font-size: clamp(1rem, 3.2vw, 1.25rem);
-            font-weight: 600;
+            font-weight: 500;
             color: rgba(255, 255, 255, 0.92);
             border-bottom-color: rgba(255, 255, 255, 0.04);
         }
@@ -3730,26 +3794,29 @@
             position: relative;
             z-index: 1;
             margin: 0 auto;
-            max-width: 22rem;
+            width: min(100%, 18rem);
+            max-width: 18rem;
             padding-bottom: 2rem;
         }
 
         @media (min-width: 768px) {
             .expert-story-portrait-wrap {
                 margin: 0;
-                max-width: none;
+                width: min(100%, 27rem);
+                max-width: 27rem;
+                padding-bottom: 2rem;
             }
         }
 
         .expert-story-portrait {
             display: block;
             width: 100%;
-            aspect-ratio: 4 / 5;
-            border-radius: 1.25rem;
+            aspect-ratio: 1 / 1;
+            border-radius: 1.15rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
             object-fit: cover;
-            object-position: center 15%;
-            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+            object-position: center 20%;
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.4);
         }
 
         .expert-story-pin-card {
@@ -3784,13 +3851,13 @@
 
         @media (min-width: 768px) {
             .expert-story-pin-card {
-                width: min(68%, 11.25rem);
+                width: min(48%, 12rem);
                 padding: 0.8rem 0.9rem;
             }
 
             .expert-story-pin-card--accent {
                 left: -0.35rem;
-                bottom: 3.5rem;
+                bottom: 4rem;
             }
 
             .expert-story-pin-card--light {
@@ -4146,13 +4213,8 @@
 
         .edu-cards {
             display: grid;
+            grid-template-columns: minmax(0, 1fr);
             gap: 0.75rem;
-        }
-
-        @media (min-width: 640px) {
-            .edu-cards {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
         }
 
         .edu-card {
@@ -4555,7 +4617,7 @@
         })();
     </script>
 </head>
-<body class="bg-black page-with-sticky-cta">
+<body class="bg-[#1a1a1a] page-with-sticky-cta">
 <svg class="squiggly-filters" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
 <defs>
 <filter id="squiggly-0"><feTurbulence baseFrequency="0.02" numOctaves="3" result="noise" seed="0"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="6"/></filter>
@@ -4591,7 +4653,7 @@
 <img src="assets/Danya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
 </button>
 </div>
-<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" id="sticky-consult-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Записаться</a>
+<a href="https://t.me/grow_career_bot?start=book_nastya" target="_blank" rel="noopener noreferrer" id="sticky-consult-cta" data-contact-nastya="https://t.me/grow_career_bot?start=book_nastya" data-contact-danya="https://t.me/grow_career_bot?start=book_danya">Записаться</a>
 </div>
 <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Согласие на использование cookie" aria-hidden="true">
 <div class="cookie-banner-inner">
@@ -4609,12 +4671,12 @@
 <a class="sections-overlay-link" href="#value">Что получишь</a>
 <a class="sections-overlay-link" href="#expert">Эксперты</a>
 <a class="sections-overlay-link" href="#curriculum">Услуги 🔥</a>
-<a class="sections-overlay-link" href="#guide"><span>Гайд в IT 🔥</span><span class="menu-nav-chip">бесплатно</span></a>
+<a class="sections-overlay-link" href="#guide"><span>Гайд по входу в IT 🔥</span><span class="menu-nav-chip">бесплатно</span></a>
 <a class="sections-overlay-link" href="#placements">Трудоустройство</a>
 <a class="sections-overlay-link" href="#reviews">Отзывы</a>
 <a class="sections-overlay-link" href="#faq">Вопросы</a>
 </nav>
-<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="sections-overlay-cta" id="menu-contact-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Записаться</a>
+<a href="https://t.me/grow_career_bot?start=book_nastya" target="_blank" rel="noopener noreferrer" class="sections-overlay-cta" id="menu-contact-cta" data-contact-nastya="https://t.me/grow_career_bot?start=book_nastya" data-contact-danya="https://t.me/grow_career_bot?start=book_danya">Записаться</a>
 </div>
 </div>
 <div id="track-expand" class="track-expand" hidden aria-hidden="true">
@@ -4638,11 +4700,11 @@
 </div>
 </div>
 <!-- Global fullscreen video background -->
-<div class="pointer-events-none fixed inset-0 z-[-10] overflow-hidden bg-black">
-<video id="bg-video" autoplay class="absolute inset-0 h-full w-full object-cover opacity-45 is-inactive" loop muted playsinline preload="metadata" fetchpriority="low" disablePictureInPicture controlslist="nodownload nofullscreen noremoteplayback">
+<div class="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-black">
+<video id="bg-video" autoplay class="absolute inset-0 h-full w-full object-cover opacity-50" loop muted playsinline preload="auto" fetchpriority="low" disablePictureInPicture controlslist="nodownload nofullscreen noremoteplayback">
 <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" type="video/mp4"/>
 </video>
-<div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-black"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/85"></div>
 </div>
 <!-- Sticky nav + scroll progress (desktop mega menu) -->
 <header id="site-header" class="fixed top-8 left-1/2 z-50 hidden w-full max-w-[min(98vw,56rem)] -translate-x-1/2 px-3 md:block">
@@ -4696,7 +4758,7 @@
 <a class="nav-link" href="#faq" data-nav-top>Частые вопросы</a>
 </div>
 </div>
-<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="nav-book-cta" id="nav-contact-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Записаться</a>
+<a href="https://t.me/grow_career_bot?start=book_nastya" target="_blank" rel="noopener noreferrer" class="nav-book-cta" id="nav-contact-cta" data-contact-nastya="https://t.me/grow_career_bot?start=book_nastya" data-contact-danya="https://t.me/grow_career_bot?start=book_danya">Записаться</a>
 </nav>
 </header>
 <main class="relative z-10 flex min-h-screen flex-col overflow-x-hidden bg-black/40 pb-8 pt-8 backdrop-blur-xl md:pb-16 md:pt-32" id="hero">
@@ -4704,26 +4766,26 @@
 <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden" id="hero-speaker-area">
 <video class="hero-video-layer is-hidden absolute inset-0 z-0 h-full w-full object-cover object-center opacity-100" id="hero-video" muted playsinline preload="none" disablePictureInPicture hidden></video>
 <picture class="hero-back">
-<source media="(min-width: 768px)" srcset="assets/back-desk.png"/>
-<img src="assets/back.jpg" alt="" width="675" height="1200" draggable="false" decoding="async"/>
+<source media="(min-width: 768px)" srcset="assets/back-desk.png?v=20260823030"/>
+<img src="assets/back.jpg?v=202608230114" alt="" width="675" height="1200" draggable="false" decoding="async"/>
 </picture>
 <div class="hero-back-dim" aria-hidden="true"></div>
 <picture id="hero-freeze-frame" class="hero-freeze-frame is-visible">
-<source media="(min-width: 768px)" srcset="assets/mentors-desk.png"/>
-<img src="assets/mentors.png" alt="Карьера в IT" width="1080" height="1920" draggable="false" decoding="async"/>
+<source media="(min-width: 768px)" srcset="assets/mentors-desk.png?v=20260823058"/>
+<img src="assets/mentors.png?v=20260823058" alt="Карьера в IT" width="1080" height="1920" draggable="false" decoding="async"/>
 </picture>
 <div class="hero-scrim" aria-hidden="true"></div>
 </div>
 <div id="hero-mid" class="relative z-10 mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col gap-4 pt-3 md:min-h-0 md:gap-0 md:pt-6" aria-label="Заголовок и запись">
-<div class="hero-copy flex min-h-0 flex-1 flex-col items-center justify-center gap-4 text-center md:ml-auto md:items-end md:justify-center md:gap-6 md:pr-8 md:pb-8 md:text-right md:-translate-y-6 lg:-translate-y-10">
+<div class="hero-copy flex min-h-0 flex-1 flex-col items-center justify-center gap-4 text-center md:mr-auto md:items-start md:justify-center md:gap-6 md:pl-8 md:pb-8 md:text-left md:-translate-y-6 lg:-translate-y-10">
 <div class="w-full max-w-lg space-y-3 md:space-y-4">
-<h1 class="line-height-tight text-balance text-center text-4xl font-black tracking-tighter sm:text-5xl md:text-right md:text-[5.2rem]">
+<h1 class="line-height-tight text-balance text-center text-4xl font-black tracking-tighter sm:text-5xl md:text-left md:text-[5.2rem]">
 <span class="text-white/90">Начни карьеру </span><span class="shiny-text">в IT</span>
 </h1>
 <p class="mt-3 text-base leading-relaxed text-white/75 md:mt-4">Помогаем расти в карьере, зайти в продакт-менеджмент, выигрывать конкурсы и кейс-чемпионаты</p>
 </div>
 <div class="hero-cta-row">
-<a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="hero-cta-primary" id="hero-contact-cta" data-contact-nastya="https://t.me/neradana" data-contact-danya="https://t.me/koolesoo">Записаться</a>
+<a href="https://t.me/grow_career_bot?start=book_nastya" target="_blank" rel="noopener noreferrer" class="hero-cta-primary" id="hero-contact-cta" data-contact-nastya="https://t.me/grow_career_bot?start=book_nastya" data-contact-danya="https://t.me/grow_career_bot?start=book_danya">Записаться</a>
 <a href="#expert" class="hero-cta-secondary">О нас</a>
 </div>
 </div>
@@ -4747,10 +4809,10 @@
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="emoji_events" aria-hidden="true">emoji_events</span>
+<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="description" aria-hidden="true">description</span>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Планируешь участвовать в конкурсах и грантах</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Хочешь выстроить стратегию подачи, упаковать достижения и пройти отбор – от «Лидеров России» до университетских и корпоративных программ</p>
+<h3 class="mt-4 text-lg font-bold tracking-tight">Нужно усилить резюме и пройти интервью</h3>
+<p class="mt-2 text-base leading-relaxed text-white/75">Хочешь переупаковать опыт, пройти мок-интервью и получить конкретные правки по резюме, LinkedIn и ответам на собеседовании</p>
 </article>
 <article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
@@ -5001,7 +5063,7 @@
 <div class="edu-card-icon edu-card-icon--light"><img src="assets/marquee/logo-skolkovo.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="edu-card-body">
 <p class="edu-card-name">МШУ Сколково</p>
-<p class="edu-card-faculty">Управление цифровым продуктом, Стартап Академия, Лидерский UPGRADE, Триада личностного роста</p>
+<p class="edu-card-faculty">Управление цифровым продуктом, Стартап Академия, Лидерский UPGRADE, Стратегия личностного роста</p>
 </div>
 </article>
 </div>
@@ -5208,7 +5270,7 @@
 <li><strong>Как выстроить процесс</strong>Что делать по шагам, чтобы не хаотично метаться.</li>
 </ul>
 <p class="track-detail-note">Подойдёт, если хочешь разобраться с нуля или уточнить конкретные шаги</p>
-<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_nastya" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_nastya_qa" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 <article class="track-card">
@@ -5226,7 +5288,7 @@
 <li><strong>Подбор подходящих компаний</strong></li>
 <li><strong>Чёткие шаги</strong>Уходишь с готовым планом действий</li>
 </ul>
-<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_nastya" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_nastya_strategy" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 <article class="track-card">
@@ -5243,7 +5305,7 @@
 <li><strong>Подача опыта</strong>Конкретные рекомендации по улучшению</li>
 <li><strong>Результат</strong>Уходишь с готовым резюме на руках</li>
 </ul>
-<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_nastya" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_nastya_resume" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 </div>
@@ -5273,7 +5335,7 @@
 <li><strong>Стратегическая консультация для менти</strong>−50% – 4 000 ₽</li>
 <li><strong>Мок-интервью</strong>2 500 ₽</li>
 </ul>
-<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_nastya" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_nastya_mentor_1m" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 </div>
@@ -5303,7 +5365,7 @@
 <li><strong>Как выстроить процесс</strong>Что делать по шагам, чтобы не хаотично метаться.</li>
 </ul>
 <p class="track-detail-note">Подойдёт, если хочешь разобраться с нуля или уточнить конкретные шаги</p>
-<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_danya" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_danya_qa" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 <article class="track-card">
@@ -5318,7 +5380,7 @@
 <li><strong>Персональная стратегия</strong>По поиску работы и старту карьеры.</li>
 <li><strong>Чёткие шаги</strong>Уходишь с готовым планом действий.</li>
 </ul>
-<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_danya" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_danya_strategy" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 <article class="track-card">
@@ -5335,7 +5397,7 @@
 <li><strong>Переупаковка опыта</strong>Как показать «нерелевантный» опыт в плюс.</li>
 </ul>
 <p class="track-detail-note">Получишь конкретные шаги и инсайты по резюме, которое понравится рекрутерам</p>
-<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_danya" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_danya_resume" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 </div>
@@ -5357,7 +5419,7 @@
 <li><strong>Подготовка к интервью</strong>Разбор вопросов, кейсов и форматов отбора.</li>
 <li><strong>Поддержка в чате</strong>Ответы между сессиями по ходу работы.</li>
 </ul>
-<a class="track-detail-cta" href="https://t.me/career67_bot?start=book_danya" target="_blank" rel="noopener noreferrer">Записаться</a>
+<a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_danya_mentor" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 </div>
@@ -5377,7 +5439,7 @@
 <div class="guide-panel-grid">
 <div class="guide-copy">
 <h2 class="guide-title" id="guide-heading">Гайд по входу в IT</h2>
-<p class="guide-lead">Как подготовиться к интервью на Product Manager – откроем в Telegram после короткой заявки.</p>
+<p class="guide-lead">Как подготовиться к интервью на Product Manager – после короткой заявки.</p>
 <ul class="guide-points">
 <li>
 <span class="guide-bullet" aria-hidden="true">–</span>
@@ -5392,15 +5454,19 @@
 <span>Как упаковать опыт, даже если кажется, что показывать нечего</span>
 </li>
 </ul>
-<a href="https://t.me/career67_bot?start=guide" target="_blank" rel="noopener noreferrer" class="guide-cta">
-<span>Получить гайд</span>
-</a>
-<p class="guide-legal">Отправим PDF-гайд в Telegram. Нажимая кнопку, ты даёшь <a href="personal-data-consent.html">согласие на обработку персональных данных</a> и принимаешь <a href="privacy-policy.html">Политику конфиденциальности</a>.</p>
 </div>
 <div class="guide-visual">
 <div class="guide-cover">
-<span class="guide-sticker">бесплатно</span>
 <img src="assets/guide.png" alt="Гайд: как подготовиться к интервью на Product Manager" class="guide-cover-img" width="1536" height="1024" loading="lazy" decoding="async"/>
+</div>
+<div class="guide-actions">
+<div class="guide-cta-row">
+<a href="https://t.me/grow_career_bot?start=guide" target="_blank" rel="noopener noreferrer" class="guide-cta">
+<span>Получить гайд</span>
+</a>
+<span class="guide-sticker">бесплатно</span>
+</div>
+<p class="guide-legal">Отправим PDF-гайд в Telegram. Нажимая кнопку, ты даёшь <a href="personal-data-consent.html">согласие на обработку персональных данных</a> и принимаешь <a href="privacy-policy.html">Политику конфиденциальности</a>.</p>
 </div>
 </div>
 </div>
@@ -5681,6 +5747,32 @@
         const heroFreezeFrame = document.getElementById('hero-freeze-frame');
         /* TEMP: статичный креатив в hero – выключить, когда вернём видео */
         const HERO_STATIC_CREATIVE = true;
+
+        (function syncHeroMobilePhotoClearance() {
+            const hero = document.getElementById('hero');
+            const mid = document.getElementById('hero-mid');
+            if (!hero || !mid) return;
+
+            const mq = window.matchMedia('(max-width: 767.98px)');
+
+            function sync() {
+                if (!mq.matches) {
+                    hero.style.removeProperty('--hero-mobile-copy-h');
+                    return;
+                }
+                const styles = window.getComputedStyle(mid);
+                const bottom = parseFloat(styles.bottom) || 0;
+                const h = Math.ceil(mid.getBoundingClientRect().height + bottom + 8);
+                hero.style.setProperty('--hero-mobile-copy-h', `${Math.max(10.5 * 16, h)}px`);
+            }
+
+            sync();
+            window.addEventListener('resize', sync, { passive: true });
+            if (typeof ResizeObserver !== 'undefined') {
+                new ResizeObserver(sync).observe(mid);
+            }
+            mq.addEventListener?.('change', sync);
+        })();
         const btnAll = document.getElementById('toggle-all');
         const btnStudents = document.getElementById('toggle-students');
         const navKeys = [
@@ -6106,9 +6198,21 @@
             bgVideo.addEventListener('playing', () => bgVideo.classList.remove('is-inactive'));
             bgVideo.addEventListener('pause', () => {
                 if (document.hidden) return;
-                /* Без автоплея браузер рисует системную Play – прячем видео */
-                if (bgVideo.paused) bgVideo.classList.add('is-inactive');
+                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const saveData = 'connection' in navigator && navigator.connection && navigator.connection.saveData;
+                if (reduce || saveData) {
+                    bgVideo.classList.add('is-inactive');
+                    return;
+                }
+                /* Случайная пауза не должна навсегда прятать фон – пробуем снова */
+                requestAnimationFrame(() => {
+                    if (!document.hidden && bgVideo.paused) syncBgVideoPlayback();
+                });
             });
+            bgVideo.addEventListener('loadeddata', syncBgVideoPlayback);
+            bgVideo.muted = true;
+            bgVideo.setAttribute('playsinline', '');
+            bgVideo.preload = 'auto';
         }
 
         document.addEventListener('visibilitychange', syncBgVideoPlayback);
@@ -6142,7 +6246,6 @@
                 { file: 'logo-sber.png', alt: 'Сбер' },
                 { file: 'logo-tbank.png', alt: 'Т-Банк' },
                 { file: 'logo-ozon.png', alt: 'Ozon' },
-                { file: 'logo-ranepa2.png', alt: 'РАНХиГС' },
             ];
 
             function makeItem(logo) {

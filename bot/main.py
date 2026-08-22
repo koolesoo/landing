@@ -211,11 +211,39 @@ def save_booking(
         )
 
 
+def get_user_bookings(user_id: int, *, limit: int = 20) -> list[dict]:
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.row_factory = sqlite3.Row
+        rows = conn.execute(
+            """
+            SELECT expert_name, tariff_title, tariff_price, created_at
+            FROM bookings
+            WHERE telegram_user_id = ?
+            ORDER BY id DESC
+            LIMIT ?
+            """,
+            (user_id, limit),
+        ).fetchall()
+        return [dict(row) for row in rows]
+
+
+def format_booking_date(iso: str) -> str:
+    try:
+        dt = datetime.fromisoformat(iso)
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        local = dt.astimezone()
+        return local.strftime("%d.%m.%Y %H:%M")
+    except ValueError:
+        return iso
+
+
 def main_menu_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("📘 Получить гайд", callback_data="menu:guide")],
-            [InlineKeyboardButton("🗓️ Записаться на услугу", callback_data="book:start")],
+            [InlineKeyboardButton("🗓️ Записаться к ментору", callback_data="book:start")],
+            [InlineKeyboardButton("📋 Мои записи", callback_data="menu:bookings")],
         ]
     )
 
@@ -264,7 +292,16 @@ def after_success_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("📘 Получить гайд", callback_data="menu:guide")],
-            [InlineKeyboardButton("🗓️ Ещё одна запись", callback_data="book:start")],
+            [InlineKeyboardButton("📋 Мои записи", callback_data="menu:bookings")],
+        ]
+    )
+
+
+def my_bookings_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("🗓️ Записаться к ментору", callback_data="book:start")],
+            [InlineKeyboardButton("« В меню", callback_data="menu:home")],
         ]
     )
 
@@ -333,7 +370,7 @@ async def send_guide(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
             caption=f"<b>{GUIDE_TITLE}</b>\n\n{GUIDE_CAPTION}",
             parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton("🗓️ Записаться на услугу", callback_data="book:start")]]
+                [[InlineKeyboardButton("🗓️ Записаться к ментору", callback_data="book:start")]]
             ),
         )
 
@@ -349,6 +386,7 @@ async def start_booking(
     context: ContextTypes.DEFAULT_TYPE,
     *,
     expert_id: str | None = None,
+    tariff_id: str | None = None,
     edit: bool = False,
 ) -> None:
     message = update.effective_message
@@ -365,6 +403,10 @@ async def start_booking(
             context.bot,
             f"🟡 <b>Старт записи</b>\n{user_ref}\nНачал оформление заявки.",
         )
+
+    if expert_id and tariff_id and get_tariff(expert_id, tariff_id):
+        await show_confirm(update, expert_id, tariff_id, edit=edit)
+        return
 
     if expert_id and get_expert(expert_id):
         await show_tariffs(update, expert_id, edit=edit)
@@ -392,7 +434,13 @@ async def show_tariffs(update: Update, expert_id: str, *, edit: bool = False) ->
     )
 
 
-async def show_confirm(update: Update, expert_id: str, tariff_id: str) -> None:
+async def show_confirm(
+    update: Update,
+    expert_id: str,
+    tariff_id: str,
+    *,
+    edit: bool = True,
+) -> None:
     expert = get_expert(expert_id)
     tariff = get_tariff(expert_id, tariff_id)
     if not expert or not tariff:
@@ -410,7 +458,7 @@ async def show_confirm(update: Update, expert_id: str, tariff_id: str) -> None:
         text,
         reply_markup=confirm_keyboard(expert_id, tariff_id),
         parse_mode=ParseMode.HTML,
-        edit=True,
+        edit=edit,
     )
 
 
@@ -479,8 +527,22 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
         return
 
     if payload.startswith("book_"):
-        expert_id = payload.replace("book_", "", 1)
-        await start_booking(update, context, expert_id=expert_id if expert_id in EXPERTS else None)
+        rest = payload.removeprefix("book_")
+        for expert_id in EXPERTS:
+            if rest == expert_id:
+                await start_booking(update, context, expert_id=expert_id)
+                return
+            prefix = f"{expert_id}_"
+            if rest.startswith(prefix):
+                tariff_id = rest[len(prefix) :]
+                await start_booking(
+                    update,
+                    context,
+                    expert_id=expert_id,
+                    tariff_id=tariff_id if get_tariff(expert_id, tariff_id) else None,
+                )
+                return
+        await start_booking(update, context)
         return
 
     if payload.startswith("book"):
@@ -496,6 +558,42 @@ async def guide_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
 async def book_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await start_booking(update, context)
+
+
+async def bookings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await show_my_bookings(update)
+
+
+async def show_my_bookings(update: Update, *, edit: bool = False) -> None:
+    user = update.effective_user
+    if not user:
+        return
+
+    bookings = get_user_bookings(user.id)
+    if not bookings:
+        text = (
+            "📋 <b>Мои записи</b>\n\n"
+            "Пока нет подтверждённых заявок.\n"
+            "Можешь записаться к ментору ниже."
+        )
+    else:
+        lines = ["📋 <b>Мои записи</b>\n"]
+        for i, row in enumerate(bookings, start=1):
+            lines.append(
+                f"{i}. <b>{row['tariff_title']}</b>\n"
+                f"👤 {row['expert_name']}\n"
+                f"💰 {row['tariff_price']}\n"
+                f"🗓 {format_booking_date(row['created_at'])}"
+            )
+        text = "\n\n".join(lines)
+
+    await send_ui_message(
+        update,
+        text,
+        reply_markup=my_bookings_keyboard(),
+        parse_mode=ParseMode.HTML,
+        edit=edit,
+    )
 
 
 async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -521,6 +619,10 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
     if data == "menu:guide":
         await send_guide(update, context)
+        return
+
+    if data == "menu:bookings":
+        await show_my_bookings(update, edit=False)
         return
 
     if data == "book:start":
@@ -551,6 +653,7 @@ def build_ptb_app() -> Application:
     application.add_handler(CommandHandler("start", start_command))
     application.add_handler(CommandHandler("guide", guide_command))
     application.add_handler(CommandHandler("book", book_command))
+    application.add_handler(CommandHandler("bookings", bookings_command))
     application.add_handler(CallbackQueryHandler(on_callback))
     return application
 
