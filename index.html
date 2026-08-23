@@ -642,7 +642,6 @@
             white-space: nowrap;
         }
 
-        #site-header .nav-item > .nav-link:hover,
         #site-header .nav-item.is-open > .nav-link {
             color: #fff;
         }
@@ -667,12 +666,6 @@
             white-space: nowrap;
             line-height: 1.1;
             transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
-        }
-
-        #site-header .nav-book-cta:hover {
-            color: #fff;
-            border-color: rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.1);
         }
 
         #site-header .nav-dropdown {
@@ -736,11 +729,6 @@
             transition: background-color 0.15s ease, border-color 0.15s ease;
         }
 
-        #site-header .nav-drop-card:hover {
-            background: rgba(100, 206, 251, 0.1);
-            border-color: rgba(100, 206, 251, 0.28);
-        }
-
         #site-header .nav-drop-card-title {
             font-size: 0.8125rem;
             font-weight: 800;
@@ -764,11 +752,6 @@
             color: rgba(255, 255, 255, 0.72);
             text-decoration: none;
             transition: background-color 0.15s ease, color 0.15s ease;
-        }
-
-        #site-header .nav-drop-link:hover {
-            background: rgba(255, 255, 255, 0.06);
-            color: #fff;
         }
 
         .pricing-option-active {
@@ -1068,7 +1051,6 @@
             text-align: left;
         }
 
-        .review-text-card:hover,
         .review-text-card:focus-within {
             border-color: rgba(100, 206, 251, 0.45);
             box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
@@ -1668,11 +1650,6 @@
             transition: background-color 0.2s ease, border-color 0.2s ease;
         }
 
-        .audience-nav-btn:hover {
-            background: rgba(255, 255, 255, 0.14);
-            border-color: rgba(255, 255, 255, 0.28);
-        }
-
         .audience-nav-btn:disabled {
             opacity: 0.35;
             cursor: default;
@@ -1697,12 +1674,9 @@
             overflow: visible;
             margin-top: 3.25rem;
             border-radius: 1.5rem;
-            border: 1px solid rgba(100, 206, 251, 0.28);
+            border: 0;
             background: #061018;
-            box-shadow:
-                0 0 0 1px rgba(100, 206, 251, 0.08),
-                0 24px 60px rgba(0, 0, 0, 0.35),
-                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
         }
 
         .guide-panel-bg {
@@ -1859,10 +1833,6 @@
             text-underline-offset: 2px;
         }
 
-        .guide-legal a:hover {
-            color: #8ddcf9;
-        }
-
         .guide-visual {
             display: contents;
         }
@@ -1911,29 +1881,6 @@
             filter: drop-shadow(0 22px 36px rgba(0, 0, 0, 0.45));
         }
 
-        .guide-sticker {
-            position: relative;
-            top: auto;
-            left: auto;
-            z-index: 1;
-            display: inline-flex;
-            flex: 0 0 auto;
-            align-items: center;
-            padding: 0.42rem 0.65rem;
-            border-radius: 0.35rem;
-            background: #f5c518;
-            color: #111;
-            font-size: 0.68rem;
-            font-weight: 900;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            line-height: 1;
-            white-space: nowrap;
-            transform: rotate(-6deg);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-            pointer-events: none;
-        }
-
         @media (prefers-reduced-motion: reduce) {
             .audience-stack {
                 display: grid;
@@ -1962,25 +1909,24 @@
         :root {
             --mobile-chrome-top: max(0.75rem, env(safe-area-inset-top));
             --mobile-chrome-side: max(1.25rem, env(safe-area-inset-left));
-            --mobile-chrome-size: 2.85rem;
+            --mobile-chrome-logo-height: 2.55rem;
+            --mobile-chrome-size: var(--mobile-chrome-logo-height);
             --site-brand-chrome-width: 4.75rem;
             --top-bar-inset: max(1.25rem, env(safe-area-inset-left));
             --mobile-curtain-gap: 0.55rem;
             --mobile-chrome-float-radius: 1.75rem;
             --mobile-chrome-bar-height: calc(var(--mobile-chrome-top) + var(--mobile-chrome-size) + var(--mobile-curtain-gap));
             --mobile-curtain-height: var(--mobile-chrome-bar-height);
-            --mobile-glass-bg:
-                radial-gradient(circle at 16% 0%, rgba(100, 206, 251, 0.45), transparent 54%),
-                radial-gradient(circle at 88% 92%, rgba(100, 206, 251, 0.16), transparent 44%),
-                linear-gradient(158deg, rgba(92, 102, 112, 0.92), rgba(22, 26, 30, 0.94) 74%);
-            --mobile-glass-fill: rgba(34, 40, 46, 0.88);
-            --mobile-menu-fill: rgba(15, 19, 22, 0.94);
-            --mobile-glass-border: rgba(255, 255, 255, 0.22);
-            --mobile-glass-blur: blur(24px) saturate(1.9);
+            --mobile-shell-bg: #141414;
         }
 
         body.has-overlay-open {
             overflow: hidden;
+        }
+
+        /* Меню: тот же фон + грейн, что и у лендинга */
+        body.has-overlay-open .page-bg {
+            z-index: 80;
         }
 
         .mobile-top-shell {
@@ -2015,21 +1961,45 @@
             .mobile-top-shell {
                 display: block;
                 position: fixed;
-                top: var(--mobile-chrome-top);
-                left: var(--mobile-chrome-side);
-                right: max(1.25rem, env(safe-area-inset-right));
+                top: 0;
+                left: 0;
+                right: 0;
                 z-index: 50;
-                height: var(--mobile-chrome-size);
+                height: var(--mobile-chrome-bar-height);
                 pointer-events: none;
-                border-radius: var(--mobile-chrome-float-radius);
-                border: 1px solid rgba(255, 255, 255, 0.14);
-                background-color: var(--mobile-glass-fill);
-                background-image: var(--mobile-glass-bg);
-                -webkit-backdrop-filter: var(--mobile-glass-blur);
-                backdrop-filter: var(--mobile-glass-blur);
-                box-shadow:
-                    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-                    0 10px 32px rgba(0, 0, 0, 0.38);
+                border-radius: 0;
+                border: 0;
+                background: var(--mobile-shell-bg);
+                box-shadow: none;
+                overflow: hidden;
+                transform: translateZ(0);
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+
+            .mobile-top-shell-grain {
+                position: absolute;
+                inset: 0;
+                z-index: 0;
+                pointer-events: none;
+                opacity: 0.11;
+            }
+
+            .mobile-top-shell-grain canvas {
+                display: block;
+                width: 100%;
+                height: 100%;
+                image-rendering: pixelated;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .mobile-top-shell-grain {
+                    opacity: 0.07;
+                }
+            }
+
+            body.has-overlay-open .mobile-top-shell {
+                display: none;
             }
 
             .mobile-page-sheet {
@@ -2063,8 +2033,8 @@
             }
 
             .mobile-top-bar .site-brand--chrome img {
-                height: 2.05rem;
-                max-width: 9.5rem;
+                height: 2.15rem;
+                max-width: 10rem;
             }
 
             .mobile-chrome {
@@ -2329,7 +2299,7 @@
             align-items: center;
             gap: 0.2rem;
             border-radius: 9999px;
-            border: 1px solid var(--mobile-glass-border, rgba(255, 255, 255, 0.28));
+            border: 0;
             background-color: var(--mobile-glass-fill, rgba(18, 18, 18, 0.38));
             background-image: var(--mobile-glass-bg, none);
             -webkit-backdrop-filter: var(--mobile-glass-blur, blur(20px) saturate(1.5));
@@ -2359,8 +2329,8 @@
         .expert-sticky-toggle-btn {
             position: relative;
             flex: 0 0 auto;
-            width: calc(var(--mobile-chrome-size) - 0.4rem);
-            height: calc(var(--mobile-chrome-size) - 0.4rem);
+            width: calc(var(--mobile-chrome-size) - 0.25rem);
+            height: calc(var(--mobile-chrome-size) - 0.25rem);
             padding: 0;
             border: 2px solid transparent;
             border-radius: 9999px;
@@ -2385,10 +2355,6 @@
             border-color: #64cefb;
             opacity: 1;
             box-shadow: 0 0 0 1px rgba(100, 206, 251, 0.35);
-        }
-
-        .expert-sticky-toggle-btn:hover {
-            opacity: 1;
         }
 
         .expert-sticky-toggle-btn:active {
@@ -2457,10 +2423,6 @@
             transition: color 0.15s ease;
         }
 
-        .cookie-banner-text a:hover {
-            color: #8ddcf9;
-        }
-
         .cookie-banner-actions {
             display: flex;
             flex-direction: row;
@@ -2496,20 +2458,12 @@
             box-shadow: none;
         }
 
-        .cookie-btn-accept:hover {
-            background: #4cb8e5;
-        }
-
         .cookie-btn-decline {
             border: 1px solid rgba(255, 255, 255, 0.28);
             background: rgba(255, 255, 255, 0.06);
             color: #fff;
         }
 
-        .cookie-btn-decline:hover {
-            border-color: rgba(255, 255, 255, 0.45);
-            background: rgba(255, 255, 255, 0.1);
-        }
 
         @media (min-width: 768px) {
             #cookie-banner {
@@ -2575,10 +2529,6 @@
             transition: color 0.15s ease;
         }
 
-        .site-footer-nav a:hover {
-            color: #64cefb;
-        }
-
         .hero-cta-row {
             display: flex;
             flex-direction: row;
@@ -2613,10 +2563,6 @@
             color: #001f2a;
         }
 
-        .hero-cta-primary:hover {
-            background: #4cb8e5;
-        }
-
         .hero-cta-secondary {
             flex: 0 0 auto;
             border: 1px solid rgba(255, 255, 255, 0.28);
@@ -2624,11 +2570,6 @@
             color: #fff;
             padding-left: 1.15rem;
             padding-right: 1.15rem;
-        }
-
-        .hero-cta-secondary:hover {
-            border-color: rgba(255, 255, 255, 0.45);
-            background: rgba(255, 255, 255, 0.1);
         }
 
         .hero-cta-primary:active,
@@ -2657,7 +2598,7 @@
         .sections-overlay {
             position: fixed;
             inset: 0;
-            z-index: 80;
+            z-index: 85;
             display: flex;
             flex-direction: column;
             align-items: stretch;
@@ -2669,7 +2610,7 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.25s ease, visibility 0.25s ease;
+            transition: none;
         }
 
         .sections-overlay.is-open {
@@ -2685,27 +2626,24 @@
             overflow: auto;
             border-radius: 0;
             border: 0;
-            background:
-                radial-gradient(ellipse 70% 45% at 15% 0%, rgba(100, 206, 251, 0.12), transparent 55%),
-                radial-gradient(ellipse 50% 40% at 90% 100%, rgba(100, 206, 251, 0.08), transparent 50%),
-                #050505;
+            background: #141414;
             padding:
                 max(1.25rem, env(safe-area-inset-top))
                 max(1.5rem, env(safe-area-inset-right))
                 max(0.85rem, env(safe-area-inset-bottom))
                 max(1.5rem, env(safe-area-inset-left));
             box-shadow: none;
-            transform: translate3d(0, 0.75rem, 0);
+            transform: none;
             transform-origin: center center;
-            opacity: 0;
-            transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
+            opacity: 1;
+            transition: none;
             display: flex;
             flex-direction: column;
             position: relative;
         }
 
         .sections-overlay.is-open .sections-overlay-panel {
-            transform: translate3d(0, 0, 0);
+            transform: none;
             opacity: 1;
         }
 
@@ -2750,9 +2688,6 @@
             transition: color 0.15s ease;
         }
 
-        .sections-overlay-link:hover {
-            color: #64cefb;
-        }
 
         .menu-nav-chip {
             flex-shrink: 0;
@@ -2820,21 +2755,13 @@
             transition: background-color 0.15s ease, transform 0.12s ease;
         }
 
-        .sections-overlay-cta:hover {
-            background: #4cb8e5;
-        }
-
         .sections-overlay-cta:active {
             transform: scale(0.98);
         }
 
         @media (max-width: 767.98px) {
             .sections-overlay {
-                inset: auto;
-                top: var(--mobile-chrome-bar-height);
-                left: 0;
-                right: 0;
-                bottom: 0;
+                inset: 0;
                 background: transparent;
                 -webkit-backdrop-filter: none;
                 backdrop-filter: none;
@@ -2843,18 +2770,14 @@
             .sections-overlay-panel {
                 height: 100%;
                 padding:
-                    0.85rem
+                    var(--mobile-chrome-bar-height)
                     max(var(--mobile-chrome-side), env(safe-area-inset-right))
-                    max(0.85rem, env(safe-area-inset-bottom))
+                    max(1rem, env(safe-area-inset-bottom))
                     max(var(--mobile-chrome-side), env(safe-area-inset-left));
-                border-radius: var(--mobile-chrome-float-radius) var(--mobile-chrome-float-radius) 0 0;
-                background:
-                    radial-gradient(ellipse 75% 48% at 12% 0%, rgba(100, 206, 251, 0.2), transparent 56%),
-                    radial-gradient(ellipse 55% 45% at 95% 100%, rgba(100, 206, 251, 0.1), transparent 52%),
-                    linear-gradient(155deg, rgba(54, 62, 68, 0.96), rgba(15, 19, 22, 0.96) 48%),
-                    var(--mobile-menu-fill);
-                -webkit-backdrop-filter: blur(24px) saturate(1.25);
-                backdrop-filter: blur(24px) saturate(1.25);
+                border-radius: 0;
+                background: transparent;
+                -webkit-backdrop-filter: none;
+                backdrop-filter: none;
                 box-shadow: none;
                 transform: none;
                 opacity: 1;
@@ -2866,7 +2789,7 @@
             }
 
             .sections-overlay-panel nav {
-                padding-top: 0.85rem;
+                padding-top: 0.25rem;
             }
 
             .sections-overlay-link {
@@ -2929,10 +2852,6 @@
             text-transform: uppercase;
             cursor: pointer;
             transition: color 0.2s ease, background 0.2s ease;
-        }
-
-        .section-chip:hover {
-            color: #fff;
         }
 
         .section-chip.chip-active {
@@ -3121,10 +3040,6 @@
             text-decoration: none;
         }
 
-        .track-card-title a:hover {
-            color: #8ddcf9;
-        }
-
         .track-card-text {
             margin: 0.5rem 0 0;
             font-size: var(--copy-size);
@@ -3252,20 +3167,8 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        .track-more:hover {
-            border-color: rgba(255, 255, 255, 0.45);
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-
         .track-card {
             cursor: pointer;
-            transition: background-color 0.2s ease, border-color 0.2s ease;
-        }
-
-        .track-card:hover {
-            border-color: rgba(255, 255, 255, 0.12);
-            background: rgba(35, 35, 35, 0.72);
         }
 
         .track-card.is-expand-source {
@@ -3326,10 +3229,6 @@
             transition: background-color 0.2s ease;
         }
 
-        .track-detail-cta:hover {
-            background: #4cb8e5;
-            color: #001f2a;
-        }
 
         .track-expand {
             position: fixed;
@@ -3445,13 +3344,14 @@
 
         .track-expand-head {
             display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
+            flex-direction: column;
+            align-items: stretch;
             gap: 1rem;
         }
 
         .track-expand-copy {
             min-width: 0;
+            width: 100%;
             flex: 1 1 auto;
         }
 
@@ -3495,6 +3395,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            align-self: stretch;
             border-radius: 9999px;
             border: 0;
             background: #64cefb;
@@ -3508,8 +3409,16 @@
             white-space: nowrap;
         }
 
-        .track-expand-cta:hover {
-            background: #4cb8e5;
+        @media (min-width: 768px) {
+            .track-expand-head {
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: space-between;
+            }
+
+            .track-expand-cta {
+                align-self: flex-start;
+            }
         }
 
         .track-expand-content {
@@ -4262,11 +4171,6 @@
             object-fit: cover;
         }
 
-        .expert-story-contact:hover {
-            transform: scale(1.06);
-            opacity: 0.92;
-        }
-
         .expert-story-contact:active {
             transform: scale(0.96);
         }
@@ -4959,7 +4863,9 @@
 </defs>
 </svg>
 <!-- Mobile + desktop top chrome -->
-<div class="mobile-top-shell" aria-hidden="true"></div>
+<div class="mobile-top-shell" aria-hidden="true">
+<div class="mobile-top-shell-grain" id="mobile-shell-grain"></div>
+</div>
 <div class="mobile-top-bar">
 <a href="#hero" class="site-brand site-brand--chrome" aria-label="Grow Career — на главную">
 <img src="assets/grow-career.png" alt="Grow Career" width="140" height="46" decoding="async"/>
@@ -5053,7 +4959,7 @@
 </div>
 <div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Согласие на использование cookie" aria-hidden="true">
 <div class="cookie-banner-inner">
-<p class="cookie-banner-text">Мы используем необходимые технические данные для работы сайта. Аналитика (например, Яндекс.Метрика) подключается только с твоего согласия. <a href="privacy-policy.html">Политика конфиденциальности</a></p>
+<p class="cookie-banner-text">Мы используем необходимые технические данные для работы сайта. Аналитика (например, Яндекс.Метрика) подключается только с твоего согласия. <a href="https://disk.yandex.ru/i/kYCiK3Ll67SOq9mufJcgRiPegnqahzm72s0qoIz-cKg6X2hQTmxSX1VjQQ" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a></p>
 <div class="cookie-banner-actions">
 <button type="button" class="cookie-btn cookie-btn-decline" id="cookie-decline">Не соглашаюсь</button>
 <button type="button" class="cookie-btn cookie-btn-accept" id="cookie-accept">Соглашаюсь</button>
@@ -5286,7 +5192,7 @@
 <a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="expert-story-contact" aria-label="Telegram">
 <img src="assets/telegram.png" alt="" width="40" height="40" loading="lazy" decoding="async"/>
 </a>
-<a href="https://www.linkedin.com/in/koolesoo" target="_blank" rel="noopener noreferrer" class="expert-story-contact" aria-label="LinkedIn">
+<a href="https://www.linkedin.com/in/anastasia-neradovskikh-8bb220231/" target="_blank" rel="noopener noreferrer" class="expert-story-contact" aria-label="LinkedIn">
 <img src="assets/linkedin.png" alt="" width="40" height="40" loading="lazy" decoding="async"/>
 </a>
 </div>
@@ -5821,9 +5727,8 @@
 <a href="https://t.me/grow_career_bot?start=guide" target="_blank" rel="noopener noreferrer" class="guide-cta">
 <span>Получить гайд</span>
 </a>
-<span class="guide-sticker">бесплатно</span>
 </div>
-<p class="guide-legal">Отправим PDF-гайд в Telegram. Нажимая кнопку, ты даёшь <a href="personal-data-consent.html">согласие на обработку персональных данных</a> и принимаешь <a href="privacy-policy.html">Политику конфиденциальности</a>.</p>
+<p class="guide-legal">Нажимая кнопку, ты даёшь <a href="https://disk.yandex.ru/edit/disk/disk%2FСогласие%20на%20обработку%20персональных%20данных.docx" target="_blank" rel="noopener noreferrer">согласие на обработку персональных данных</a> и принимаешь <a href="https://disk.yandex.ru/i/kYCiK3Ll67SOq9mufJcgRiPegnqahzm72s0qoIz-cKg6X2hQTmxSX1VjQQ" target="_blank" rel="noopener noreferrer">Политику конфиденциальности</a>.</p>
 </div>
 </div>
 </div>
@@ -6069,9 +5974,9 @@
 <footer class="site-footer page-gutter" aria-label="Юридическая информация">
 <div class="mx-auto max-w-7xl">
 <nav class="site-footer-nav" aria-label="Документы">
-<a href="offer.html">Оферта</a>
-<a href="privacy-policy.html">Политика конфиденциальности</a>
-<a href="personal-data-consent.html">Согласие на обработку персональных данных</a>
+<a href="https://disk.yandex.ru/i/lu4-AgyzENm0nw" target="_blank" rel="noopener noreferrer">Оферта</a>
+<a href="https://disk.yandex.ru/i/kYCiK3Ll67SOq9mufJcgRiPegnqahzm72s0qoIz-cKg6X2hQTmxSX1VjQQ" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a>
+<a href="https://disk.yandex.ru/edit/disk/disk%2FСогласие%20на%20обработку%20персональных%20данных.docx" target="_blank" rel="noopener noreferrer">Согласие на обработку персональных данных</a>
 </nav>
 </div>
 </footer>
@@ -6441,15 +6346,24 @@
         })();
 
         (function initPageGrain() {
-            const host = document.getElementById('page-grain');
-            if (!host) return;
+            const hosts = [
+                document.getElementById('page-grain'),
+                document.getElementById('mobile-shell-grain'),
+            ].filter(Boolean);
+            if (!hosts.length) return;
 
             const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-            const canvas = document.createElement('canvas');
-            host.appendChild(canvas);
+            const layers = hosts.map((host) => {
+                const canvas = document.createElement('canvas');
+                host.appendChild(canvas);
+                return {
+                    host,
+                    canvas,
+                    ctx: canvas.getContext('2d', { alpha: true }),
+                };
+            }).filter((layer) => layer.ctx);
 
-            const ctx = canvas.getContext('2d', { alpha: true });
-            if (!ctx) return;
+            if (!layers.length) return;
 
             let size = window.innerWidth < 768 ? 128 : 200;
             let rafId = 0;
@@ -6462,12 +6376,14 @@
 
             function resize() {
                 size = grainSize();
-                canvas.width = size;
-                canvas.height = size;
+                layers.forEach(({ canvas }) => {
+                    canvas.width = size;
+                    canvas.height = size;
+                });
             }
 
             function paint() {
-                const imageData = ctx.createImageData(size, size);
+                const imageData = layers[0].ctx.createImageData(size, size);
                 const buf = imageData.data;
                 for (let i = 0; i < buf.length; i += 4) {
                     const shade = (Math.random() * 255) | 0;
@@ -6476,7 +6392,9 @@
                     buf[i + 2] = shade;
                     buf[i + 3] = 18;
                 }
-                ctx.putImageData(imageData, 0, 0);
+                layers.forEach(({ ctx }) => {
+                    ctx.putImageData(imageData, 0, 0);
+                });
             }
 
             function loop(ts) {
@@ -6519,11 +6437,11 @@
 
         (function initLogoMarquees() {
             const LOGO_PX_PER_SEC = 40;
-            const MARQUEE_ASSET_VERSION = '20260821193';
+            const MARQUEE_ASSET_VERSION = '202608240113';
 
             const EXPERT_MARQUEE_LOGOS = {
                 nastya: [
-                    { file: 'logo-alfa2.png', alt: 'Альфа-Банк' },
+                    { file: 'logo-alfa2.png', alt: 'Альфа-Банк', wide: true },
                     { file: 'logo-hse2.png', alt: 'ВШЭ' },
                     { file: 'logo-cu2.png', alt: 'Центральный университет', wide: true, invert: true },
                     { file: 'logo-ranepa2.png', alt: 'РАНХиГС' },
@@ -6537,7 +6455,7 @@
             };
 
             const PLACEMENTS_LOGOS = [
-                { file: 'logo-alfa2.png', alt: 'Альфа-Банк' },
+                { file: 'logo-alfa2.png', alt: 'Альфа-Банк', wide: true },
                 { file: 'logo-sber.png', alt: 'Сбер' },
                 { file: 'logo-tbank.png', alt: 'Т-Банк' },
                 { file: 'logo-ozon.png', alt: 'Ozon' },
