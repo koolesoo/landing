@@ -1293,7 +1293,10 @@
         @media (max-width: 767.98px) {
             #hero {
                 overflow: hidden;
+                min-height: 100vh;
                 min-height: 100svh;
+                min-height: 100dvh;
+                padding-top: 0 !important;
                 padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
             }
 
@@ -1494,10 +1497,10 @@
         }
 
         .faq-item {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border: 0;
         }
 
-        .faq-item:first-child {
+        .faq-item + .faq-item {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -1520,8 +1523,7 @@
         }
 
         .faq-trigger[aria-expanded="true"] + .faq-panel > p {
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 1.15rem;
+            padding-top: 0.35rem;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1605,6 +1607,9 @@
             position: absolute;
             inset: 0;
             height: fit-content;
+            background-color: #1b1b1b;
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
             --stack-i: 0;
             transform:
                 translate3d(calc(var(--stack-i) * 14px), calc(var(--stack-i) * 16px), 0)
@@ -1972,7 +1977,10 @@
                 background: var(--mobile-shell-bg);
                 box-shadow: none;
                 overflow: hidden;
-                transform: translateZ(0);
+                transform: translate3d(0, -110%, 0);
+                opacity: 0;
+                visibility: hidden;
+                transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease, visibility 0.22s ease;
                 -webkit-backface-visibility: hidden;
                 backface-visibility: hidden;
             }
@@ -2002,6 +2010,14 @@
                 display: none;
             }
 
+            body.mobile-chrome-visible .mobile-top-shell,
+            body.mobile-chrome-visible .mobile-top-bar,
+            body.has-overlay-open .mobile-top-bar {
+                transform: translate3d(0, 0, 0);
+                opacity: 1;
+                visibility: visible;
+            }
+
             .mobile-page-sheet {
                 display: block;
                 position: relative;
@@ -2020,6 +2036,10 @@
                 justify-content: space-between;
                 gap: 0.75rem;
                 pointer-events: none;
+                transform: translate3d(0, -110%, 0);
+                opacity: 0;
+                visibility: hidden;
+                transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease, visibility 0.22s ease;
             }
 
             .mobile-top-bar > * {
@@ -2078,15 +2098,12 @@
                 pointer-events: auto;
                 transform: none;
             }
+        }
 
-            #hero {
-                padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
-                padding-top: var(--mobile-chrome-bar-height) !important;
-                min-height: calc(100svh - var(--mobile-chrome-bar-height));
-            }
-
-            #hero-mid {
-                bottom: max(1rem, env(safe-area-inset-bottom));
+        @media (max-width: 767.98px) and (prefers-reduced-motion: reduce) {
+            .mobile-top-shell,
+            .mobile-top-bar {
+                transition: none;
             }
         }
 
@@ -5043,25 +5060,25 @@
 <div class="relative">
 <section class="page-gutter relative py-12 md:py-16" id="audience" aria-labelledby="audience-heading">
 <div class="mx-auto max-w-7xl">
-<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="audience-heading">Ты точно в нужном месте, если…</h2>
+<h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="audience-heading">Ты в нужном месте, если…</h2>
 <div data-global-expert-panel="nastya">
 <div data-audience-stack>
 <div class="audience-stack" aria-live="polite" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации – свайп влево или вправо">
-<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="trending_up" aria-hidden="true">trending_up</span>
 </div>
 <h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь быстро и осознанно расти в карьере</h3>
 <p class="mt-2 text-base leading-relaxed text-white/75">Нужен понятный вектор: куда двигаться, какие шаги дадут результат и как не тратить месяцы на хаотичный поиск</p>
 </article>
-<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="description" aria-hidden="true">description</span>
 </div>
 <h3 class="mt-4 text-lg font-bold tracking-tight">Нужно усилить резюме и пройти интервью</h3>
 <p class="mt-2 text-base leading-relaxed text-white/75">Хочешь переупаковать опыт, пройти мок-интервью и получить конкретные правки по резюме, LinkedIn и ответам на собеседовании</p>
 </article>
-<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="school" aria-hidden="true">school</span>
 </div>
@@ -5083,42 +5100,42 @@
 <div data-global-expert-panel="danya" hidden>
 <div data-audience-stack>
 <div class="audience-stack" aria-live="polite" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации – свайп влево или вправо">
-<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="flag" aria-hidden="true">flag</span>
 </div>
 <h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь начать карьеру, но не знаешь с чего</h3>
 <p class="mt-2 text-base leading-relaxed text-white/75">Разберём первые шаги: куда смотреть, как искать и как выстроить процесс без хаоса</p>
 </article>
-<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="emoji_events" aria-hidden="true">emoji_events</span>
 </div>
 <h3 class="mt-4 text-lg font-bold tracking-tight">Планируешь участвовать в кейс-чемпионатах</h3>
 <p class="mt-2 text-base leading-relaxed text-white/75">Помогу упаковать кейс, подготовиться к отбору и пройти путь от заявки до финала</p>
 </article>
-<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="school" aria-hidden="true">school</span>
 </div>
 <h3 class="mt-4 text-lg font-bold tracking-tight">Мечтаешь зайти в продакт-менеджмент</h3>
 <p class="mt-2 text-base leading-relaxed text-white/75">Покажу, как упаковать опыт, подтянуть навыки и сделать сильный вход в продукт</p>
 </article>
-<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="psychology" aria-hidden="true">psychology</span>
 </div>
 <h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь подтянуть продуктовые навыки</h3>
 <p class="mt-2 text-base leading-relaxed text-white/75">Разберём гипотезы, метрики, CustDev и то, что реально спрашивают на продуктовых ролях</p>
 </article>
-<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="record_voice_over" aria-hidden="true">record_voice_over</span>
 </div>
 <h3 class="mt-4 text-lg font-bold tracking-tight">Готовишься к собеседованиям</h3>
 <p class="mt-2 text-base leading-relaxed text-white/75">Отработаем ответы, кейсы и типовые вопросы – чтобы чувствовать себя увереннее на интервью</p>
 </article>
-<article class="audience-card rounded-xl border border-white/5 bg-surface-container-low p-5 backdrop-blur-md md:p-6" data-audience-card>
+<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
 <div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
 <span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="filter_alt" aria-hidden="true">filter_alt</span>
 </div>
@@ -5363,23 +5380,23 @@
 <ol class="expert-story-timeline-list">
 <li class="expert-story-step" data-timeline-step>
 <span class="expert-story-step-marker" aria-hidden="true">1</span>
-<p class="expert-story-step-title" aria-hidden="true">01</p>
-<div class="expert-story-step-body">
-<p class="expert-story-step-label">Альфа-Будущее</p>
-<p class="expert-story-step-text">Ex product owner @ «Альфа-Будущее»</p>
-</div>
-</li>
-<li class="expert-story-step" data-timeline-step>
-<span class="expert-story-step-marker" aria-hidden="true">2</span>
-<p class="expert-story-step-title" aria-hidden="true">02</p>
+<p class="expert-story-step-title">Лето 2024</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Alfa Case Camp</p>
 <p class="expert-story-step-text">Победитель Alfa Case Camp 2024 – крупнейшего кейс-чемпионата Альфа-Банка × Changellenge</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
+<span class="expert-story-step-marker" aria-hidden="true">2</span>
+<p class="expert-story-step-title">Весна 2025</p>
+<div class="expert-story-step-body">
+<p class="expert-story-step-label">Альфа-Будущее</p>
+<p class="expert-story-step-text">Ex product owner @ «Альфа-Будущее»</p>
+</div>
+</li>
+<li class="expert-story-step" data-timeline-step>
 <span class="expert-story-step-marker" aria-hidden="true">3</span>
-<p class="expert-story-step-title" aria-hidden="true">03</p>
+<p class="expert-story-step-title">Весна 2026</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Product Manager</p>
 <p class="expert-story-step-text">Менеджер по развитию продукта в Альфа-Банке</p>
@@ -5387,7 +5404,7 @@
 </li>
 <li class="expert-story-step" data-timeline-step>
 <span class="expert-story-step-marker" aria-hidden="true">4</span>
-<p class="expert-story-step-title" aria-hidden="true">04</p>
+<p class="expert-story-step-title">Осень 2026</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">4 оффера</p>
 <p class="expert-story-step-text">Получил 4 оффера после стажировки в Альфа-Банке</p>
@@ -5507,7 +5524,7 @@
 <article class="track-card">
 <h3 class="track-card-title">Диагностика</h3>
 <p class="track-card-text">Смотрим твою точку А, выбираем подходящие направления и позиции и определяем первые шаги</p>
-<p class="track-card-price">5 000 ₽</p>
+<p class="track-card-price">6 000 ₽</p>
 <p class="track-card-meta">1 час · онлайн</p>
 <button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-nastya-diagnostics">Подробнее</button>
 <div class="track-detail" id="track-detail-nastya-diagnostics" hidden>
@@ -7040,6 +7057,12 @@
                 };
 
                 function varCurtainBottom() {
+                    if (
+                        !document.body.classList.contains('mobile-chrome-visible')
+                        && !document.body.classList.contains('has-overlay-open')
+                    ) {
+                        return 0;
+                    }
                     const curtain = document.querySelector('.mobile-top-shell');
                     if (!curtain) return 0;
                     return curtain.getBoundingClientRect().bottom;
@@ -7320,6 +7343,32 @@
             });
         })();
 
+        (function initMobileChromeReveal() {
+            const mobileMq = window.matchMedia('(max-width: 767.98px)');
+            const threshold = 28;
+
+            function syncMobileChrome() {
+                if (!mobileMq.matches) {
+                    document.body.classList.remove('mobile-chrome-visible');
+                    return;
+                }
+                if (document.body.classList.contains('has-overlay-open')) {
+                    document.body.classList.add('mobile-chrome-visible');
+                    return;
+                }
+                document.body.classList.toggle('mobile-chrome-visible', window.scrollY > threshold);
+            }
+
+            window.addEventListener('scroll', syncMobileChrome, { passive: true });
+            window.addEventListener('resize', syncMobileChrome, { passive: true });
+            if (typeof mobileMq.addEventListener === 'function') {
+                mobileMq.addEventListener('change', syncMobileChrome);
+            } else if (typeof mobileMq.addListener === 'function') {
+                mobileMq.addListener(syncMobileChrome);
+            }
+            syncMobileChrome();
+        })();
+
         (function initOverlaysAndConsult() {
             const menuBtn = document.getElementById('mobile-menu-btn');
             const sectionsOverlay = document.getElementById('sections-overlay');
@@ -7343,12 +7392,17 @@
             function lockScroll() {
                 overlayCount += 1;
                 document.body.classList.add('has-overlay-open');
+                document.body.classList.add('mobile-chrome-visible');
             }
 
             function unlockScroll() {
                 overlayCount = Math.max(0, overlayCount - 1);
                 if (overlayCount === 0) {
                     document.body.classList.remove('has-overlay-open');
+                    const mobileMq = window.matchMedia('(max-width: 767.98px)');
+                    if (mobileMq.matches && window.scrollY <= 28) {
+                        document.body.classList.remove('mobile-chrome-visible');
+                    }
                 }
             }
 
