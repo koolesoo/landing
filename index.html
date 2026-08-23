@@ -3,7 +3,7 @@
 <html class="dark" lang="ru"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" name="viewport"/>
-<title>Настя Нерадовских – карьера в IT, консультации и менторство</title>
+<title>Твои менторы в IT</title>
 <meta name="description" content="CPO Альфа-Банка. Консультации по входу в IT и карьере, менторство, разбор резюме. Суперфиналистка «Лидеров России», основатель стартапа WID."/>
 <meta name="theme-color" content="#1a1a1a"/>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"/>
@@ -515,7 +515,84 @@
         }
 
         #site-header {
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(98vw, 56rem);
+            max-width: min(98vw, 56rem);
             overflow: visible;
+        }
+
+        .site-brand {
+            display: inline-flex;
+            align-items: center;
+            flex-shrink: 0;
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .site-brand img {
+            display: block;
+            width: auto;
+            max-width: 9.5rem;
+            height: 1.95rem;
+            object-fit: contain;
+        }
+
+        .site-brand--chrome {
+            flex-shrink: 0;
+        }
+
+        .site-brand--desk {
+            position: absolute;
+            left: var(--top-bar-inset);
+            top: 50%;
+            transform: translateY(-50%);
+            flex-shrink: 0;
+            display: none;
+            z-index: 1;
+        }
+
+        .site-brand--desk img {
+            height: 2.15rem;
+            max-width: 10.5rem;
+        }
+
+        .site-top-bar {
+            position: fixed;
+            top: 2rem;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            display: none;
+            pointer-events: none;
+        }
+
+        .site-top-bar > * {
+            pointer-events: auto;
+        }
+
+        .sections-overlay-brand {
+            display: inline-flex;
+            margin-bottom: 1.25rem;
+        }
+
+        .sections-overlay-brand img {
+            height: 2.1rem;
+        }
+
+        @media (min-width: 768px) {
+            .site-brand--chrome {
+                display: none;
+            }
+
+            .site-brand--desk {
+                display: inline-flex;
+            }
+
+            .site-top-bar {
+                display: block;
+            }
         }
 
         #site-header .site-nav {
@@ -1864,12 +1941,18 @@
         /* –– Mobile chrome: menu, sticky CTA, overlays –– */
         :root {
             --mobile-chrome-top: max(0.75rem, env(safe-area-inset-top));
-            --mobile-chrome-side: 0.75rem;
+            --mobile-chrome-side: max(1.25rem, env(safe-area-inset-left));
             --mobile-chrome-size: 2.5rem;
+            --site-brand-chrome-width: 4.75rem;
+            --top-bar-inset: max(1.25rem, env(safe-area-inset-left));
         }
 
         body.has-overlay-open {
             overflow: hidden;
+        }
+
+        .mobile-top-bar {
+            display: none;
         }
 
         .mobile-chrome {
@@ -1885,8 +1968,27 @@
                 scroll-padding-top: 4.5rem;
             }
 
+            .mobile-top-bar {
+                display: flex;
+                position: fixed;
+                top: var(--mobile-chrome-top);
+                left: var(--mobile-chrome-side);
+                right: max(1.25rem, env(safe-area-inset-right));
+                z-index: 90;
+                align-items: center;
+                justify-content: space-between;
+                gap: var(--mobile-chrome-side);
+                pointer-events: none;
+            }
+
+            .mobile-top-bar > * {
+                pointer-events: auto;
+            }
+
             .mobile-chrome {
-                display: block;
+                display: flex;
+                align-items: center;
+                flex-shrink: 0;
             }
 
             #hero {
@@ -1905,10 +2007,9 @@
         }
 
         .mobile-menu-toggle {
-            position: fixed;
-            top: var(--mobile-chrome-top);
-            right: max(var(--mobile-chrome-side), env(safe-area-inset-right));
-            z-index: 90;
+            position: relative;
+            top: auto;
+            right: auto;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -2086,8 +2187,8 @@
 
         .expert-sticky-toggle:not(.expert-sticky-toggle--desk) {
             position: fixed;
-            top: var(--mobile-chrome-top);
-            left: max(var(--mobile-chrome-side), env(safe-area-inset-left));
+            top: calc(var(--mobile-chrome-top) + var(--mobile-chrome-size) + 0.55rem);
+            left: var(--mobile-chrome-side);
             z-index: 58;
             box-sizing: border-box;
             display: inline-flex;
@@ -2184,12 +2285,8 @@
             padding: 1rem 1.1rem;
             border-radius: 1.25rem;
             border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(8, 12, 16, 0.88);
-            -webkit-backdrop-filter: blur(18px) saturate(1.2);
-            backdrop-filter: blur(18px) saturate(1.2);
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.08),
-                0 16px 40px rgba(0, 0, 0, 0.45);
+            background: rgba(8, 12, 16, 0.96);
+            box-shadow: none;
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
@@ -2267,7 +2364,7 @@
             border: 0;
             background: #64cefb;
             color: #001f2a;
-            box-shadow: 0 8px 22px rgba(100, 206, 251, 0.28);
+            box-shadow: none;
         }
 
         .cookie-btn-accept:hover {
@@ -2785,6 +2882,16 @@
             .track-cards[data-cols="3"] {
                 grid-template-columns: repeat(3, minmax(0, 1fr));
             }
+
+            .track-cards[data-cols="4"] {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .track-cards[data-cols="4"] {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
         }
 
         .track-card {
@@ -2809,7 +2916,8 @@
                 height: 100%;
             }
 
-            .track-cards[data-cols="3"] .track-card-price {
+            .track-cards[data-cols="3"] .track-card-price,
+            .track-cards[data-cols="4"] .track-card-price {
                 margin-top: auto;
             }
         }
@@ -4656,7 +4764,11 @@
 <filter id="squiggly-4"><feTurbulence baseFrequency="0.02" numOctaves="3" result="noise" seed="4"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="6"/></filter>
 </defs>
 </svg>
-<!-- Mobile menu (visible &lt; md via CSS) -->
+<!-- Mobile + desktop top chrome -->
+<div class="mobile-top-bar">
+<a href="#hero" class="site-brand site-brand--chrome" aria-label="Grow Career — на главную">
+<img src="assets/grow-career.png" alt="Grow Career" width="140" height="46" decoding="async"/>
+</a>
 <div class="mobile-chrome">
 <button type="button" id="mobile-menu-btn" class="mobile-menu-toggle" aria-haspopup="dialog" aria-controls="sections-overlay" aria-expanded="false" aria-label="Меню">
 <span class="material-symbols-outlined text-[18px]" data-icon="menu" aria-hidden="true">menu</span>
@@ -4665,78 +4777,12 @@
 <span class="material-symbols-outlined text-[18px]" data-icon="close" aria-hidden="true">close</span>
 </button>
 </div>
-<div id="sticky-consult-bar" class="sticky-consult-bar">
-<div id="expert-sticky-toggle" class="expert-sticky-toggle" role="group" aria-label="Выбор эксперта">
-<button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Настя Нерадовских">
-<img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
-</button>
-<button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Даня Колесниченко">
-<img src="assets/Danya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
-</button>
 </div>
-<div id="expert-sticky-toggle-desk" class="expert-sticky-toggle expert-sticky-toggle--desk" role="group" aria-label="Выбор эксперта">
-<button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Настя Нерадовских">
-<img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
-</button>
-<button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Даня Колесниченко">
-<img src="assets/Danya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
-</button>
-</div>
-<a href="https://t.me/grow_career_bot?start=book_nastya" target="_blank" rel="noopener noreferrer" id="sticky-consult-cta" data-contact-nastya="https://t.me/grow_career_bot?start=book_nastya" data-contact-danya="https://t.me/grow_career_bot?start=book_danya">Записаться</a>
-</div>
-<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Согласие на использование cookie" aria-hidden="true">
-<div class="cookie-banner-inner">
-<p class="cookie-banner-text">Мы используем необходимые технические данные для работы сайта. Аналитика (например, Яндекс.Метрика) подключается только с твоего согласия. <a href="privacy-policy.html">Политика конфиденциальности</a></p>
-<div class="cookie-banner-actions">
-<button type="button" class="cookie-btn cookie-btn-decline" id="cookie-decline">Не соглашаюсь</button>
-<button type="button" class="cookie-btn cookie-btn-accept" id="cookie-accept">Соглашаюсь</button>
-</div>
-</div>
-</div>
-<div id="sections-overlay" class="sections-overlay" role="dialog" aria-modal="true" aria-label="Навигация по сайту" aria-hidden="true">
-<div class="sections-overlay-panel" role="document">
-<nav class="flex flex-col" aria-label="Разделы">
-<a class="sections-overlay-link" href="#audience">Для кого</a>
-<a class="sections-overlay-link" href="#value">Что получишь</a>
-<a class="sections-overlay-link" href="#expert">Эксперты</a>
-<a class="sections-overlay-link" href="#curriculum">Услуги 🔥</a>
-<a class="sections-overlay-link" href="#guide"><span>Гайд по входу в IT 🔥</span><span class="menu-nav-chip">бесплатно</span></a>
-<a class="sections-overlay-link" href="#placements">Трудоустройство</a>
-<a class="sections-overlay-link" href="#reviews">Отзывы</a>
-<a class="sections-overlay-link" href="#faq">Вопросы</a>
-</nav>
-<a href="https://t.me/grow_career_bot?start=book_nastya" target="_blank" rel="noopener noreferrer" class="sections-overlay-cta" id="menu-contact-cta" data-contact-nastya="https://t.me/grow_career_bot?start=book_nastya" data-contact-danya="https://t.me/grow_career_bot?start=book_danya">Записаться</a>
-</div>
-</div>
-<div id="track-expand" class="track-expand" hidden aria-hidden="true">
-<div class="track-expand-backdrop" data-track-expand-close tabindex="-1" aria-hidden="true"></div>
-<button type="button" class="track-expand-close" data-track-expand-close aria-label="Закрыть">
-<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
-</button>
-<div class="track-expand-panel" role="dialog" aria-modal="true" aria-labelledby="track-expand-title" id="track-expand-panel">
-<div class="track-expand-body">
-<div class="track-expand-head">
-<div class="track-expand-copy">
-<h3 class="track-expand-title" id="track-expand-title"></h3>
-<p class="track-expand-text" id="track-expand-text"></p>
-<p class="track-expand-price" id="track-expand-price"></p>
-<p class="track-expand-meta" id="track-expand-meta"></p>
-</div>
-<a class="track-expand-cta" id="track-expand-cta" href="#" target="_blank" rel="noopener noreferrer">Записаться</a>
-</div>
-<div class="track-expand-content" id="track-expand-content"></div>
-</div>
-</div>
-</div>
-<!-- Global fullscreen video background -->
-<div class="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-black">
-<video id="bg-video" autoplay class="absolute inset-0 h-full w-full object-cover opacity-50" loop muted playsinline preload="auto" fetchpriority="low" disablePictureInPicture controlslist="nodownload nofullscreen noremoteplayback">
-<source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" type="video/mp4"/>
-</video>
-<div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/85"></div>
-</div>
-<!-- Sticky nav + scroll progress (desktop mega menu) -->
-<header id="site-header" class="fixed top-8 left-1/2 z-50 hidden w-full max-w-[min(98vw,56rem)] -translate-x-1/2 px-3 md:block">
+<div class="site-top-bar">
+<a href="#hero" class="site-brand site-brand--desk" aria-label="Grow Career — на главную">
+<img src="assets/grow-career.png" alt="Grow Career" width="156" height="52" decoding="async"/>
+</a>
+<header id="site-header">
 <nav class="site-nav relative flex w-full max-w-full flex-nowrap items-stretch rounded-full border border-white/10 bg-white/5 py-1 pl-2 pr-2 shadow-[0px_20px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl" aria-label="Основная навигация" data-desktop-nav>
 <div class="site-nav-track">
 <div class="nav-item" data-nav-key="audience">
@@ -4790,6 +4836,80 @@
 <a href="https://t.me/grow_career_bot?start=book_nastya" target="_blank" rel="noopener noreferrer" class="nav-book-cta" id="nav-contact-cta" data-contact-nastya="https://t.me/grow_career_bot?start=book_nastya" data-contact-danya="https://t.me/grow_career_bot?start=book_danya">Записаться</a>
 </nav>
 </header>
+</div>
+<div id="sticky-consult-bar" class="sticky-consult-bar">
+<div id="expert-sticky-toggle" class="expert-sticky-toggle" role="group" aria-label="Выбор эксперта">
+<button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Настя Нерадовских">
+<img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+</button>
+<button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Даня Колесниченко">
+<img src="assets/Danya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+</button>
+</div>
+<div id="expert-sticky-toggle-desk" class="expert-sticky-toggle expert-sticky-toggle--desk" role="group" aria-label="Выбор эксперта">
+<button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Настя Нерадовских">
+<img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+</button>
+<button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Даня Колесниченко">
+<img src="assets/Danya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+</button>
+</div>
+<a href="https://t.me/grow_career_bot?start=book_nastya" target="_blank" rel="noopener noreferrer" id="sticky-consult-cta" data-contact-nastya="https://t.me/grow_career_bot?start=book_nastya" data-contact-danya="https://t.me/grow_career_bot?start=book_danya">Записаться</a>
+</div>
+<div id="cookie-banner" role="dialog" aria-live="polite" aria-label="Согласие на использование cookie" aria-hidden="true">
+<div class="cookie-banner-inner">
+<p class="cookie-banner-text">Мы используем необходимые технические данные для работы сайта. Аналитика (например, Яндекс.Метрика) подключается только с твоего согласия. <a href="privacy-policy.html">Политика конфиденциальности</a></p>
+<div class="cookie-banner-actions">
+<button type="button" class="cookie-btn cookie-btn-decline" id="cookie-decline">Не соглашаюсь</button>
+<button type="button" class="cookie-btn cookie-btn-accept" id="cookie-accept">Соглашаюсь</button>
+</div>
+</div>
+</div>
+<div id="sections-overlay" class="sections-overlay" role="dialog" aria-modal="true" aria-label="Навигация по сайту" aria-hidden="true">
+<div class="sections-overlay-panel" role="document">
+<a href="#hero" class="site-brand sections-overlay-brand" aria-label="Grow Career — на главную">
+<img src="assets/grow-career.png" alt="Grow Career" width="140" height="46" decoding="async"/>
+</a>
+<nav class="flex flex-col" aria-label="Разделы">
+<a class="sections-overlay-link" href="#audience">Для кого</a>
+<a class="sections-overlay-link" href="#value">Что получишь</a>
+<a class="sections-overlay-link" href="#expert">Эксперты</a>
+<a class="sections-overlay-link" href="#curriculum">Услуги 🔥</a>
+<a class="sections-overlay-link" href="#guide"><span>Гайд по входу в IT 🔥</span><span class="menu-nav-chip">бесплатно</span></a>
+<a class="sections-overlay-link" href="#placements">Трудоустройство</a>
+<a class="sections-overlay-link" href="#reviews">Отзывы</a>
+<a class="sections-overlay-link" href="#faq">Вопросы</a>
+</nav>
+<a href="https://t.me/grow_career_bot?start=book_nastya" target="_blank" rel="noopener noreferrer" class="sections-overlay-cta" id="menu-contact-cta" data-contact-nastya="https://t.me/grow_career_bot?start=book_nastya" data-contact-danya="https://t.me/grow_career_bot?start=book_danya">Записаться</a>
+</div>
+</div>
+<div id="track-expand" class="track-expand" hidden aria-hidden="true">
+<div class="track-expand-backdrop" data-track-expand-close tabindex="-1" aria-hidden="true"></div>
+<button type="button" class="track-expand-close" data-track-expand-close aria-label="Закрыть">
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+</button>
+<div class="track-expand-panel" role="dialog" aria-modal="true" aria-labelledby="track-expand-title" id="track-expand-panel">
+<div class="track-expand-body">
+<div class="track-expand-head">
+<div class="track-expand-copy">
+<h3 class="track-expand-title" id="track-expand-title"></h3>
+<p class="track-expand-text" id="track-expand-text"></p>
+<p class="track-expand-price" id="track-expand-price"></p>
+<p class="track-expand-meta" id="track-expand-meta"></p>
+</div>
+<a class="track-expand-cta" id="track-expand-cta" href="#" target="_blank" rel="noopener noreferrer">Записаться</a>
+</div>
+<div class="track-expand-content" id="track-expand-content"></div>
+</div>
+</div>
+</div>
+<!-- Global fullscreen video background -->
+<div class="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-black">
+<video id="bg-video" autoplay class="absolute inset-0 h-full w-full object-cover opacity-50" loop muted playsinline preload="auto" fetchpriority="low" disablePictureInPicture controlslist="nodownload nofullscreen noremoteplayback">
+<source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" type="video/mp4"/>
+</video>
+<div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/85"></div>
+</div>
 <main class="relative z-10 flex min-h-screen flex-col overflow-x-hidden bg-black/40 pb-8 pt-8 backdrop-blur-xl md:pb-16 md:pt-32" id="hero">
 <!-- Speaker creative (временно статичный PNG вместо видео) -->
 <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden" id="hero-speaker-area">
@@ -5085,7 +5205,7 @@
 <div class="edu-card-icon"><img src="assets/marquee/logo-ranepa.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="edu-card-body">
 <p class="edu-card-name">РАНХиГС</p>
-<p class="edu-card-faculty">Магистратура «Международный менеджмент», ИБДА</p>
+<p class="edu-card-faculty">Магистратура «Международный менеджмент» (на английском языке), ИБДА</p>
 </div>
 </article>
 <article class="edu-card">
@@ -5285,21 +5405,21 @@
 </div>
 <div class="section-chip-panels">
 <div data-chip-panel="consult" class="is-active" role="tabpanel" id="services-panel-consult" aria-labelledby="services-tab-consult">
-<div class="track-cards" data-cols="3">
+<div class="track-cards" data-cols="4">
 <article class="track-card">
-<h3 class="track-card-title">Q&amp;A</h3>
-<p class="track-card-text">Ответы на вопросы по входу в IT: как начать поиск, куда обращаться и как выстроить процесс</p>
+<h3 class="track-card-title">Диагностика</h3>
+<p class="track-card-text">Смотрим твою точку А, выбираем подходящие направления и позиции и определяем первые шаги</p>
 <p class="track-card-price">5 000 ₽</p>
 <p class="track-card-meta">1 час · онлайн</p>
-<button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-nastya-qa">Подробнее</button>
-<div class="track-detail" id="track-detail-nastya-qa" hidden>
+<button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-nastya-diagnostics">Подробнее</button>
+<div class="track-detail" id="track-detail-nastya-diagnostics" hidden>
 <ul class="track-detail-list">
-<li><strong>Как начать поиск</strong>С чего стартовать, если хочешь зайти в IT или продукт.</li>
-<li><strong>Куда обращаться</strong>Какие каналы, компании и форматы отклика работают.</li>
-<li><strong>Как выстроить процесс</strong>Что делать по шагам, чтобы не хаотично метаться.</li>
+<li><strong>Точка А</strong>Разбираем текущую ситуацию, опыт и ограничения</li>
+<li><strong>Направления и позиции</strong>Выбираем, куда логичнее двигаться в IT и продукте</li>
+<li><strong>Первые шаги</strong>Определяем, с чего начать поиск и развитие</li>
 </ul>
-<p class="track-detail-note">Подойдёт, если хочешь разобраться с нуля или уточнить конкретные шаги</p>
-<a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_nastya_qa" target="_blank" rel="noopener noreferrer">Записаться</a>
+<p class="track-detail-note">Подойдёт, если хочешь понять, куда идти, прежде чем углубляться в стратегию или резюме</p>
+<a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_nastya_diagnostics" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
 <article class="track-card">
@@ -5337,6 +5457,22 @@
 <a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_nastya_resume" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
 </article>
+<article class="track-card">
+<h3 class="track-card-title">Q&amp;A</h3>
+<p class="track-card-text">Ответы на вопросы по входу в IT: как начать поиск, куда обращаться и как выстроить процесс</p>
+<p class="track-card-price">5 000 ₽</p>
+<p class="track-card-meta">1 час · онлайн</p>
+<button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-nastya-qa">Подробнее</button>
+<div class="track-detail" id="track-detail-nastya-qa" hidden>
+<ul class="track-detail-list">
+<li><strong>Как начать поиск</strong>С чего стартовать, если хочешь зайти в IT или продукт.</li>
+<li><strong>Куда обращаться</strong>Какие каналы, компании и форматы отклика работают.</li>
+<li><strong>Как выстроить процесс</strong>Что делать по шагам, чтобы не хаотично метаться.</li>
+</ul>
+<p class="track-detail-note">Подойдёт, если хочешь разобраться с нуля или уточнить конкретные шаги</p>
+<a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_nastya_qa" target="_blank" rel="noopener noreferrer">Записаться</a>
+</div>
+</article>
 </div>
 </div>
 <div data-chip-panel="mentor" role="tabpanel" id="services-panel-mentor" aria-labelledby="services-tab-mentor">
@@ -5347,7 +5483,7 @@
 <div class="track-card-extras">
 <p class="track-card-extras-label">Дополнительно для менти</p>
 <p class="track-card-extra">Стратегическая консультация <span class="track-card-price-badge">−50%</span> · 4 000 ₽</p>
-<p class="track-card-extra">Мок-интервью · 2 500 ₽</p>
+<p class="track-card-extra">Мок-интервью <span class="track-card-price-badge">−50%</span> · 2 500 ₽</p>
 </div>
 <p class="track-card-price track-card-price--stack">
 <span class="track-card-price-line">20 000 ₽ / месяц</span>
@@ -5362,7 +5498,7 @@
 <li><strong>Подготовка к интервью</strong>Разбор вопросов, кейсов и форматов отбора</li>
 <li><strong>Поддержка в чате</strong>Ответы между сессиями по ходу работы</li>
 <li><strong>Стратегическая консультация для менти</strong>−50% – 4 000 ₽</li>
-<li><strong>Мок-интервью</strong>2 500 ₽</li>
+<li><strong>Мок-интервью</strong>−50% – 2 500 ₽</li>
 </ul>
 <a class="track-detail-cta" href="https://t.me/grow_career_bot?start=book_nastya_mentor_1m" target="_blank" rel="noopener noreferrer">Записаться</a>
 </div>
@@ -5726,7 +5862,7 @@
 <span class="faq-icon-btn inline-flex h-8 w-8 shrink-0 self-center items-center justify-center text-[#64cefb]" aria-hidden="true"><span class="material-symbols-outlined text-[22px]" data-icon="expand_more">expand_more</span></span>
 </button>
 <div class="faq-panel hidden px-6 pb-6 pt-0 md:px-8 md:pb-7" id="faq-a-5" role="region" aria-labelledby="faq-q-5">
-<p class="text-base leading-relaxed text-white/75">Только онлайн</p>
+<p class="text-base leading-relaxed text-white/75">В онлайн-формате в Яндекс.Телемост. Можно подключиться к консультации с компьютера или ноутбука</p>
 </div>
 </div>
 </div>
@@ -7249,7 +7385,7 @@
                 sectionsOverlay.addEventListener('click', (event) => {
                     if (event.target === sectionsOverlay) closeOverlay(sectionsOverlay);
                 });
-                sectionsOverlay.querySelectorAll('.sections-overlay-link, .sections-overlay-cta').forEach((link) => {
+                sectionsOverlay.querySelectorAll('.sections-overlay-link, .sections-overlay-cta, .sections-overlay-brand, .site-brand--chrome, .site-brand--desk').forEach((link) => {
                     link.addEventListener('click', () => closeOverlay(sectionsOverlay));
                 });
             }

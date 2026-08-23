@@ -10,13 +10,21 @@ from pathlib import Path
 
 from aiohttp import web
 from dotenv import load_dotenv
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    KeyboardButton,
+    ReplyKeyboardMarkup,
+    Update,
+)
 from telegram.constants import ParseMode
 from telegram.ext import (
     Application,
     CallbackQueryHandler,
     CommandHandler,
     ContextTypes,
+    MessageHandler,
+    filters,
 )
 
 from guide_content import (
@@ -99,10 +107,19 @@ def init_db() -> None:
                 expert_name TEXT NOT NULL,
                 tariff_title TEXT NOT NULL,
                 tariff_price TEXT NOT NULL,
-                created_at TEXT NOT NULL
+                created_at TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'active'
             )
             """
         )
+        columns = {
+            row[1]
+            for row in conn.execute("PRAGMA table_info(bookings)").fetchall()
+        }
+        if "status" not in columns:
+            conn.execute(
+                "ALTER TABLE bookings ADD COLUMN status TEXT NOT NULL DEFAULT 'active'"
+            )
 
 
 def get_setting(key: str) -> str | None:
@@ -188,14 +205,14 @@ def save_booking(
     expert_name: str,
     tariff_title: str,
     tariff_price: str,
-) -> None:
+) -> int:
     with sqlite3.connect(DB_PATH) as conn:
-        conn.execute(
+        cur = conn.execute(
             """
             INSERT INTO bookings (
                 telegram_user_id, username, full_name,
-                expert_id, tariff_id, expert_name, tariff_title, tariff_price, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                expert_id, tariff_id, expert_name, tariff_title, tariff_price, created_at, status
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')
             """,
             (
                 user_id,
@@ -209,6 +226,7 @@ def save_booking(
                 utc_now(),
             ),
         )
+        return int(cur.lastrowid)
 
 
 def get_user_bookings(user_id: int, *, limit: int = 20) -> list[dict]:
@@ -216,15 +234,42 @@ def get_user_bookings(user_id: int, *, limit: int = 20) -> list[dict]:
         conn.row_factory = sqlite3.Row
         rows = conn.execute(
             """
-            SELECT expert_name, tariff_title, tariff_price, created_at
+            SELECT id, expert_name, tariff_title, tariff_price, created_at
             FROM bookings
-            WHERE telegram_user_id = ?
+            WHERE telegram_user_id = ? AND status = 'active'
             ORDER BY id DESC
             LIMIT ?
             """,
             (user_id, limit),
         ).fetchall()
         return [dict(row) for row in rows]
+
+
+def get_booking(booking_id: int, user_id: int) -> dict | None:
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.row_factory = sqlite3.Row
+        row = conn.execute(
+            """
+            SELECT id, expert_name, tariff_title, tariff_price, created_at, status
+            FROM bookings
+            WHERE id = ? AND telegram_user_id = ?
+            """,
+            (booking_id, user_id),
+        ).fetchone()
+        return dict(row) if row else None
+
+
+def cancel_booking(booking_id: int, user_id: int) -> dict | None:
+    booking = get_booking(booking_id, user_id)
+    if not booking or booking.get("status") != "active":
+        return None
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.execute(
+            "UPDATE bookings SET status = 'cancelled' WHERE id = ? AND telegram_user_id = ?",
+            (booking_id, user_id),
+        )
+    booking["status"] = "cancelled"
+    return booking
 
 
 def format_booking_date(iso: str) -> str:
@@ -238,13 +283,21 @@ def format_booking_date(iso: str) -> str:
         return iso
 
 
-def main_menu_keyboard() -> InlineKeyboardMarkup:
-    return InlineKeyboardMarkup(
+BTN_GUIDE = "📘 Получить гайд"
+BTN_BOOK = "🗓️ Записаться к ментору"
+BTN_BOOKINGS = "📋 Мои записи"
+
+
+def reply_menu_keyboard() -> ReplyKeyboardMarkup:
+    """Постоянная клавиатура под полем ввода."""
+    return ReplyKeyboardMarkup(
         [
-            [InlineKeyboardButton("📘 Получить гайд", callback_data="menu:guide")],
-            [InlineKeyboardButton("🗓️ Записаться к ментору", callback_data="book:start")],
-            [InlineKeyboardButton("📋 Мои записи", callback_data="menu:bookings")],
-        ]
+            [KeyboardButton(BTN_GUIDE)],
+            [KeyboardButton(BTN_BOOK)],
+            [KeyboardButton(BTN_BOOKINGS)],
+        ],
+        resize_keyboard=True,
+        is_persistent=True,
     )
 
 
@@ -279,7 +332,7 @@ def confirm_keyboard(expert_id: str, tariff_id: str) -> InlineKeyboardMarkup:
         [
             [
                 InlineKeyboardButton(
-                    "✅ Подтвердить запись",
+                    "✅ Подтвердить заявку",
                     callback_data=f"book:confirm:{expert_id}:{tariff_id}",
                 )
             ],
@@ -288,22 +341,19 @@ def confirm_keyboard(expert_id: str, tariff_id: str) -> InlineKeyboardMarkup:
     )
 
 
-def after_success_keyboard() -> InlineKeyboardMarkup:
-    return InlineKeyboardMarkup(
+def my_bookings_keyboard(bookings: list[dict]) -> InlineKeyboardMarkup | None:
+    if not bookings:
+        return None
+    rows = [
         [
-            [InlineKeyboardButton("📘 Получить гайд", callback_data="menu:guide")],
-            [InlineKeyboardButton("📋 Мои записи", callback_data="menu:bookings")],
+            InlineKeyboardButton(
+                f"❌ Отменить · {row['tariff_title']}",
+                callback_data=f"book:cancel:{row['id']}",
+            )
         ]
-    )
-
-
-def my_bookings_keyboard() -> InlineKeyboardMarkup:
-    return InlineKeyboardMarkup(
-        [
-            [InlineKeyboardButton("🗓️ Записаться к ментору", callback_data="book:start")],
-            [InlineKeyboardButton("« В меню", callback_data="menu:home")],
-        ]
-    )
+        for row in bookings
+    ]
+    return InlineKeyboardMarkup(rows)
 
 
 async def clear_message_buttons(query) -> None:
@@ -369,9 +419,6 @@ async def send_guide(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
             filename=GUIDE_FILENAME,
             caption=f"<b>{GUIDE_TITLE}</b>\n\n{GUIDE_CAPTION}",
             parse_mode=ParseMode.HTML,
-            reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton("🗓️ Записаться к ментору", callback_data="book:start")]]
-            ),
         )
 
     user_ref = format_user_ref(user.username, user.id, user.full_name)
@@ -495,7 +542,6 @@ async def complete_booking(
     await query.message.reply_text(
         success_text,
         parse_mode=ParseMode.HTML,
-        reply_markup=after_success_keyboard(),
     )
 
     user_ref = format_user_ref(user.username, user.id, user.full_name)
@@ -522,12 +568,13 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     payload = args[0].lower() if args else ""
 
     if payload.startswith("guide"):
-        await message.reply_text(WELCOME_FROM_SITE)
+        await message.reply_text(WELCOME_FROM_SITE, reply_markup=reply_menu_keyboard())
         await send_guide(update, context)
         return
 
     if payload.startswith("book_"):
         rest = payload.removeprefix("book_")
+        await message.reply_text(WELCOME_DEFAULT, reply_markup=reply_menu_keyboard())
         for expert_id in EXPERTS:
             if rest == expert_id:
                 await start_booking(update, context, expert_id=expert_id)
@@ -546,10 +593,11 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
         return
 
     if payload.startswith("book"):
+        await message.reply_text(WELCOME_DEFAULT, reply_markup=reply_menu_keyboard())
         await start_booking(update, context)
         return
 
-    await message.reply_text(WELCOME_DEFAULT, reply_markup=main_menu_keyboard())
+    await message.reply_text(WELCOME_DEFAULT, reply_markup=reply_menu_keyboard())
 
 
 async def guide_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -573,9 +621,10 @@ async def show_my_bookings(update: Update, *, edit: bool = False) -> None:
     if not bookings:
         text = (
             "📋 <b>Мои записи</b>\n\n"
-            "Пока нет подтверждённых заявок.\n"
+            "Пока нет активных заявок.\n"
             "Можешь записаться к ментору ниже."
         )
+        markup = None
     else:
         lines = ["📋 <b>Мои записи</b>\n"]
         for i, row in enumerate(bookings, start=1):
@@ -586,13 +635,45 @@ async def show_my_bookings(update: Update, *, edit: bool = False) -> None:
                 f"🗓 {format_booking_date(row['created_at'])}"
             )
         text = "\n\n".join(lines)
+        markup = my_bookings_keyboard(bookings)
 
     await send_ui_message(
         update,
         text,
-        reply_markup=my_bookings_keyboard(),
+        reply_markup=markup,
         parse_mode=ParseMode.HTML,
         edit=edit,
+    )
+
+
+async def cancel_user_booking(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+    booking_id: int,
+) -> None:
+    query = update.callback_query
+    user = update.effective_user
+    if not query or not user:
+        return
+
+    booking = cancel_booking(booking_id, user.id)
+    if not booking:
+        await query.answer("Заявка уже отменена или не найдена", show_alert=True)
+        await show_my_bookings(update, edit=True)
+        return
+
+    await query.answer("Заявка отменена")
+    await show_my_bookings(update, edit=True)
+
+    user_ref = format_user_ref(user.username, user.id, user.full_name)
+    await notify_admin(
+        context.bot,
+        (
+            f"🔴 <b>Заявка отменена</b>\n"
+            f"{user_ref}\n"
+            f"Эксперт: {booking['expert_name']}\n"
+            f"Тариф: {booking['tariff_title']} · {booking['tariff_price']}"
+        ),
     )
 
 
@@ -601,20 +682,23 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     if not query or not query.data:
         return
 
-    await query.answer()
     data = query.data
     user = update.effective_user
     if user:
         register_admin_chat_id(user.id, user.username)
 
+    if data.startswith("book:cancel:"):
+        booking_id = int(data.split(":", 2)[2])
+        await cancel_user_booking(update, context, booking_id)
+        return
+
+    await query.answer()
+
     # Меню / гайд / новая запись – всегда новые сообщения, чтобы не затирать success
     if data == "menu:home":
-        await send_ui_message(
-            update,
-            WELCOME_DEFAULT,
-            reply_markup=main_menu_keyboard(),
-            edit=False,
-        )
+        message = update.effective_message
+        if message:
+            await message.reply_text(WELCOME_DEFAULT, reply_markup=reply_menu_keyboard())
         return
 
     if data == "menu:guide":
@@ -645,6 +729,26 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         return
 
 
+async def on_menu_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    message = update.effective_message
+    user = update.effective_user
+    if not message or not user or not message.text:
+        return
+
+    register_admin_chat_id(user.id, user.username)
+    text = message.text.strip()
+
+    if text == BTN_GUIDE:
+        await send_guide(update, context)
+        return
+    if text == BTN_BOOK:
+        await start_booking(update, context)
+        return
+    if text == BTN_BOOKINGS:
+        await show_my_bookings(update)
+        return
+
+
 def build_ptb_app() -> Application:
     if not TELEGRAM_BOT_TOKEN:
         raise RuntimeError("TELEGRAM_BOT_TOKEN is not set")
@@ -655,6 +759,9 @@ def build_ptb_app() -> Application:
     application.add_handler(CommandHandler("book", book_command))
     application.add_handler(CommandHandler("bookings", bookings_command))
     application.add_handler(CallbackQueryHandler(on_callback))
+    application.add_handler(
+        MessageHandler(filters.TEXT & ~filters.COMMAND, on_menu_text)
+    )
     return application
 
 
