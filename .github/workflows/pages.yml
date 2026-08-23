@@ -27,7 +27,17 @@ jobs:
       - name: Prepare site bundle
         run: |
           mkdir -p _site
-          rsync -a --exclude='.git' --exclude='_site' ./ _site/
+          rsync -a \
+            --exclude='.git' \
+            --exclude='_site' \
+            --exclude='bot/' \
+            --exclude='.cursor/' \
+            --exclude='.github/' \
+            --exclude='Гайд.html' \
+            --exclude='Га*.html' \
+            --exclude='*.md' \
+            --exclude='.DS_Store' \
+            ./ _site/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

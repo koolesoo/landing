@@ -1,3 +1,13 @@
 .DS_Store
 .cursor/*
 !.cursor/mcp.json
+
+# Secrets and local runtime (never commit)
+.env
+.env.*
+!.env.example
+bot/.env
+bot/.deploy.local
+bot/data/
+bot/.venv/
+*.log

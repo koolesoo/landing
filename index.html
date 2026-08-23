@@ -2,6 +2,7 @@
 
 <html class="dark" lang="ru"><head>
 <meta charset="utf-8"/>
+<meta name="referrer" content="strict-origin-when-cross-origin"/>
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" name="viewport"/>
 <title>Твои менторы в IT</title>
 <meta name="description" content="CPO Альфа-Банка. Консультации по входу в IT и карьере, менторство, разбор резюме. Суперфиналистка «Лидеров России», основатель стартапа WID."/>
@@ -12,12 +13,12 @@
 <meta property="og:type" content="website"/>
 <meta property="og:locale" content="ru_RU"/>
 <meta property="og:site_name" content="Карьера в IT"/>
-<meta property="og:title" content="Настя Нерадовских – карьера в IT и менторство"/>
+<meta property="og:title" content="Анастасия Нерадовских – карьера в IT и менторство"/>
 <meta property="og:description" content="CPO Альфа-Банка. Консультации, менторство, разбор резюме. Суперфиналистка «Лидеров России», основатель WID."/>
 <meta property="og:url" content="https://growcareer.ru/"/>
 <meta property="og:image" content="https://growcareer.ru/assets/nastya.jpg"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Настя Нерадовских – карьера в IT и менторство"/>
+<meta name="twitter:title" content="Анастасия Нерадовских – карьера в IT и менторство"/>
 <meta name="twitter:description" content="CPO Альфа-Банка. Консультации, менторство, разбор резюме. Суперфиналистка «Лидеров России», основатель WID."/>
 <meta name="twitter:image" content="https://growcareer.ru/assets/nastya.jpg"/>
 <script>
@@ -1027,7 +1028,10 @@
 
         .review-text-card {
             position: relative;
+            display: flex;
+            flex-direction: column;
             flex: 0 0 min(85vw, 22rem);
+            min-height: 15.75rem;
             height: auto;
             scroll-snap-align: start;
             border-radius: 1.35rem;
@@ -1036,16 +1040,18 @@
             -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
             overflow: hidden;
-            transition: border-color 0.25s ease, box-shadow 0.25s ease;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+            transition: border-color 0.25s ease;
+            box-shadow: none;
         }
 
         .review-text-card-face {
             display: flex;
             flex-direction: column;
             align-items: stretch;
+            flex: 1 1 auto;
             gap: 0.95rem;
             width: 100%;
+            min-height: 100%;
             padding: 1.25rem 1.25rem 1.35rem;
             color: rgba(255, 255, 255, 0.85);
             text-align: left;
@@ -1053,7 +1059,6 @@
 
         .review-text-card:focus-within {
             border-color: rgba(100, 206, 251, 0.45);
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
         }
 
         .review-text-card-top {
@@ -1106,14 +1111,43 @@
             object-fit: cover;
             object-position: center;
             background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .review-text-card-body {
             margin: 0;
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
             font-size: 0.9375rem;
             line-height: 1.55;
             color: rgba(255, 255, 255, 0.75);
+        }
+
+        .review-text-card-excerpt {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .review-text-card-excerpt p {
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.55;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .review-excerpt-quote {
+            color: #64cefb;
+        }
+
+        @media (min-width: 768px) {
+            .review-text-card-excerpt p {
+                font-size: 1.0625rem;
+                line-height: 1.5;
+            }
         }
 
         .review-text-card-body p {
@@ -1232,6 +1266,7 @@
         @media (min-width: 768px) {
             .review-text-card {
                 flex-basis: 24rem;
+                min-height: 17rem;
             }
 
             .reviews-head {
@@ -1537,151 +1572,235 @@
             }
         }
 
-        /* –– Audience: mobile = diagonal swipe stack; desktop = grid –– */
-        .audience-stack {
-            position: relative;
+        /* –– Audience: Aceternity-style stacked cards –– */
+        .audience-showcase {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
             width: min(100%, 34rem);
-            height: var(--audience-card-h, 16rem);
             margin-inline: auto;
-            perspective: 900px;
-            touch-action: pan-y;
             outline: none;
-            user-select: none;
-            -webkit-user-select: none;
+        }
+
+        .audience-showcase-stage {
+            position: relative;
+            width: 100%;
+            height: var(--audience-showcase-h, 18rem);
+            perspective: 1200px;
+        }
+
+        .audience-showcase-stack {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .audience-showcase-tile {
+            position: absolute;
+            inset: 0;
+            transform-origin: bottom center;
+            transition:
+                transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.42s ease;
+            will-change: transform, opacity;
+        }
+
+        .audience-showcase-tile.is-active {
+            z-index: 40;
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+        }
+
+        .audience-showcase-tile:not(.is-active) {
+            opacity: 0.72;
+            transform: translate3d(0, 0, -4rem) scale(0.94) rotate(var(--tile-rotate, -6deg));
+        }
+
+        .audience-showcase-tile-inner {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0;
+            padding: 1.25rem 1.25rem 1.35rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #1b1b1b;
+            box-shadow: none;
+            text-align: left;
         }
 
         @media (min-width: 768px) {
-            .audience-stack {
-                display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 1rem;
-                width: 100%;
-                max-width: none;
-                height: auto !important;
-                margin-inline: 0;
-                perspective: none;
-                touch-action: auto;
-                user-select: auto;
-                -webkit-user-select: auto;
-            }
-
-            .audience-card {
-                position: relative !important;
-                inset: auto !important;
-                height: auto !important;
-                transform: none !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-                pointer-events: auto !important;
-                cursor: default;
-                will-change: auto;
-                box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
-                overflow: hidden;
-            }
-
-            .audience-card.glare-card {
-                transform: perspective(600px) rotateX(var(--r-y)) rotateY(var(--r-x)) !important;
-                transition: transform var(--duration, 300ms) var(--easing, ease);
-                will-change: transform;
-            }
-
-            .audience-card.is-dismissed,
-            .audience-card.is-stack-hidden {
-                opacity: 1 !important;
-                visibility: visible !important;
-                pointer-events: auto !important;
-                transform: none !important;
-            }
-
-            .audience-card.glare-card.is-dismissed,
-            .audience-card.glare-card.is-stack-hidden {
-                transform: perspective(600px) rotateX(var(--r-y)) rotateY(var(--r-x)) !important;
-            }
-
-            .audience-stack-controls {
-                display: none !important;
+            .audience-showcase-tile-inner {
+                padding: 1.5rem 1.5rem 1.6rem;
+                border-radius: 1.25rem;
             }
         }
 
-        .audience-card {
-            position: absolute;
-            inset: 0;
-            height: fit-content;
-            background-color: #1b1b1b;
-            -webkit-backdrop-filter: none;
-            backdrop-filter: none;
-            --stack-i: 0;
-            transform:
-                translate3d(calc(var(--stack-i) * 14px), calc(var(--stack-i) * 16px), 0)
-                rotate(calc(var(--stack-i) * 1.8deg));
-            opacity: calc(1 - var(--stack-i) * 0.18);
-            transform-origin: center center;
-            transition:
-                transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.4s ease;
-            will-change: transform, opacity;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-            cursor: grab;
-            overflow: hidden;
-        }
-
-        .audience-card:active {
-            cursor: grabbing;
-        }
-
-        .audience-card.is-dismissed {
-            transform: translate3d(-118%, 8%, 0) rotate(-10deg);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .audience-card.is-stack-hidden {
-            opacity: 0 !important;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .audience-nav-btn {
-            display: inline-flex;
-            height: 2.25rem;
-            width: 2.25rem;
+        .audience-showcase-tile-icon {
+            display: flex;
+            height: 2.5rem;
+            width: 2.5rem;
+            flex: 0 0 auto;
             align-items: center;
             justify-content: center;
             border-radius: 9999px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.85);
-            cursor: pointer;
-            transition: background-color 0.2s ease, border-color 0.2s ease;
+            background: rgba(100, 206, 251, 0.1);
+            color: #64cefb;
         }
 
-        .audience-nav-btn:disabled {
-            opacity: 0.35;
-            cursor: default;
+        .audience-showcase-tile-icon .material-symbols-outlined {
+            font-size: 1.375rem;
         }
 
-        .audience-stack-dot {
+        .audience-showcase-copy {
+            margin-top: 1rem;
+            min-width: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .audience-showcase-tile:not(.is-active) .audience-showcase-copy {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .audience-showcase-title {
+            margin: 0;
+            font-size: 1.125rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            color: #fff;
+        }
+
+        @media (min-width: 768px) {
+            .audience-showcase-title {
+                font-size: 1.25rem;
+            }
+        }
+
+        .audience-showcase-text {
+            margin: 0.5rem 0 0;
+            font-size: 1rem;
+            line-height: 1.55;
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .audience-showcase-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .audience-showcase-dots {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .audience-showcase-dot {
             width: 0.4rem;
             height: 0.4rem;
             border-radius: 9999px;
             background: rgba(255, 255, 255, 0.25);
             transition: background 0.25s ease, transform 0.25s ease;
+            cursor: pointer;
         }
 
-        .audience-stack-dot.is-active {
+        .audience-showcase-dot.is-active {
             background: #64cefb;
             transform: scale(1.35);
         }
 
-        /* –– Guide promo –– */
+        .audience-showcase-nav-btn,
+        .audience-nav-btn {
+            display: inline-flex;
+            height: 2.75rem;
+            width: 2.75rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: #1b1b1b;
+            color: rgba(255, 255, 255, 0.88);
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .audience-showcase-nav-btn:hover,
+        .audience-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.22);
+        }
+
+        .audience-showcase-nav-btn:active,
+        .audience-nav-btn:active {
+            transform: scale(0.96);
+        }
+
+        @media (min-width: 768px) {
+            .audience-showcase {
+                width: 100%;
+                max-width: none;
+            }
+
+            .audience-showcase-stage {
+                height: auto;
+                perspective: none;
+            }
+
+            .audience-showcase-stack {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                grid-auto-rows: 1fr;
+                gap: 1rem;
+                height: auto;
+                align-items: stretch;
+            }
+
+            .audience-showcase-tile {
+                position: relative;
+                inset: auto;
+                display: flex;
+                min-height: 100%;
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: none !important;
+                will-change: auto;
+            }
+
+            .audience-showcase-tile:not(.is-active) .audience-showcase-copy {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .audience-showcase-tile-inner {
+                flex: 1;
+                width: 100%;
+                min-height: 100%;
+                height: auto;
+            }
+
+            .audience-showcase-nav {
+                display: none;
+            }
+        }
         .guide-panel {
             position: relative;
             overflow: visible;
             margin-top: 3.25rem;
             border-radius: 1.5rem;
             border: 0;
-            background: #061018;
+            background: #0a1520;
             box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        @media (min-width: 768px) {
+            .guide-panel {
+                margin-top: 5.5rem;
+                background: #0c1824;
+            }
         }
 
         .guide-panel-bg {
@@ -1692,6 +1811,13 @@
             overflow: hidden;
             pointer-events: none;
             background: url('assets/guide-back.jpg?v=202608240126') center / cover no-repeat;
+        }
+
+        @media (min-width: 768px) {
+            .guide-panel-bg {
+                background-position: 72% 8%;
+                background-size: 125% auto;
+            }
         }
 
         .guide-panel-bg::after {
@@ -1707,8 +1833,42 @@
             );
         }
 
+        @media (min-width: 768px) {
+            .guide-panel-bg::after {
+                background:
+                    linear-gradient(
+                        118deg,
+                        rgba(6, 14, 22, 0.82) 0%,
+                        rgba(6, 14, 22, 0.38) 38%,
+                        rgba(6, 14, 22, 0.22) 62%,
+                        rgba(6, 14, 22, 0.55) 100%
+                    ),
+                    linear-gradient(
+                        to bottom,
+                        rgba(0, 0, 0, 0.18) 0%,
+                        rgba(0, 0, 0, 0.08) 45%,
+                        rgba(0, 0, 0, 0.32) 100%
+                    );
+            }
+        }
+
         .guide-panel-glow {
             display: none;
+        }
+
+        @media (min-width: 768px) {
+            .guide-panel-glow {
+                display: block;
+                position: absolute;
+                inset: 0;
+                z-index: 0;
+                border-radius: inherit;
+                pointer-events: none;
+                background:
+                    radial-gradient(ellipse 58% 72% at 88% 14%, rgba(124, 58, 237, 0.44), transparent 68%),
+                    radial-gradient(ellipse 52% 64% at 78% 88%, rgba(8, 145, 178, 0.36), transparent 66%),
+                    radial-gradient(ellipse 42% 52% at 18% 42%, rgba(100, 206, 251, 0.14), transparent 72%);
+            }
         }
 
         .guide-panel-grid {
@@ -1866,13 +2026,17 @@
             }
 
             .guide-cover {
-                width: min(100%, 22rem);
+                position: relative;
+                z-index: 2;
+                width: min(100%, 24rem);
                 margin-inline: 0;
-                margin-top: 0;
+                margin-top: -5.75rem;
                 order: 0;
             }
 
             .guide-actions {
+                position: relative;
+                z-index: 1;
                 width: min(100%, 22rem);
                 margin-inline: 0;
                 margin-top: 0;
@@ -1887,26 +2051,15 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .audience-stack {
-                display: grid;
-                height: auto;
-                gap: 1rem;
-                perspective: none;
+            .audience-showcase-tile,
+            .audience-showcase-tile-inner {
+                animation: none !important;
+                transition: none !important;
             }
 
-            .audience-card {
-                position: relative;
-                inset: auto;
-                transform: none !important;
-                opacity: 1 !important;
-                visibility: visible !important;
-                pointer-events: auto !important;
-                cursor: default;
-                transition: none;
-            }
-
-            .audience-stack-controls {
-                display: none;
+            .audience-showcase-tile:not(.is-active) {
+                opacity: 0;
+                visibility: hidden;
             }
         }
 
@@ -2698,6 +2851,7 @@
             padding: 0.95rem 0.15rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             color: rgba(255, 255, 255, 0.92);
+            font-family: 'Styrene A LC', 'Inter', sans-serif;
             font-size: clamp(1.35rem, 4.5vw, 2rem);
             font-weight: 500;
             letter-spacing: -0.03em;
@@ -2723,6 +2877,7 @@
 
         .sections-overlay-link-sub {
             padding: 0.55rem 0.15rem 0.55rem 0.35rem;
+            font-family: 'Styrene A LC', 'Inter', sans-serif;
             font-size: clamp(1rem, 3.2vw, 1.25rem);
             font-weight: 500;
             color: rgba(255, 255, 255, 0.92);
@@ -4391,39 +4546,21 @@
                 height: 1.55rem;
                 font-size: 0;
             }
-
-            .expert-story-step-title {
-                position: sticky;
-                top: 7.25rem;
-                align-self: start;
-                margin: 0;
-                padding-top: 0.15rem;
-                font-size: clamp(1.65rem, 2.4vw, 2.35rem);
-                font-weight: 900;
-                letter-spacing: -0.04em;
-                line-height: 1.1;
-                color: rgba(255, 255, 255, 0.28);
-                transition: color 0.35s ease;
-            }
-
-            .expert-story-step.is-active .expert-story-step-title {
-                color: #fff;
-            }
         }
 
         .expert-story-step-title {
             display: none;
         }
 
-        @media (min-width: 768px) {
-            .expert-story-step-title {
-                display: block;
-            }
-        }
-
         .expert-story-step-body {
             min-width: 0;
             padding-top: 0.05rem;
+        }
+
+        @media (min-width: 768px) {
+            .expert-story-step-body {
+                grid-column: 2;
+            }
         }
 
         .expert-story-step-label {
@@ -4564,21 +4701,21 @@
 
         .exp-logo {
             flex: 0 0 auto;
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 9999px;
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: 0.5rem;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: transparent;
+            background: rgba(255, 255, 255, 0.06);
         }
 
         .exp-logo img {
             display: block;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .exp-logo--dark {
@@ -4889,10 +5026,10 @@
 </a>
 <div class="mobile-chrome">
 <div id="expert-sticky-toggle" class="expert-sticky-toggle" role="group" aria-label="Выбор эксперта">
-<button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Настя Нерадовских">
+<button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Анастасия Нерадовских">
 <img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
 </button>
-<button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Даня Колесниченко">
+<button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Данил Колесниченко">
 <img src="assets/Danya.jpg?v=202608232030" alt="" width="46" height="46" class="expert-photo-danya" loading="lazy" decoding="async"/>
 </button>
 </div>
@@ -4965,10 +5102,10 @@
 </div>
 <div id="sticky-consult-bar" class="sticky-consult-bar">
 <div id="expert-sticky-toggle-desk" class="expert-sticky-toggle expert-sticky-toggle--desk" role="group" aria-label="Выбор эксперта">
-<button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Настя Нерадовских">
+<button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Анастасия Нерадовских">
 <img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
 </button>
-<button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Даня Колесниченко">
+<button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Данил Колесниченко">
 <img src="assets/Danya.jpg?v=202608232030" alt="" width="46" height="46" class="expert-photo-danya" loading="lazy" decoding="async"/>
 </button>
 </div>
@@ -4993,7 +5130,7 @@
 <a class="sections-overlay-link" href="#value">Что получишь</a>
 <a class="sections-overlay-link" href="#expert">Эксперты</a>
 <a class="sections-overlay-link" href="#curriculum">Услуги 🔥</a>
-<a class="sections-overlay-link" href="#guide"><span>Гайд по входу в IT 🔥</span><span class="menu-nav-chip">бесплатно</span></a>
+<a class="sections-overlay-link" href="#guide">Гайд по входу в IT 🔥</a>
 <a class="sections-overlay-link" href="#placements">Трудоустройство</a>
 <a class="sections-overlay-link" href="#reviews">Отзывы</a>
 <a class="sections-overlay-link" href="#faq">Вопросы</a>
@@ -5030,7 +5167,7 @@
 <!-- Speaker creative (временно статичный PNG вместо видео) -->
 <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden" id="hero-speaker-area">
 <picture class="hero-back">
-<source media="(min-width: 768px)" srcset="assets/back-desk.png?v=202608232216"/>
+<source media="(min-width: 768px)" srcset="assets/back-desk.png?v=202608240242"/>
 <img src="assets/back.jpg?v=202608232254" alt="" width="1080" height="1920" draggable="false" decoding="async"/>
 </picture>
 <div class="hero-back-dim" aria-hidden="true"></div>
@@ -5062,95 +5199,51 @@
 <div class="mx-auto max-w-7xl">
 <h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="audience-heading">Ты в нужном месте, если…</h2>
 <div data-global-expert-panel="nastya">
-<div data-audience-stack>
-<div class="audience-stack" aria-live="polite" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации – свайп влево или вправо">
-<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
-<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="trending_up" aria-hidden="true">trending_up</span>
+<div data-audience-showcase>
+<div class="audience-showcase" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации – листайте стрелками">
+<div class="audience-showcase-stage" data-audience-stage>
+<div class="audience-showcase-stack" data-audience-visual aria-live="polite"></div>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь быстро и осознанно расти в карьере</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Нужен понятный вектор: куда двигаться, какие шаги дадут результат и как не тратить месяцы на хаотичный поиск</p>
-</article>
-<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
-<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="description" aria-hidden="true">description</span>
-</div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Нужно усилить резюме и пройти интервью</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Хочешь переупаковать опыт, пройти мок-интервью и получить конкретные правки по резюме, LinkedIn и ответам на собеседовании</p>
-</article>
-<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
-<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="school" aria-hidden="true">school</span>
-</div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Мечтаешь зайти в продакт-менеджмент</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Нужно разобраться с входом в IT, упаковать опыт, подготовиться к интервью и понять, как выглядит путь в продукт</p>
-</article>
-</div>
-<div class="audience-stack-controls mt-5 flex items-center justify-between gap-3 sm:justify-start sm:gap-4">
-<button type="button" class="audience-nav-btn" data-audience-prev aria-label="Предыдущая карточка">
-<span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_left</span>
+<div class="audience-showcase-nav">
+<button type="button" class="audience-showcase-nav-btn" data-audience-prev aria-label="Предыдущая ситуация">
+<span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_back</span>
 </button>
-<div class="audience-stack-dots flex items-center gap-2" aria-hidden="true"></div>
-<button type="button" class="audience-nav-btn" data-audience-next aria-label="Следующая карточка">
-<span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_right</span>
+<div class="audience-showcase-dots" data-audience-dots aria-hidden="true"></div>
+<button type="button" class="audience-showcase-nav-btn" data-audience-next aria-label="Следующая ситуация">
+<span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_forward</span>
 </button>
+</div>
+</div>
+<div hidden data-audience-source>
+<article data-audience-item data-icon="trending_up" data-title="Хочешь быстро и осознанно расти в карьере" data-text="Нужен понятный вектор: куда двигаться, какие шаги дадут результат и как не тратить месяцы на хаотичный поиск"></article>
+<article data-audience-item data-icon="description" data-title="Нужно усилить резюме и пройти интервью" data-text="Хочешь переупаковать опыт, пройти мок-интервью и получить конкретные правки по резюме, LinkedIn и ответам на собеседовании"></article>
+<article data-audience-item data-icon="school" data-title="Мечтаешь зайти в продакт-менеджмент" data-text="Нужно разобраться с входом в IT, упаковать опыт, подготовиться к интервью и понять, как выглядит путь в продукт"></article>
 </div>
 </div>
 </div>
 <div data-global-expert-panel="danya" hidden>
-<div data-audience-stack>
-<div class="audience-stack" aria-live="polite" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации – свайп влево или вправо">
-<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
-<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="flag" aria-hidden="true">flag</span>
+<div data-audience-showcase>
+<div class="audience-showcase" tabindex="0" aria-roledescription="carousel" aria-label="Ситуации – листайте стрелками">
+<div class="audience-showcase-stage" data-audience-stage>
+<div class="audience-showcase-stack" data-audience-visual aria-live="polite"></div>
 </div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь начать карьеру, но не знаешь с чего</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Разберём первые шаги: куда смотреть, как искать и как выстроить процесс без хаоса</p>
-</article>
-<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
-<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="emoji_events" aria-hidden="true">emoji_events</span>
-</div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Планируешь участвовать в кейс-чемпионатах</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Помогу упаковать кейс, подготовиться к отбору и пройти путь от заявки до финала</p>
-</article>
-<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
-<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="school" aria-hidden="true">school</span>
-</div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Мечтаешь зайти в продакт-менеджмент</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Покажу, как упаковать опыт, подтянуть навыки и сделать сильный вход в продукт</p>
-</article>
-<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
-<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="psychology" aria-hidden="true">psychology</span>
-</div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь подтянуть продуктовые навыки</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Разберём гипотезы, метрики, CustDev и то, что реально спрашивают на продуктовых ролях</p>
-</article>
-<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
-<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="record_voice_over" aria-hidden="true">record_voice_over</span>
-</div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Готовишься к собеседованиям</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Отработаем ответы, кейсы и типовые вопросы – чтобы чувствовать себя увереннее на интервью</p>
-</article>
-<article class="audience-card rounded-xl border border-white/5 p-5 md:p-6" data-audience-card>
-<div class="audience-card-icon flex h-10 w-10 items-center justify-center rounded-full bg-[#64cefb]/10">
-<span class="material-symbols-outlined text-[#64cefb] text-[22px]" data-icon="filter_alt" aria-hidden="true">filter_alt</span>
-</div>
-<h3 class="mt-4 text-lg font-bold tracking-tight">Хочешь понять воронку найма</h3>
-<p class="mt-2 text-base leading-relaxed text-white/75">Объясню, как устроен отбор в IT и продукте: от отклика до оффера и что делать на каждом этапе</p>
-</article>
-</div>
-<div class="audience-stack-controls mt-5 flex items-center justify-between gap-3 sm:justify-start sm:gap-4">
-<button type="button" class="audience-nav-btn" data-audience-prev aria-label="Предыдущая карточка">
-<span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_left</span>
+<div class="audience-showcase-nav">
+<button type="button" class="audience-showcase-nav-btn" data-audience-prev aria-label="Предыдущая ситуация">
+<span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_back</span>
 </button>
-<div class="audience-stack-dots flex items-center gap-2" aria-hidden="true"></div>
-<button type="button" class="audience-nav-btn" data-audience-next aria-label="Следующая карточка">
-<span class="material-symbols-outlined text-[20px]" aria-hidden="true">chevron_right</span>
+<div class="audience-showcase-dots" data-audience-dots aria-hidden="true"></div>
+<button type="button" class="audience-showcase-nav-btn" data-audience-next aria-label="Следующая ситуация">
+<span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_forward</span>
 </button>
+</div>
+</div>
+<div hidden data-audience-source>
+<article data-audience-item data-icon="flag" data-title="Хочешь начать карьеру, но не знаешь с чего" data-text="Разберём первые шаги: куда смотреть, как искать и как выстроить процесс без хаоса"></article>
+<article data-audience-item data-icon="emoji_events" data-title="Планируешь участвовать в кейс-чемпионатах" data-text="Помогу упаковать кейс, подготовиться к отбору и пройти путь от заявки до финала"></article>
+<article data-audience-item data-icon="school" data-title="Мечтаешь зайти в продакт-менеджмент" data-text="Покажу, как упаковать опыт, подтянуть навыки и сделать сильный вход в продукт"></article>
+<article data-audience-item data-icon="psychology" data-title="Хочешь подтянуть продуктовые навыки" data-text="Разберём гипотезы, метрики, CustDev и то, что реально спрашивают на продуктовых ролях"></article>
+<article data-audience-item data-icon="record_voice_over" data-title="Готовишься к собеседованиям" data-text="Отработаем ответы, кейсы и типовые вопросы – чтобы чувствовать себя увереннее на интервью"></article>
+<article data-audience-item data-icon="filter_alt" data-title="Хочешь понять воронку найма" data-text="Объясню, как устроен отбор в IT и продукте: от отклика до оффера и что делать на каждом этапе"></article>
 </div>
 </div>
 </div>
@@ -5182,8 +5275,8 @@
 <h2 class="mb-3 text-4xl font-black tracking-tighter md:mb-4 md:text-5xl" id="expert-heading">Об экспертах</h2>
 <div data-section-chips data-expert-people id="expert-people">
 <div class="section-chip-tabs" role="tablist" aria-label="Выбор эксперта">
-<button type="button" class="section-chip chip-active" role="tab" id="people-tab-nastya" aria-selected="true" aria-controls="people-panel-nastya" data-chip-tab="nastya" data-global-expert="nastya" aria-label="Настя Нерадовских, основной трек">основной трек</button>
-<button type="button" class="section-chip" role="tab" id="people-tab-danya" aria-selected="false" aria-controls="people-panel-danya" data-chip-tab="danya" data-global-expert="danya" aria-label="Даня Колесниченко, студенческий трек">студенческий трек</button>
+<button type="button" class="section-chip chip-active" role="tab" id="people-tab-nastya" aria-selected="true" aria-controls="people-panel-nastya" data-chip-tab="nastya" data-global-expert="nastya" aria-label="Анастасия Нерадовских, основной трек">основной трек</button>
+<button type="button" class="section-chip" role="tab" id="people-tab-danya" aria-selected="false" aria-controls="people-panel-danya" data-chip-tab="danya" data-global-expert="danya" aria-label="Данил Колесниченко, студенческий трек">студенческий трек</button>
 </div>
 <div class="section-chip-panels">
 <div data-chip-panel="nastya" class="is-active" role="tabpanel" id="people-panel-nastya" aria-labelledby="people-tab-nastya">
@@ -5192,7 +5285,7 @@
 <div class="expert-story-visual">
 <div class="expert-story-path" aria-hidden="true"></div>
 <div class="expert-story-portrait-wrap">
-<img src="assets/nastya.jpg" alt="Настя Нерадовских" class="expert-story-portrait" loading="lazy" decoding="async"/>
+<img src="assets/nastya.jpg" alt="Анастасия Нерадовских" class="expert-story-portrait" loading="lazy" decoding="async"/>
 <div class="expert-story-pin-card expert-story-pin-card--accent">
 <p class="expert-story-pin-title">Суперфиналистка «Лидеров России»</p>
 <p class="expert-story-pin-text">без связей – упорным трудом</p>
@@ -5204,13 +5297,13 @@
 </div>
 </div>
 <div class="expert-story-identity">
-<h3 class="expert-story-name">Настя Нерадовских</h3>
+<h3 class="expert-story-name">Анастасия Нерадовских</h3>
 <div class="expert-story-contacts expert-story-contacts--header">
 <a href="https://t.me/neradana" target="_blank" rel="noopener noreferrer" class="expert-story-contact" aria-label="Telegram">
-<img src="assets/telegram.png" alt="" width="40" height="40" loading="lazy" decoding="async"/>
+<img src="assets/telegram.png" alt="" width="44" height="44" loading="lazy" decoding="async"/>
 </a>
 <a href="https://www.linkedin.com/in/anastasia-neradovskikh-8bb220231/" target="_blank" rel="noopener noreferrer" class="expert-story-contact" aria-label="LinkedIn">
-<img src="assets/linkedin.png" alt="" width="40" height="40" loading="lazy" decoding="async"/>
+<img src="assets/linkedin.png" alt="" width="44" height="44" loading="lazy" decoding="async"/>
 </a>
 </div>
 </div>
@@ -5274,28 +5367,28 @@
 <div class="exp-card">
 <ul class="exp-list">
 <li class="exp-item">
-<div class="exp-logo"><img src="assets/marquee/logo-alfa.png?v=20260821191" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-logo"><img src="assets/marquee/logo-alfa.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Chief Product Owner, Альфа-Банк</p>
 <p class="exp-dates">2026 – настоящее время</p>
 </div>
 </li>
 <li class="exp-item">
-<div class="exp-logo"><img src="assets/marquee/logo-alfa.png?v=20260821191" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-logo"><img src="assets/marquee/logo-alfa.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Product Owner, Альфа-Банк</p>
 <p class="exp-dates">2024 – 2026</p>
 </div>
 </li>
 <li class="exp-item">
-<div class="exp-logo exp-logo--dark"><img src="assets/marquee/logo-t2.png?v=20260821191" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-logo exp-logo--dark"><img src="assets/marquee/logo-t2.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Product Manager, Т2</p>
 <p class="exp-dates">2023 – 2024</p>
 </div>
 </li>
 <li class="exp-item">
-<div class="exp-logo exp-logo--dark"><img src="assets/marquee/logo-mars.png?v=20260821191" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-logo exp-logo--dark"><img src="assets/marquee/logo-mars.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Mars, Procter &amp; Gamble, Сибур</p>
 <p class="exp-dates">2019 – 2023</p>
@@ -5344,7 +5437,7 @@
 <div class="expert-story-visual">
 <div class="expert-story-path" aria-hidden="true"></div>
 <div class="expert-story-portrait-wrap">
-<img src="assets/Danya.jpg?v=202608232030" alt="Даня Колесниченко" class="expert-story-portrait expert-photo-danya" loading="lazy" decoding="async"/>
+<img src="assets/Danya.jpg?v=202608232030" alt="Данил Колесниченко" class="expert-story-portrait expert-photo-danya" loading="lazy" decoding="async"/>
 <div class="expert-story-pin-card expert-story-pin-card--accent">
 <p class="expert-story-pin-title">Alfa Case Camp 2024</p>
 <p class="expert-story-pin-text">победитель кейс-чемпионата</p>
@@ -5356,13 +5449,13 @@
 </div>
 </div>
 <div class="expert-story-identity">
-<h3 class="expert-story-name">Даня Колесниченко</h3>
+<h3 class="expert-story-name">Данил Колесниченко</h3>
 <div class="expert-story-contacts expert-story-contacts--header">
 <a href="https://t.me/koolesoo" target="_blank" rel="noopener noreferrer" class="expert-story-contact" aria-label="Telegram">
-<img src="assets/telegram.png" alt="" width="40" height="40" loading="lazy" decoding="async"/>
+<img src="assets/telegram.png" alt="" width="44" height="44" loading="lazy" decoding="async"/>
 </a>
 <a href="https://www.linkedin.com/in/danilkolesnichenko" target="_blank" rel="noopener noreferrer" class="expert-story-contact" aria-label="LinkedIn">
-<img src="assets/linkedin.png" alt="" width="40" height="40" loading="lazy" decoding="async"/>
+<img src="assets/linkedin.png" alt="" width="44" height="44" loading="lazy" decoding="async"/>
 </a>
 </div>
 </div>
@@ -5380,33 +5473,33 @@
 <ol class="expert-story-timeline-list">
 <li class="expert-story-step" data-timeline-step>
 <span class="expert-story-step-marker" aria-hidden="true">1</span>
-<p class="expert-story-step-title">Лето 2024</p>
+<p class="expert-story-step-title">Alfa Case Camp</p>
 <div class="expert-story-step-body">
-<p class="expert-story-step-label">Alfa Case Camp</p>
+<p class="expert-story-step-label">Лето 2024</p>
 <p class="expert-story-step-text">Победитель Alfa Case Camp 2024 – крупнейшего кейс-чемпионата Альфа-Банка × Changellenge</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
 <span class="expert-story-step-marker" aria-hidden="true">2</span>
-<p class="expert-story-step-title">Весна 2025</p>
+<p class="expert-story-step-title">Альфа-Будущее</p>
 <div class="expert-story-step-body">
-<p class="expert-story-step-label">Альфа-Будущее</p>
+<p class="expert-story-step-label">Весна 2025</p>
 <p class="expert-story-step-text">Ex product owner @ «Альфа-Будущее»</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
 <span class="expert-story-step-marker" aria-hidden="true">3</span>
-<p class="expert-story-step-title">Весна 2026</p>
+<p class="expert-story-step-title">Product Manager</p>
 <div class="expert-story-step-body">
-<p class="expert-story-step-label">Product Manager</p>
+<p class="expert-story-step-label">Весна 2026</p>
 <p class="expert-story-step-text">Менеджер по развитию продукта в Альфа-Банке</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
 <span class="expert-story-step-marker" aria-hidden="true">4</span>
-<p class="expert-story-step-title">Осень 2026</p>
+<p class="expert-story-step-title">4 оффера</p>
 <div class="expert-story-step-body">
-<p class="expert-story-step-label">4 оффера</p>
+<p class="expert-story-step-label">Осень 2026</p>
 <p class="expert-story-step-text">Получил 4 оффера после стажировки в Альфа-Банке</p>
 </div>
 </li>
@@ -5428,14 +5521,14 @@
 <div class="exp-card">
 <ul class="exp-list">
 <li class="exp-item">
-<div class="exp-logo"><img src="assets/marquee/logo-alfa.png?v=20260821191" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-logo"><img src="assets/marquee/logo-alfa.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Growth Product Manager, Альфа-Банк</p>
 <p class="exp-dates">2026 – настоящее время</p>
 </div>
 </li>
 <li class="exp-item">
-<div class="exp-logo"><img src="assets/marquee/logo-alfa.png?v=20260821191" alt="" width="40" height="40" loading="lazy" decoding="async"/></div>
+<div class="exp-logo"><img src="assets/marquee/logo-alfa.png?v=20260821191" alt="" width="44" height="44" loading="lazy" decoding="async"/></div>
 <div class="exp-body">
 <p class="exp-role">Product Owner, Альфа-Банк</p>
 <p class="exp-dates">2024 – 2025</p>
@@ -5498,7 +5591,7 @@
 </div>
 </div>
 </div>
-<p class="expert-marquee-label">опыт менторства и преподавания</p>
+<p class="expert-marquee-label">опыт экспертом</p>
 </article>
 </div>
 <div class="logo-marquee" aria-label="Эксперт в компаниях и проектах">
@@ -5793,14 +5886,13 @@
 <img class="review-text-card-photo" src="assets/reviews/anya.jpg" alt="Аня" width="68" height="68" loading="lazy" decoding="async"/>
 </div>
 <div class="review-text-card-body">
-<p>Настя, спасибо огромное за консультацию!</p>
-<p>Я вообще ни сколько не пожалела, что у тебя взяла ее! Ты крутой ментор)</p>
-<p>Пришла к тебе с полным запросом, чтобы полностью уйти в финтех направление и выйти в новое направление работы для себя)</p>
-<p>Ты мне построила пошаговый план, что нужно сделать для этого и верное направление и мотивацию, ты вселила в меня огромную уверенность, что у меня получится) Поделилась большим количеством лайфаков, которые помогут мне в этом, это очень ценно! И за курсы спасибо огромное. Осталось дело за малым, только за моим обучением) ещё раз спасибо огромное</p>
+<blockquote class="review-text-card-excerpt">
+<p><span class="review-excerpt-quote">«</span>Ты крутой ментор) Вселила огромную уверенность и&nbsp;построила пошаговый план&nbsp;— с&nbsp;лайфаками и&nbsp;курсами<span class="review-excerpt-quote">»</span></p>
+</blockquote>
 </div>
 </div>
 <div class="review-card-content" hidden>
-<p>Настя, спасибо огромное за консультацию!</p>
+<p>Анастасия, спасибо огромное за консультацию!</p>
 <p>Я вообще ни сколько не пожалела, что у тебя взяла ее! Ты крутой ментор)</p>
 <p>Пришла к тебе с полным запросом, чтобы полностью уйти в финтех направление и выйти в новое направление работы для себя)</p>
 <p>Ты мне построила пошаговый план, что нужно сделать для этого и верное направление и мотивацию, ты вселила в меня огромную уверенность, что у меня получится) Поделилась большим количеством лайфаков, которые помогут мне в этом, это очень ценно! И за курсы спасибо огромное. Осталось дело за малым, только за моим обучением) ещё раз спасибо огромное</p>
@@ -5810,21 +5902,19 @@
 <div class="review-text-card-face">
 <div class="review-text-card-top">
 <div class="review-text-card-heading">
-<button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Настя</button>
+<button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Анастасия</button>
 <p class="review-text-card-role">Product Manager</p>
 </div>
-<img class="review-text-card-photo" src="assets/reviews/nastya.jpg" alt="Настя" width="68" height="68" loading="lazy" decoding="async"/>
+<img class="review-text-card-photo" src="assets/reviews/nastya.jpg" alt="Анастасия" width="68" height="68" loading="lazy" decoding="async"/>
 </div>
 <div class="review-text-card-body">
-<p>Настя, привет!</p>
-<p>Спасибо большое за консультацию! Хотела отметить, что ты очень точно и без лишней воды задавала вопросы, помогла структурировать мои мысли и выстроить карьерную стратегию исходя из уже имеющегося опыта.</p>
-<p>Отдельное спасибо за общий файл по итогу встречи, все последовательно: цель, необходимые шаги для карьерного роста. Это помогает держать фокус и возвращаться к ключевым моментам.</p>
-<p>Я уже проработала первый шаг, определила свою траекторию и хотела бы записаться на следующую консультацию, переупаковать резюме.</p>
-<p>Ещё хотела отметить, очень понравилось, что ты можешь сориентировать какую литературу/курсы/книги прочитать, что важно для повышения необходимых навыков.</p>
+<blockquote class="review-text-card-excerpt">
+<p><span class="review-excerpt-quote">«</span>Очень точно и&nbsp;без&nbsp;лишней воды помогла структурировать мысли и&nbsp;выстроить карьерную стратегию<span class="review-excerpt-quote">»</span></p>
+</blockquote>
 </div>
 </div>
 <div class="review-card-content" hidden>
-<p>Настя, привет!</p>
+<p>Анастасия, привет!</p>
 <p>Спасибо большое за консультацию! Хотела отметить, что ты очень точно и без лишней воды задавала вопросы, помогла структурировать мои мысли и выстроить карьерную стратегию исходя из уже имеющегося опыта.</p>
 <p>Отдельное спасибо за общий файл по итогу встречи, все последовательно: цель, необходимые шаги для карьерного роста. Это помогает держать фокус и возвращаться к ключевым моментам.</p>
 <p>Я уже проработала первый шаг, определила свою траекторию и хотела бы записаться на следующую консультацию, переупаковать резюме.</p>
@@ -5841,15 +5931,9 @@
 <img class="review-text-card-photo" src="assets/reviews/masha.jpg" alt="Маша" width="68" height="68" loading="lazy" decoding="async"/>
 </div>
 <div class="review-text-card-body">
-<p>Консультация была очень полезной и даже, в каком-то смысле, терапевтичной. Я давно думала о смене деятельности, но ловила себя на мыслях типа «а вдруг поздно», «не получится», «у меня нет опыта», но в процессе созвона поняла, что при грамотной стратегии разрозненные мысли могут превратиться в пошаговый план действий:</p>
-<ol>
-<li>Было очень полезно посмотреть на анализ своего пройденного профессионального пути со стороны, зачастую были подсвечены вещи, на которые я бы не обратила внимание, а именно они оказались важны.</li>
-<li>В диалоге я обнаружила/вспомнила более детально кейсы, с которыми мне приходилось иметь дело, и которые отлично лягут в основу продающего резюме.</li>
-<li>Особое впечатление произвело то, как мой нынешний опыт можно преподнести полезным для сферы, в которой я хочу развиваться: большую часть задач я, оказывается, и так выполняю, просто не знала, как именно ее обозначить, чтобы превратить в преимущество.</li>
-<li>Самое ценное – подробный и понятный план дальнейших действий. Если раньше у меня было полное непонимание и откладывание смены деятельности на неопределенный срок, то теперь мне уже не терпится приступить к следующему этапу намеченного курса.</li>
-<li>Как итог, я уже вовсю занимаюсь изучением новой потенциальной сферы, читаю книги и смотрю профессиональные видео, и с каждым днем понимания все больше.</li>
-</ol>
-<p>Выход из зоны комфорта больше не пугает: с Анастасией очень легко, диалог по существу, информация важная и по существу, без воды и лозунгов. Обязательно продолжу дальнейшие консультации и с удовольствием порекомендую друзьям и знакомым!</p>
+<blockquote class="review-text-card-excerpt">
+<p><span class="review-excerpt-quote">«</span>Самое ценное&nbsp;— подробный план действий. С&nbsp;Анастасией легко: диалог по&nbsp;существу, без&nbsp;воды и&nbsp;лозунгов<span class="review-excerpt-quote">»</span></p>
+</blockquote>
 </div>
 </div>
 <div class="review-card-content" hidden>
@@ -5874,17 +5958,13 @@
 <img class="review-text-card-photo" src="assets/reviews/yulya.jpg" alt="Юля" width="68" height="68" loading="lazy" decoding="async"/>
 </div>
 <div class="review-text-card-body">
-<p>Настя, привет!</p>
-<p>Мне очень понравилось работать с тобой.</p>
-<p>Во-первых, сразу было заметно, что ты шаришь в своей теме и даешь реальные и прикладные советы. Не абстрактно, а четко.</p>
-<p>Отдельно хочу поблагодарить за честность, что давала реальные ожидания, аргументированные комментарии по резюме, кейсам на работе и тд. В целом я получила очень подробную картину, что сейчас происходит в ИТ мире)</p>
-<p>Курсы – просто супер, теперь хотя бы знаю что и где изучать. Тут у меня было больше всего вопросов.</p>
-<p>Ну и по окончании сессий, у меня не осталось никаких вопросов, все проблемы решили. Я теперь четко понимаю куда двигаться.</p>
-<p>Спасибо огромное, дала большую мотивацию расти дальше и пробовать себя</p>
+<blockquote class="review-text-card-excerpt">
+<p><span class="review-excerpt-quote">«</span>Даёшь реальные прикладные советы&nbsp;— не&nbsp;абстрактно, а&nbsp;чётко. Теперь я&nbsp;чётко понимаю, куда двигаться<span class="review-excerpt-quote">»</span></p>
+</blockquote>
 </div>
 </div>
 <div class="review-card-content" hidden>
-<p>Настя, привет!</p>
+<p>Анастасия, привет!</p>
 <p>Мне очень понравилось работать с тобой.</p>
 <p>Во-первых, сразу было заметно, что ты шаришь в своей теме и даешь реальные и прикладные советы. Не абстрактно, а четко.</p>
 <p>Отдельно хочу поблагодарить за честность, что давала реальные ожидания, аргументированные комментарии по резюме, кейсам на работе и тд. В целом я получила очень подробную картину, что сейчас происходит в ИТ мире)</p>
@@ -5903,10 +5983,9 @@
 <img class="review-text-card-photo" src="assets/reviews/dayana.jpg" alt="Даяна" width="68" height="68" loading="lazy" decoding="async"/>
 </div>
 <div class="review-text-card-body">
-<p>Привет!) Прошло сегодня финальное собеседование – на встрече был продакт с прошлого собеса и девушка тимлид. В целом положительные впечатления остались, буду ждать ОС.</p>
-<p>Вопросы задавала только тимлид. На встрече рассказала про себя по методу STAR, далее девушка задавала кейсовые вопросы:</p>
-<p>Расскажи с какой неудачей сталкивалась и как решала проблему.<br/>Как будешь решать проблему противоречивых требований у стейкхолдеров.<br/>Что будешь делать, если разработчик не понял требование или взял в работу задачу и интерпретировал требования по своему?<br/>Что должно произойти чтобы ты поняла, что команда тебе не подходит?</p>
-<p>Спасибо за помощь в подготовке, смогла более полно ответить на вопросы</p>
+<blockquote class="review-text-card-excerpt">
+<p><span class="review-excerpt-quote">«</span>Спасибо за&nbsp;помощь в&nbsp;подготовке&nbsp;— смогла более полно ответить на&nbsp;вопросы на&nbsp;финальном собеседовании<span class="review-excerpt-quote">»</span></p>
+</blockquote>
 </div>
 </div>
 <div class="review-card-content" hidden>
@@ -6285,7 +6364,6 @@
 
                 function onMove(event) {
                     if (reduceMotion.matches || !finePointer.matches) return;
-                    if (el.classList.contains('audience-card') && !desktop.matches) return;
                     const rotateFactor = 0.35;
                     const rect = el.getBoundingClientRect();
                     const percentage = {
@@ -6308,7 +6386,6 @@
 
                 function onEnter() {
                     if (reduceMotion.matches || !finePointer.matches) return;
-                    if (el.classList.contains('audience-card') && !desktop.matches) return;
                     inside = true;
                     el.style.setProperty('--opacity', '0.4');
                     window.setTimeout(() => {
@@ -6333,9 +6410,6 @@
 
             function sync() {
                 document.querySelectorAll(staticSelectors).forEach(enhance);
-                if (desktop.matches) {
-                    document.querySelectorAll('.audience-card').forEach(enhance);
-                }
             }
 
             sync();
@@ -6755,109 +6829,149 @@
             });
         })();
 
-        (function initAudienceStack() {
-            document.querySelectorAll('[data-audience-stack]').forEach((section) => {
-                const stack = section.querySelector('.audience-stack');
-                const cards = Array.from(section.querySelectorAll('[data-audience-card]'));
-                const dotsWrap = section.querySelector('.audience-stack-dots');
+        (function initAudienceShowcase() {
+            function randomRotate() {
+                return Math.floor(Math.random() * 21) - 10;
+            }
+
+            function buildTile(item, index, total) {
+                const tile = document.createElement('div');
+                tile.className = 'audience-showcase-tile' + (index === 0 ? ' is-active' : '');
+                tile.dataset.audienceTile = '';
+                if (index !== 0) {
+                    tile.style.setProperty('--tile-rotate', randomRotate() + 'deg');
+                }
+                tile.style.zIndex = String(total - index);
+
+                const inner = document.createElement('div');
+                inner.className = 'audience-showcase-tile-inner';
+
+                const iconWrap = document.createElement('div');
+                iconWrap.className = 'audience-showcase-tile-icon';
+                const icon = document.createElement('span');
+                icon.className = 'material-symbols-outlined';
+                icon.setAttribute('aria-hidden', 'true');
+                icon.textContent = item.icon;
+                iconWrap.appendChild(icon);
+
+                const copy = document.createElement('div');
+                copy.className = 'audience-showcase-copy';
+
+                const title = document.createElement('h3');
+                title.className = 'audience-showcase-title';
+                title.textContent = item.title;
+
+                const text = document.createElement('p');
+                text.className = 'audience-showcase-text';
+                text.dataset.audienceText = '';
+                text.textContent = item.text;
+
+                copy.append(title, text);
+                inner.append(iconWrap, copy);
+                tile.appendChild(inner);
+                return tile;
+            }
+
+            document.querySelectorAll('[data-audience-showcase]').forEach((section) => {
+                const root = section.querySelector('.audience-showcase');
+                const stage = section.querySelector('[data-audience-stage]');
+                const visualStack = section.querySelector('[data-audience-visual]');
                 const prevBtn = section.querySelector('[data-audience-prev]');
                 const nextBtn = section.querySelector('[data-audience-next]');
-                if (!stack || cards.length < 2) return;
+                const dotsWrap = section.querySelector('[data-audience-dots]');
+                const sourceItems = Array.from(section.querySelectorAll('[data-audience-item]'));
+                if (!root || !stage || !visualStack || sourceItems.length < 1) return;
 
                 const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 const desktopGrid = () => window.matchMedia('(min-width: 768px)').matches;
+                const items = sourceItems.map((node) => ({
+                    icon: node.getAttribute('data-icon') || 'star',
+                    title: node.getAttribute('data-title') || '',
+                    text: node.getAttribute('data-text') || ''
+                }));
                 let active = 0;
-                let dragX = 0;
-                let startX = 0;
-                let dragging = false;
+                let tiles = [];
 
-                if (stack.getAttribute('aria-label')) {
-                    stack.setAttribute('aria-label', 'Ситуации – листайте стрелками или свайпом');
-                }
+                visualStack.replaceChildren();
+                items.forEach((item, index) => {
+                    visualStack.appendChild(buildTile(item, index, items.length));
+                });
+                tiles = Array.from(visualStack.querySelectorAll('[data-audience-tile]'));
 
                 if (dotsWrap) {
-                    dotsWrap.innerHTML = cards
-                        .map((_, i) => `<span class="audience-stack-dot${i === 0 ? ' is-active' : ''}"></span>`)
+                    dotsWrap.innerHTML = items
+                        .map((_, i) => '<span class="audience-showcase-dot' + (i === 0 ? ' is-active' : '') + '"></span>')
                         .join('');
                 }
                 const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
 
-                function measureCardHeight() {
-                    if (reduceMotion() || desktopGrid()) {
-                        section.style.removeProperty('--audience-card-h');
+                function measureStageHeight() {
+                    if (desktopGrid() || reduceMotion()) {
+                        stage.style.removeProperty('--audience-showcase-h');
                         return;
                     }
                     const hiddenHost = section.closest('[data-global-expert-panel]');
                     const wasHidden = hiddenHost && hiddenHost.hidden;
                     if (wasHidden) hiddenHost.hidden = false;
-                    const width = stack.clientWidth || stack.offsetWidth;
+                    const width = stage.clientWidth || stage.offsetWidth;
                     if (!width) {
                         if (wasHidden) hiddenHost.hidden = true;
                         return;
                     }
                     let maxH = 0;
-                    cards.forEach((card) => {
-                        const clone = card.cloneNode(true);
-                        clone.classList.remove('is-dismissed', 'is-stack-hidden');
-                        clone.style.cssText = [
-                            'position:static',
-                            'inset:auto',
-                            'transform:none',
-                            'opacity:1',
-                            'visibility:hidden',
-                            'pointer-events:none',
-                            'width:' + width + 'px',
-                            'height:auto'
-                        ].join(';');
-                        stack.appendChild(clone);
-                        maxH = Math.max(maxH, clone.offsetHeight);
-                        clone.remove();
+                    items.forEach((item) => {
+                        const probe = document.createElement('div');
+                        probe.className = 'audience-showcase-tile-inner';
+                        probe.style.cssText =
+                            'position:absolute;visibility:hidden;pointer-events:none;width:' + width + 'px;height:auto';
+                        probe.innerHTML =
+                            '<div class="audience-showcase-tile-icon"><span class="material-symbols-outlined" aria-hidden="true">' +
+                            item.icon +
+                            '</span></div><div class="audience-showcase-copy"><h3 class="audience-showcase-title"></h3><p class="audience-showcase-text"></p></div>';
+                        probe.querySelector('.audience-showcase-title').textContent = item.title;
+                        probe.querySelector('.audience-showcase-text').textContent = item.text;
+                        stage.appendChild(probe);
+                        maxH = Math.max(maxH, probe.offsetHeight);
+                        probe.remove();
                     });
                     if (maxH > 0) {
-                        const stackPad = Math.min(cards.length - 1, 3) * 16;
-                        section.style.setProperty('--audience-card-h', Math.ceil(maxH + stackPad + 8) + 'px');
+                        stage.style.setProperty('--audience-showcase-h', Math.ceil(maxH + 12) + 'px');
                     }
                     if (wasHidden) hiddenHost.hidden = true;
                 }
 
                 function setActive(index) {
-                    if (desktopGrid() || reduceMotion()) {
-                        cards.forEach((card) => {
-                            card.classList.remove('is-dismissed', 'is-stack-hidden', 'is-behind');
-                            card.style.removeProperty('--stack-i');
-                            card.style.zIndex = '';
-                            card.style.transform = '';
-                            card.style.opacity = '';
-                            card.removeAttribute('aria-hidden');
+                    if (desktopGrid()) {
+                        tiles.forEach((tile) => {
+                            tile.classList.add('is-active');
+                            tile.style.removeProperty('z-index');
+                            tile.style.removeProperty('--tile-rotate');
+                            tile.removeAttribute('aria-hidden');
                         });
                         return;
                     }
 
-                    active = Math.max(0, Math.min(cards.length - 1, index));
-                    cards.forEach((card, i) => {
-                        const dismissed = i < active;
-                        const stackI = dismissed ? 0 : i - active;
-                        const stackHidden = !dismissed && stackI > 3;
-                        card.classList.remove('is-behind');
-                        card.classList.toggle('is-dismissed', dismissed);
-                        card.classList.toggle('is-stack-hidden', stackHidden);
-                        if (!dismissed && !stackHidden) {
-                            card.style.setProperty('--stack-i', String(stackI));
+                    active = ((index % items.length) + items.length) % items.length;
+
+                    tiles.forEach((tile, tileIndex) => {
+                        const isActive = tileIndex === active;
+                        tile.classList.toggle('is-active', isActive);
+                        tile.style.zIndex = String(isActive ? 40 : items.length + 2 - tileIndex);
+                        tile.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+                        if (isActive) {
+                            tile.style.removeProperty('--tile-rotate');
+                        } else if (!reduceMotion()) {
+                            tile.style.setProperty('--tile-rotate', randomRotate() + 'deg');
                         }
-                        card.style.zIndex = String(cards.length - i);
-                        card.style.transform = '';
-                        card.style.opacity = '';
-                        card.setAttribute('aria-hidden', i === active ? 'false' : 'true');
                     });
+
                     dots.forEach((dot, i) => {
                         dot.classList.toggle('is-active', i === active);
                     });
-                    if (prevBtn) prevBtn.disabled = active <= 0;
-                    if (nextBtn) nextBtn.disabled = active >= cards.length - 1;
                 }
 
                 function go(delta) {
-                    if (reduceMotion() || desktopGrid()) return;
+                    if (desktopGrid()) return;
                     setActive(active + delta);
                 }
 
@@ -6865,11 +6979,10 @@
                 if (nextBtn) nextBtn.addEventListener('click', () => go(1));
 
                 dots.forEach((dot, i) => {
-                    dot.style.cursor = 'pointer';
                     dot.addEventListener('click', () => setActive(i));
                 });
 
-                stack.addEventListener('keydown', (event) => {
+                root.addEventListener('keydown', (event) => {
                     if (event.key === 'ArrowLeft') {
                         event.preventDefault();
                         go(-1);
@@ -6879,56 +6992,17 @@
                     }
                 });
 
-                function onPointerDown(event) {
-                    if (reduceMotion() || desktopGrid()) return;
-                    if (event.pointerType === 'mouse' && event.button !== 0) return;
-                    dragging = true;
-                    dragX = 0;
-                    startX = event.clientX;
-                    stack.setPointerCapture(event.pointerId);
-                }
-
-                function onPointerMove(event) {
-                    if (!dragging) return;
-                    dragX = event.clientX - startX;
-                    const front = cards[active];
-                    if (!front) return;
-                    const rot = dragX / 40;
-                    front.style.transform = 'translate3d(' + dragX + 'px, 0, 0) rotate(' + rot + 'deg)';
-                    front.style.opacity = String(Math.max(0.35, 1 - Math.abs(dragX) / 280));
-                }
-
-                function onPointerUp(event) {
-                    if (!dragging) return;
-                    dragging = false;
-                    try {
-                        stack.releasePointerCapture(event.pointerId);
-                    } catch (e) {}
-                    const front = cards[active];
-                    if (front) {
-                        front.style.transform = '';
-                        front.style.opacity = '';
-                    }
-                    if (dragX < -64) go(1);
-                    else if (dragX > 64) go(-1);
-                    dragX = 0;
-                }
-
-                stack.addEventListener('pointerdown', onPointerDown);
-                stack.addEventListener('pointermove', onPointerMove);
-                stack.addEventListener('pointerup', onPointerUp);
-                stack.addEventListener('pointercancel', onPointerUp);
-
-                measureCardHeight();
-                setActive(0);
                 section.__audienceRefresh = (options) => {
                     const opts = options || {};
                     if (opts.reset) active = 0;
-                    measureCardHeight();
+                    measureStageHeight();
                     setActive(active);
                 };
+
+                measureStageHeight();
+                setActive(0);
                 window.addEventListener('resize', () => {
-                    measureCardHeight();
+                    measureStageHeight();
                     setActive(active);
                 });
             });
@@ -7014,7 +7088,7 @@
 
                 requestAnimationFrame(() => {
                     const panel = document.querySelector('[data-global-expert-panel="' + id + '"]');
-                    panel?.querySelector('[data-audience-stack]')?.__audienceRefresh?.({ reset: true });
+                    panel?.querySelector('[data-audience-showcase]')?.__audienceRefresh?.({ reset: true });
                     stickyToggle?.__refreshVisibility?.();
                     window.__syncExpertMarquee?.(id);
                     window.__refreshScrollTimelines?.();

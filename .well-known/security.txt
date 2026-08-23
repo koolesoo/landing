@@ -1,0 +1,3 @@
+Contact: mailto:hello@growcareer.ru
+Preferred-Languages: ru, en
+Canonical: https://growcareer.ru/.well-known/security.txt

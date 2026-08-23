@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+Disallow: /bot/
+Disallow: /.cursor/
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /Гайд.html
+
+Sitemap: https://growcareer.ru/sitemap.xml
