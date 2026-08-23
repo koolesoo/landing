@@ -5,7 +5,7 @@
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" name="viewport"/>
 <title>Твои менторы в IT</title>
 <meta name="description" content="CPO Альфа-Банка. Консультации по входу в IT и карьере, менторство, разбор резюме. Суперфиналистка «Лидеров России», основатель стартапа WID."/>
-<meta name="theme-color" content="#1a1a1a"/>
+<meta name="theme-color" content="#141414"/>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"/>
 <meta name="robots" content="index, follow"/>
 <link rel="canonical" href="https://growcareer.ru/"/>
@@ -89,7 +89,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a1a1a;
+            background-color: #141414;
             color: #ffffff;
             margin: 0;
             width: 100%;
@@ -802,32 +802,42 @@
             }
         }
 
-        .hero-video-layer {
-            background: transparent !important;
-            transition: opacity 0.18s ease;
-            will-change: opacity;
-            mix-blend-mode: screen;
-            transform: scale(0.73);
-            transform-origin: center bottom;
+        /* Общий фон лендинга */
+        .page-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: #141414;
+            overflow: hidden;
         }
 
-        /* Скрыть нативную кнопку Play у фонового видео (Safari/Chrome) */
-        #bg-video.is-inactive {
-            opacity: 0 !important;
-            visibility: hidden;
+        .page-grain {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.11;
         }
 
-        #bg-video::-webkit-media-controls,
-        #bg-video::-webkit-media-controls-enclosure,
-        #bg-video::-webkit-media-controls-panel,
-        #bg-video::-webkit-media-controls-start-playback-button,
-        #bg-video::-webkit-media-controls-overlay-play-button {
-            display: none !important;
-            -webkit-appearance: none !important;
-            opacity: 0 !important;
-            width: 0 !important;
-            height: 0 !important;
-            pointer-events: none !important;
+        .page-grain canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            image-rendering: pixelated;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .page-grain {
+                opacity: 0.07;
+            }
+        }
+
+        /* Grain только на фоне – без blur-сэмплинга карточками */
+        #page-content .backdrop-blur-md,
+        #page-content .backdrop-blur-xl {
+            -webkit-backdrop-filter: none !important;
+            backdrop-filter: none !important;
         }
 
         #hero-speaker-area {
@@ -880,10 +890,6 @@
                 rgba(0, 0, 0, 0.62) 78%,
                 rgba(0, 0, 0, 0.82) 100%
             );
-        }
-
-        .hero-video-layer.is-hidden {
-            opacity: 0;
         }
 
         .hero-freeze-frame {
@@ -1011,7 +1017,7 @@
                 calc(var(--page-inline) + (100vw - var(--page-inline) - var(--page-inline-right) - 80rem) / 2)
             );
             display: flex;
-            align-items: stretch;
+            align-items: flex-start;
             gap: 1rem;
             position: relative;
             width: auto;
@@ -1039,7 +1045,7 @@
         .review-text-card {
             position: relative;
             flex: 0 0 min(85vw, 22rem);
-            height: min(70vh, 32rem);
+            height: auto;
             scroll-snap-align: start;
             border-radius: 1.35rem;
             background: rgba(27, 27, 27, 0.6);
@@ -1057,11 +1063,9 @@
             align-items: stretch;
             gap: 0.95rem;
             width: 100%;
-            height: 100%;
             padding: 1.25rem 1.25rem 1.35rem;
             color: rgba(255, 255, 255, 0.85);
             text-align: left;
-            overflow: hidden;
         }
 
         .review-text-card:hover,
@@ -1125,15 +1129,9 @@
 
         .review-text-card-body {
             margin: 0;
-            flex: 1 1 auto;
-            min-height: 0;
-            overflow-x: hidden;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
             font-size: 0.9375rem;
             line-height: 1.55;
             color: rgba(255, 255, 255, 0.75);
-            padding-right: 0.15rem;
         }
 
         .review-text-card-body p {
@@ -1252,7 +1250,6 @@
         @media (min-width: 768px) {
             .review-text-card {
                 flex-basis: 24rem;
-                height: min(72vh, 34rem);
             }
 
             .reviews-head {
@@ -1441,13 +1438,6 @@
                 max-width: none !important;
                 height: auto !important;
                 transform: none !important;
-            }
-
-            #hero-speaker-area .hero-video-layer {
-                bottom: 0;
-                transform: none;
-                object-fit: cover;
-                object-position: center 15%;
             }
 
             .hero-scrim {
@@ -1991,7 +1981,7 @@
             }
 
             body {
-                background-color: #000;
+                background-color: #141414;
             }
 
             .mobile-top-curtain {
@@ -2065,7 +2055,17 @@
                 position: relative;
                 align-items: center;
                 flex-shrink: 0;
+                width: var(--mobile-chrome-size);
+                height: var(--mobile-chrome-size);
                 margin-left: auto;
+            }
+
+            .mobile-chrome #mobile-menu-btn,
+            .mobile-chrome #sections-overlay-close {
+                position: absolute;
+                top: 0;
+                right: 0;
+                margin: 0;
             }
 
             .mobile-chrome .expert-sticky-toggle {
@@ -2145,7 +2145,8 @@
         }
 
         @media (max-width: 767.98px) {
-            #mobile-menu-btn.mobile-menu-toggle {
+            #mobile-menu-btn.mobile-menu-toggle,
+            #sections-overlay-close.mobile-menu-toggle {
                 width: auto;
                 height: auto;
                 min-width: 0;
@@ -2802,6 +2803,34 @@
 
         .sections-overlay-cta:active {
             transform: scale(0.98);
+        }
+
+        @media (max-width: 767.98px) {
+            .sections-overlay {
+                inset: auto;
+                top: var(--mobile-chrome-bar-height);
+                left: 0;
+                right: 0;
+                bottom: 0;
+            }
+
+            .sections-overlay-panel {
+                padding:
+                    0.75rem
+                    max(var(--mobile-chrome-side), env(safe-area-inset-right))
+                    max(0.85rem, env(safe-area-inset-bottom))
+                    max(var(--mobile-chrome-side), env(safe-area-inset-left));
+            }
+
+            .sections-overlay-brand {
+                display: none;
+            }
+
+            body.has-overlay-open .mobile-chrome .expert-sticky-toggle {
+                opacity: 0 !important;
+                visibility: hidden !important;
+                pointer-events: none !important;
+            }
         }
 
         /* –– Section chips (mobile tab panels) –– */
@@ -4061,6 +4090,14 @@
             box-shadow: 0 18px 36px rgba(0, 0, 0, 0.4);
         }
 
+        .expert-photo-danya {
+            transform: rotate(-90deg);
+        }
+
+        .expert-sticky-toggle-btn .expert-photo-danya {
+            transform: rotate(-90deg);
+        }
+
         .expert-story-pin-card {
             position: absolute;
             z-index: 3;
@@ -4887,7 +4924,7 @@
 <img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
 </button>
 <button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Даня Колесниченко">
-<img src="assets/Danya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+<img src="assets/Danya.jpg?v=202608232030" alt="" width="46" height="46" class="expert-photo-danya" loading="lazy" decoding="async"/>
 </button>
 </div>
 <button type="button" id="mobile-menu-btn" class="mobile-menu-toggle" aria-haspopup="dialog" aria-controls="sections-overlay" aria-expanded="false" aria-label="Меню">
@@ -4963,7 +5000,7 @@
 <img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
 </button>
 <button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Даня Колесниченко">
-<img src="assets/Danya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+<img src="assets/Danya.jpg?v=202608232030" alt="" width="46" height="46" class="expert-photo-danya" loading="lazy" decoding="async"/>
 </button>
 </div>
 <a href="https://t.me/grow_career_bot?start=book_nastya" target="_blank" rel="noopener noreferrer" id="sticky-consult-cta" data-contact-nastya="https://t.me/grow_career_bot?start=book_nastya" data-contact-danya="https://t.me/grow_career_bot?start=book_danya">Записаться</a>
@@ -5015,21 +5052,17 @@
 </div>
 </div>
 </div>
-<!-- Global fullscreen video background -->
-<div class="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-black">
-<video id="bg-video" autoplay class="absolute inset-0 h-full w-full object-cover opacity-50" loop muted playsinline preload="auto" fetchpriority="low" disablePictureInPicture controlslist="nodownload nofullscreen noremoteplayback">
-<source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" type="video/mp4"/>
-</video>
-<div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/85"></div>
+<!-- Global fullscreen background -->
+<div class="page-bg" aria-hidden="true">
+<div class="page-grain" id="page-grain"></div>
 </div>
 <div class="mobile-page-sheet">
-<main class="relative z-10 flex min-h-screen flex-col overflow-x-hidden bg-black/40 pb-8 pt-8 backdrop-blur-xl md:pb-16 md:pt-32" id="hero">
+<main class="relative z-10 flex min-h-screen flex-col overflow-x-hidden pb-8 pt-8 md:pb-16 md:pt-32" id="hero">
 <!-- Speaker creative (временно статичный PNG вместо видео) -->
 <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden" id="hero-speaker-area">
-<video class="hero-video-layer is-hidden absolute inset-0 z-0 h-full w-full object-cover object-center opacity-100" id="hero-video" muted playsinline preload="none" disablePictureInPicture hidden></video>
 <picture class="hero-back">
-<source media="(min-width: 768px)" srcset="assets/back-desk.png?v=20260823030"/>
-<img src="assets/back.jpg?v=202608230114" alt="" width="675" height="1200" draggable="false" decoding="async"/>
+<source media="(min-width: 768px)" srcset="assets/back-desk.png?v=202608232216"/>
+<img src="assets/back.jpg?v=202608232254" alt="" width="1080" height="1920" draggable="false" decoding="async"/>
 </picture>
 <div class="hero-back-dim" aria-hidden="true"></div>
 <picture id="hero-freeze-frame" class="hero-freeze-frame is-visible">
@@ -5053,9 +5086,9 @@
 </div>
 </div>
 </main>
-<!-- Единый слой затемнения + blur под контентом после hero -->
-<div class="relative z-10">
-<div class="relative bg-black/40 backdrop-blur-xl">
+<!-- Единый слой под контентом после hero -->
+<div class="relative z-10" id="page-content">
+<div class="relative">
 <section class="page-gutter relative py-12 md:py-16" id="audience" aria-labelledby="audience-heading">
 <div class="mx-auto max-w-7xl">
 <h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="audience-heading">Ты точно в нужном месте, если…</h2>
@@ -5342,7 +5375,7 @@
 <div class="expert-story-visual">
 <div class="expert-story-path" aria-hidden="true"></div>
 <div class="expert-story-portrait-wrap">
-<img src="assets/Danya.jpg" alt="Даня Колесниченко" class="expert-story-portrait" loading="lazy" decoding="async"/>
+<img src="assets/Danya.jpg?v=202608232030" alt="Даня Колесниченко" class="expert-story-portrait expert-photo-danya" loading="lazy" decoding="async"/>
 <div class="expert-story-pin-card expert-story-pin-card--accent">
 <p class="expert-story-pin-title">Alfa Case Camp 2024</p>
 <p class="expert-story-pin-text">победитель кейс-чемпионата</p>
@@ -6071,10 +6104,8 @@
             if (e.persisted) scrollToTopOnLoad();
         });
 
-        const heroVideo = document.getElementById('hero-video');
-        const heroFreezeFrame = document.getElementById('hero-freeze-frame');
-        /* TEMP: статичный креатив в hero – выключить, когда вернём видео */
-        const HERO_STATIC_CREATIVE = true;
+        const btnAll = document.getElementById('toggle-all');
+        const btnStudents = document.getElementById('toggle-students');
 
         (function syncHeroMobilePhotoClearance() {
             const hero = document.getElementById('hero');
@@ -6101,8 +6132,6 @@
             }
             mq.addEventListener?.('change', sync);
         })();
-        const btnAll = document.getElementById('toggle-all');
-        const btnStudents = document.getElementById('toggle-students');
         const navKeys = [
             { key: 'audience', id: 'audience' },
             { key: 'expert', id: 'expert' },
@@ -6123,120 +6152,6 @@
         const navLinks = Array.from(document.querySelectorAll('#site-header .nav-link[data-nav-top]'));
         const connectorFills = document.querySelectorAll('#site-header .nav-connector-fill');
         let navSyncRaf = null;
-        let heroVideoMode = 'all';
-        let reverseRafId = null;
-        let reverseLastTs = 0;
-        let forwardRafId = null;
-        const HERO_END_HOLD_OFFSET = 1.2;
-
-        function stopReversePlayback() {
-            if (!reverseRafId) return;
-            cancelAnimationFrame(reverseRafId);
-            reverseRafId = null;
-            reverseLastTs = 0;
-        }
-
-        function stopForwardMonitor() {
-            if (!forwardRafId) return;
-            cancelAnimationFrame(forwardRafId);
-            forwardRafId = null;
-        }
-
-        function showFreezeFrame() {
-            if (!heroFreezeFrame) return;
-            heroFreezeFrame.classList.add('is-visible');
-        }
-
-        function hideFreezeFrame() {
-            if (HERO_STATIC_CREATIVE) return;
-            if (!heroFreezeFrame) return;
-            heroFreezeFrame.classList.remove('is-visible');
-        }
-
-        function heroHoldTime() {
-            if (!heroVideo || !Number.isFinite(heroVideo.duration) || heroVideo.duration <= 0) return 0;
-            return Math.max(0, heroVideo.duration - HERO_END_HOLD_OFFSET);
-        }
-
-        function holdHeroOnStudentsFrame() {
-            if (HERO_STATIC_CREATIVE) {
-                showFreezeFrame();
-                if (heroVideo) heroVideo.classList.add('is-hidden');
-                return;
-            }
-            if (!heroVideo) return;
-            const holdTime = heroHoldTime();
-            heroVideo.pause();
-            heroVideo.currentTime = holdTime;
-            showFreezeFrame();
-            heroVideo.classList.add('is-hidden');
-        }
-
-        function playForward() {
-            if (HERO_STATIC_CREATIVE) {
-                showFreezeFrame();
-                if (heroVideo) heroVideo.classList.add('is-hidden');
-                return;
-            }
-            if (!heroVideo) return;
-            stopReversePlayback();
-            stopForwardMonitor();
-            hideFreezeFrame();
-            heroVideo.classList.remove('is-hidden');
-            if (Number.isFinite(heroVideo.duration) && heroVideo.duration > 0) {
-                const endFrame = heroHoldTime();
-                if (heroVideo.currentTime >= endFrame - 0.02) {
-                    heroVideo.currentTime = 0;
-                }
-            }
-            const p = heroVideo.play();
-            if (p && typeof p.catch === 'function') p.catch(() => {});
-
-            const monitorForward = () => {
-                if (!heroVideo || heroVideoMode !== 'students') {
-                    stopForwardMonitor();
-                    return;
-                }
-                const holdTime = heroHoldTime();
-                if (holdTime && heroVideo.currentTime >= holdTime) {
-                    holdHeroOnStudentsFrame();
-                    stopForwardMonitor();
-                    return;
-                }
-                forwardRafId = requestAnimationFrame(monitorForward);
-            };
-            forwardRafId = requestAnimationFrame(monitorForward);
-        }
-
-        function playReverse() {
-            if (HERO_STATIC_CREATIVE) {
-                showFreezeFrame();
-                if (heroVideo) heroVideo.classList.add('is-hidden');
-                return;
-            }
-            if (!heroVideo) return;
-            stopReversePlayback();
-            stopForwardMonitor();
-            hideFreezeFrame();
-            heroVideo.classList.remove('is-hidden');
-            heroVideo.pause();
-
-            const step = (ts) => {
-                if (!heroVideo) return;
-                if (!reverseLastTs) reverseLastTs = ts;
-                const dt = Math.min(0.05, (ts - reverseLastTs) / 1000);
-                reverseLastTs = ts;
-                const next = Math.max(0, heroVideo.currentTime - dt * 1.2);
-                heroVideo.currentTime = next;
-                if (next > 0.001) {
-                    reverseRafId = requestAnimationFrame(step);
-                } else {
-                    stopReversePlayback();
-                }
-            };
-
-            reverseRafId = requestAnimationFrame(step);
-        }
 
         function setChipAll() {
             btnAll.classList.add('chip-active');
@@ -6266,25 +6181,10 @@
         if (btnAll && btnStudents) {
             btnAll.addEventListener('click', () => {
                 setChipAll();
-                heroVideoMode = 'all';
-                playReverse();
             });
 
             btnStudents.addEventListener('click', () => {
                 setChipStudents();
-                heroVideoMode = 'students';
-                playForward();
-            });
-        }
-
-        if (heroVideo && !HERO_STATIC_CREATIVE) {
-            heroVideo.load();
-            heroVideo.addEventListener('ended', () => {
-                if (heroVideoMode === 'students') {
-                    holdHeroOnStudentsFrame();
-                    return;
-                }
-                heroVideo.pause();
             });
         }
 
@@ -6494,61 +6394,82 @@
             });
         })();
 
-        const bgVideo = document.getElementById('bg-video');
+        (function initPageGrain() {
+            const host = document.getElementById('page-grain');
+            if (!host) return;
 
-        function syncBgVideoPlayback() {
-            if (!bgVideo) return;
-            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const saveData = 'connection' in navigator && navigator.connection && navigator.connection.saveData;
-            if (reduce || saveData) {
-                bgVideo.pause();
-                bgVideo.removeAttribute('autoplay');
-                bgVideo.classList.add('is-inactive');
-                return;
-            }
-            if (document.hidden) {
-                bgVideo.pause();
-                return;
-            }
-            const playAttempt = bgVideo.play();
-            if (playAttempt && typeof playAttempt.then === 'function') {
-                playAttempt
-                    .then(() => bgVideo.classList.remove('is-inactive'))
-                    .catch(() => bgVideo.classList.add('is-inactive'));
-            } else if (bgVideo.paused) {
-                bgVideo.classList.add('is-inactive');
-            } else {
-                bgVideo.classList.remove('is-inactive');
-            }
-        }
+            const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const canvas = document.createElement('canvas');
+            host.appendChild(canvas);
 
-        if (bgVideo) {
-            bgVideo.addEventListener('playing', () => bgVideo.classList.remove('is-inactive'));
-            bgVideo.addEventListener('pause', () => {
-                if (document.hidden) return;
-                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                const saveData = 'connection' in navigator && navigator.connection && navigator.connection.saveData;
-                if (reduce || saveData) {
-                    bgVideo.classList.add('is-inactive');
-                    return;
+            const ctx = canvas.getContext('2d', { alpha: true });
+            if (!ctx) return;
+
+            let size = window.innerWidth < 768 ? 128 : 200;
+            let rafId = 0;
+            let lastFrame = 0;
+            const frameGap = 1000 / 15;
+
+            function grainSize() {
+                return window.innerWidth < 768 ? 128 : 200;
+            }
+
+            function resize() {
+                size = grainSize();
+                canvas.width = size;
+                canvas.height = size;
+            }
+
+            function paint() {
+                const imageData = ctx.createImageData(size, size);
+                const buf = imageData.data;
+                for (let i = 0; i < buf.length; i += 4) {
+                    const shade = (Math.random() * 255) | 0;
+                    buf[i] = shade;
+                    buf[i + 1] = shade;
+                    buf[i + 2] = shade;
+                    buf[i + 3] = 18;
                 }
-                /* Случайная пауза не должна навсегда прятать фон – пробуем снова */
-                requestAnimationFrame(() => {
-                    if (!document.hidden && bgVideo.paused) syncBgVideoPlayback();
-                });
-            });
-            bgVideo.addEventListener('loadeddata', syncBgVideoPlayback);
-            bgVideo.muted = true;
-            bgVideo.setAttribute('playsinline', '');
-            bgVideo.preload = 'auto';
-        }
+                ctx.putImageData(imageData, 0, 0);
+            }
 
-        document.addEventListener('visibilitychange', syncBgVideoPlayback);
-        window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', syncBgVideoPlayback);
-        if ('connection' in navigator && navigator.connection) {
-            navigator.connection.addEventListener('change', syncBgVideoPlayback);
-        }
-        syncBgVideoPlayback();
+            function loop(ts) {
+                rafId = requestAnimationFrame(loop);
+                if (document.hidden) return;
+                if (motionQuery.matches) return;
+                if (ts - lastFrame < frameGap) return;
+                lastFrame = ts;
+                paint();
+            }
+
+            function start() {
+                paint();
+                if (motionQuery.matches) return;
+                if (!rafId) {
+                    lastFrame = 0;
+                    rafId = requestAnimationFrame(loop);
+                }
+            }
+
+            function stop() {
+                if (!rafId) return;
+                cancelAnimationFrame(rafId);
+                rafId = 0;
+            }
+
+            resize();
+            window.addEventListener('resize', resize, { passive: true });
+            motionQuery.addEventListener('change', () => {
+                stop();
+                start();
+            });
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) stop();
+                else start();
+            });
+
+            start();
+        })();
 
         (function initLogoMarquees() {
             const LOGO_PX_PER_SEC = 40;
