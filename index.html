@@ -351,10 +351,10 @@
 
         .hero-usp-title {
             margin: 0;
-            font-size: 1.25rem;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.2;
+            font-size: 1.125rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
             color: #fff;
         }
 
@@ -382,7 +382,7 @@
             }
 
             .hero-usp-title {
-                font-size: 1.35rem;
+                font-size: 1.25rem;
             }
 
             .hero-usp-text {
@@ -554,7 +554,7 @@
             align-items: center;
             justify-content: center;
             align-self: center;
-            margin-left: 0.35rem;
+            margin-left: 0.75rem;
             padding: 0.45rem 0.9rem;
             border-radius: 9999px;
             border: 1px solid rgba(255, 255, 255, 0.22);
@@ -918,17 +918,6 @@
             min-width: 0;
         }
 
-        .reviews-head-rating {
-            margin-top: 0.55rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            font-size: 0.8125rem;
-            font-weight: 500;
-            letter-spacing: -0.01em;
-            color: rgba(255, 255, 255, 0.45);
-        }
-
         .reviews-nav {
             display: flex;
             align-items: center;
@@ -1060,12 +1049,15 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            color: rgba(255, 255, 255, 0.72);
-            background: rgba(100, 206, 251, 0.16);
-            border-color: rgba(100, 206, 251, 0.28);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.38);
+        }
+
+        .review-text-card-photo--fallback .material-symbols-outlined {
+            font-size: 1.35rem;
+            line-height: 1;
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
         .review-text-card-body {
@@ -1641,24 +1633,8 @@
             }
         }
 
-        .audience-showcase-tile-icon {
-            display: flex;
-            height: 2.5rem;
-            width: 2.5rem;
-            flex: 0 0 auto;
-            align-items: center;
-            justify-content: center;
-            border-radius: 9999px;
-            background: rgba(100, 206, 251, 0.1);
-            color: #64cefb;
-        }
-
-        .audience-showcase-tile-icon .material-symbols-outlined {
-            font-size: 1.375rem;
-        }
-
         .audience-showcase-copy {
-            margin-top: 1rem;
+            margin-top: 0;
             min-width: 0;
             transition: opacity 0.2s ease;
         }
@@ -3468,14 +3444,15 @@
 
         .track-expand-close {
             position: absolute;
-            top: max(0.75rem, env(safe-area-inset-top));
-            right: max(0.75rem, env(safe-area-inset-right));
+            top: var(--track-expand-close-inset);
+            right: var(--track-expand-close-inset);
             z-index: 2;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: var(--mobile-chrome-size, 2.55rem);
             height: var(--mobile-chrome-size, 2.55rem);
+            margin: 0;
             border: 0;
             border-radius: 9999px;
             background: transparent;
@@ -3509,6 +3486,7 @@
         .track-expand-panel {
             position: relative;
             z-index: 1;
+            --track-expand-close-inset: 0.65rem;
             width: min(100%, 32rem);
             max-height: none;
             height: auto;
@@ -3663,6 +3641,7 @@
                 width: min(100%, 28rem);
                 max-height: none;
                 margin-block: auto;
+                --track-expand-close-inset: 0.55rem;
             }
 
             .track-expand-body {
@@ -4254,10 +4233,12 @@
         .expert-story-portrait-wrap {
             position: relative;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
             margin: 0 auto;
             width: min(100%, 18rem);
             max-width: 18rem;
-            padding-bottom: 2rem;
         }
 
         @media (min-width: 768px) {
@@ -4265,7 +4246,7 @@
                 margin: 0;
                 width: min(100%, 27rem);
                 max-width: 27rem;
-                padding-bottom: 2rem;
+                gap: 0.85rem;
             }
         }
 
@@ -4288,63 +4269,67 @@
             transform: rotate(-90deg);
         }
 
+        .expert-story-pin-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: stretch;
+            gap: 0.55rem;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .expert-story-pin-row {
+                gap: 0.65rem;
+            }
+        }
+
         .expert-story-pin-card {
-            position: absolute;
-            z-index: 3;
-            width: min(64%, 10.75rem);
-            border-radius: 0.75rem;
-            padding: 0.65rem 0.75rem;
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            background: #141414;
-            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            min-height: 4.5rem;
+            height: 100%;
+            width: auto;
+            border-radius: 0.85rem;
+            padding: 0.7rem 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(27, 27, 27, 0.92);
+            box-shadow: none;
             color: #fff;
             -webkit-backdrop-filter: none;
             backdrop-filter: none;
         }
 
-        .expert-story-pin-card--accent {
-            left: 0.35rem;
-            bottom: 3.1rem;
-            border-color: rgba(255, 255, 255, 0.22);
-            background: #141414;
-            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
-        }
-
-        .expert-story-pin-card--light {
-            right: 0.35rem;
-            bottom: -0.55rem;
-            border-color: rgba(255, 255, 255, 0.22);
-            background: #141414;
-        }
-
         @media (min-width: 768px) {
             .expert-story-pin-card {
-                width: min(50%, 12.25rem);
-                padding: 0.75rem 0.85rem;
+                min-height: 4.85rem;
+                padding: 0.8rem 0.85rem;
+                border-radius: 0.95rem;
             }
+        }
 
-            .expert-story-pin-card--accent {
-                left: -0.15rem;
-                bottom: 3.85rem;
-            }
-
-            .expert-story-pin-card--light {
-                right: -0.15rem;
-                bottom: -0.45rem;
-            }
+        .expert-story-pin-card--accent,
+        .expert-story-pin-card--light {
+            border-color: rgba(255, 255, 255, 0.08);
+            background: rgba(27, 27, 27, 0.92);
+            box-shadow: none;
         }
 
         .expert-story-pin-title {
             margin: 0;
+            font-family: 'Inter', sans-serif;
             font-size: 0.8125rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            line-height: 1.25;
-            color: rgba(255, 255, 255, 0.94);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.82);
         }
 
         .expert-story-pin-card--accent .expert-story-pin-title {
-            color: rgba(255, 255, 255, 0.94);
+            color: rgba(255, 255, 255, 0.82);
         }
 
         .expert-story-pin-text {
@@ -4537,7 +4522,8 @@
             position: relative;
             display: grid;
             grid-template-columns: 1.75rem minmax(0, 1fr);
-            gap: 0.95rem;
+            column-gap: 0.95rem;
+            row-gap: 0.45rem;
             padding: 1.35rem 0 1.85rem;
             opacity: 0.42;
             transform: translateY(0.65rem);
@@ -4564,6 +4550,9 @@
         .expert-story-step-marker {
             position: relative;
             z-index: 1;
+            grid-column: 1;
+            grid-row: 1;
+            align-self: center;
             width: 1.75rem;
             height: 1.75rem;
             display: inline-flex;
@@ -4572,20 +4561,16 @@
             border-radius: 9999px;
             border: 1px solid rgba(255, 255, 255, 0.18);
             background: rgba(8, 12, 16, 0.92);
-            color: rgba(255, 255, 255, 0.55);
-            font-size: 0.7rem;
-            font-weight: 800;
-            line-height: 1;
+            font-size: 0;
+            line-height: 0;
             box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.35);
             transition:
-                color 0.35s ease,
                 border-color 0.35s ease,
                 background-color 0.35s ease,
                 box-shadow 0.35s ease;
         }
 
         .expert-story-step.is-active .expert-story-step-marker {
-            color: #041018;
             border-color: #64cefb;
             background: #64cefb;
             box-shadow:
@@ -4600,7 +4585,6 @@
                 top: 2.55rem;
                 width: 1.55rem;
                 height: 1.55rem;
-                font-size: 0;
             }
         }
 
@@ -4609,18 +4593,23 @@
         }
 
         .expert-story-step-body {
+            display: contents;
             min-width: 0;
-            padding-top: 0.05rem;
         }
 
         @media (min-width: 768px) {
             .expert-story-step-body {
+                display: block;
                 grid-column: 2;
+                padding-top: 0.05rem;
             }
         }
 
         .expert-story-step-label {
-            margin: 0 0 0.45rem;
+            grid-column: 2;
+            grid-row: 1;
+            align-self: center;
+            margin: 0;
             font-size: 0.72rem;
             font-weight: 800;
             letter-spacing: 0.12em;
@@ -4630,12 +4619,19 @@
 
         @media (min-width: 768px) {
             .expert-story-step-label {
+                grid-column: auto;
+                grid-row: auto;
+                display: flex;
+                align-items: center;
+                min-height: 1.55rem;
+                margin-top: 0.3rem;
                 font-size: 0.78rem;
-                margin-bottom: 0.65rem;
             }
         }
 
         .expert-story-step-text {
+            grid-column: 2;
+            grid-row: 2;
             margin: 0;
             font-size: 1.125rem;
             line-height: 1.55;
@@ -4645,6 +4641,9 @@
 
         @media (min-width: 768px) {
             .expert-story-step-text {
+                grid-column: auto;
+                grid-row: auto;
+                margin-top: 0.65rem;
                 font-size: 1.35rem;
                 line-height: 1.5;
                 letter-spacing: -0.015em;
@@ -5202,10 +5201,10 @@
 </div>
 <div id="track-expand" class="track-expand" hidden aria-hidden="true">
 <div class="track-expand-backdrop" data-track-expand-close tabindex="-1" aria-hidden="true"></div>
+<div class="track-expand-panel" role="dialog" aria-modal="true" aria-labelledby="track-expand-title" id="track-expand-panel">
 <button type="button" class="track-expand-close" data-track-expand-close aria-label="Закрыть">
 <span class="material-symbols-outlined" data-icon="close" aria-hidden="true">close</span>
 </button>
-<div class="track-expand-panel" role="dialog" aria-modal="true" aria-labelledby="track-expand-title" id="track-expand-panel">
 <div class="track-expand-body">
 <div class="track-expand-head">
 <div class="track-expand-copy">
@@ -5300,12 +5299,12 @@
 </div>
 </div>
 <div hidden data-audience-source>
-<article data-audience-item data-icon="flag" data-title="Хочешь начать карьеру, но не знаешь с чего" data-text="Разберем первые шаги: куда смотреть, как искать и как выстроить процесс без хаоса"></article>
-<article data-audience-item data-icon="emoji_events" data-title="Планируешь участвовать в кейс-чемпионатах" data-text="Помогу упаковать кейс, подготовиться к отбору и пройти путь от заявки до финала"></article>
-<article data-audience-item data-icon="school" data-title="Мечтаешь зайти в продакт-менеджмент" data-text="Покажу, как упаковать опыт, подтянуть навыки и сделать сильный вход в продукт"></article>
-<article data-audience-item data-icon="psychology" data-title="Хочешь подтянуть продуктовые навыки" data-text="Разберем гипотезы, метрики, CustDev и то, что реально спрашивают на продуктовых ролях"></article>
+<article data-audience-item data-icon="flag" data-title="Хочешь начать карьеру, но не знаешь с чего" data-text="Разберём первые шаги: куда смотреть, как искать и как выстроить процесс без хаоса"></article>
+<article data-audience-item data-icon="school" data-title="Мечтаешь зайти в продакт-менеджмент" data-text="Покажем, как упаковать опыт, подтянуть навыки и сделать сильный вход в продукт"></article>
+<article data-audience-item data-icon="psychology" data-title="Хочешь подтянуть продуктовые навыки" data-text="Разберём гипотезы, метрики, CustDev и то, что реально спрашивают на продуктовых ролях"></article>
 <article data-audience-item data-icon="record_voice_over" data-title="Готовишься к собеседованиям" data-text="Отработаем ответы, кейсы и типовые вопросы – чтобы чувствовать себя увереннее на интервью"></article>
-<article data-audience-item data-icon="filter_alt" data-title="Хочешь понять воронку найма" data-text="Объясню, как устроен отбор в IT и продукте: от отклика до оффера и что делать на каждом этапе"></article>
+<article data-audience-item data-icon="filter_alt" data-title="Хочешь понять воронку найма" data-text="Объясним, как устроен отбор в IT и продукте: от отклика до оффера и что делать на каждом этапе"></article>
+<article data-audience-item data-icon="emoji_events" data-title="Планируешь участвовать в кейс-чемпионатах" data-text="Поможем упаковать кейс, подготовиться к отбору и пройти путь от заявки до финала"></article>
 </div>
 </div>
 </div>
@@ -5348,6 +5347,7 @@
 <div class="expert-story-path" aria-hidden="true"></div>
 <div class="expert-story-portrait-wrap">
 <img src="assets/nastya.jpg" alt="Анастасия Нерадовских" class="expert-story-portrait" loading="lazy" decoding="async"/>
+<div class="expert-story-pin-row">
 <div class="expert-story-pin-card expert-story-pin-card--accent">
 <p class="expert-story-pin-title">Суперфиналистка «Лидеров России»</p>
 <p class="expert-story-pin-text">без связей – упорным трудом</p>
@@ -5355,6 +5355,7 @@
 <div class="expert-story-pin-card expert-story-pin-card--light">
 <p class="expert-story-pin-title">CPO @ Альфа-Банк</p>
 <p class="expert-story-pin-text">от стажера-маркетолога в P&amp;G</p>
+</div>
 </div>
 </div>
 </div>
@@ -5382,7 +5383,7 @@
 <div class="expert-timeline-rail" aria-hidden="true"><div class="expert-timeline-beam" data-timeline-beam></div></div>
 <ol class="expert-story-timeline-list">
 <li class="expert-story-step" data-timeline-step>
-<span class="expert-story-step-marker" aria-hidden="true">1</span>
+<span class="expert-story-step-marker" aria-hidden="true"></span>
 <p class="expert-story-step-title" aria-hidden="true">01</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Олимпиады и гранты</p>
@@ -5390,7 +5391,7 @@
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
-<span class="expert-story-step-marker" aria-hidden="true">2</span>
+<span class="expert-story-step-marker" aria-hidden="true"></span>
 <p class="expert-story-step-title" aria-hidden="true">02</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Лидеры России</p>
@@ -5398,7 +5399,7 @@
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
-<span class="expert-story-step-marker" aria-hidden="true">3</span>
+<span class="expert-story-step-marker" aria-hidden="true"></span>
 <p class="expert-story-step-title" aria-hidden="true">03</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Product → CPO</p>
@@ -5406,7 +5407,7 @@
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
-<span class="expert-story-step-marker" aria-hidden="true">4</span>
+<span class="expert-story-step-marker" aria-hidden="true"></span>
 <p class="expert-story-step-title" aria-hidden="true">04</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Стартап WID</p>
@@ -5500,11 +5501,13 @@
 <div class="expert-story-path" aria-hidden="true"></div>
 <div class="expert-story-portrait-wrap">
 <img src="assets/Danya.jpg?v=202608232030" alt="Данил Колесниченко" class="expert-story-portrait expert-photo-danya" loading="lazy" decoding="async"/>
+<div class="expert-story-pin-row">
 <div class="expert-story-pin-card expert-story-pin-card--accent">
 <p class="expert-story-pin-title">Product Owner в крупнейшем финтехе в 21 год</p>
 </div>
 <div class="expert-story-pin-card expert-story-pin-card--light">
 <p class="expert-story-pin-title">Эксперт в НИУ ВШЭ, Cup Russia, Альфа-Банке и др.</p>
+</div>
 </div>
 </div>
 </div>
@@ -5532,23 +5535,23 @@
 <div class="expert-timeline-rail" aria-hidden="true"><div class="expert-timeline-beam" data-timeline-beam></div></div>
 <ol class="expert-story-timeline-list">
 <li class="expert-story-step" data-timeline-step>
-<span class="expert-story-step-marker" aria-hidden="true">1</span>
+<span class="expert-story-step-marker" aria-hidden="true"></span>
 <p class="expert-story-step-title" aria-hidden="true">Старт</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Весна 2024</p>
-<p class="expert-story-step-text">Мечтал о стажировке, но казалось, что это невозможно с моим резюме</p>
+<p class="expert-story-step-text">Мечтал о стажировке, но думал, что это невозможно с моим опытом</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
-<span class="expert-story-step-marker" aria-hidden="true">2</span>
+<span class="expert-story-step-marker" aria-hidden="true"></span>
 <p class="expert-story-step-title" aria-hidden="true">Стажировка</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Осень 2024</p>
-<p class="expert-story-step-text">Попал на стажировку в Альфа-Банк</p>
+<p class="expert-story-step-text">Попал на стажировку в Альфа-Банк, выиграв кейс-чемпионат</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
-<span class="expert-story-step-marker" aria-hidden="true">3</span>
+<span class="expert-story-step-marker" aria-hidden="true"></span>
 <p class="expert-story-step-title" aria-hidden="true">Офферы</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Весна 2025</p>
@@ -5556,7 +5559,7 @@
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
-<span class="expert-story-step-marker" aria-hidden="true">4</span>
+<span class="expert-story-step-marker" aria-hidden="true"></span>
 <p class="expert-story-step-title" aria-hidden="true">Эксперт</p>
 <div class="expert-story-step-body">
 <p class="expert-story-step-label">Весна 2026</p>
@@ -5798,7 +5801,7 @@
 </article>
 <article class="track-card">
 <h3 class="track-card-title">Разбор резюме</h3>
-<p class="track-card-text">Детальный анализ резюме: структура, формулировки, ключевые слова, подача опыта и переупаковка «нерелевантного» опыта</p>
+<p class="track-card-text">Разберём все нюансы хорошего резюме и соберём «под ключ», даже если опыта мало</p>
 <p class="track-card-price">2 500 ₽</p>
 <p class="track-card-meta">30 минут · онлайн</p>
 <button type="button" class="track-more" data-track-more aria-expanded="false" aria-controls="track-detail-danya-resume">Подробнее</button>
@@ -5878,7 +5881,7 @@
 <span>Получить гайд</span>
 </a>
 </div>
-<p class="guide-legal">Нажимая кнопку, ты даешь <a href="https://disk.yandex.ru/edit/disk/disk%2FСогласие%20на%20обработку%20персональных%20данных.docx" target="_blank" rel="noopener noreferrer">согласие на обработку персональных данных</a> и принимаешь <a href="https://disk.yandex.ru/i/kYCiK3Ll67SOq9mufJcgRiPegnqahzm72s0qoIz-cKg6X2hQTmxSX1VjQQ" target="_blank" rel="noopener noreferrer">Политику конфиденциальности</a>.</p>
+<p class="guide-legal">Нажимая кнопку, ты даешь <a href="https://disk.yandex.ru/edit/disk/disk%2FСогласие%20на%20обработку%20персональных%20данных.docx" target="_blank" rel="noopener noreferrer">согласие на обработку персональных данных</a> и принимаешь <a href="https://disk.yandex.ru/i/kYCiK3Ll67SOq9mufJcgRiPegnqahzm72s0qoIz-cKg6X2hQTmxSX1VjQQ" target="_blank" rel="noopener noreferrer">Политику конфиденциальности</a></p>
 </div>
 </div>
 </div>
@@ -5900,10 +5903,6 @@
 <div class="reviews-head">
 <div class="reviews-head-copy">
 <h2 class="text-4xl font-black tracking-tighter md:text-5xl" id="reviews-heading">Отзывы</h2>
-<p class="reviews-head-rating">
-<span class="material-symbols-outlined text-[16px] text-[#f5c518] md:text-[18px]" style="font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;" aria-hidden="true">star</span>
-4.95 средняя оценка
-</p>
 </div>
 <div class="reviews-nav" aria-label="Управление каруселью отзывов">
 <button type="button" class="audience-nav-btn" data-reviews-nav="prev" aria-label="Предыдущий отзыв">
@@ -6047,7 +6046,7 @@
 <button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Степан</button>
 <p class="review-text-card-role">Эксперт онлайн-продаж</p>
 </div>
-<span class="review-text-card-photo review-text-card-photo--fallback" aria-hidden="true">С</span>
+<span class="review-text-card-photo review-text-card-photo--fallback" aria-hidden="true"><span class="material-symbols-outlined">person</span></span>
 </div>
 <div class="review-text-card-body">
 <blockquote class="review-text-card-excerpt">
@@ -6066,7 +6065,7 @@
 <button type="button" class="review-text-card-name" data-review-open aria-haspopup="dialog">Светлана</button>
 <p class="review-text-card-role">Руководитель проектов</p>
 </div>
-<span class="review-text-card-photo review-text-card-photo--fallback" aria-hidden="true">С</span>
+<span class="review-text-card-photo review-text-card-photo--fallback" aria-hidden="true"><span class="material-symbols-outlined">person</span></span>
 </div>
 <div class="review-text-card-body">
 <blockquote class="review-text-card-excerpt">
@@ -6908,14 +6907,6 @@
                 const inner = document.createElement('div');
                 inner.className = 'audience-showcase-tile-inner';
 
-                const iconWrap = document.createElement('div');
-                iconWrap.className = 'audience-showcase-tile-icon';
-                const icon = document.createElement('span');
-                icon.className = 'material-symbols-outlined';
-                icon.setAttribute('aria-hidden', 'true');
-                icon.textContent = item.icon;
-                iconWrap.appendChild(icon);
-
                 const copy = document.createElement('div');
                 copy.className = 'audience-showcase-copy';
 
@@ -6929,7 +6920,7 @@
                 text.textContent = item.text;
 
                 copy.append(title, text);
-                inner.append(iconWrap, copy);
+                inner.append(copy);
                 tile.appendChild(inner);
                 return tile;
             }
@@ -6947,7 +6938,6 @@
                 const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
                 const desktopGrid = () => window.matchMedia('(min-width: 768px)').matches;
                 const items = sourceItems.map((node) => ({
-                    icon: node.getAttribute('data-icon') || 'star',
                     title: node.getAttribute('data-title') || '',
                     text: node.getAttribute('data-text') || ''
                 }));
@@ -6987,9 +6977,7 @@
                         probe.style.cssText =
                             'position:absolute;visibility:hidden;pointer-events:none;width:' + width + 'px;height:auto';
                         probe.innerHTML =
-                            '<div class="audience-showcase-tile-icon"><span class="material-symbols-outlined" aria-hidden="true">' +
-                            item.icon +
-                            '</span></div><div class="audience-showcase-copy"><h3 class="audience-showcase-title"></h3><p class="audience-showcase-text"></p></div>';
+                            '<div class="audience-showcase-copy"><h3 class="audience-showcase-title"></h3><p class="audience-showcase-text"></p></div>';
                         probe.querySelector('.audience-showcase-title').textContent = item.title;
                         probe.querySelector('.audience-showcase-text').textContent = item.text;
                         stage.appendChild(probe);
