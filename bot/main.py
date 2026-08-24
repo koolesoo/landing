@@ -10,6 +10,9 @@ from pathlib import Path
 
 from aiohttp import web
 from dotenv import load_dotenv
+
+load_dotenv()
+
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -27,6 +30,7 @@ from telegram.ext import (
     filters,
 )
 
+from admin_bot import build_admin_app, notify_admins
 from guide_content import (
     BOOKING_INTRO,
     BOOKING_SUCCESS,
@@ -38,8 +42,13 @@ from guide_content import (
     WELCOME_FROM_SITE,
 )
 from services import EXPERTS, get_expert, get_tariff
-
-load_dotenv()
+from security import (
+    MAX_BODY_BYTES,
+    catch_all_handler,
+    security_middleware,
+    validate_webhook_secret,
+)
+from telegram_client import build_application
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",
@@ -52,9 +61,8 @@ DB_PATH = BASE_DIR / "data" / "guide.db"
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 BOT_USERNAME = os.getenv("BOT_USERNAME", "").strip().lstrip("@")
-ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "koolesoo").strip().lstrip("@").lower()
-ADMIN_CHAT_ID = os.getenv("ADMIN_CHAT_ID", "").strip()
 BOT_MODE = os.getenv("BOT_MODE", "polling").strip().lower()
+HOST = os.getenv("HOST", "127.0.0.1" if BOT_MODE == "polling" else "0.0.0.0").strip()
 WEBHOOK_URL = os.getenv("WEBHOOK_URL", "").strip().rstrip("/")
 WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET", "change-me").strip()
 PORT = int(os.getenv("PORT", "8080"))
@@ -68,6 +76,7 @@ ALLOWED_ORIGINS = {
 }
 
 ptb_app: Application | None = None
+admin_ptb_app: Application | None = None
 
 
 def utc_now() -> str:
@@ -122,34 +131,6 @@ def init_db() -> None:
             )
 
 
-def get_setting(key: str) -> str | None:
-    with sqlite3.connect(DB_PATH) as conn:
-        row = conn.execute("SELECT value FROM settings WHERE key = ?", (key,)).fetchone()
-        return row[0] if row else None
-
-
-def set_setting(key: str, value: str) -> None:
-    with sqlite3.connect(DB_PATH) as conn:
-        conn.execute(
-            "INSERT INTO settings (key, value) VALUES (?, ?) "
-            "ON CONFLICT(key) DO UPDATE SET value = excluded.value",
-            (key, value),
-        )
-
-
-def get_admin_chat_id() -> int | None:
-    if ADMIN_CHAT_ID:
-        return int(ADMIN_CHAT_ID)
-    stored = get_setting("admin_chat_id")
-    return int(stored) if stored else None
-
-
-def register_admin_chat_id(user_id: int, username: str | None) -> None:
-    if username and username.lower() == ADMIN_USERNAME:
-        set_setting("admin_chat_id", str(user_id))
-        logger.info("Admin chat id registered: %s (@%s)", user_id, username)
-
-
 def format_user_ref(username: str | None, user_id: int | None = None, full_name: str | None = None) -> str:
     parts: list[str] = []
     if full_name:
@@ -159,22 +140,6 @@ def format_user_ref(username: str | None, user_id: int | None = None, full_name:
     elif user_id:
         parts.append(f"id:{user_id}")
     return " · ".join(parts) if parts else "неизвестный пользователь"
-
-
-async def notify_admin(bot, text: str) -> None:
-    chat_id = get_admin_chat_id()
-    if not chat_id:
-        logger.warning("Admin chat id is not set – @%s should /start the bot once", ADMIN_USERNAME)
-        return
-    try:
-        await bot.send_message(
-            chat_id=chat_id,
-            text=text,
-            parse_mode=ParseMode.HTML,
-            disable_web_page_preview=True,
-        )
-    except Exception:
-        logger.exception("Failed to notify admin (chat_id=%s)", chat_id)
 
 
 def mark_booking_start(user_id: int, username: str | None, full_name: str | None) -> bool:
@@ -403,8 +368,6 @@ async def send_guide(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     if not message or not user:
         return
 
-    register_admin_chat_id(user.id, user.username)
-
     if update.callback_query:
         await clear_message_buttons(update.callback_query)
 
@@ -422,10 +385,7 @@ async def send_guide(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         )
 
     user_ref = format_user_ref(user.username, user.id, user.full_name)
-    await notify_admin(
-        context.bot,
-        f"📘 <b>Гайд отправлен</b>\n{user_ref}",
-    )
+    await notify_admins(f"📘 <b>Гайд отправлен</b>\n{user_ref}")
 
 
 async def start_booking(
@@ -441,14 +401,11 @@ async def start_booking(
     if not message or not user:
         return
 
-    register_admin_chat_id(user.id, user.username)
-
     is_first = mark_booking_start(user.id, user.username, user.full_name)
     if is_first:
         user_ref = format_user_ref(user.username, user.id, user.full_name)
-        await notify_admin(
-            context.bot,
-            f"🟡 <b>Старт записи</b>\n{user_ref}\nНачал оформление заявки.",
+        await notify_admins(
+            f"🟡 <b>Старт записи</b>\n{user_ref}\nНачал оформление заявки."
         )
 
     if expert_id and tariff_id and get_tariff(expert_id, tariff_id):
@@ -545,8 +502,7 @@ async def complete_booking(
     )
 
     user_ref = format_user_ref(user.username, user.id, user.full_name)
-    await notify_admin(
-        context.bot,
+    await notify_admins(
         (
             f"🟢 <b>Успешная запись</b>\n"
             f"{user_ref}\n"
@@ -561,8 +517,6 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     user = update.effective_user
     if not message or not user:
         return
-
-    register_admin_chat_id(user.id, user.username)
 
     args = context.args or []
     payload = args[0].lower() if args else ""
@@ -666,8 +620,7 @@ async def cancel_user_booking(
     await show_my_bookings(update, edit=True)
 
     user_ref = format_user_ref(user.username, user.id, user.full_name)
-    await notify_admin(
-        context.bot,
+    await notify_admins(
         (
             f"🔴 <b>Заявка отменена</b>\n"
             f"{user_ref}\n"
@@ -683,10 +636,6 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         return
 
     data = query.data
-    user = update.effective_user
-    if user:
-        register_admin_chat_id(user.id, user.username)
-
     if data.startswith("book:cancel:"):
         booking_id = int(data.split(":", 2)[2])
         await cancel_user_booking(update, context, booking_id)
@@ -735,7 +684,6 @@ async def on_menu_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     if not message or not user or not message.text:
         return
 
-    register_admin_chat_id(user.id, user.username)
     text = message.text.strip()
 
     if text == BTN_GUIDE:
@@ -753,7 +701,7 @@ def build_ptb_app() -> Application:
     if not TELEGRAM_BOT_TOKEN:
         raise RuntimeError("TELEGRAM_BOT_TOKEN is not set")
 
-    application = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
+    application = build_application(TELEGRAM_BOT_TOKEN)
     application.add_handler(CommandHandler("start", start_command))
     application.add_handler(CommandHandler("guide", guide_command))
     application.add_handler(CommandHandler("book", book_command))
@@ -791,10 +739,22 @@ async def telegram_webhook_handler(request: web.Request) -> web.Response:
 
 
 async def on_startup(app: web.Application) -> None:
-    global ptb_app
+    global ptb_app, admin_ptb_app
 
     init_db()
     ptb_app = build_ptb_app()
+    admin_ptb_app = build_admin_app()
+
+    if admin_ptb_app is not None:
+        await admin_ptb_app.initialize()
+        await admin_ptb_app.start()
+        await admin_ptb_app.updater.start_polling(drop_pending_updates=True)
+        logger.info("Admin bot polling started")
+
+        import admin_bot as admin_bot_module
+
+        admin_bot_module.admin_app = admin_ptb_app
+
     await ptb_app.initialize()
     await ptb_app.start()
 
@@ -811,31 +771,46 @@ async def on_startup(app: web.Application) -> None:
 
 
 async def on_shutdown(app: web.Application) -> None:
-    global ptb_app
-    if ptb_app is None:
-        return
+    global ptb_app, admin_ptb_app
 
-    if BOT_MODE == "webhook":
-        await ptb_app.bot.delete_webhook(drop_pending_updates=True)
-    else:
-        await ptb_app.updater.stop()
+    if ptb_app is not None:
+        if BOT_MODE == "webhook":
+            await ptb_app.bot.delete_webhook(drop_pending_updates=True)
+        else:
+            await ptb_app.updater.stop()
 
-    await ptb_app.stop()
-    await ptb_app.shutdown()
-    ptb_app = None
+        await ptb_app.stop()
+        await ptb_app.shutdown()
+        ptb_app = None
+
+    if admin_ptb_app is not None:
+        await admin_ptb_app.updater.stop()
+        await admin_ptb_app.stop()
+        await admin_ptb_app.shutdown()
+
+        import admin_bot as admin_bot_module
+
+        admin_bot_module.admin_app = None
+        admin_ptb_app = None
 
 
 def create_web_app() -> web.Application:
-    app = web.Application()
+    validate_webhook_secret(BOT_MODE, WEBHOOK_SECRET)
+
+    app = web.Application(
+        client_max_size=MAX_BODY_BYTES,
+        middlewares=[security_middleware],
+    )
     app.router.add_get("/health", health_handler)
     app.router.add_post("/telegram/{secret}", telegram_webhook_handler)
+    app.router.add_route("*", "/{tail:.*}", catch_all_handler)
     app.on_startup.append(on_startup)
     app.on_cleanup.append(on_shutdown)
     return app
 
 
 def main() -> None:
-    web.run_app(create_web_app(), host="0.0.0.0", port=PORT)
+    web.run_app(create_web_app(), host=HOST, port=PORT)
 
 
 if __name__ == "__main__":

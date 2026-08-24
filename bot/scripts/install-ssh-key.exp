@@ -1,0 +1,67 @@
+#!/usr/bin/env expect -f
+# Одноразовая установка SSH-ключа на VPS (нужен пароль root в .deploy.local)
+set timeout 60
+
+set root_dir [file dirname [file dirname [info script]]]
+set deploy_cfg "$root_dir/.deploy.local"
+
+if {![file exists $deploy_cfg]} {
+    puts stderr "Нет $deploy_cfg"
+    exit 1
+}
+
+set fp [open $deploy_cfg r]
+set content [read $fp]
+close $fp
+
+set host ""
+set user "root"
+set password ""
+
+foreach line [split $content "\n"] {
+    if {[regexp {^VPS_HOST=(.+)$} $line -> v]} { set host [string trim $v] }
+    if {[regexp {^VPS_USER=(.+)$} $line -> v]} { set user [string trim $v] }
+    if {[regexp {^VPS_PASSWORD=(.+)$} $line -> v]} { set password [string trim $v] }
+}
+
+if {$host eq ""} {
+    puts stderr "VPS_HOST не задан"
+    exit 1
+}
+if {$password eq ""} {
+    puts stderr "VPS_PASSWORD не задан в .deploy.local"
+    exit 1
+}
+
+set pubkey_file "$env(HOME)/.ssh/id_ed25519.pub"
+if {![file exists $pubkey_file]} {
+    puts stderr "Нет $pubkey_file"
+    exit 1
+}
+set fp [open $pubkey_file r]
+set pubkey [string trim [read $fp]]
+close $fp
+
+spawn ssh -o StrictHostKeyChecking=accept-new $user@$host "mkdir -p ~/.ssh && chmod 700 ~/.ssh && grep -qxF '$pubkey' ~/.ssh/authorized_keys 2>/dev/null || echo '$pubkey' >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys && echo KEY_OK"
+
+expect {
+    "password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "Password:" {
+        send "$password\r"
+        exp_continue
+    }
+    "KEY_OK" {
+        puts "\nSSH-ключ установлен"
+        exit 0
+    }
+    eof {
+        exit 1
+    }
+    timeout {
+        puts stderr "Таймаут"
+        exit 1
+    }
+}

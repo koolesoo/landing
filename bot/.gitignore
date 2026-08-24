@@ -1,4 +1,6 @@
 # Локальная база заявок с сайта
 data/
 .env
+.deploy.local
 __pycache__/
+*.log

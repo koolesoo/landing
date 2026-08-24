@@ -1,0 +1,15 @@
+[Unit]
+Description=Grow Career Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/growcareer-bot
+EnvironmentFile=/opt/growcareer-bot/.env
+ExecStart=/opt/growcareer-bot/.venv/bin/python main.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

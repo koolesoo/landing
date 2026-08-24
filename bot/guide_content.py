@@ -15,7 +15,7 @@ GUIDE_CAPTION = (
 )
 
 WELCOME_FROM_SITE = (
-    "Ты перешёл с сайта – сейчас пришлю гайд по подготовке к интервью на Product Manager."
+    "Ты перешел с сайта – сейчас пришлю гайд по подготовке к интервью на Product Manager."
 )
 
 WELCOME_DEFAULT = (

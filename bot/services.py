@@ -25,11 +25,11 @@ class Expert:
 EXPERTS: dict[str, Expert] = {
     "nastya": Expert(
         id="nastya",
-        name="Настя Нерадовских",
-        short="Настя",
+        name="Анастасия Нерадовских",
+        short="Анастасия",
         telegram="neradana",
         tariffs=(
-            Tariff("diagnostics", "Диагностика", "5 000 ₽", "1 час · онлайн"),
+            Tariff("diagnostics", "Диагностика", "6 000 ₽", "1 час · онлайн"),
             Tariff("strategy", "Стратегия и план", "8 000 ₽", "1 час · онлайн"),
             Tariff("resume", "Разбор резюме", "5 000 ₽", "30 минут · онлайн"),
             Tariff("qa", "Q&A", "5 000 ₽", "1 час · онлайн"),
@@ -39,8 +39,8 @@ EXPERTS: dict[str, Expert] = {
     ),
     "danya": Expert(
         id="danya",
-        name="Даня Колесниченко",
-        short="Даня",
+        name="Данил Колесниченко",
+        short="Данил",
         telegram="koolesoo",
         tariffs=(
             Tariff("qa", "Q&A", "2 500 ₽", "1 час · онлайн"),
