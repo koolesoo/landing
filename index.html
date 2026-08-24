@@ -2994,9 +2994,11 @@
             display: flex;
             gap: 0.5rem;
             overflow-x: auto;
+            overflow-y: visible;
             overscroll-behavior-x: contain;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 0.15rem;
+            padding-top: 0.35rem;
+            padding-bottom: 0.35rem;
             margin-bottom: 1rem;
             -ms-overflow-style: none;
             scrollbar-width: none;
@@ -3030,6 +3032,7 @@
             font-size: 0.6875rem;
             font-weight: 700;
             letter-spacing: 0.08em;
+            line-height: 1.25;
             text-transform: uppercase;
             cursor: pointer;
             transition: color 0.2s ease, background 0.2s ease;
@@ -3143,6 +3146,9 @@
         [data-services-chips] > .section-chip-tabs {
             display: flex !important;
             margin-bottom: 1.5rem;
+            overflow-y: visible;
+            padding-top: 0.45rem;
+            padding-bottom: 0.3rem;
         }
 
         [data-services-chips] > .section-chip-panels > [data-chip-panel]:not(.is-active) {
