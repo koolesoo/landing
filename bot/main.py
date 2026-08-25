@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import html
 import logging
 import os
 import sqlite3
@@ -38,6 +39,9 @@ from guide_content import (
     GUIDE_FILE,
     GUIDE_FILENAME,
     GUIDE_TITLE,
+    QUESTION_PROMPT,
+    QUESTION_SUCCESS,
+    QUESTION_WELCOME,
     WELCOME_DEFAULT,
     WELCOME_FROM_SITE,
 )
@@ -251,6 +255,7 @@ def format_booking_date(iso: str) -> str:
 BTN_GUIDE = "📘 Получить гайд"
 BTN_BOOK = "🗓️ Записаться к ментору"
 BTN_BOOKINGS = "📋 Мои записи"
+BTN_QUESTION = "💬 Задать вопрос"
 
 
 def reply_menu_keyboard() -> ReplyKeyboardMarkup:
@@ -258,7 +263,7 @@ def reply_menu_keyboard() -> ReplyKeyboardMarkup:
     return ReplyKeyboardMarkup(
         [
             [KeyboardButton(BTN_GUIDE)],
-            [KeyboardButton(BTN_BOOK)],
+            [KeyboardButton(BTN_BOOK), KeyboardButton(BTN_QUESTION)],
             [KeyboardButton(BTN_BOOKINGS)],
         ],
         resize_keyboard=True,
@@ -386,6 +391,40 @@ async def send_guide(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
     user_ref = format_user_ref(user.username, user.id, user.full_name)
     await notify_admins(f"📘 <b>Гайд отправлен</b>\n{user_ref}")
+
+
+async def prompt_question(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+) -> None:
+    message = update.effective_message
+    if not message:
+        return
+
+    context.user_data["awaiting_question"] = True
+    await message.reply_text(QUESTION_PROMPT)
+
+
+async def submit_question(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+    question_text: str,
+) -> None:
+    message = update.effective_message
+    user = update.effective_user
+    if not message or not user:
+        return
+
+    context.user_data.pop("awaiting_question", None)
+    user_ref = format_user_ref(user.username, user.id, user.full_name)
+    await notify_admins(
+        (
+            f"💬 <b>Новый вопрос</b>\n"
+            f"{html.escape(user_ref)}\n\n"
+            f"{html.escape(question_text)}"
+        ),
+    )
+    await message.reply_text(QUESTION_SUCCESS, parse_mode=ParseMode.HTML)
 
 
 async def start_booking(
@@ -524,6 +563,11 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     if payload.startswith("guide"):
         await message.reply_text(WELCOME_FROM_SITE, reply_markup=reply_menu_keyboard())
         await send_guide(update, context)
+        return
+
+    if payload.startswith("question"):
+        await message.reply_text(QUESTION_WELCOME, reply_markup=reply_menu_keyboard())
+        await prompt_question(update, context)
         return
 
     if payload.startswith("book_"):
@@ -686,11 +730,21 @@ async def on_menu_text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
     text = message.text.strip()
 
+    if context.user_data.get("awaiting_question"):
+        if text in {BTN_GUIDE, BTN_BOOK, BTN_BOOKINGS, BTN_QUESTION}:
+            context.user_data.pop("awaiting_question", None)
+        else:
+            await submit_question(update, context, text)
+            return
+
     if text == BTN_GUIDE:
         await send_guide(update, context)
         return
     if text == BTN_BOOK:
         await start_booking(update, context)
+        return
+    if text == BTN_QUESTION:
+        await prompt_question(update, context)
         return
     if text == BTN_BOOKINGS:
         await show_my_bookings(update)

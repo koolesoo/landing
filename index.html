@@ -1556,6 +1556,44 @@
             padding-top: 0.35rem;
         }
 
+        .faq-contact-banner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.25rem;
+            margin-top: 2.5rem;
+            padding: 2rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            text-align: center;
+        }
+
+        .faq-contact-banner-text {
+            margin: 0;
+            font-size: 1.125rem;
+            font-weight: 700;
+            line-height: 1.35;
+            color: #fff;
+        }
+
+        .faq-contact-banner .guide-cta {
+            min-width: 12rem;
+        }
+
+        @media (min-width: 768px) {
+            .faq-contact-banner {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 2rem 2.25rem;
+                text-align: left;
+            }
+
+            .faq-contact-banner-text {
+                font-size: 1.25rem;
+            }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .faq-icon-btn {
                 transition-duration: 0.01ms;
@@ -6159,6 +6197,12 @@
 </div>
 </div>
 </div>
+</div>
+<div class="faq-contact-banner">
+<p class="faq-contact-banner-text">Остались вопросы? Напиши нам</p>
+<a href="https://t.me/grow_career_bot?start=question" target="_blank" rel="noopener noreferrer" class="guide-cta">
+<span>Написать в Telegram</span>
+</a>
 </div>
 <div class="mt-10 flex justify-center md:mt-12">
 <button type="button" id="back-to-top" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 py-3.5 text-xs font-extrabold uppercase tracking-widest text-white transition-colors hover:bg-white/10 hover:border-white/35">
