@@ -22,6 +22,92 @@
 <meta name="twitter:description" content="Поможем гроухакнуть карьеру: от резюме до оффера в компанию мечты"/>
 <meta name="twitter:image" content="https://growcareer.ru/assets/mentors-desk.png?v=20260823058"/>
 <script>
+(function () {
+  if (/\/index\.html$/i.test(location.pathname)) {
+    var clean = location.pathname.replace(/\/index\.html$/i, '/') + location.search + location.hash;
+    history.replaceState(null, '', clean);
+  }
+})();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://growcareer.ru/#organization",
+      "name": "Grow Career",
+      "url": "https://growcareer.ru/",
+      "description": "Поможем гроухакнуть карьеру: от резюме до оффера в компанию мечты",
+      "logo": "https://growcareer.ru/assets/favicon-32.png",
+      "sameAs": [
+        "https://t.me/grow_career_bot",
+        "https://t.me/neradana",
+        "https://t.me/koolesoo"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://growcareer.ru/#website",
+      "url": "https://growcareer.ru/",
+      "name": "Твои менторы в IT",
+      "description": "Поможем гроухакнуть карьеру: от резюме до оффера в компанию мечты",
+      "publisher": { "@id": "https://growcareer.ru/#organization" },
+      "inLanguage": "ru-RU"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://growcareer.ru/#webpage",
+      "url": "https://growcareer.ru/",
+      "name": "Твои менторы в IT",
+      "isPartOf": { "@id": "https://growcareer.ru/#website" },
+      "about": { "@id": "https://growcareer.ru/#organization" },
+      "description": "Поможем гроухакнуть карьеру: от резюме до оффера в компанию мечты",
+      "inLanguage": "ru-RU"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://growcareer.ru/#faq",
+      "isPartOf": { "@id": "https://growcareer.ru/#webpage" },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Кому подойдет менторство, если у тебя нет опыта в продукте?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Подойдет тем, кто делает первые шаги: смена профессии, стажировки, кейсы с учебы. На разборе посмотрим твой бэкграунд, цели и составим реалистичный план – от навыков до портфолио и откликов."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Чем отличаются форматы консультации и менторство?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Консультация – разовая сессия: Q&A, стратегия с планом или разбор резюме. Менторство – работа на 1–3 месяца: стартовая встреча, аудит резюме и LinkedIn, стратегия перехода, подготовка к интервью и поддержка в чате."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Помогаешь с резюме, портфолио и продуктовыми тестовыми?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да: структура резюме, формулировки достижений, портфолио-кейсы, разбор take-home и продуктовых заданий, разбор вопросов с собесов – в зависимости от выбранного формата."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Как проходят встречи – онлайн и в каком формате?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "В онлайн-формате в Яндекс.Телемост. Можно подключиться к консультации с компьютера или ноутбука."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>
         /* Early zoom lock – must run before first gesture (iOS) */
         (function lockMobileZoom() {
             const VIEWPORT =
