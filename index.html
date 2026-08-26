@@ -4367,8 +4367,6 @@
             background: rgba(27, 27, 27, 0.92);
             box-shadow: none;
             color: #fff;
-            -webkit-backdrop-filter: none;
-            backdrop-filter: none;
         }
 
         @media (min-width: 768px) {
@@ -4379,13 +4377,6 @@
             }
         }
 
-        .expert-story-pin-card--accent,
-        .expert-story-pin-card--light {
-            border-color: rgba(255, 255, 255, 0.08);
-            background: rgba(27, 27, 27, 0.92);
-            box-shadow: none;
-        }
-
         .expert-story-pin-title {
             margin: 0;
             font-family: 'Inter', sans-serif;
@@ -4393,10 +4384,6 @@
             font-weight: 600;
             letter-spacing: -0.01em;
             line-height: 1.35;
-            color: rgba(255, 255, 255, 0.82);
-        }
-
-        .expert-story-pin-card--accent .expert-story-pin-title {
             color: rgba(255, 255, 255, 0.82);
         }
 
@@ -5160,7 +5147,7 @@
 <div class="mobile-chrome">
 <div id="expert-sticky-toggle" class="expert-sticky-toggle" role="group" aria-label="Выбор эксперта">
 <button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Анастасия Нерадовских">
-<img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+<img src="assets/nastya.jpg?v=202608261900" alt="" width="46" height="46" loading="lazy" decoding="async"/>
 </button>
 <button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Данил Колесниченко">
 <img src="assets/Danya.jpg?v=202608232030" alt="" width="46" height="46" class="expert-photo-danya" loading="lazy" decoding="async"/>
@@ -5236,7 +5223,7 @@
 <div id="sticky-consult-bar" class="sticky-consult-bar">
 <div id="expert-sticky-toggle-desk" class="expert-sticky-toggle expert-sticky-toggle--desk" role="group" aria-label="Выбор эксперта">
 <button type="button" class="expert-sticky-toggle-btn is-active" data-global-expert="nastya" aria-pressed="true" aria-label="Анастасия Нерадовских">
-<img src="assets/nastya.jpg" alt="" width="46" height="46" loading="lazy" decoding="async"/>
+<img src="assets/nastya.jpg?v=202608261900" alt="" width="46" height="46" loading="lazy" decoding="async"/>
 </button>
 <button type="button" class="expert-sticky-toggle-btn" data-global-expert="danya" aria-pressed="false" aria-label="Данил Колесниченко">
 <img src="assets/Danya.jpg?v=202608232030" alt="" width="46" height="46" class="expert-photo-danya" loading="lazy" decoding="async"/>
@@ -5394,7 +5381,7 @@
 <div class="expert-story-visual">
 <div class="expert-story-path" aria-hidden="true"></div>
 <div class="expert-story-portrait-wrap">
-<img src="assets/nastya.jpg" alt="Анастасия Нерадовских" class="expert-story-portrait" loading="lazy" decoding="async"/>
+<img src="assets/nastya.jpg?v=202608261900" alt="Анастасия Нерадовских" class="expert-story-portrait" loading="lazy" decoding="async"/>
 </div>
 </div>
 <div class="expert-story-identity">
@@ -5409,11 +5396,11 @@
 </div>
 </div>
 <div class="expert-story-pin-row">
-<div class="expert-story-pin-card expert-story-pin-card--accent">
+<div class="expert-story-pin-card">
 <p class="expert-story-pin-title">Суперфиналистка «Лидеров России»</p>
 <p class="expert-story-pin-text">без связей – упорным трудом</p>
 </div>
-<div class="expert-story-pin-card expert-story-pin-card--light">
+<div class="expert-story-pin-card">
 <p class="expert-story-pin-title">CPO @ Альфа-Банк</p>
 <p class="expert-story-pin-text">от стажера-маркетолога в P&amp;G</p>
 </div>
@@ -5563,11 +5550,13 @@
 </div>
 </div>
 <div class="expert-story-pin-row">
-<div class="expert-story-pin-card expert-story-pin-card--accent">
-<p class="expert-story-pin-title">Product Owner в крупнейшем финтехе в 21 год</p>
+<div class="expert-story-pin-card">
+<p class="expert-story-pin-title">Product Owner</p>
+<p class="expert-story-pin-text">в крупнейшем финтехе в 21 год</p>
 </div>
-<div class="expert-story-pin-card expert-story-pin-card--light">
-<p class="expert-story-pin-title">Эксперт в НИУ ВШЭ, Cup Russia, Альфа-Банке и др.</p>
+<div class="expert-story-pin-card">
+<p class="expert-story-pin-title">Эксперт</p>
+<p class="expert-story-pin-text">в НИУ ВШЭ, Cup Russia, Альфа-Банке и др.</p>
 </div>
 </div>
 <div class="expert-story-narrative">
