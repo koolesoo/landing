@@ -1586,23 +1586,21 @@
             justify-content: center;
             min-width: 12rem;
             padding: 0.85rem 1.35rem;
-            border-radius: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
+            border-radius: 9999px;
+            border: 0;
+            background: linear-gradient(145deg, #8adcff 0%, #64cefb 45%, #3eb8f0 100%);
+            color: #001820;
             font-size: 0.75rem;
             font-weight: 800;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             text-decoration: none;
-            -webkit-backdrop-filter: blur(8px);
-            backdrop-filter: blur(8px);
-            transition: background 0.2s ease, border-color 0.2s ease;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+            transition: filter 0.2s ease, transform 0.2s ease;
         }
 
         .faq-contact-cta:hover {
-            background: rgba(255, 255, 255, 0.14);
-            border-color: rgba(255, 255, 255, 0.35);
+            filter: brightness(1.05);
         }
 
         @media (min-width: 768px) {
@@ -6238,7 +6236,7 @@
 <div class="faq-contact-banner">
 <p class="faq-contact-banner-text">Остались вопросы?</p>
 <a href="https://t.me/grow_career_bot?start=question" target="_blank" rel="noopener noreferrer" class="faq-contact-cta">
-<span>Спросить</span>
+<span>Спросить в Telegram</span>
 </a>
 </div>
 <div class="mt-10 flex justify-center md:mt-12">
