@@ -1868,6 +1868,7 @@
             .audience-showcase {
                 width: 100%;
                 max-width: none;
+                align-items: stretch;
             }
 
             .audience-showcase-stage {
@@ -1877,9 +1878,9 @@
 
             .audience-showcase-stack {
                 display: grid;
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                grid-auto-rows: 1fr;
-                gap: 1rem;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-auto-rows: minmax(10.5rem, auto);
+                gap: 0.85rem;
                 height: auto;
                 align-items: stretch;
             }
@@ -1895,6 +1896,10 @@
                 will-change: auto;
             }
 
+            .audience-showcase-tile:nth-child(1) {
+                grid-column: 1 / -1;
+            }
+
             .audience-showcase-tile:not(.is-active) .audience-showcase-copy {
                 opacity: 1;
                 visibility: visible;
@@ -1905,10 +1910,66 @@
                 width: 100%;
                 min-height: 100%;
                 height: auto;
+                justify-content: space-between;
+                transition: border-color 0.2s ease, background 0.2s ease;
+            }
+
+            .audience-showcase-tile-inner:hover {
+                border-color: rgba(100, 206, 251, 0.28);
+                background: #202020;
             }
 
             .audience-showcase-nav {
                 display: none;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .audience-showcase-stack {
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                grid-auto-rows: minmax(11rem, auto);
+                gap: 1rem;
+            }
+
+            .audience-showcase-tile:nth-child(1) {
+                grid-column: span 4;
+                grid-row: span 2;
+            }
+
+            .audience-showcase-tile:nth-child(2) {
+                grid-column: span 2;
+                grid-row: span 2;
+            }
+
+            .audience-showcase-tile:nth-child(3),
+            .audience-showcase-tile:nth-child(4),
+            .audience-showcase-tile:nth-child(5) {
+                grid-column: span 2;
+            }
+
+            .audience-showcase-tile:nth-child(6),
+            .audience-showcase-tile:nth-child(7) {
+                grid-column: span 3;
+            }
+
+            .audience-showcase-tile:nth-child(1) .audience-showcase-tile-inner,
+            .audience-showcase-tile:nth-child(2) .audience-showcase-tile-inner {
+                padding: 1.75rem 1.7rem 1.8rem;
+            }
+
+            .audience-showcase-tile:nth-child(1) .audience-showcase-title {
+                font-size: clamp(1.35rem, 1.6vw, 1.7rem);
+                max-width: 18ch;
+            }
+
+            .audience-showcase-tile:nth-child(1) .audience-showcase-text {
+                margin-top: 0.85rem;
+                max-width: 36ch;
+                font-size: 1.0625rem;
+            }
+
+            .audience-showcase-tile:nth-child(2) .audience-showcase-title {
+                font-size: 1.2rem;
             }
         }
         .guide-panel {
@@ -2185,6 +2246,13 @@
             .audience-showcase-tile:not(.is-active) {
                 opacity: 0;
                 visibility: hidden;
+            }
+        }
+
+        @media (min-width: 768px) and (prefers-reduced-motion: reduce) {
+            .audience-showcase-tile:not(.is-active) {
+                opacity: 1;
+                visibility: visible;
             }
         }
 
@@ -7129,6 +7197,18 @@
                     if (wasHidden) hiddenHost.hidden = true;
                 }
 
+                function syncDesktopA11y() {
+                    if (desktopGrid()) {
+                        root.removeAttribute('aria-roledescription');
+                        root.setAttribute('aria-label', 'Ситуации');
+                        root.removeAttribute('tabindex');
+                    } else {
+                        root.setAttribute('aria-roledescription', 'carousel');
+                        root.setAttribute('aria-label', 'Ситуации – листайте стрелками');
+                        root.setAttribute('tabindex', '0');
+                    }
+                }
+
                 function setActive(index) {
                     if (desktopGrid()) {
                         tiles.forEach((tile) => {
@@ -7137,9 +7217,11 @@
                             tile.style.removeProperty('--tile-rotate');
                             tile.removeAttribute('aria-hidden');
                         });
+                        syncDesktopA11y();
                         return;
                     }
 
+                    syncDesktopA11y();
                     active = ((index % items.length) + items.length) % items.length;
 
                     tiles.forEach((tile, tileIndex) => {
