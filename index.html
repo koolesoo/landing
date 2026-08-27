@@ -1713,6 +1713,142 @@
             }
         }
 
+        /* –– Journey rail: audience → value (request to result) –– */
+        .journey-span {
+            position: relative;
+        }
+
+        .journey-track {
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            .journey-span > #audience > .max-w-7xl,
+            .journey-span > #value > .max-w-7xl {
+                padding-right: 5.25rem;
+            }
+
+            .journey-track {
+                display: block;
+                position: absolute;
+                top: 1.5rem;
+                bottom: 1.25rem;
+                right: max(1.25rem, env(safe-area-inset-right, 0px));
+                z-index: 3;
+                width: 4.75rem;
+                pointer-events: none;
+            }
+
+            .journey-track-inner {
+                position: relative;
+                width: 100%;
+                height: 100%;
+            }
+
+            .journey-svg {
+                position: absolute;
+                inset: 0;
+                width: 100%;
+                height: 100%;
+                overflow: visible;
+            }
+
+            .journey-path-base {
+                stroke: rgba(255, 255, 255, 0.12);
+                stroke-width: 2.5;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-dasharray: 0.01 0.035;
+            }
+
+            .journey-path-draw {
+                stroke: #64cefb;
+                stroke-width: 2.5;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+                stroke-dasharray: 1;
+                stroke-dashoffset: 1;
+                transition: stroke-dashoffset 0.05s linear;
+            }
+
+            .journey-chip {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 2;
+                padding: 0.28rem 0.55rem;
+                border-radius: 9999px;
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                background: rgba(20, 20, 20, 0.92);
+                color: rgba(255, 255, 255, 0.72);
+                font-size: 0.625rem;
+                font-weight: 800;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                white-space: nowrap;
+            }
+
+            .journey-chip--start {
+                top: 0;
+            }
+
+            .journey-chip--finish {
+                bottom: 0;
+                color: #001820;
+                border-color: rgba(100, 206, 251, 0.55);
+                background: #64cefb;
+            }
+
+            .journey-runner {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 4;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.15rem;
+                height: 2.15rem;
+                margin: -1.075rem 0 0 -1.075rem;
+                border-radius: 9999px;
+                border: 1px solid rgba(100, 206, 251, 0.45);
+                background: #1b1b1b;
+                color: #64cefb;
+                box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+                will-change: transform;
+            }
+
+            .journey-runner .material-symbols-outlined {
+                font-size: 1.15rem;
+                font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+            }
+
+            .journey-span.is-complete .journey-chip--finish {
+                box-shadow: 0 0 0 4px rgba(100, 206, 251, 0.18);
+            }
+
+            .journey-span.is-complete .journey-runner {
+                background: #64cefb;
+                color: #001820;
+                border-color: #64cefb;
+            }
+        }
+
+        @media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+            .journey-path-draw {
+                stroke-dashoffset: 0;
+                transition: none;
+            }
+
+            .journey-runner {
+                top: auto;
+                bottom: 2.75rem;
+                left: 50%;
+                margin-left: -1.075rem;
+                transform: none !important;
+            }
+        }
+
         /* –– Audience: Aceternity-style stacked cards –– */
         .audience-showcase {
             display: flex;
@@ -5487,6 +5623,20 @@
 <!-- Единый слой под контентом после hero -->
 <div class="relative z-10" id="page-content">
 <div class="relative">
+<div class="journey-span" data-journey>
+<aside class="journey-track" aria-hidden="true">
+<div class="journey-track-inner">
+<span class="journey-chip journey-chip--start">Запрос</span>
+<svg class="journey-svg" viewBox="0 0 100 1000" preserveAspectRatio="none" data-journey-svg>
+<path class="journey-path-base" d="M50 36 C18 170, 82 290, 50 420 S18 650, 50 964" fill="none" pathLength="1"/>
+<path class="journey-path-draw" d="M50 36 C18 170, 82 290, 50 420 S18 650, 50 964" fill="none" pathLength="1" data-journey-path/>
+</svg>
+<div class="journey-runner" data-journey-runner>
+<span class="material-symbols-outlined" aria-hidden="true">directions_run</span>
+</div>
+<span class="journey-chip journey-chip--finish">Финиш</span>
+</div>
+</aside>
 <section class="page-gutter relative py-12 md:py-16" id="audience" aria-labelledby="audience-heading">
 <div class="mx-auto max-w-7xl">
 <h2 class="mb-6 text-4xl font-black tracking-tighter md:mb-8 md:text-5xl" id="audience-heading">Ты в нужном месте, если…</h2>
@@ -5536,6 +5686,7 @@
 </div>
 </div>
 </section>
+</div>
 <!-- Об экспертах -->
 <section class="page-gutter relative py-12 md:py-16" id="expert" aria-labelledby="expert-heading">
 <div class="mx-auto max-w-7xl">
@@ -7085,6 +7236,78 @@
                     event.preventDefault();
                 }
             });
+        })();
+
+        (function initJourneyRail() {
+            const root = document.querySelector('[data-journey]');
+            if (!root) return;
+
+            const svg = root.querySelector('[data-journey-svg]');
+            const path = root.querySelector('[data-journey-path]');
+            const runner = root.querySelector('[data-journey-runner]');
+            const desktopMq = window.matchMedia('(min-width: 1024px)');
+            const reduceMq = window.matchMedia('(prefers-reduced-motion: reduce)');
+            if (!svg || !path || !runner) return;
+
+            let ticking = false;
+
+            function clamp(value, min, max) {
+                return Math.min(max, Math.max(min, value));
+            }
+
+            function update() {
+                ticking = false;
+                if (!desktopMq.matches || reduceMq.matches) {
+                    path.style.strokeDashoffset = reduceMq.matches && desktopMq.matches ? '0' : '1';
+                    runner.style.transform = '';
+                    root.classList.toggle('is-complete', reduceMq.matches && desktopMq.matches);
+                    return;
+                }
+
+                const rect = root.getBoundingClientRect();
+                const viewH = window.innerHeight || 1;
+                const start = viewH * 0.72;
+                const end = viewH * 0.28;
+                const progress = clamp((start - rect.top) / (rect.height + start - end), 0, 1);
+
+                path.style.strokeDashoffset = String(1 - progress);
+
+                const length = path.getTotalLength();
+                const point = path.getPointAtLength(progress * length);
+                const ctm = svg.getScreenCTM();
+                if (!ctm) return;
+
+                const svgPoint = svg.createSVGPoint();
+                svgPoint.x = point.x;
+                svgPoint.y = point.y;
+                const screen = svgPoint.matrixTransform(ctm);
+                const trackRect = runner.parentElement.getBoundingClientRect();
+                const x = screen.x - trackRect.left;
+                const y = screen.y - trackRect.top;
+                const angle = progress < 0.98 ? pointAngle(path, progress, length) : 0;
+                runner.style.transform =
+                    'translate(' + x + 'px, ' + y + 'px) rotate(' + angle + 'deg)';
+                root.classList.toggle('is-complete', progress > 0.92);
+            }
+
+            function pointAngle(pathEl, progress, length) {
+                const delta = Math.max(length * 0.01, 2);
+                const a = pathEl.getPointAtLength(Math.max(0, progress * length - delta));
+                const b = pathEl.getPointAtLength(Math.min(length, progress * length + delta));
+                return (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
+            }
+
+            function onScroll() {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(update);
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll);
+            desktopMq.addEventListener('change', onScroll);
+            reduceMq.addEventListener('change', onScroll);
+            update();
         })();
 
         (function initFaq() {
