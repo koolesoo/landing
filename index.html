@@ -1841,6 +1841,10 @@
             display: none;
         }
 
+        .audience-showcase-icon {
+            display: none;
+        }
+
         .audience-showcase-tile-inner {
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
@@ -1917,9 +1921,9 @@
 
             .audience-showcase-stack {
                 display: grid;
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                grid-auto-rows: minmax(11rem, auto);
-                gap: 0.85rem;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                grid-auto-rows: 18rem;
+                gap: 1rem;
                 height: auto;
                 align-items: stretch;
             }
@@ -1936,6 +1940,15 @@
             }
 
             .audience-showcase-tile:nth-child(1) {
+                grid-column: auto;
+            }
+
+            .audience-showcase-tile:nth-child(4),
+            .audience-showcase-tile:nth-child(7) {
+                grid-column: span 2;
+            }
+
+            .audience-showcase-tile:nth-child(8) {
                 grid-column: 1 / -1;
             }
 
@@ -1952,34 +1965,39 @@
                 flex: 1;
                 width: 100%;
                 min-height: 100%;
-                height: auto;
-                justify-content: flex-start;
-                gap: 0.85rem;
-                padding: 1.15rem 1.2rem 1.25rem;
-                border-radius: 1.15rem;
+                height: 100%;
+                justify-content: space-between;
+                gap: 1rem;
+                padding: 1rem;
+                border-radius: 0.75rem;
                 cursor: default;
-                transition: border-color 0.2s ease, background 0.2s ease;
+                transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
             }
 
             .audience-showcase-tile-inner:hover {
-                border-color: rgba(100, 206, 251, 0.28);
-                background: #202020;
+                border-color: rgba(255, 255, 255, 0.2);
+                background: #141414;
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
             }
 
             .audience-showcase-media {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                flex: 0 0 auto;
+                flex: 1 1 auto;
                 width: 100%;
-                aspect-ratio: 16 / 10;
-                border-radius: 0.85rem;
-                border: 1px solid rgba(255, 255, 255, 0.06);
-                background:
-                    linear-gradient(160deg, rgba(100, 206, 251, 0.12), rgba(255, 255, 255, 0.03) 55%, rgba(0, 0, 0, 0.2)),
-                    #151515;
+                min-height: 0;
+                aspect-ratio: auto;
+                border-radius: 0.5rem;
+                border: 0;
+                background: linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.06) 0%,
+                    rgba(100, 206, 251, 0.12) 50%,
+                    rgba(255, 255, 255, 0.06) 100%
+                );
                 overflow: hidden;
-                color: rgba(100, 206, 251, 0.7);
+                color: rgba(100, 206, 251, 0.55);
             }
 
             .audience-showcase-media img {
@@ -1990,110 +2008,78 @@
             }
 
             .audience-showcase-media .material-symbols-outlined {
-                font-size: 2rem;
+                font-size: 1.75rem;
                 font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
             }
 
             .audience-showcase-copy {
                 display: flex;
                 flex-direction: column;
-                flex: 1 1 auto;
+                flex: 0 0 auto;
+                gap: 0.35rem;
                 min-width: 0;
             }
 
+            .audience-showcase-icon {
+                display: inline-flex;
+                margin: 0 0 0.15rem;
+                color: rgba(255, 255, 255, 0.55);
+            }
+
+            .audience-showcase-icon .material-symbols-outlined {
+                font-size: 1.25rem;
+                font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            }
+
             .audience-showcase-title {
-                font-size: 1.15rem;
+                font-size: 1rem;
                 font-weight: 700;
-                line-height: 1.25;
+                line-height: 1.3;
             }
 
             .audience-showcase-text {
-                margin-top: 0.5rem;
-                font-size: 0.95rem;
-                line-height: 1.5;
+                margin-top: 0;
+                font-size: 0.8125rem;
+                line-height: 1.45;
+                color: rgba(255, 255, 255, 0.6);
             }
 
             .audience-showcase-nav {
                 display: none;
             }
+
+            .audience-showcase-tile:nth-child(8) .audience-showcase-tile-inner {
+                flex-direction: row;
+                align-items: stretch;
+                gap: 1.25rem;
+            }
+
+            .audience-showcase-tile:nth-child(8) .audience-showcase-media {
+                flex: 1 1 42%;
+                max-width: 42%;
+            }
+
+            .audience-showcase-tile:nth-child(8) .audience-showcase-copy {
+                flex: 1 1 auto;
+                justify-content: center;
+            }
+
+            .audience-showcase-tile:nth-child(8) .audience-showcase-title {
+                font-size: 1.25rem;
+                max-width: 22ch;
+            }
+
+            .audience-showcase-tile:nth-child(8) .audience-showcase-text {
+                font-size: 0.9375rem;
+                max-width: 42ch;
+            }
         }
 
         @media (min-width: 1024px) {
             .audience-showcase-stack {
-                grid-template-columns: repeat(6, minmax(0, 1fr));
-                grid-auto-rows: minmax(9.5rem, auto);
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                grid-auto-rows: 18rem;
                 gap: 1rem;
-            }
-
-            .audience-showcase-tile:nth-child(1) {
-                grid-column: span 4;
-                grid-row: span 2;
-            }
-
-            .audience-showcase-tile:nth-child(2) {
-                grid-column: span 2;
-                grid-row: span 2;
-            }
-
-            .audience-showcase-tile:nth-child(3),
-            .audience-showcase-tile:nth-child(4),
-            .audience-showcase-tile:nth-child(5) {
-                grid-column: span 2;
-            }
-
-            .audience-showcase-tile:nth-child(6),
-            .audience-showcase-tile:nth-child(7) {
-                grid-column: span 3;
-            }
-
-            .audience-showcase-tile:nth-child(1) .audience-showcase-tile-inner {
-                display: grid;
-                grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-                grid-template-areas: "copy media";
-                align-items: stretch;
-                gap: 1.15rem;
-                padding: 1.35rem 1.4rem;
-            }
-
-            .audience-showcase-tile:nth-child(1) .audience-showcase-copy {
-                grid-area: copy;
-                justify-content: center;
-            }
-
-            .audience-showcase-tile:nth-child(1) .audience-showcase-media {
-                grid-area: media;
-                aspect-ratio: auto;
-                height: 100%;
-                min-height: 14rem;
-            }
-
-            .audience-showcase-tile:nth-child(1) .audience-showcase-title {
-                font-size: clamp(1.35rem, 1.7vw, 1.75rem);
-                max-width: 16ch;
-            }
-
-            .audience-showcase-tile:nth-child(1) .audience-showcase-text {
-                margin-top: 0.75rem;
-                max-width: 34ch;
-                font-size: 1.05rem;
-            }
-
-            .audience-showcase-tile:nth-child(2) .audience-showcase-tile-inner {
-                padding: 1.2rem;
-            }
-
-            .audience-showcase-tile:nth-child(2) .audience-showcase-media {
-                flex: 1 1 auto;
-                aspect-ratio: auto;
-                min-height: 8.5rem;
-            }
-
-            .audience-showcase-tile:nth-child(2) .audience-showcase-title {
-                font-size: 1.15rem;
-            }
-
-            .audience-showcase-tile:nth-child(n + 3) .audience-showcase-media {
-                aspect-ratio: 16 / 9;
             }
         }
         .guide-panel {
@@ -5577,9 +5563,10 @@
 </div>
 <div hidden data-audience-source>
 <article data-audience-item data-icon="flag" data-title="Хочешь начать карьеру, но не знаешь с чего" data-text="Разберём первые шаги: куда смотреть, как искать и как выстроить процесс без хаоса"></article>
+<article data-audience-item data-icon="school" data-title="Учишься и хочешь войти в IT" data-text="Поможем со стажировками, кейс-чемпионатами и первыми шагами – даже если опыта пока нет"></article>
 <article data-audience-item data-icon="trending_up" data-title="Хочешь быстро и осознанно расти в карьере" data-text="Нужен понятный вектор: куда двигаться, какие шаги дадут результат и как не тратить месяцы на хаотичный поиск"></article>
 <article data-audience-item data-icon="description" data-title="Нужно усилить резюме и пройти интервью" data-text="Хочешь переупаковать опыт, пройти мок-интервью и получить конкретные правки по резюме, LinkedIn и ответам на собеседовании"></article>
-<article data-audience-item data-icon="school" data-title="Мечтаешь зайти в продакт-менеджмент" data-text="Покажем, как упаковать опыт, подтянуть навыки и сделать сильный вход в продукт"></article>
+<article data-audience-item data-icon="rocket_launch" data-title="Мечтаешь зайти в продакт-менеджмент" data-text="Покажем, как упаковать опыт, подтянуть навыки и сделать сильный вход в продукт"></article>
 <article data-audience-item data-icon="psychology" data-title="Хочешь подтянуть продуктовые навыки" data-text="Разберём гипотезы, метрики, CustDev и то, что реально спрашивают на продуктовых ролях"></article>
 <article data-audience-item data-icon="record_voice_over" data-title="Готовишься к собеседованиям" data-text="Отработаем ответы, кейсы и типовые вопросы – чтобы чувствовать себя увереннее на интервью"></article>
 <article data-audience-item data-icon="filter_alt" data-title="Хочешь понять воронку найма" data-text="Объясним, как устроен отбор в IT и продукте: от отклика до оффера и что делать на каждом этапе"></article>
@@ -5680,8 +5667,8 @@
 <span class="expert-story-step-marker" aria-hidden="true"></span>
 <p class="expert-story-step-title" aria-hidden="true">03</p>
 <div class="expert-story-step-body">
-<p class="expert-story-step-label">Менеджер продукта</p>
-<p class="expert-story-step-text">Прошла путь от стажера-маркетолога в Procter &amp; Gamble до менеджера продукта в Альфа-Банке</p>
+<p class="expert-story-step-label">Product → CPO</p>
+<p class="expert-story-step-text">Прошла путь от стажера-маркетолога в Procter &amp; Gamble до CPO в Альфа-Банке</p>
 </div>
 </li>
 <li class="expert-story-step" data-timeline-step>
@@ -7360,6 +7347,14 @@
                 const copy = document.createElement('div');
                 copy.className = 'audience-showcase-copy';
 
+                const iconWrap = document.createElement('div');
+                iconWrap.className = 'audience-showcase-icon';
+                iconWrap.setAttribute('aria-hidden', 'true');
+                const copyIcon = document.createElement('span');
+                copyIcon.className = 'material-symbols-outlined';
+                copyIcon.textContent = item.icon || 'flag';
+                iconWrap.appendChild(copyIcon);
+
                 const title = document.createElement('h3');
                 title.className = 'audience-showcase-title';
                 title.textContent = item.title;
@@ -7370,7 +7365,7 @@
                 text.dataset.audienceText = '';
                 text.textContent = item.text;
 
-                copy.append(title, text);
+                copy.append(iconWrap, title, text);
                 inner.append(media, copy);
                 tile.appendChild(inner);
                 return tile;
