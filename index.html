@@ -1806,10 +1806,29 @@
         }
 
         .audience-showcase-text {
-            margin: 0.5rem 0 0;
+            display: none;
+            margin: 0.65rem 0 0;
             font-size: 1rem;
             line-height: 1.55;
             color: rgba(255, 255, 255, 0.75);
+        }
+
+        .audience-showcase-tile.is-open .audience-showcase-text {
+            display: block;
+        }
+
+        .audience-showcase-tile-inner {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .audience-showcase-tile-inner:focus-visible {
+            outline: 2px solid rgba(100, 206, 251, 0.7);
+            outline-offset: 3px;
+        }
+
+        .audience-showcase-tile.is-open .audience-showcase-tile-inner {
+            border-color: rgba(100, 206, 251, 0.35);
         }
 
         .audience-showcase-nav {
@@ -1879,7 +1898,7 @@
             .audience-showcase-stack {
                 display: grid;
                 grid-template-columns: repeat(2, minmax(0, 1fr));
-                grid-auto-rows: minmax(10.5rem, auto);
+                grid-auto-rows: minmax(8.5rem, auto);
                 gap: 0.85rem;
                 height: auto;
                 align-items: stretch;
@@ -1927,7 +1946,7 @@
         @media (min-width: 1024px) {
             .audience-showcase-stack {
                 grid-template-columns: repeat(6, minmax(0, 1fr));
-                grid-auto-rows: minmax(11rem, auto);
+                grid-auto-rows: minmax(8.75rem, auto);
                 gap: 1rem;
             }
 
@@ -1962,7 +1981,7 @@
                 max-width: 18ch;
             }
 
-            .audience-showcase-tile:nth-child(1) .audience-showcase-text {
+            .audience-showcase-tile:nth-child(1).is-open .audience-showcase-text {
                 margin-top: 0.85rem;
                 max-width: 36ch;
                 font-size: 1.0625rem;
@@ -7113,6 +7132,11 @@
 
                 const inner = document.createElement('div');
                 inner.className = 'audience-showcase-tile-inner';
+                inner.dataset.audienceOpen = '';
+                inner.setAttribute('role', 'button');
+                inner.setAttribute('tabindex', '0');
+                inner.setAttribute('aria-expanded', 'false');
+                inner.setAttribute('aria-controls', 'audience-text-' + index);
 
                 const copy = document.createElement('div');
                 copy.className = 'audience-showcase-copy';
@@ -7123,6 +7147,7 @@
 
                 const text = document.createElement('p');
                 text.className = 'audience-showcase-text';
+                text.id = 'audience-text-' + index;
                 text.dataset.audienceText = '';
                 text.textContent = item.text;
 
@@ -7149,6 +7174,7 @@
                     text: node.getAttribute('data-text') || ''
                 }));
                 let active = 0;
+                let openIndex = -1;
                 let tiles = [];
 
                 visualStack.replaceChildren();
@@ -7178,15 +7204,23 @@
                         return;
                     }
                     let maxH = 0;
-                    items.forEach((item) => {
+                    items.forEach((item, index) => {
                         const probe = document.createElement('div');
-                        probe.className = 'audience-showcase-tile-inner';
+                        probe.className =
+                            'audience-showcase-tile-inner' + (index === openIndex ? ' is-open-probe' : '');
                         probe.style.cssText =
                             'position:absolute;visibility:hidden;pointer-events:none;width:' + width + 'px;height:auto';
+                        const textHtml =
+                            index === openIndex
+                                ? '<p class="audience-showcase-text" style="display:block"></p>'
+                                : '';
                         probe.innerHTML =
-                            '<div class="audience-showcase-copy"><h3 class="audience-showcase-title"></h3><p class="audience-showcase-text"></p></div>';
+                            '<div class="audience-showcase-copy"><h3 class="audience-showcase-title"></h3>' +
+                            textHtml +
+                            '</div>';
                         probe.querySelector('.audience-showcase-title').textContent = item.title;
-                        probe.querySelector('.audience-showcase-text').textContent = item.text;
+                        const textEl = probe.querySelector('.audience-showcase-text');
+                        if (textEl) textEl.textContent = item.text;
                         stage.appendChild(probe);
                         maxH = Math.max(maxH, probe.offsetHeight);
                         probe.remove();
@@ -7209,6 +7243,17 @@
                     }
                 }
 
+                function setOpen(index) {
+                    openIndex = index;
+                    tiles.forEach((tile, tileIndex) => {
+                        const isOpen = tileIndex === openIndex;
+                        tile.classList.toggle('is-open', isOpen);
+                        const trigger = tile.querySelector('[data-audience-open]');
+                        if (trigger) trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                    });
+                    measureStageHeight();
+                }
+
                 function setActive(index) {
                     if (desktopGrid()) {
                         tiles.forEach((tile) => {
@@ -7223,6 +7268,7 @@
 
                     syncDesktopA11y();
                     active = ((index % items.length) + items.length) % items.length;
+                    if (openIndex !== -1 && openIndex !== active) setOpen(-1);
 
                     tiles.forEach((tile, tileIndex) => {
                         const isActive = tileIndex === active;
@@ -7246,6 +7292,26 @@
                     setActive(active + delta);
                 }
 
+                tiles.forEach((tile, index) => {
+                    const trigger = tile.querySelector('[data-audience-open]');
+                    if (!trigger) return;
+                    const toggle = () => {
+                        if (!desktopGrid() && index !== active) {
+                            setActive(index);
+                            setOpen(index);
+                            return;
+                        }
+                        setOpen(openIndex === index ? -1 : index);
+                    };
+                    trigger.addEventListener('click', toggle);
+                    trigger.addEventListener('keydown', (event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            toggle();
+                        }
+                    });
+                });
+
                 if (prevBtn) prevBtn.addEventListener('click', () => go(-1));
                 if (nextBtn) nextBtn.addEventListener('click', () => go(1));
 
@@ -7265,9 +7331,13 @@
 
                 section.__audienceRefresh = (options) => {
                     const opts = options || {};
-                    if (opts.reset) active = 0;
+                    if (opts.reset) {
+                        active = 0;
+                        openIndex = -1;
+                    }
                     measureStageHeight();
                     setActive(active);
+                    setOpen(openIndex);
                 };
 
                 measureStageHeight();
