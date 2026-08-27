@@ -1725,7 +1725,7 @@
         @media (min-width: 1024px) {
             .journey-span > #audience > .max-w-7xl,
             .journey-span > #value > .max-w-7xl {
-                padding-right: 5.25rem;
+                padding-right: 6rem;
             }
 
             .journey-track {
@@ -1733,9 +1733,9 @@
                 position: absolute;
                 top: 0;
                 bottom: 0;
-                right: max(1.25rem, calc((100% - 80rem) / 2));
+                right: max(1rem, calc((100% - 80rem) / 2));
                 z-index: 3;
-                width: 5.25rem;
+                width: 6rem;
                 pointer-events: none;
             }
 
@@ -1799,38 +1799,8 @@
                 background: #64cefb;
             }
 
-            .journey-runner {
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: 4;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 2.35rem;
-                height: 2.35rem;
-                margin: -1.175rem 0 0 -1.175rem;
-                border-radius: 9999px;
-                border: 1px solid rgba(100, 206, 251, 0.45);
-                background: #1b1b1b;
-                color: #64cefb;
-                box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
-                will-change: transform;
-            }
-
-            .journey-runner .material-symbols-outlined {
-                font-size: 1.25rem;
-                font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
-            }
-
             .journey-span.is-complete .journey-flag--finish {
                 box-shadow: 0 0 0 5px rgba(100, 206, 251, 0.2);
-            }
-
-            .journey-span.is-complete .journey-runner {
-                background: #64cefb;
-                color: #001820;
-                border-color: #64cefb;
             }
         }
 
@@ -1838,10 +1808,6 @@
             .journey-path-draw {
                 stroke-dashoffset: 0;
                 transition: none;
-            }
-
-            .journey-runner {
-                transform: none !important;
             }
         }
 
@@ -5626,12 +5592,9 @@
 <span class="material-symbols-outlined" aria-hidden="true">flag</span>
 </span>
 <svg class="journey-svg" viewBox="0 0 100 1000" preserveAspectRatio="none" data-journey-svg>
-<path class="journey-path-base" d="M50 80 C18 250, 82 400, 50 550 S18 800, 50 920" fill="none" pathLength="1" data-journey-path-base/>
-<path class="journey-path-draw" d="M50 80 C18 250, 82 400, 50 550 S18 800, 50 920" fill="none" pathLength="1" data-journey-path/>
+<path class="journey-path-base" d="M50 80 C2 180, 98 280, 50 380 C2 480, 98 580, 50 680 C2 780, 98 880, 50 920" fill="none" pathLength="1" data-journey-path-base/>
+<path class="journey-path-draw" d="M50 80 C2 180, 98 280, 50 380 C2 480, 98 580, 50 680 C2 780, 98 880, 50 920" fill="none" pathLength="1" data-journey-path/>
 </svg>
-<div class="journey-runner" data-journey-runner>
-<span class="material-symbols-outlined" aria-hidden="true">directions_run</span>
-</div>
 <span class="journey-flag journey-flag--finish" data-journey-finish>
 <span class="material-symbols-outlined" aria-hidden="true">flag</span>
 </span>
@@ -7245,15 +7208,14 @@
             const svg = root.querySelector('[data-journey-svg]');
             const path = root.querySelector('[data-journey-path]');
             const pathBase = root.querySelector('[data-journey-path-base]');
-            const runner = root.querySelector('[data-journey-runner]');
             const startFlag = root.querySelector('[data-journey-start]');
             const finishFlag = root.querySelector('[data-journey-finish]');
             const startHeading = document.getElementById('audience-heading');
             const finishHeading = document.getElementById('value-heading');
-            const trackInner = runner && runner.parentElement;
+            const trackInner = startFlag && startFlag.parentElement;
             const desktopMq = window.matchMedia('(min-width: 1024px)');
             const reduceMq = window.matchMedia('(prefers-reduced-motion: reduce)');
-            if (!svg || !path || !runner || !startFlag || !finishFlag || !startHeading || !finishHeading || !trackInner) {
+            if (!svg || !path || !startFlag || !finishFlag || !startHeading || !finishHeading || !trackInner) {
                 return;
             }
 
@@ -7265,20 +7227,25 @@
             }
 
             function buildPath(y0, y1) {
-                const mid = (y0 + y1) / 2;
-                const q1 = y0 + (y1 - y0) * 0.28;
-                const q2 = y0 + (y1 - y0) * 0.72;
+                const span = y1 - y0;
+                const yA = y0 + span * 0.16;
+                const yB = y0 + span * 0.33;
+                const yC = y0 + span * 0.5;
+                const yD = y0 + span * 0.67;
+                const yE = y0 + span * 0.84;
                 return (
                     'M50 ' +
                     y0.toFixed(1) +
-                    ' C18 ' +
-                    q1.toFixed(1) +
-                    ', 82 ' +
-                    mid.toFixed(1) +
+                    ' C2 ' +
+                    yA.toFixed(1) +
+                    ', 98 ' +
+                    yB.toFixed(1) +
                     ', 50 ' +
-                    mid.toFixed(1) +
-                    ' S18 ' +
-                    q2.toFixed(1) +
+                    yC.toFixed(1) +
+                    ' C2 ' +
+                    yD.toFixed(1) +
+                    ', 98 ' +
+                    yE.toFixed(1) +
                     ', 50 ' +
                     y1.toFixed(1)
                 );
@@ -7309,38 +7276,10 @@
                 return true;
             }
 
-            function pointAngle(pathEl, progress, length) {
-                const delta = Math.max(length * 0.01, 2);
-                const a = pathEl.getPointAtLength(Math.max(0, progress * length - delta));
-                const b = pathEl.getPointAtLength(Math.min(length, progress * length + delta));
-                return (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
-            }
-
-            function placeRunner(progress) {
-                const length = path.getTotalLength();
-                if (!length) return;
-                const t = reduceMq.matches ? 1 : progress;
-                const point = path.getPointAtLength(t * length);
-                const ctm = svg.getScreenCTM();
-                if (!ctm) return;
-
-                const svgPoint = svg.createSVGPoint();
-                svgPoint.x = point.x;
-                svgPoint.y = point.y;
-                const screen = svgPoint.matrixTransform(ctm);
-                const trackRect = trackInner.getBoundingClientRect();
-                const x = screen.x - trackRect.left;
-                const y = screen.y - trackRect.top;
-                const angle = t < 0.98 && !reduceMq.matches ? pointAngle(path, t, length) : 0;
-                runner.style.transform =
-                    'translate(' + x + 'px, ' + y + 'px) rotate(' + angle + 'deg)';
-            }
-
             function update() {
                 ticking = false;
                 if (!desktopMq.matches) {
                     path.style.strokeDashoffset = '1';
-                    runner.style.transform = '';
                     root.classList.remove('is-complete');
                     return;
                 }
@@ -7349,7 +7288,6 @@
 
                 if (reduceMq.matches) {
                     path.style.strokeDashoffset = '0';
-                    placeRunner(1);
                     root.classList.add('is-complete');
                     return;
                 }
@@ -7361,7 +7299,6 @@
                 const progress = clamp((start - rect.top) / (rect.height + start - end), 0, 1);
 
                 path.style.strokeDashoffset = String(1 - progress);
-                placeRunner(progress);
                 root.classList.toggle('is-complete', progress > 0.92);
             }
 
