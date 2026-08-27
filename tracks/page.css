@@ -5,33 +5,9 @@
 }
 
 @font-face {
-  font-family: 'Styrene A LC';
-  src: url('../fonts/styrenealc-regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Styrene A LC';
-  src: url('../fonts/styrenealc-medium.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Styrene A LC';
-  src: url('../fonts/styrenealc-bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Styrene A LC';
-  src: url('../fonts/styrenealc-black.otf') format('opentype');
-  font-weight: 900;
+  font-family: 'Golos Text';
+  src: url('../fonts/golos-text_vf.ttf') format('truetype');
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -47,14 +23,14 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: Inter, system-ui, sans-serif;
+  font-family: 'Golos Text', system-ui, sans-serif;
   background: #000;
   color: #fff;
   overflow-x: hidden;
 }
 
 h1, h2, h3 {
-  font-family: 'Styrene A LC', Inter, sans-serif;
+  font-family: 'Golos Text', system-ui, sans-serif;
   letter-spacing: -0.03em;
 }
 
@@ -254,7 +230,7 @@ body.has-overlay-open {
   padding: 0.95rem 0.15rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.92);
-  font-family: 'Styrene A LC', Inter, sans-serif;
+  font-family: 'Golos Text', system-ui, sans-serif;
   font-size: clamp(1.35rem, 4.5vw, 2rem);
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -368,7 +344,7 @@ body.has-overlay-open {
 
 .page-price {
   margin: 1.75rem 0 0;
-  font-family: 'Styrene A LC', Inter, sans-serif;
+  font-family: 'Golos Text', system-ui, sans-serif;
   font-size: clamp(2.25rem, 5vw, 3rem);
   font-weight: 900;
   letter-spacing: -0.04em;
@@ -469,7 +445,7 @@ body.has-overlay-open {
 
 .track-link-price {
   margin-top: 0.35rem;
-  font-family: 'Styrene A LC', Inter, sans-serif;
+  font-family: 'Golos Text', system-ui, sans-serif;
   font-size: 1.25rem;
   font-weight: 900;
   color: #fff;
