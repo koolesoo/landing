@@ -6616,12 +6616,6 @@
 <span>Спросить в Telegram</span>
 </a>
 </div>
-<div class="mt-10 flex justify-center md:hidden">
-<button type="button" id="back-to-top" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 py-3.5 text-xs font-bold uppercase text-white transition-colors hover:bg-white/10 hover:border-white/35">
-<span class="material-symbols-outlined text-[18px]" data-icon="arrow_upward" aria-hidden="true">arrow_upward</span>
-Наверх
-</button>
-</div>
 </div>
 </section>
 <footer class="site-footer page-gutter" aria-label="Юридическая информация">
@@ -7437,14 +7431,6 @@
                     triggers.forEach((b) => setOpen(b, false));
                     if (!isOpen) setOpen(btn, true);
                 });
-            });
-        })();
-
-        (function initBackToTop() {
-            const btn = document.getElementById('back-to-top');
-            if (!btn) return;
-            btn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         })();
 
