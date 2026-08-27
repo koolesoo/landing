@@ -24,6 +24,8 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: 'Golos Text', system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: normal;
   background: #000;
   color: #fff;
   overflow-x: hidden;
@@ -31,7 +33,7 @@ body {
 
 h1, h2, h3 {
   font-family: 'Golos Text', system-ui, sans-serif;
-  letter-spacing: -0.03em;
+  font-weight: 700;
 }
 
 .page-bg {
@@ -135,7 +137,6 @@ h1, h2, h3 {
   font-style: normal;
   font-weight: normal;
   line-height: 1;
-  letter-spacing: normal;
   text-transform: none;
   white-space: nowrap;
   word-wrap: normal;
@@ -232,8 +233,7 @@ body.has-overlay-open {
   color: rgba(255, 255, 255, 0.92);
   font-family: 'Golos Text', system-ui, sans-serif;
   font-size: clamp(1.35rem, 4.5vw, 2rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
+  font-weight: 700;
   text-decoration: none;
   transition: color 0.15s ease;
 }
@@ -245,7 +245,7 @@ body.has-overlay-open {
 .sections-overlay-link-sub {
   padding: 0.55rem 0.15rem 0.55rem 0.35rem;
   font-size: clamp(1rem, 3.2vw, 1.25rem);
-  font-weight: 600;
+  font-weight: 400;
   border-bottom-color: rgba(255, 255, 255, 0.04);
 }
 
@@ -277,8 +277,7 @@ body.has-overlay-open {
   background: #f5c518;
   color: #111;
   font-size: 0.625rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-weight: 700;
   text-transform: uppercase;
   line-height: 1;
   transform: rotate(-6deg);
@@ -304,8 +303,7 @@ body.has-overlay-open {
   color: rgba(255, 255, 255, 0.55);
   text-decoration: none;
   font-size: 0.6875rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-weight: 700;
   text-transform: uppercase;
   transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
@@ -320,8 +318,7 @@ body.has-overlay-open {
 .page-eyebrow {
   margin: 0 0 0.75rem;
   font-size: 0.6875rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
+  font-weight: 700;
   text-transform: uppercase;
   color: var(--accent);
 }
@@ -329,7 +326,7 @@ body.has-overlay-open {
 .page-title {
   margin: 0;
   font-size: clamp(2.25rem, 6vw, 3.75rem);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.05;
   color: #fff;
 }
@@ -346,8 +343,7 @@ body.has-overlay-open {
   margin: 1.75rem 0 0;
   font-family: 'Golos Text', system-ui, sans-serif;
   font-size: clamp(2.25rem, 5vw, 3rem);
-  font-weight: 900;
-  letter-spacing: -0.04em;
+  font-weight: 700;
   color: var(--accent);
 }
 
@@ -364,7 +360,7 @@ body.has-overlay-open {
 .page-block h2 {
   margin: 0 0 0.85rem;
   font-size: 1.125rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .page-list {
@@ -426,14 +422,14 @@ body.has-overlay-open {
 
 .track-link-num {
   font-size: 0.8125rem;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--accent);
 }
 
 .track-link h2 {
   margin: 0;
   font-size: 1.35rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .track-link p {
@@ -447,7 +443,7 @@ body.has-overlay-open {
   margin-top: 0.35rem;
   font-family: 'Golos Text', system-ui, sans-serif;
   font-size: 1.25rem;
-  font-weight: 900;
+  font-weight: 700;
   color: #fff;
 }
 
@@ -468,8 +464,7 @@ body.has-overlay-open {
   color: #001f2a;
   text-decoration: none;
   font-size: 0.8125rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
@@ -484,8 +479,7 @@ body.has-overlay-open {
   color: #fff;
   text-decoration: none;
   font-size: 0.8125rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
@@ -518,7 +512,6 @@ body.has-overlay-open {
   text-decoration: none;
   font-size: 0.6875rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   -webkit-tap-highlight-color: transparent;
@@ -580,8 +573,7 @@ body.has-overlay-open {
 .outcome-card h3 {
   margin: 0;
   font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: 700;
 }
 
 .outcome-card p {
@@ -602,7 +594,7 @@ body.has-overlay-open {
 .legal-prose h2 {
   margin: 0 0 0.85rem;
   font-size: 1.125rem;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .legal-prose p,
@@ -668,13 +660,12 @@ body.has-overlay-open {
 
 .legal-doc-page .page-eyebrow {
   color: #666;
-  letter-spacing: 0.12em;
 }
 
 .legal-doc-page .page-title {
   color: #111;
   font-size: clamp(1.5rem, 4.2vw, 2rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.15;
 }
 
@@ -751,7 +742,7 @@ body.has-overlay-open {
 
 .site-footer-nav a {
   font-size: 0.8125rem;
-  font-weight: 600;
+  font-weight: 400;
   color: rgba(255, 255, 255, 0.5);
   text-decoration: none;
   transition: color 0.15s ease;
