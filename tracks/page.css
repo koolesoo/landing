@@ -12,6 +12,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Styrene A LC';
+  src: url('../fonts/styrenealc-black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -32,7 +40,7 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: 'Golos Text', system-ui, sans-serif;
+  font-family: 'Styrene A LC', 'Golos Text', system-ui, sans-serif;
   font-weight: 900;
 }
 
@@ -325,8 +333,9 @@ body.has-overlay-open {
 
 .page-title {
   margin: 0;
+  font-family: 'Styrene A LC', 'Golos Text', system-ui, sans-serif;
   font-size: clamp(2.25rem, 6vw, 3.75rem);
-  font-weight: 700;
+  font-weight: 900;
   line-height: 1.05;
   color: #fff;
 }
