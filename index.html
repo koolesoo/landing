@@ -5541,13 +5541,13 @@
 </div>
 </div>
 <div hidden data-audience-source>
-<article data-audience-item data-icon="flag" data-title="Хочешь начать карьеру, но не знаешь с чего" data-text="Разберём первые шаги: куда смотреть, как искать и как выстроить процесс без хаоса"></article>
-<article data-audience-item data-icon="trending_up" data-title="Хочешь быстро и осознанно расти в карьере" data-text="Нужен понятный вектор: куда двигаться, какие шаги дадут результат и как не тратить месяцы на хаотичный поиск"></article>
-<article data-audience-item data-icon="school" data-title="Учишься и хочешь войти в IT" data-text="Поможем со стажировками, кейс-чемпионатами и первыми шагами – даже если опыта пока нет"></article>
-<article data-audience-item data-icon="description" data-title="Нужно усилить резюме и пройти интервью" data-text="Переупакуем опыт, пройдём мок-интервью и дадим правки по резюме и LinkedIn"></article>
-<article data-audience-item data-icon="rocket_launch" data-title="Мечтаешь зайти в продакт" data-text="Упакуем опыт, подтянем навыки и сделаем сильный вход в продукт"></article>
-<article data-audience-item data-icon="record_voice_over" data-title="Готовишься к собеседованиям" data-text="Отработаем ответы, кейсы и типовые вопросы – чтобы чувствовать себя увереннее на интервью"></article>
-<article data-audience-item data-icon="filter_alt" data-title="Хочешь понять воронку найма" data-text="Объясним отбор в IT и продукте: от отклика до оффера и что делать на каждом этапе"></article>
+<article data-audience-item data-title="Хочешь начать карьеру, но не знаешь с чего" data-text="Разберём первые шаги: куда смотреть, как искать и как выстроить процесс без хаоса"></article>
+<article data-audience-item data-title="Хочешь быстро и осознанно расти в карьере" data-text="Нужен понятный вектор: куда двигаться, какие шаги дадут результат и как не тратить месяцы на хаотичный поиск"></article>
+<article data-audience-item data-title="Учишься и хочешь войти в IT" data-text="Поможем со стажировками, кейс-чемпионатами и первыми шагами – даже если опыта пока нет"></article>
+<article data-audience-item data-title="Нужно усилить резюме и пройти интервью" data-text="Переупакуем опыт, пройдём мок-интервью и дадим правки по резюме и LinkedIn"></article>
+<article data-audience-item data-title="Мечтаешь зайти в продакт" data-text="Упакуем опыт, подтянем навыки и сделаем сильный вход в продукт"></article>
+<article data-audience-item data-title="Готовишься к собеседованиям" data-text="Отработаем ответы, кейсы и типовые вопросы – чтобы чувствовать себя увереннее на интервью"></article>
+<article data-audience-item data-title="Хочешь понять воронку найма" data-text="Объясним отбор в IT и продукте: от отклика до оффера и что делать на каждом этапе"></article>
 </div>
 </div>
 </div>
@@ -7291,33 +7291,8 @@
                 inner.className = 'audience-showcase-tile-inner';
                 inner.dataset.audienceOpen = '';
 
-                const media = document.createElement('div');
-                media.className = 'audience-showcase-media';
-                media.setAttribute('aria-hidden', 'true');
-                if (item.image) {
-                    const img = document.createElement('img');
-                    img.src = item.image;
-                    img.alt = '';
-                    img.loading = 'lazy';
-                    img.decoding = 'async';
-                    media.appendChild(img);
-                } else {
-                    const icon = document.createElement('span');
-                    icon.className = 'material-symbols-outlined';
-                    icon.textContent = item.icon || 'flag';
-                    media.appendChild(icon);
-                }
-
                 const copy = document.createElement('div');
                 copy.className = 'audience-showcase-copy';
-
-                const iconWrap = document.createElement('div');
-                iconWrap.className = 'audience-showcase-icon';
-                iconWrap.setAttribute('aria-hidden', 'true');
-                const copyIcon = document.createElement('span');
-                copyIcon.className = 'material-symbols-outlined';
-                copyIcon.textContent = item.icon || 'flag';
-                iconWrap.appendChild(copyIcon);
 
                 const title = document.createElement('h3');
                 title.className = 'audience-showcase-title';
@@ -7329,8 +7304,8 @@
                 text.dataset.audienceText = '';
                 text.textContent = item.text;
 
-                copy.append(iconWrap, title, text);
-                inner.append(media, copy);
+                copy.append(title, text);
+                inner.append(copy);
                 tile.appendChild(inner);
                 return tile;
             }
@@ -7349,9 +7324,7 @@
                 const desktopGrid = () => window.matchMedia('(min-width: 768px)').matches;
                 const items = sourceItems.map((node) => ({
                     title: node.getAttribute('data-title') || '',
-                    text: node.getAttribute('data-text') || '',
-                    icon: node.getAttribute('data-icon') || 'flag',
-                    image: node.getAttribute('data-image') || ''
+                    text: node.getAttribute('data-text') || ''
                 }));
                 let active = 0;
                 let tiles = [];
